@@ -1,0 +1,11 @@
+{
+  "development" : {
+    "mongo_uri": "mongodb://localhost/kindzycom_dev"
+  },
+  "test" : {
+    "mongo_uri": "mongodb://localhost/kindzycom_test"
+  },
+  "production" : {
+    "mongo_uri": "mongodb://localhost/kindzycom"
+  }
+}

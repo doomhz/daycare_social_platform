@@ -1,0 +1,74 @@
+<h1>Edit day care</h1>
+<form id="day-care-edit-form">
+    <div class="form-messages"></div>
+    <input type="hidden" name="_id" value="<%=dayCare.get('_id') %>" />
+    <div>
+        <label>Name</label>
+        <input type="text" name="name" value="<%=dayCare.get('name') %>" />
+    </div>
+    <div>
+        <label>Speaking classes</label>
+        <select multiple="multiple" name="speaking_classes">
+        <%
+            var speakingClasses = dayCare.get('speaking_classes');
+            var speakingClassesOptions = {0: 'English', 1: 'Spanish', 2: 'Russian'};
+            _.each(speakingClassesOptions, function (val, key) {
+        %>
+            <option value="<%=key %>"<% if (_.include(speakingClasses, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
+        <%
+            });
+        %>
+        </select>
+    </div>
+    <div>
+        <label>Location</label>
+    </div>
+    <div>
+        <label>E-mail</label>
+        <input type="text" name="email" value="<%=dayCare.get('email') %>" />
+    </div>
+    <div>
+        <label>Phone</label>
+        <input type="text" name="phone" value="<%=dayCare.get('phone') %>" />
+    </div>
+    <div>
+        <label>Contact person</label>
+        <input type="text" name="contact_person" value="<%=dayCare.get('contact_person') %>" />
+    </div>
+    <div>
+        <label>Licensed</label>
+        <input type="radio" name="licensed" value="1" <% if (dayCare.get('licensed')) { %>checked="checked"<% } %> /> Yes
+        <input type="radio" name="licensed" value="0"  <% if (!dayCare.get('licensed')) { %>checked="checked"<% } %> /> No
+    </div>
+    <div>
+        <label>Type</label>
+        <select name="type">
+        <%
+            var type = dayCare.get('type');
+            var typeOptions = {'daycare': 'Day Care', 'kindergarten': 'Kindergarten', 'afterschool': 'Afterschool'};
+            _.each(typeOptions, function (val, key) {
+        %>
+            <option value="<%=key %>"<% if (type === key) { %> selected="selected"<% } %>><%=val %></option>
+        <%
+            });
+        %>
+        </select>
+    </div>
+    <div>
+        <label>Opened since</label>
+        <input type="text" name="opened_since" value="<%=dayCare.get('opened_since') %>" />
+    </div>
+    <div>
+        <label>Open door policy</label>
+        <input type="radio" name="open_door_policy" value="1" <% if (dayCare.get('open_door_policy')) { %>checked="checked"<% } %> /> Yes
+        <input type="radio" name="open_door_policy" value="0"  <% if (!dayCare.get('open_door_policy')) { %>checked="checked"<% } %> /> No
+    </div>
+    <div>
+        <label>Serving people with disabilities</label>
+        <input type="radio" name="serving_disabilities" value="1" <% if (dayCare.get('serving_disabilities')) { %>checked="checked"<% } %> /> Yes
+        <input type="radio" name="serving_disabilities" value="0"  <% if (!dayCare.get('serving_disabilities')) { %>checked="checked"<% } %> /> No
+    </div>
+    <div>
+        <button type="submit" id="save-day-care-bt">Save</button>
+    </div>
+</form>

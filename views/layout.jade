@@ -1,0 +1,85 @@
+!!!
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/javascripts/vendor/jquery.min.js')
+    script(src='/javascripts/vendor/jquery.doomTweaks.js')
+    script(src='/javascripts/vendor/underscore-min.js')
+    script(src='/javascripts/vendor/backbone-min.js')
+    script(src='/javascripts/vendor/jquery.tmpload-3.0.js')
+    script(src='/javascripts/app/bootstrap.js')
+    script(src='/javascripts/app/models/day_care.js')
+    script(src='/javascripts/app/collections/day_care.js')
+    script(src='/javascripts/app/views/day_care/profile.js')
+    script(src='/javascripts/app/views/day_care/list_item.js')
+    script(src='/javascripts/app/views/day_care/list.js')
+    script(src='/javascripts/app/views/day_care/profile_side1.js')
+    script(src='/javascripts/app/views/day_care/profile_edit.js')
+    script(src='/javascripts/app/views/day_care/profile_edit_side1.js')
+    script(src='/javascripts/app/routers/main.js')
+    script(src='/javascripts/app/app.js')
+  body
+
+    header
+      #header-wrapper
+        ul#main-menu
+          li
+            a(href='#') Kindzy
+          li
+            a(href='#') Home
+          li
+            a(href='#') Profile
+          li
+            a(href='#') Account
+        ul#events-menu
+          li.messages
+            a(href='#')
+              span Messages
+          li.friend-request
+            a(href='#')
+              span Friend request ?
+          li.notifications
+            a(href='#')
+              span Notifications ?
+          li.ccn
+            a(href='#')
+              span CCN ?
+        a(href='/')
+          img(src='/images/logo.png', alt='Kindzy.com', id='logo')
+        #search-cnt
+          ul#search-menu
+            li.by-type
+              a(href='#search-by-name')
+                span by type
+            li.by-name
+              a(href='#search-by-type')
+                span by name
+          #search-bar
+            button#search-bt
+    #page-wrapper
+      #side-column1
+      #side-column2
+      #main-column
+        !{body}
+    footer
+      #footer-wrapper
+        ul
+          li
+            a(href='#') About Us
+          li
+            a(href='#') Contact Us
+          li
+            a(href='#') Help
+          li
+            a(href='#') Submission Guidelines
+          li
+            a(href='#') Privacy Policy
+          li
+            a(href='#') Terms of Use
+          li
+            a(href='#') Partners
+          li
+            a(href='#') Widgets and Tools
+        p#copyright Copyright &copy; 2011 Kindzy.com, Inc. All rights reserved.

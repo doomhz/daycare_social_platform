@@ -1,0 +1,19 @@
+{
+  "name": "jasmine-jquery",
+  "version": "1.3.3",
+  "author": "Derek Kastner <dkastner@gmail.com>",
+  "description": "jQuery fixture functions for jasmine",
+  "homepage": "http://github.com/dkastner/node-jasmine-jquery",
+  "engine": "*",
+  "dependencies": {
+    "jasmine-node": "*",
+    "jsdom": "*"
+  },
+  "devDependencies": {
+    "jquery": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dkastner/node-jasmine-jquery.git"
+  }
+}
