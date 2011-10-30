@@ -17,8 +17,16 @@
     ProfileEditView.prototype.events = {
       'submit #day-care-edit-form': 'saveDayCare'
     };
-    ProfileEditView.prototype.initialize = function() {
+    ProfileEditView.prototype.addressAutocompleteEl = '#address-autocomplete';
+    ProfileEditView.prototype.locationAutocompleteUrl = '/geolocation';
+    ProfileEditView.prototype.maps = null;
+    ProfileEditView.prototype.addressMarker = null;
+    ProfileEditView.prototype.initialize = function(options) {
+      if (options == null) {
+        options = {};
+      }
       this.model && (this.model.view = this);
+      this.maps = options.maps;
       return this;
     };
     ProfileEditView.prototype.render = function() {
@@ -27,16 +35,58 @@
       $.tmpload({
         url: this.tplUrl,
         onLoad: function(tpl) {
-          return $(that.el).html(tpl({
+          var $el;
+          $el = $(that.el);
+          $el.html(tpl({
             dayCare: that.model
           }));
+          that.setupLocationAutocompleteForAddress();
+          return that.maps.loadGoogleMapsScripts();
         }
       });
       return this;
     };
+    ProfileEditView.prototype.createAddressMarker = function() {
+      return this.addressMarker = this.maps.addMarker(this.model.get('location').lat, this.model.get('location').lng, this.model.get('name'));
+    };
+    ProfileEditView.prototype.updateAddressMarker = function(lat, lng, title) {
+      return this.maps.updateMarker(this.addressMarker, lat, lng, title);
+    };
+    ProfileEditView.prototype.centerMap = function(lat, lng) {
+      return this.maps.centerToCoords(lat, lng);
+    };
+    ProfileEditView.prototype.setupLocationAutocompleteForAddress = function($addressEl) {
+      var that;
+      that = this;
+      $addressEl = that.$(this.addressAutocompleteEl);
+      return $addressEl.autocomplete(this.locationAutocompleteUrl, {
+        dataType: 'text',
+        autoFill: false,
+        selectFirst: true,
+        formatResult: function(data, value) {
+          return data[0];
+        }
+      }).result(function(event, data, formatted) {
+        var lat, lng;
+        lat = data[1];
+        lng = data[2];
+        that.$('input[name="location[lat]"]').val(lat);
+        that.$('input[name="location[lng]"]').val(lng);
+        that.updateAddressMarker(lat, lng, that.model.get('name'));
+        return that.centerMap(lat, lng);
+      });
+    };
+    ProfileEditView.prototype.loadGoogleMaps = function() {
+      this.maps.render();
+      return this.createAddressMarker();
+    };
     ProfileEditView.prototype.remove = function() {
+      var $el;
+      $el = $(this.el);
+      $el.find(this.addressAutocompleteEl).unautocomplete();
+      this.maps.remove();
       this.unbind();
-      $(this.el).unbind().empty();
+      $el.unbind().empty();
       return this;
     };
     ProfileEditView.prototype.saveDayCare = function(ev) {

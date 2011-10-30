@@ -66,9 +66,21 @@
       });
       return dayCare.fetch({
         success: function(model, response) {
+          var mapCenterLat, mapCenterLng;
+          mapCenterLat = model.get('location').lat || '1';
+          mapCenterLng = model.get('location').lng || '1';
           that.mainColumnView = new window.Kin.DayCare.ProfileEditView({
             model: model,
-            el: '#main-column'
+            el: '#main-column',
+            maps: new window.Kin.GoogleMapsView({
+              id: '#profile-address-maps',
+              mapsOptions: {
+                zoom: 6,
+                mapTypeId: 'google.maps.MapTypeId.ROADMAP',
+                center: "new google.maps.LatLng(" + mapCenterLat + ", " + mapCenterLng + ")"
+              },
+              mapsCallback: 'Kin.router.mainColumnView.loadGoogleMaps'
+            })
           });
           that.mainColumnView.render();
           that.side1ColumnView = new window.Kin.DayCare.ProfileEditSide1View({
