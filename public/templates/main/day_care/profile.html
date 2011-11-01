@@ -1,35 +1,42 @@
 <h1><%=dayCare.get('name') %></h1>
 
-<ul id="profile-tab-menu">
-    <li class="view-on-map"><a href="#profile-view-on-map"><span>view on map</span></a></li>
-    <li class="view-info"><a href="#profile-info"><span>info</span></a></li>
-</ul>
+<div id="profile-main-tabs">
+    <ul id="profile-tab-menu">
+        <li class="view-on-map"><a href="#profile-view-on-map-tab"><span>view on map</span></a></li>
+        <li class="view-info"><a href="#profile-info-tab"><span>info</span></a></li>
+    </ul>
 
-<ul id="profile-general-info">
-    <li><span>Name:</span> <%=dayCare.get('name') %></li>
-    <li><span>Speaking classes:</span>
-    <%
-        var speakingClasses = dayCare.get('speaking_classes');
-        var speakingClassesOptions = {0: 'English', 1: 'Spanish', 2: 'Russian'};
-        _.each(speakingClasses, function (val, key) {
-            print(speakingClassesOptions[parseInt(key)], ', ');
-        });
-    %>
-    </li>
-    <li><span>E-mail:</span> <%=dayCare.get('email') %></li>
-    <li><span>Phone:</span> <%=dayCare.get('phone') %></li>
-    <li><span>Contact person:</span> <%=dayCare.get('contact_person') %></li>
-    <li><span>Licensed:</span> <% if (dayCare.get('licensed')) {print('Yes');} else {print('No');} %></li>
-    <li><span>Type:</span>
-    <%
-        var type = dayCare.get('type');
-        var typeOptions = {'daycare': 'Day Care', 'kindergarten': 'Kindergarten', 'afterschool': 'Afterschool'};
-        _.each(type, function (val, key) {
-            print(speakingClassesOptions[parseInt(key)], ', ');
-        });
-    %>
-    </li>
-    <li><span>Opened since:</span> <%=dayCare.get('opened_since') %></li>
-    <li><span>Open door policy:</span> <% if (dayCare.get('open_door_policy')) {print('Yes');} else {print('No');} %></li>
-    <li><span>Serving people with disabilities:</span> <% if (dayCare.get('serving_disabilities')) {print('Yes');} else {print('No');} %></li>
-</ul>
+    <div id="profile-info-tab">
+        <ul id="profile-general-info">
+            <li><span>Name:</span> <%=dayCare.get('name') %></li>
+            <li><span>Speaking classes:</span>
+            <%
+                var speakingClasses = dayCare.get('speaking_classes');
+                var speakingClassesOptions = {0: 'English', 1: 'Spanish', 2: 'Russian'};
+                _.each(speakingClasses, function (val, key) {
+                    print(speakingClassesOptions[parseInt(key)], ', ');
+                });
+            %>
+            </li>
+            <li><span>E-mail:</span> <%=dayCare.get('email') %></li>
+            <li><span>Phone:</span> <%=dayCare.get('phone') %></li>
+            <li><span>Contact person:</span> <%=dayCare.get('contact_person') %></li>
+            <li><span>Licensed:</span> <% if (dayCare.get('licensed')) {print('Yes');} else {print('No');} %></li>
+            <li><span>Type:</span>
+            <%
+                var type = dayCare.get('type');
+                var typeOptions = {'daycare': 'Day Care', 'kindergarten': 'Kindergarten', 'afterschool': 'Afterschool'};
+                _.each(typeOptions, function (val, key) {
+                    if (key === type) {print(typeOptions[key], ', ');}
+                });
+            %>
+            </li>
+            <li><span>Opened since:</span> <%=dayCare.get('opened_since') %></li>
+            <li><span>Open door policy:</span> <% if (dayCare.get('open_door_policy')) {print('Yes');} else {print('No');} %></li>
+            <li><span>Serving people with disabilities:</span> <% if (dayCare.get('serving_disabilities')) {print('Yes');} else {print('No');} %></li>
+        </ul>
+    </div>
+    <div id="profile-view-on-map-tab">
+        <div id="profile-address-maps"></div>
+    </div>
+</div>

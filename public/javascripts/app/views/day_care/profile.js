@@ -14,6 +14,7 @@
     }
     ProfileView.prototype.el = null;
     ProfileView.prototype.tplUrl = '/templates/main/day_care/profile.html';
+    ProfileView.prototype.maps = null;
     ProfileView.prototype.initialize = function() {
       this.model && (this.model.view = this);
       return this;
@@ -24,17 +25,42 @@
       $.tmpload({
         url: this.tplUrl,
         onLoad: function(tpl) {
-          return $(that.el).html(tpl({
+          $(that.el).html(tpl({
             dayCare: that.model
           }));
+          return that.$('#profile-main-tabs').doomTabs({
+            onSelect: function($selectedTab) {
+              var mapCenterLat, mapCenterLng;
+              if ($selectedTab.attr('id') === 'profile-view-on-map-tab' && !that.maps) {
+                mapCenterLat = that.model.get('location').lat;
+                mapCenterLng = that.model.get('location').lng;
+                that.maps = new window.Kin.GoogleMapsView({
+                  id: '#profile-address-maps',
+                  mapsOptions: {
+                    zoom: 6,
+                    mapTypeId: 'google.maps.MapTypeId.ROADMAP',
+                    center: "new google.maps.LatLng(" + mapCenterLat + ", " + mapCenterLng + ")"
+                  }
+                });
+                that.maps.render();
+                return that.addAddressMarker(mapCenterLat, mapCenterLng, that.model.get('name'));
+              }
+            }
+          });
         }
       });
       return this;
     };
     ProfileView.prototype.remove = function() {
+      if (this.maps) {
+        this.maps.remove();
+      }
       this.unbind();
       $(this.el).unbind().empty();
       return this;
+    };
+    ProfileView.prototype.addAddressMarker = function(lat, lng, name) {
+      return this.addressMarker = this.maps.addMarker(lat, lng, name, false);
     };
     return ProfileView;
   })();

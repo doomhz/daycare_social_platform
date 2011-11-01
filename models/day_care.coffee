@@ -5,14 +5,16 @@ DayCare = new Schema(
     type: String
     index: true
   speaking_classes: [Number]
-  location: [Number]
+  location:
+    lat: Number
+    lng: Number
   email: String
   phone: String
   contact_person: String
   licensed:
     type: Boolean
   type:
-    type: [String]
+    type: String
     enum: ['daycare', 'kindergarten', 'preschool']
     default: 'daycare'
   opened_since:

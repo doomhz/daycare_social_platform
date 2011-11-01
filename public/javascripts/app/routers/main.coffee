@@ -47,8 +47,8 @@ class window.Kin.MainRouter extends Backbone.Router
     dayCare.fetch
       success: (model, response)->
 
-        mapCenterLat = model.get('location').lat or '1'
-        mapCenterLng = model.get('location').lng or '1'
+        mapCenterLat = model.get('location').lat
+        mapCenterLng = model.get('location').lng
 
         that.mainColumnView = new window.Kin.DayCare.ProfileEditView
           model: model
@@ -59,8 +59,9 @@ class window.Kin.MainRouter extends Backbone.Router
               zoom: 6
               mapTypeId: 'google.maps.MapTypeId.ROADMAP'
               center: "new google.maps.LatLng(#{mapCenterLat}, #{mapCenterLng})"
-            mapsCallback: 'Kin.router.mainColumnView.loadGoogleMaps'
+#            mapsCallback: 'Kin.router.mainColumnView.loadGoogleMaps'
         that.mainColumnView.render()
+#        that.mainColumnView.loadGoogleMaps()
 
         that.side1ColumnView = new window.Kin.DayCare.ProfileEditSide1View
           model: model

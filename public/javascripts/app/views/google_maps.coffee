@@ -34,12 +34,12 @@ class window.Kin.GoogleMapsView extends Backbone.View
   createCoordinate: (lat, lng)->
     coordinate = new google.maps.LatLng(lat, lng)
 
-  addMarker: (lat, lng, title)->
+  addMarker: (lat, lng, title = null, dragable = true)->
     coords = @createCoordinate(lat, lng)
     marker = new google.maps.Marker
       position: coords
       title: title
-      draggable: true
+      draggable: dragable
       raiseOnDrag: false
     marker.setMap(@map)
     marker
@@ -49,6 +49,14 @@ class window.Kin.GoogleMapsView extends Backbone.View
     if title
       marker.setTitle(title)
 
+  addMarkerDragendEvent: (marker, callback)->
+    google.maps.event.addListener(marker, 'dragend', callback)
+
+
   centerToCoords: (lat, lng)->
     coords =  @createCoordinate(lat, lng)
     @map.setCenter(coords)
+
+  remove: ()->
+    delete @map
+    $(@el).remove()

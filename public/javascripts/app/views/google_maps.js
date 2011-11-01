@@ -47,13 +47,19 @@
       var coordinate;
       return coordinate = new google.maps.LatLng(lat, lng);
     };
-    GoogleMapsView.prototype.addMarker = function(lat, lng, title) {
+    GoogleMapsView.prototype.addMarker = function(lat, lng, title, dragable) {
       var coords, marker;
+      if (title == null) {
+        title = null;
+      }
+      if (dragable == null) {
+        dragable = true;
+      }
       coords = this.createCoordinate(lat, lng);
       marker = new google.maps.Marker({
         position: coords,
         title: title,
-        draggable: true,
+        draggable: dragable,
         raiseOnDrag: false
       });
       marker.setMap(this.map);
@@ -65,10 +71,17 @@
         return marker.setTitle(title);
       }
     };
+    GoogleMapsView.prototype.addMarkerDragendEvent = function(marker, callback) {
+      return google.maps.event.addListener(marker, 'dragend', callback);
+    };
     GoogleMapsView.prototype.centerToCoords = function(lat, lng) {
       var coords;
       coords = this.createCoordinate(lat, lng);
       return this.map.setCenter(coords);
+    };
+    GoogleMapsView.prototype.remove = function() {
+      delete this.map;
+      return $(this.el).remove();
     };
     return GoogleMapsView;
   })();

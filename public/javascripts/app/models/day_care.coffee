@@ -4,7 +4,9 @@ class window.Kin.DayCareModel extends Backbone.Model
     _id: null
     name: ''
     speaking_classes: []
-    location: []
+    location:
+      lat: 10
+      lng: 40
     email: ''
     phone: ''
     contact_person: ''

@@ -67,8 +67,8 @@
       return dayCare.fetch({
         success: function(model, response) {
           var mapCenterLat, mapCenterLng;
-          mapCenterLat = model.get('location').lat || '1';
-          mapCenterLng = model.get('location').lng || '1';
+          mapCenterLat = model.get('location').lat;
+          mapCenterLng = model.get('location').lng;
           that.mainColumnView = new window.Kin.DayCare.ProfileEditView({
             model: model,
             el: '#main-column',
@@ -78,8 +78,7 @@
                 zoom: 6,
                 mapTypeId: 'google.maps.MapTypeId.ROADMAP',
                 center: "new google.maps.LatLng(" + mapCenterLat + ", " + mapCenterLng + ")"
-              },
-              mapsCallback: 'Kin.router.mainColumnView.loadGoogleMaps'
+              }
             })
           });
           that.mainColumnView.render();

@@ -16,7 +16,10 @@
       _id: null,
       name: '',
       speaking_classes: [],
-      location: [],
+      location: {
+        lat: 10,
+        lng: 40
+      },
       email: '',
       phone: '',
       contact_person: '',

@@ -28,14 +28,28 @@ class window.Kin.DayCare.ProfileEditView extends Backbone.View
         $el = $(that.el)
         $el.html(tpl({dayCare: that.model}))
         that.setupLocationAutocompleteForAddress()
-        that.maps.loadGoogleMapsScripts()
+#        that.maps.loadGoogleMapsScripts()
+        that.loadGoogleMaps()
     @
 
   createAddressMarker: ()->
-    @addressMarker = @maps.addMarker(@model.get('location').lat, @model.get('location').lng, @model.get('name'))
+    markerData = @getProfileDataForMarker()
+    that = @
+    @addressMarker = @maps.addMarker(markerData.lat, markerData.lng, markerData.name)
+    @maps.addMarkerDragendEvent @addressMarker,
+      ()->
+        coords = this.getPosition()
+        that.updateLocationCoordsFields(coords.lat(), coords.lng())
 
   updateAddressMarker: (lat, lng, title)->
-    @maps.updateMarker(@addressMarker, lat, lng, title)
+    markerData = @getProfileDataForMarker(lat, lng, title)
+    @maps.updateMarker(@addressMarker, markerData.lat, markerData.lng, markerData.title)
+
+  getProfileDataForMarker: (lat, lng, title)->
+    markerData =
+      lat: lat or @model.get('location').lat or 10
+      lng: lng or @model.get('location').lng or 40
+      name: name or @model.get('name')
 
   centerMap: (lat, lng)->
     @maps.centerToCoords(lat, lng)
@@ -52,14 +66,18 @@ class window.Kin.DayCare.ProfileEditView extends Backbone.View
     .result (event, data, formatted)->
       lat = data[1]
       lng = data[2]
-      that.$('input[name="location[lat]"]').val(lat)
-      that.$('input[name="location[lng]"]').val(lng)
+      that.updateLocationCoordsFields(lat, lng)
       that.updateAddressMarker(lat, lng, that.model.get('name'))
       that.centerMap(lat, lng)
+
+  updateLocationCoordsFields: (lat, lng)->
+    @$('#location-lat').val(lat)
+    @$('#location-lng').val(lng)
 
   loadGoogleMaps: ()->
     @maps.render()
     @createAddressMarker()
+    @updateAddressMarker()
 
   remove: ()->
     $el = $(@el)
@@ -71,22 +89,11 @@ class window.Kin.DayCare.ProfileEditView extends Backbone.View
 
   saveDayCare: (ev)->
     ev.preventDefault()
-    formData = {}
-    (formData[key] = @getFieldValue($(ev.target).find("select[name='#{key}'],input[name='#{key}']&&[type='text'],input[name='#{key}']&&[type='radio']&&[checked=true]"))) for key, value of @model.defaults
-
-    @model.set(formData)
-    @model.save {},
+    hashedData = @$(ev.target).hashForm()
+    @model.save hashedData,
       success: ()->
         $(ev.target).find('.form-messages').text('Day care information is up to date.')
       error: ()->
         $(ev.target).find('.form-messages').text('Day care information could not be updated.')
 
     false
-
-  getFieldValue: ($field)->
-    data = []
-    if $field.length
-      switch $field[0].nodeName
-        when 'SELECT' then $field.find('option:selected').each((index, el)-> data[index] = $(el).val())
-        when 'INPUT' then data = $field.val()
-    data

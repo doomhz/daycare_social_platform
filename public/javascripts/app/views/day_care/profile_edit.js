@@ -41,16 +41,34 @@
             dayCare: that.model
           }));
           that.setupLocationAutocompleteForAddress();
-          return that.maps.loadGoogleMapsScripts();
+          return that.loadGoogleMaps();
         }
       });
       return this;
     };
     ProfileEditView.prototype.createAddressMarker = function() {
-      return this.addressMarker = this.maps.addMarker(this.model.get('location').lat, this.model.get('location').lng, this.model.get('name'));
+      var markerData, that;
+      markerData = this.getProfileDataForMarker();
+      that = this;
+      this.addressMarker = this.maps.addMarker(markerData.lat, markerData.lng, markerData.name);
+      return this.maps.addMarkerDragendEvent(this.addressMarker, function() {
+        var coords;
+        coords = this.getPosition();
+        return that.updateLocationCoordsFields(coords.lat(), coords.lng());
+      });
     };
     ProfileEditView.prototype.updateAddressMarker = function(lat, lng, title) {
-      return this.maps.updateMarker(this.addressMarker, lat, lng, title);
+      var markerData;
+      markerData = this.getProfileDataForMarker(lat, lng, title);
+      return this.maps.updateMarker(this.addressMarker, markerData.lat, markerData.lng, markerData.title);
+    };
+    ProfileEditView.prototype.getProfileDataForMarker = function(lat, lng, title) {
+      var markerData;
+      return markerData = {
+        lat: lat || this.model.get('location').lat || 10,
+        lng: lng || this.model.get('location').lng || 40,
+        name: name || this.model.get('name')
+      };
     };
     ProfileEditView.prototype.centerMap = function(lat, lng) {
       return this.maps.centerToCoords(lat, lng);
@@ -70,15 +88,19 @@
         var lat, lng;
         lat = data[1];
         lng = data[2];
-        that.$('input[name="location[lat]"]').val(lat);
-        that.$('input[name="location[lng]"]').val(lng);
+        that.updateLocationCoordsFields(lat, lng);
         that.updateAddressMarker(lat, lng, that.model.get('name'));
         return that.centerMap(lat, lng);
       });
     };
+    ProfileEditView.prototype.updateLocationCoordsFields = function(lat, lng) {
+      this.$('#location-lat').val(lat);
+      return this.$('#location-lng').val(lng);
+    };
     ProfileEditView.prototype.loadGoogleMaps = function() {
       this.maps.render();
-      return this.createAddressMarker();
+      this.createAddressMarker();
+      return this.updateAddressMarker();
     };
     ProfileEditView.prototype.remove = function() {
       var $el;
@@ -90,16 +112,10 @@
       return this;
     };
     ProfileEditView.prototype.saveDayCare = function(ev) {
-      var formData, key, value, _ref;
+      var hashedData;
       ev.preventDefault();
-      formData = {};
-      _ref = this.model.defaults;
-      for (key in _ref) {
-        value = _ref[key];
-        formData[key] = this.getFieldValue($(ev.target).find("select[name='" + key + "'],input[name='" + key + "']&&[type='text'],input[name='" + key + "']&&[type='radio']&&[checked=true]"));
-      }
-      this.model.set(formData);
-      this.model.save({}, {
+      hashedData = this.$(ev.target).hashForm();
+      this.model.save(hashedData, {
         success: function() {
           return $(ev.target).find('.form-messages').text('Day care information is up to date.');
         },
@@ -108,22 +124,6 @@
         }
       });
       return false;
-    };
-    ProfileEditView.prototype.getFieldValue = function($field) {
-      var data;
-      data = [];
-      if ($field.length) {
-        switch ($field[0].nodeName) {
-          case 'SELECT':
-            $field.find('option:selected').each(function(index, el) {
-              return data[index] = $(el).val();
-            });
-            break;
-          case 'INPUT':
-            data = $field.val();
-        }
-      }
-      return data;
     };
     return ProfileEditView;
   })();

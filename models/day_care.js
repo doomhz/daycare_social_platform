@@ -7,7 +7,10 @@
       index: true
     },
     speaking_classes: [Number],
-    location: [Number],
+    location: {
+      lat: Number,
+      lng: Number
+    },
     email: String,
     phone: String,
     contact_person: String,
@@ -15,7 +18,7 @@
       type: Boolean
     },
     type: {
-      type: [String],
+      type: String,
       "enum": ['daycare', 'kindergarten', 'preschool'],
       "default": 'daycare'
     },

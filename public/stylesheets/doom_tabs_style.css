@@ -1,0 +1,21 @@
+/* doomTabs */
+
+.tab-list {
+	list-style-type:none;
+}
+.tab-list li {
+	display:inline-block;
+}
+.tab-hidden {
+	display:none;
+}
+
+.tab-list .tab-active a {
+	color:red;
+	font-weight: bold;
+}
+
+.doom-tabs-ajax-loading {
+	background:#fff url("/images/ajax_loader.gif") no-repeat center center;
+	min-height: 60px;
+}

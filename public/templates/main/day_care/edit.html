@@ -23,9 +23,9 @@
     <div>
         <label>Address</label>
         <input type="text" name="address" value="<%=dayCare.get('address') %>" id="address-autocomplete" />
-        <input type="text" name="location[lat]" value="<%=dayCare.get('location.lat') %>" />
-        <input type="text" name="location[lng]" value="<%=dayCare.get('location.lng') %>" />
-        <div id="profile-address-maps" style="width:500px;height:400px;"></div>
+        <input type="hidden" name="location[lat]" value="<%=dayCare.get('location').lat %>" id="location-lat" />
+        <input type="hidden" name="location[lng]" value="<%=dayCare.get('location').lng %>" id="location-lng" />
+        <div id="profile-address-maps"></div>
     </div>
     <div>
         <label>E-mail</label>
