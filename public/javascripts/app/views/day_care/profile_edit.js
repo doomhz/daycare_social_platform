@@ -112,18 +112,31 @@
       return this;
     };
     ProfileEditView.prototype.saveDayCare = function(ev) {
-      var hashedData;
+      var hashedData, that;
       ev.preventDefault();
       hashedData = this.$(ev.target).hashForm();
+      that = this;
       this.model.save(hashedData, {
         success: function() {
-          return $(ev.target).find('.form-messages').text('Day care information is up to date.');
+          return that.addFormMessage($(ev.target), 'success', 'Day care information is up to date.');
         },
         error: function() {
-          return $(ev.target).find('.form-messages').text('Day care information could not be updated.');
+          return that.addFormMessage($(ev.target), 'error', 'Day care information could not be updated.');
         }
       });
       return false;
+    };
+    ProfileEditView.prototype.addFormMessage = function($form, type, message) {
+      var $formMessages;
+      if (type == null) {
+        type = 'info';
+      }
+      $formMessages = $form.find('#form-messages');
+      $formMessages.attr('class', '');
+      $formMessages.addClass('form-msg-' + type);
+      $.l($formMessages.find('h3'));
+      $formMessages.find('h3').text(message);
+      return $(window).scrollTop(0);
     };
     return ProfileEditView;
   })();

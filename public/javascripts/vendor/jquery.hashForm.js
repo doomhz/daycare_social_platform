@@ -16,6 +16,23 @@
 (function ($) {
     $.fn.hashForm = function () {
         var self = this, $self = $(this);
+        
+        self.wrapStringValue = function (value) {
+            if (typeof value === 'string') {
+                value = '"' + value + '"';
+            }
+            return value;
+        };
+        
+        self.expandArrayToString = function (arrayValue) {
+            var stringValue = '[';
+            $.each(arrayValue, function (index, value) {
+                stringValue += self.wrapStringValue(value) + ',';
+            });
+            stringValue = stringValue.slice(0, stringValue.length - 1);
+            stringValue += ']';
+            return stringValue;
+        };
 
         self.expandStringFieldToHash = function (fieldName, fieldValue) {
             var keys = fieldName.replace(/\]/g, '').split('[');
@@ -26,23 +43,41 @@
                 hashEnd += '}';
             });
             hashStart = hashStart.slice(0, hashStart.length - 1);
-            hashStart += '"' + fieldValue + '"';
+            if ($.isArray(fieldValue)) {
+                fieldValue = self.expandArrayToString(fieldValue);
+            } else {
+                fieldValue = self.wrapStringValue(fieldValue);
+            }
+            hashStart += fieldValue;
             var hash = hashStart + hashEnd;
             return JSON.parse(hash);
         };
 
-        self.addFieldToHash = function (field) {
-            var hash = self.expandStringFieldToHash(field.name, field.value)
-            $.extend(true, formHash, hash);
-        }
+        self.formHash = {};
+        self.addHashFieldToFormHash = function (hashField) {
+            $.extend(true, self.formHash, hashField);
+        };
 
-        var serializedFormData = $self.serializeArray();
-        var formHash = {};
-
-        $.each(serializedFormData, function (index, field) {
-            self.addFieldToHash(field);
+        self.serializedFormData = $self.serializeArray();
+        self.filteredFields = {};
+        
+        $.each(self.serializedFormData, function (index, field) {
+            if (self.filteredFields[field.name]) {
+                var existentData = self.filteredFields[field.name];
+                if (!$.isArray(existentData)) {
+                    self.filteredFields[field.name] = [existentData];
+                }
+                self.filteredFields[field.name].push(field.value);
+            } else {
+                self.filteredFields[field.name] = field.value;
+            }
         });
 
-        return formHash;
-    }
+        $.each(self.filteredFields, function (name, value) {
+            var hashField = self.expandStringFieldToHash(name, value);
+            self.addHashFieldToFormHash(hashField);
+        });
+
+        return self.formHash;
+    };
 })(jQuery);

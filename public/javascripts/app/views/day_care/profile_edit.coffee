@@ -90,10 +90,20 @@ class window.Kin.DayCare.ProfileEditView extends Backbone.View
   saveDayCare: (ev)->
     ev.preventDefault()
     hashedData = @$(ev.target).hashForm()
+    that = @
     @model.save hashedData,
       success: ()->
-        $(ev.target).find('.form-messages').text('Day care information is up to date.')
+        that.addFormMessage($(ev.target), 'success', 'Day care information is up to date.')
       error: ()->
-        $(ev.target).find('.form-messages').text('Day care information could not be updated.')
+        that.addFormMessage($(ev.target), 'error', 'Day care information could not be updated.')
+
 
     false
+
+  addFormMessage: ($form, type = 'info', message)->
+    $formMessages = $form.find('#form-messages')
+    $formMessages.attr('class', '')
+    $formMessages.addClass('form-msg-' + type)
+    $.l($formMessages.find('h3'))
+    $formMessages.find('h3').text(message)
+    $(window).scrollTop(0)

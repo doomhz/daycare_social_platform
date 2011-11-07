@@ -1,13 +1,15 @@
 <h1>Edit day care</h1>
-<form id="day-care-edit-form">
-    <div class="form-messages"></div>
+<form id="day-care-edit-form" class="form">
+    <div class="hidden" id="form-messages">
+        <h3></h3>
+    </div>
     <input type="hidden" name="_id" value="<%=dayCare.get('_id') %>" />
-    <div>
-        <label>Name</label>
+    <div class="grid-12-12">
+        <label>Name <em class="form-req">*</em></label>
         <input type="text" name="name" value="<%=dayCare.get('name') %>" />
     </div>
-    <div>
-        <label>Speaking classes</label>
+    <div class="grid-12-12">
+        <label>Speaking classes <em class="form-req">*</em></label>
         <select multiple="multiple" name="speaking_classes">
         <%
             var speakingClasses = dayCare.get('speaking_classes');
@@ -20,32 +22,40 @@
         %>
         </select>
     </div>
-    <div>
-        <label>Address</label>
+    <div class="grid-12-12">
+        <label>Address <em class="form-req">*</em></label>
         <input type="text" name="address" value="<%=dayCare.get('address') %>" id="address-autocomplete" />
         <input type="hidden" name="location[lat]" value="<%=dayCare.get('location').lat %>" id="location-lat" />
         <input type="hidden" name="location[lng]" value="<%=dayCare.get('location').lng %>" id="location-lng" />
         <div id="profile-address-maps"></div>
     </div>
-    <div>
-        <label>E-mail</label>
+    <div class="grid-12-12">
+        <label>E-mail <em class="form-req">*</em></label>
         <input type="text" name="email" value="<%=dayCare.get('email') %>" />
     </div>
-    <div>
-        <label>Phone</label>
+    <div class="grid-12-12">
+        <label>Phone <em class="form-req">*</em></label>
         <input type="text" name="phone" value="<%=dayCare.get('phone') %>" />
     </div>
-    <div>
-        <label>Contact person</label>
+    <div class="grid-12-12">
+        <label>Contact person <em class="form-req">*</em></label>
         <input type="text" name="contact_person" value="<%=dayCare.get('contact_person') %>" />
     </div>
-    <div>
-        <label>Licensed</label>
-        <input type="radio" name="licensed" value="1" <% if (dayCare.get('licensed')) { %>checked="checked"<% } %> /> Yes
-        <input type="radio" name="licensed" value="0"  <% if (!dayCare.get('licensed')) { %>checked="checked"<% } %> /> No
+    <div class="grid-12-12">
+        <label>Licensed <em class="form-req">*</em></label>
+        <ul class="form-list">
+            <li>
+                <input type="radio" name="licensed" value="1" <% if (dayCare.get('licensed')) { %>checked="checked"<% } %> />
+                <label>Yes</label>
+            </li>
+            <li>
+                <input type="radio" name="licensed" value="0"  <% if (!dayCare.get('licensed')) { %>checked="checked"<% } %> />
+                <label>No</label>
+            </li>
+        </ul>
     </div>
-    <div>
-        <label>Type</label>
+    <div class="grid-12-12">
+        <label>Type <em class="form-req">*</em></label>
         <select name="type">
         <%
             var type = dayCare.get('type');
@@ -58,21 +68,37 @@
         %>
         </select>
     </div>
-    <div>
-        <label>Opened since</label>
+    <div class="grid-12-12">
+        <label>Opened since <em class="form-req">*</em></label>
         <input type="text" name="opened_since" value="<%=dayCare.get('opened_since') %>" />
     </div>
-    <div>
-        <label>Open door policy</label>
-        <input type="radio" name="open_door_policy" value="1" <% if (dayCare.get('open_door_policy')) { %>checked="checked"<% } %> /> Yes
-        <input type="radio" name="open_door_policy" value="0"  <% if (!dayCare.get('open_door_policy')) { %>checked="checked"<% } %> /> No
+    <div class="grid-12-12">
+        <label>Open door policy <em class="form-req">*</em></label>
+        <ul class="form-list">
+            <li>
+                <input type="radio" name="open_door_policy" value="1" <% if (dayCare.get('open_door_policy')) { %>checked="checked"<% } %> />
+                <label>Yes</label>
+            </li>
+            <li>
+                <input type="radio" name="open_door_policy" value="0"  <% if (!dayCare.get('open_door_policy')) { %>checked="checked"<% } %> />
+                <label>No</label>
+            </li>
+        </ul>
     </div>
-    <div>
-        <label>Serving people with disabilities</label>
-        <input type="radio" name="serving_disabilities" value="1" <% if (dayCare.get('serving_disabilities')) { %>checked="checked"<% } %> /> Yes
-        <input type="radio" name="serving_disabilities" value="0"  <% if (!dayCare.get('serving_disabilities')) { %>checked="checked"<% } %> /> No
+    <div class="grid-12-12">
+        <label>Serving people with disabilities <em class="form-req">*</em></label>
+        <ul class="form-list">
+            <li>
+                <input type="radio" name="serving_disabilities" value="1" <% if (dayCare.get('serving_disabilities')) { %>checked="checked"<% } %> />
+                <label>Yes</label>
+            </li>
+            <li>
+                <input type="radio" name="serving_disabilities" value="0"  <% if (!dayCare.get('serving_disabilities')) { %>checked="checked"<% } %> />
+                <label>No</label>
+            </li>
+        </ul>
     </div>
-    <div>
-        <button type="submit" id="save-day-care-bt">Save</button>
+    <div class="grid-12-12">
+        <input type="submit" id="save-day-care-bt" class="form-button" value="Save" />
     </div>
 </form>
