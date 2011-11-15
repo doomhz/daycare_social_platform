@@ -28,7 +28,6 @@ class window.Kin.DayCare.ProfileEditView extends Backbone.View
         $el = $(that.el)
         $el.html(tpl({dayCare: that.model}))
         that.setupLocationAutocompleteForAddress()
-#        that.maps.loadGoogleMapsScripts()
         that.loadGoogleMaps()
     @
 
@@ -75,9 +74,10 @@ class window.Kin.DayCare.ProfileEditView extends Backbone.View
     @$('#location-lng').val(lng)
 
   loadGoogleMaps: ()->
-    @maps.render()
-    @createAddressMarker()
-    @updateAddressMarker()
+    if @maps.isMapsAvailable()
+      @maps.render()
+      @createAddressMarker()
+      @updateAddressMarker()
 
   remove: ()->
     $el = $(@el)
@@ -90,6 +90,7 @@ class window.Kin.DayCare.ProfileEditView extends Backbone.View
   saveDayCare: (ev)->
     ev.preventDefault()
     hashedData = @$(ev.target).hashForm()
+    hashedData.opened_since = "#{hashedData.opened_since.year}-#{hashedData.opened_since.month}-#{hashedData.opened_since.day}"
     that = @
     @model.save hashedData,
       success: ()->
@@ -104,6 +105,5 @@ class window.Kin.DayCare.ProfileEditView extends Backbone.View
     $formMessages = $form.find('#form-messages')
     $formMessages.attr('class', '')
     $formMessages.addClass('form-msg-' + type)
-    $.l($formMessages.find('h3'))
     $formMessages.find('h3').text(message)
     $(window).scrollTop(0)

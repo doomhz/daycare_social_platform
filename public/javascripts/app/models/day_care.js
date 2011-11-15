@@ -27,7 +27,8 @@
       type: 'daycare',
       opened_since: '',
       open_door_policy: false,
-      serving_disabilities: false
+      serving_disabilities: false,
+      picture_sets: []
     };
     DayCareModel.prototype.uri = "/day-cares/load";
     DayCareModel.prototype.initialize = function(options, uri) {
@@ -37,6 +38,40 @@
     };
     DayCareModel.prototype.url = function() {
       return "" + this.uri + "/" + this.id;
+    };
+    DayCareModel.prototype.getProfilePicture = function() {
+      var profilePicture, profilePictureSet;
+      profilePictureSet = this.getProfilePictureSet(this.get('picture_sets'));
+      return profilePicture = this.getPrimaryPictureFromSet(profilePictureSet);
+    };
+    DayCareModel.prototype.getProfilePictureSet = function(pictureSets) {
+      return this.getSetsByType(pictureSets, 'profile')[0];
+    };
+    DayCareModel.prototype.getPrimaryPictureFromSet = function(set) {
+      if (set == null) {
+        set = {
+          pictures: []
+        };
+      }
+      return $.grep(set.pictures, function(picture) {
+        return picture.primary === true;
+      })[0];
+    };
+    DayCareModel.prototype.getDaycareSets = function() {
+      var sets;
+      return sets = this.getSetsByType(this.get('picture_sets'), 'daycare');
+    };
+    DayCareModel.prototype.getDefaultSets = function() {
+      var sets;
+      return sets = this.getSetsByType(this.get('picture_sets'), 'default');
+    };
+    DayCareModel.prototype.getSetsByType = function(pictureSets, type) {
+      if (type == null) {
+        type = 'default';
+      }
+      return $.grep(pictureSets, function(set) {
+        return set.type === type;
+      });
     };
     return DayCareModel;
   })();

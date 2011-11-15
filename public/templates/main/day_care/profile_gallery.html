@@ -46,3 +46,55 @@
         <div id="profile-address-maps"></div>
     </div>
 </div>
+
+<h2>Photo gallery - photos of the child care center</h2>
+
+<div id="daycare-gallery-tabs">
+    <ul id="daycare-gallery-tab-menu">
+    <%
+        var daycareSets = dayCare.getDaycareSets();
+        console.log(daycareSets);
+        var i = 0;
+        _.each(daycareSets, function (daycare) {
+            i++;
+    %>
+        <li><a href="#daycare-gallery-tab-<%=i %>"><%=daycare.name %></a></li>
+    <%
+        });
+    %>
+    </ul>
+    <%
+        var i = 0;
+        _.each(daycareSets, function (daycareSet) {
+            i++;
+    %>
+    <div id="daycare-gallery-tab-<%=i %>">
+        <div class="doom-carousel">
+            <div class="doom-carousel-cnt">
+                <ul class="doom-carousel-list">
+                    <%
+                        _.each(daycareSet.pictures, function (picture) {
+                    %>
+                    <li><img src="<%=picture.url %>" alt="<%=picture.description %>" class="doom-carousel-pic" /></li>
+                    <%
+                        });
+                    %>
+                </ul>
+            </div>
+            <a href="#left" title="Left" class="doom-carousel-left-btn"><span>Prev</span></a>
+            <span class="pic-counter pic-nr">1</span><span class="pic-nr-separator pic-nr">/</span><span class="pic-total pic-nr"><%=daycareSets.length %></span>
+            <a href="#right" title="Right" class="doom-carousel-right-btn"><span>Next</span></a>
+        </div>
+        <p>
+            <h4><%=daycareSet.name %></h4>
+            <%=daycareSet.description %>
+        </p>
+    </div>
+    <%
+        });
+    %>
+</div>
+
+<%
+    var defaultSets = dayCare.getDefaultSets();
+%>

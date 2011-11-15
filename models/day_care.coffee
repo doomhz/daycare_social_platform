@@ -1,6 +1,27 @@
 require('./db_connect')
 
-DayCare = new Schema(
+# TODO Put created and updated dates for each model - check if mongoose can handle the updates automatically
+
+Picture = new Schema
+  primary: false
+  description:
+    type: String
+  url:
+    type: String
+
+PictureSet = new Schema
+  name:
+    type: String
+    index: true
+  description:
+    type: String
+  type:
+    type: String
+    enum: ['default', 'daycare', 'profile']
+    default: 'default'
+  pictures: [Picture]
+
+DayCare = new Schema
   name:
     type: String
     index: true
@@ -23,7 +44,8 @@ DayCare = new Schema(
     type: Boolean
   serving_disabilities:
     type: Boolean
-)
+  picture_sets:
+    type: [PictureSet]
+
 
 exports = module.exports = mongoose.model('DayCare', DayCare)
-

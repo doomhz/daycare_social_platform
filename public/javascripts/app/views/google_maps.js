@@ -83,6 +83,9 @@
       delete this.map;
       return $(this.el).remove();
     };
+    GoogleMapsView.prototype.isMapsAvailable = function() {
+      return window.google || (console.error('Google Maps script is not present.') && false);
+    };
     return GoogleMapsView;
   })();
 }).call(this);

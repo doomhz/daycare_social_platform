@@ -98,9 +98,11 @@
       return this.$('#location-lng').val(lng);
     };
     ProfileEditView.prototype.loadGoogleMaps = function() {
-      this.maps.render();
-      this.createAddressMarker();
-      return this.updateAddressMarker();
+      if (this.maps.isMapsAvailable()) {
+        this.maps.render();
+        this.createAddressMarker();
+        return this.updateAddressMarker();
+      }
     };
     ProfileEditView.prototype.remove = function() {
       var $el;
@@ -115,6 +117,7 @@
       var hashedData, that;
       ev.preventDefault();
       hashedData = this.$(ev.target).hashForm();
+      hashedData.opened_since = "" + hashedData.opened_since.year + "-" + hashedData.opened_since.month + "-" + hashedData.opened_since.day;
       that = this;
       this.model.save(hashedData, {
         success: function() {
@@ -134,7 +137,6 @@
       $formMessages = $form.find('#form-messages');
       $formMessages.attr('class', '');
       $formMessages.addClass('form-msg-' + type);
-      $.l($formMessages.find('h3'));
       $formMessages.find('h3').text(message);
       return $(window).scrollTop(0);
     };

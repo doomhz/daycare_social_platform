@@ -1,6 +1,30 @@
 (function() {
-  var DayCare, exports;
+  var DayCare, Picture, PictureSet, exports;
   require('./db_connect');
+  Picture = new Schema({
+    primary: false,
+    description: {
+      type: String
+    },
+    url: {
+      type: String
+    }
+  });
+  PictureSet = new Schema({
+    name: {
+      type: String,
+      index: true
+    },
+    description: {
+      type: String
+    },
+    type: {
+      type: String,
+      "enum": ['default', 'daycare', 'profile'],
+      "default": 'default'
+    },
+    pictures: [Picture]
+  });
   DayCare = new Schema({
     name: {
       type: String,
@@ -30,6 +54,9 @@
     },
     serving_disabilities: {
       type: Boolean
+    },
+    picture_sets: {
+      type: [PictureSet]
     }
   });
   exports = module.exports = mongoose.model('DayCare', DayCare);

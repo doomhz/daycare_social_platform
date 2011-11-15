@@ -60,3 +60,6 @@ class window.Kin.GoogleMapsView extends Backbone.View
   remove: ()->
     delete @map
     $(@el).remove()
+
+  isMapsAvailable: ()->
+    window.google or (console.error('Google Maps script is not present.') and false)

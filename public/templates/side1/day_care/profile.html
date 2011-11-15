@@ -1,8 +1,26 @@
+<%
+    var profilePicture = dayCare.getProfilePicture();
+    if (profilePicture) {
+%>
+    <div id="profile-pic-cnt">
+        <img src="<%=profilePicture.url %>" alt="<%=profilePicture.description %>" width="175" id="profile-pic" />
+    </div>
+<%
+    }
+%>
 <ul id="profile-bt-menu">
     <li>
         <a href="#day-cares/edit/<%=dayCare.get('_id') %>" id="profile-edit-bt"><span>Edit</span></a>
     </li>
     <li>
+        <a href="#day-cares/manage-pictures/<%=dayCare.get('_id') %>" id="profile-manage-pictures-bt"><span>Manage pictures</span></a>
+    </li>
+    <li>
         <a href="#day-cares">&larr; Back to day cares</a>
+    </li>
+</ul>
+<ul id="profile-left-menu">
+    <li id="gallery-menu-item">
+        <a href="#day-cares/view/gallery/<%=dayCare.get('_id') %>"><span>Gallery</span></a>
     </li>
 </ul>

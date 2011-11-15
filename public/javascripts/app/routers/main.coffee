@@ -4,7 +4,9 @@ class window.Kin.MainRouter extends Backbone.Router
     ''         : 'root'
     'day-cares': 'dayCares'
     'day-cares/view/:id': 'viewDayCare'
+    'day-cares/view/gallery/:id': 'viewDayCareGallery'
     'day-cares/edit/:id': 'editDayCare'
+    'day-cares/manage-pictures/:id': 'managePicturesDayCare'
 
   mainColumnView: null
 
@@ -23,7 +25,7 @@ class window.Kin.MainRouter extends Backbone.Router
       el: '#main-column'
     @mainColumnView.render()
 
-  viewDayCare: (id)->
+  viewDayCare: (id, mainColumnTplUrl = null)->
     that = @
     @clearColumns()
     dayCare = new window.Kin.DayCareModel({_id: id})
@@ -33,12 +35,16 @@ class window.Kin.MainRouter extends Backbone.Router
         that.mainColumnView = new window.Kin.DayCare.ProfileView
           model: model
           el: '#main-column'
+          tplUrl: mainColumnTplUrl
         that.mainColumnView.render()
 
         that.side1ColumnView = new window.Kin.DayCare.ProfileSide1View
           model: model
           el: '#side-column1'
         that.side1ColumnView.render()
+
+  viewDayCareGallery: (id)->
+    @viewDayCare(id, '/templates/main/day_care/profile_gallery.html')
 
   editDayCare: (id)->
     that = @
@@ -59,11 +65,26 @@ class window.Kin.MainRouter extends Backbone.Router
               zoom: 6
               mapTypeId: 'google.maps.MapTypeId.ROADMAP'
               center: "new google.maps.LatLng(#{mapCenterLat}, #{mapCenterLng})"
-#            mapsCallback: 'Kin.router.mainColumnView.loadGoogleMaps'
         that.mainColumnView.render()
-#        that.mainColumnView.loadGoogleMaps()
 
         that.side1ColumnView = new window.Kin.DayCare.ProfileEditSide1View
+          model: model
+          el: '#side-column1'
+        that.side1ColumnView.render()
+
+  managePicturesDayCare: (id)->
+    that = @
+    @clearColumns()
+    dayCare = new window.Kin.DayCareModel({_id: id})
+    dayCare.fetch
+      success: (model, response)->
+
+        that.mainColumnView = new window.Kin.DayCare.ManagePicturesView
+          model: model
+          el: '#main-column'
+        that.mainColumnView.render()
+
+        that.side1ColumnView = new window.Kin.DayCare.ManagePicturesSide1View
           model: model
           el: '#side-column1'
         that.side1ColumnView.render()

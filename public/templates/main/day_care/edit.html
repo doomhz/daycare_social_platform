@@ -69,8 +69,37 @@
         </select>
     </div>
     <div class="grid-12-12">
+        <%
+            var openedSince = new Date(dayCare.get('opened_since'));
+            var openedSinceDay = openedSince.getDate();
+            var openedSinceMonth = openedSince.getMonth() + 1;
+            var openedSinceYear = openedSince.getFullYear();
+            var now = new Date();
+        %>
         <label>Opened since <em class="form-req">*</em></label>
-        <input type="text" name="opened_since" value="<%=dayCare.get('opened_since') %>" />
+        <ul class="form-list">
+            <li>
+                <select name="opened_since[year]">
+                    <% for (var i = now.getFullYear(), lastYear = now.getFullYear() - 20; i >= lastYear; i--) { %>
+                    <option value="<%=i %>" <% if (i === openedSinceYear) { print('selected="selected"');} %>><%=i %></option>
+                    <% } %>
+                </select>
+            </li>
+            <li>
+                <select name="opened_since[month]">
+                    <% for (var i = 1; i <= 12; i++) { %>
+                    <option value="<%=i %>" <% if (i === openedSinceMonth) { print('selected="selected"');} %>><%=i %></option>
+                    <% } %>
+                </select>
+            </li>
+            <li>
+                <select name="opened_since[day]">
+                    <% for (var i = 1; i <= 31; i++) { %>
+                    <option value="<%=i %>" <% if (i === openedSinceDay) { print('selected="selected"');} %>><%=i %></option>
+                    <% } %>
+                </select>
+            </li>
+        </ul>
     </div>
     <div class="grid-12-12">
         <label>Open door policy <em class="form-req">*</em></label>

@@ -15,8 +15,9 @@
     ProfileView.prototype.el = null;
     ProfileView.prototype.tplUrl = '/templates/main/day_care/profile.html';
     ProfileView.prototype.maps = null;
-    ProfileView.prototype.initialize = function() {
+    ProfileView.prototype.initialize = function(options) {
       this.model && (this.model.view = this);
+      this.tplUrl = options.tplUrl || this.tplUrl;
       return this;
     };
     ProfileView.prototype.render = function() {
@@ -28,7 +29,8 @@
           $(that.el).html(tpl({
             dayCare: that.model
           }));
-          return that.$('#profile-main-tabs').doomTabs({
+          that.$('#profile-main-tabs').doomTabs({
+            firstSelectedTab: 1,
             onSelect: function($selectedTab) {
               var mapCenterLat, mapCenterLng;
               if ($selectedTab.attr('id') === 'profile-view-on-map-tab' && !that.maps) {
@@ -46,6 +48,15 @@
                 return that.addAddressMarker(mapCenterLat, mapCenterLng, that.model.get('name'));
               }
             }
+          });
+          that.$('#daycare-gallery-tabs').doomTabs({
+            onSelect: function($selectedTab) {}
+          });
+          return that.$('div.doom-carousel').doomCarousel({
+            autoSlide: false,
+            showCaption: false,
+            slideSpeed: 400,
+            showCounter: true
           });
         }
       });

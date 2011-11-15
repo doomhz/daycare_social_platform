@@ -15,11 +15,19 @@ h1
   color #575757
   font-size 18px
   margin 10px 0 10px 0
+  text-transform uppercase
+
+h2
+  color #575757
+  font-size 15px
+  margin 10px 0 10px 0
+  text-transform uppercase
 
 ul
   list-style-type none
 
 form
+  overflow hidden
   div
     margin 0 0 10px 0
 
@@ -163,7 +171,7 @@ header
     float left
     width 200px
     min-height 200px
-    text-align left
+    text-align center
     #profile-bt-menu
       text-align center
       li
@@ -177,6 +185,25 @@ header
           background url('/images/edit_profile_bt.png') no-repeat
           span
             display none
+    #profile-pic-cnt
+      margin 0 0 10px 0
+    #profile-left-menu
+      padding 10px
+      li
+        text-align left
+        padding 0
+        border-bottom dashed 1px #EEE
+        a
+          font-weight bold
+          text-decoration none
+          display inline-block
+          padding 10px 0 10px 25px
+          width 90%
+      #gallery-menu-item
+        border-top solid 1px #EEE
+        a
+          background url('/images/gallery_menu_bt.png') no-repeat left 9px
+
   #side-column2
     padding: 10px 0 0 0
     float right
@@ -213,3 +240,22 @@ footer
   width 550px
   height 400px
   margin 10px 0 0 0
+
+#daycare-gallery-tabs
+  width 100%
+  #daycare-gallery-tab-menu
+    float right
+    width 103px
+    height 20px
+    text-align center
+    li.tab-active
+      background url('/images/gallery_green_arrow.png') no-repeat
+      a
+        color #FFF
+    a
+      text-decoration none
+      color #000
+  .tab-selected
+    width 430px
+  .doom-carousel
+    width 430px

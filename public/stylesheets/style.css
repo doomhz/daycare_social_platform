@@ -15,9 +15,19 @@ h1 {
   color: #575757;
   font-size: 18px;
   margin: 10px 0 10px 0;
+  text-transform: uppercase;
+}
+h2 {
+  color: #575757;
+  font-size: 15px;
+  margin: 10px 0 10px 0;
+  text-transform: uppercase;
 }
 ul {
   list-style-type: none;
+}
+form {
+  overflow: hidden;
 }
 form div {
   margin: 0 0 10px 0;
@@ -196,7 +206,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   float: left;
   width: 200px;
   min-height: 200px;
-  text-align: left;
+  text-align: center;
 }
 #page-wrapper #side-column1 #profile-bt-menu {
   text-align: center;
@@ -214,6 +224,30 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #side-column1 #profile-bt-menu li #profile-edit-bt span {
   display: none;
+}
+#page-wrapper #side-column1 #profile-pic-cnt {
+  margin: 0 0 10px 0;
+}
+#page-wrapper #side-column1 #profile-left-menu {
+  padding: 10px;
+}
+#page-wrapper #side-column1 #profile-left-menu li {
+  text-align: left;
+  padding: 0;
+  border-bottom: dashed 1px #eee;
+}
+#page-wrapper #side-column1 #profile-left-menu li a {
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px 0 10px 25px;
+  width: 90%;
+}
+#page-wrapper #side-column1 #profile-left-menu #gallery-menu-item {
+  border-top: solid 1px #eee;
+}
+#page-wrapper #side-column1 #profile-left-menu #gallery-menu-item a {
+  background: url("/images/gallery_menu_bt.png") no-repeat left 9px;
 }
 #page-wrapper #side-column2 {
   padding: 10px 0 0 0;
@@ -253,4 +287,29 @@ footer #footer-wrapper #copyright {
   width: 550px;
   height: 400px;
   margin: 10px 0 0 0;
+}
+#daycare-gallery-tabs {
+  width: 100%;
+}
+#daycare-gallery-tabs #daycare-gallery-tab-menu {
+  float: right;
+  width: 103px;
+  height: 20px;
+  text-align: center;
+}
+#daycare-gallery-tabs #daycare-gallery-tab-menu li.tab-active {
+  background: url("/images/gallery_green_arrow.png") no-repeat;
+}
+#daycare-gallery-tabs #daycare-gallery-tab-menu li.tab-active a {
+  color: #fff;
+}
+#daycare-gallery-tabs #daycare-gallery-tab-menu a {
+  text-decoration: none;
+  color: #000;
+}
+#daycare-gallery-tabs .tab-selected {
+  width: 430px;
+}
+#daycare-gallery-tabs .doom-carousel {
+  width: 430px;
 }

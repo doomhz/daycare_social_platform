@@ -16,7 +16,9 @@
       '': 'root',
       'day-cares': 'dayCares',
       'day-cares/view/:id': 'viewDayCare',
-      'day-cares/edit/:id': 'editDayCare'
+      'day-cares/view/gallery/:id': 'viewDayCareGallery',
+      'day-cares/edit/:id': 'editDayCare',
+      'day-cares/manage-pictures/:id': 'managePicturesDayCare'
     };
     MainRouter.prototype.mainColumnView = null;
     MainRouter.prototype.side1ColumnView = null;
@@ -35,8 +37,11 @@
       });
       return this.mainColumnView.render();
     };
-    MainRouter.prototype.viewDayCare = function(id) {
+    MainRouter.prototype.viewDayCare = function(id, mainColumnTplUrl) {
       var dayCare, that;
+      if (mainColumnTplUrl == null) {
+        mainColumnTplUrl = null;
+      }
       that = this;
       this.clearColumns();
       dayCare = new window.Kin.DayCareModel({
@@ -46,7 +51,8 @@
         success: function(model, response) {
           that.mainColumnView = new window.Kin.DayCare.ProfileView({
             model: model,
-            el: '#main-column'
+            el: '#main-column',
+            tplUrl: mainColumnTplUrl
           });
           that.mainColumnView.render();
           that.side1ColumnView = new window.Kin.DayCare.ProfileSide1View({
@@ -56,6 +62,9 @@
           return that.side1ColumnView.render();
         }
       });
+    };
+    MainRouter.prototype.viewDayCareGallery = function(id) {
+      return this.viewDayCare(id, '/templates/main/day_care/profile_gallery.html');
     };
     MainRouter.prototype.editDayCare = function(id) {
       var dayCare, that;
@@ -83,6 +92,28 @@
           });
           that.mainColumnView.render();
           that.side1ColumnView = new window.Kin.DayCare.ProfileEditSide1View({
+            model: model,
+            el: '#side-column1'
+          });
+          return that.side1ColumnView.render();
+        }
+      });
+    };
+    MainRouter.prototype.managePicturesDayCare = function(id) {
+      var dayCare, that;
+      that = this;
+      this.clearColumns();
+      dayCare = new window.Kin.DayCareModel({
+        _id: id
+      });
+      return dayCare.fetch({
+        success: function(model, response) {
+          that.mainColumnView = new window.Kin.DayCare.ManagePicturesView({
+            model: model,
+            el: '#main-column'
+          });
+          that.mainColumnView.render();
+          that.side1ColumnView = new window.Kin.DayCare.ManagePicturesSide1View({
             model: model,
             el: '#side-column1'
           });

@@ -6,8 +6,9 @@ class window.Kin.DayCare.ProfileView extends Backbone.View
 
   maps: null
 
-  initialize: ()->
+  initialize: (options)->
     @model and @model.view = @
+    @tplUrl = options.tplUrl or @tplUrl
     @
 
   render: ()->
@@ -17,6 +18,7 @@ class window.Kin.DayCare.ProfileView extends Backbone.View
       onLoad: (tpl)->
         $(that.el).html(tpl({dayCare: that.model}))
         that.$('#profile-main-tabs').doomTabs
+          firstSelectedTab: 1
           onSelect: ($selectedTab)->
             if $selectedTab.attr('id') is 'profile-view-on-map-tab' and not that.maps
               mapCenterLat = that.model.get('location').lat
@@ -29,6 +31,15 @@ class window.Kin.DayCare.ProfileView extends Backbone.View
                   center: "new google.maps.LatLng(#{mapCenterLat}, #{mapCenterLng})"
               that.maps.render()
               that.addAddressMarker(mapCenterLat, mapCenterLng, that.model.get('name'))
+
+        that.$('#daycare-gallery-tabs').doomTabs
+          onSelect: ($selectedTab)->
+        that.$('div.doom-carousel').doomCarousel
+          autoSlide: false
+          showCaption: false
+          slideSpeed: 400
+          showCounter: true
+
     @
 
   remove: ()->

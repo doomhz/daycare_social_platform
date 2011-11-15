@@ -12,7 +12,7 @@
 					   selectedClass:'tab-selected',
 					   hiddenClass:'tab-hidden',
 					   afterAjax:null,
-                       firstSelectedTab: 1,
+                       firstSelectedTab: 0,
                        onSelect: null
 				 };
 		$.extend(this.config, options);
