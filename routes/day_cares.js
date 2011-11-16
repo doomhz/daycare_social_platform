@@ -36,14 +36,16 @@
       });
     });
     return app.post('/day-cares/upload', function(req, res) {
-      var dayCareId, dirPath, fileExtension, fileName, filePath, pictureSetId, ws;
+      var dayCareId, dirPath, fileExtension, fileName, filePath, pictureSetId, relativeDirPath, relativeFilePath, ws;
       dayCareId = req.query.dayCareId;
       pictureSetId = req.query.setId;
       fileName = req.query.qqfile;
       fileExtension = fileName.substring(fileName.length - 3);
       fileName = new Date().getTime();
       dirPath = './public/daycares/' + dayCareId + '/';
+      relativeDirPath = '/daycares/' + dayCareId + '/';
       filePath = dirPath + fileName + '.' + fileExtension;
+      relativeFilePath = relativeDirPath + fileName + '.' + fileExtension;
       DayCare.findOne({
         _id: dayCareId
       }).run(function(err, dayCare) {
@@ -53,7 +55,7 @@
           pictureSet = pictureSets[_i];
           if ("" + pictureSet._id === "" + pictureSetId) {
             pictureSet.pictures.push({
-              url: filePath
+              url: relativeFilePath
             });
           }
         }
@@ -67,6 +69,11 @@
           fs.mkdirSync(dirPath, 0777);
         }
         ws = fs.createWriteStream(filePath);
+        try {
+          fs.chmodSync(filePath, 777);
+        } catch (e) {
+
+        }
         req.on('data', function(data) {
           return ws.write(data);
         });
