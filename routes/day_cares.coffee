@@ -1,4 +1,5 @@
 DayCare = require('../models/day_care');
+fs = require('fs')
 
 module.exports = (app)->
 
@@ -24,3 +25,41 @@ module.exports = (app)->
     delete data._id
     DayCare.update {_id: req.params.id}, data, {}, (err, dayCare) ->
       res.json {success: true}
+
+  app.post '/day-cares/upload', (req, res)->
+    dayCareId = req.query.dayCareId
+    pictureSetId = req.query.setId
+    fileName = req.query.qqfile
+
+    fileExtension = fileName.substring(fileName.length - 3)
+    fileName = new Date().getTime()
+    dirPath = './public/daycares/' + dayCareId + '/'
+    filePath = dirPath + fileName + '.' + fileExtension
+
+    DayCare.findOne({_id: dayCareId}).run (err, dayCare) ->
+      pictureSets = dayCare.picture_sets
+
+      for pictureSet in pictureSets
+        if "" + pictureSet._id is "" + pictureSetId
+          pictureSet.pictures.push({url: filePath})
+
+      dayCare.picture_sets = pictureSets
+
+      dayCare.save()
+
+    if req.xhr
+
+        try
+          fs.statSync(dirPath)
+        catch e
+          fs.mkdirSync(dirPath, 0777)
+
+        ws = fs.createWriteStream(filePath)
+#        fs.chmodSync(filePath, 777)
+
+        req.on 'data', (data)->
+          ws.write(data)
+
+        res.json {success: true}
+    else
+      res.json {success: false}

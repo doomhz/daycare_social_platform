@@ -3,7 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('express');
+var express = require('express'),
+    form = require('connect-form');
 
 var app = module.exports = express.createServer();
 

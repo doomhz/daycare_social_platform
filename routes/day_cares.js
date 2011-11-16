@@ -1,6 +1,7 @@
 (function() {
-  var DayCare;
+  var DayCare, fs;
   DayCare = require('../models/day_care');
+  fs = require('fs');
   module.exports = function(app) {
     app.get('/day-cares', function(req, res) {
       return DayCare.find({}).desc('created_at').run(function(err, dayCares) {
@@ -22,7 +23,7 @@
         return res.json(dayCare);
       });
     });
-    return app.put('/day-cares/load/:id', function(req, res) {
+    app.put('/day-cares/load/:id', function(req, res) {
       var data;
       data = req.body;
       delete data._id;
@@ -33,6 +34,50 @@
           success: true
         });
       });
+    });
+    return app.post('/day-cares/upload', function(req, res) {
+      var dayCareId, dirPath, fileExtension, fileName, filePath, pictureSetId, ws;
+      dayCareId = req.query.dayCareId;
+      pictureSetId = req.query.setId;
+      fileName = req.query.qqfile;
+      fileExtension = fileName.substring(fileName.length - 3);
+      fileName = new Date().getTime();
+      dirPath = './public/daycares/' + dayCareId + '/';
+      filePath = dirPath + fileName + '.' + fileExtension;
+      DayCare.findOne({
+        _id: dayCareId
+      }).run(function(err, dayCare) {
+        var pictureSet, pictureSets, _i, _len;
+        pictureSets = dayCare.picture_sets;
+        for (_i = 0, _len = pictureSets.length; _i < _len; _i++) {
+          pictureSet = pictureSets[_i];
+          if ("" + pictureSet._id === "" + pictureSetId) {
+            pictureSet.pictures.push({
+              url: filePath
+            });
+          }
+        }
+        dayCare.picture_sets = pictureSets;
+        return dayCare.save();
+      });
+      if (req.xhr) {
+        try {
+          fs.statSync(dirPath);
+        } catch (e) {
+          fs.mkdirSync(dirPath, 0777);
+        }
+        ws = fs.createWriteStream(filePath);
+        req.on('data', function(data) {
+          return ws.write(data);
+        });
+        return res.json({
+          success: true
+        });
+      } else {
+        return res.json({
+          success: false
+        });
+      }
     });
   };
 }).call(this);

@@ -3,7 +3,9 @@ require('./db_connect')
 # TODO Put created and updated dates for each model - check if mongoose can handle the updates automatically
 
 Picture = new Schema
-  primary: false
+  primary:
+    type: Boolean
+    default: false
   description:
     type: String
   url:

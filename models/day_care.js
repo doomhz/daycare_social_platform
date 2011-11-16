@@ -2,7 +2,10 @@
   var DayCare, Picture, PictureSet, exports;
   require('./db_connect');
   Picture = new Schema({
-    primary: false,
+    primary: {
+      type: Boolean,
+      "default": false
+    },
     description: {
       type: String
     },

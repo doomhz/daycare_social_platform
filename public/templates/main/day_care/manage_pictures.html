@@ -1,1 +1,21 @@
 <h1>Manage pictures</h1>
+
+<h2>Add pictures</h2>
+
+<div class="form">
+    <div class="grid-12-12">
+        <label>Select picture set</label>
+        <select id="picture-set-list">
+        <%
+            _.each(dayCare.get('picture_sets'), function (set) {
+        %>
+            <option value="<%=set._id %>"><%=set.name %></option>
+        <%
+            });
+        %>
+        </select>
+    </div>
+    <div class="grid-12-12">
+        <div id="picture-uploader"></div>
+    </div>
+</div>

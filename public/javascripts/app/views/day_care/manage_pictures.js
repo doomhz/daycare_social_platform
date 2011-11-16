@@ -14,6 +14,7 @@
     }
     ManagePicturesView.prototype.el = null;
     ManagePicturesView.prototype.tplUrl = '/templates/main/day_care/manage_pictures.html';
+    ManagePicturesView.prototype.uploader = null;
     ManagePicturesView.prototype.initialize = function(options) {
       if (options == null) {
         options = {};
@@ -30,9 +31,20 @@
         onLoad: function(tpl) {
           var $el;
           $el = $(that.el);
-          return $el.html(tpl({
+          $el.html(tpl({
             dayCare: that.model
           }));
+          return that.uploader = new qq.FileUploader({
+            element: document.getElementById('picture-uploader'),
+            action: 'day-cares/upload',
+            debug: false,
+            onSubmit: function(id, fileName) {
+              return that.uploader.setParams({
+                dayCareId: that.model.get('_id'),
+                setId: that.$('#picture-set-list option:selected').val()
+              });
+            }
+          });
         }
       });
       return this;
