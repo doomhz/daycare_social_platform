@@ -4,7 +4,6 @@
  */
 
 var express = require('express'),
-    form = require('connect-form');
 
 var app = module.exports = express.createServer();
 
