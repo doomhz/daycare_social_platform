@@ -34,14 +34,16 @@ module.exports = (app)->
     fileExtension = fileName.substring(fileName.length - 3)
     fileName = new Date().getTime()
     dirPath = './public/daycares/' + dayCareId + '/'
+    relativeDirPath = '/daycares/' + dayCareId + '/'
     filePath = dirPath + fileName + '.' + fileExtension
+    relativeFilePath = relativeDirPath + fileName + '.' + fileExtension
 
     DayCare.findOne({_id: dayCareId}).run (err, dayCare) ->
       pictureSets = dayCare.picture_sets
 
       for pictureSet in pictureSets
         if "" + pictureSet._id is "" + pictureSetId
-          pictureSet.pictures.push({url: filePath})
+          pictureSet.pictures.push({url: relativeFilePath})
 
       dayCare.picture_sets = pictureSets
 
@@ -55,7 +57,11 @@ module.exports = (app)->
           fs.mkdirSync(dirPath, 0777)
 
         ws = fs.createWriteStream(filePath)
-#        fs.chmodSync(filePath, 777)
+
+        try
+          fs.chmodSync(filePath, 777)
+        catch e
+          
 
         req.on 'data', (data)->
           ws.write(data)
