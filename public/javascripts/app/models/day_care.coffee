@@ -19,9 +19,12 @@ class window.Kin.DayCareModel extends Backbone.Model
 
   uri: "/day-cares/load"
 
+  pictureSets: null
+
   initialize: (options, uri)->
     @uri = uri or @uri
     @id = @get('_id') or @id
+    @bind 'change', @setPictureSets
     @
 
   url: ()->
@@ -49,3 +52,8 @@ class window.Kin.DayCareModel extends Backbone.Model
     $.grep(pictureSets, (set)->
       return set.type is type
     )
+
+  setPictureSets: ()->
+    @pictureSets or= new window.Kin.PictureSetsCollection()
+    @pictureSets.add(@get('picture_sets'))
+    

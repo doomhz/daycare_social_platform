@@ -94,6 +94,26 @@
     %>
 </div>
 
+<h2>Picture sets</h2>
+
+<ul id="picture-sets-list">
 <%
-    var defaultSets = dayCare.getDefaultSets();
+    var allPictureSets = dayCare.pictureSets.models;
+    _.each(allPictureSets, function (pictureSet) {
+        var primaryPicture = pictureSet.pictures.getPrimary();
+        if (primaryPicture) {
 %>
+    <li>
+        <h3>
+            <a href="#day-cares/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=primaryPicture.get('name') %>"><%=pictureSet.get('name') %></a>
+        </h3>
+        <a href="#day-cares/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=primaryPicture.get('name') %>">
+            <img src="<%=primaryPicture.get('url') %>" alt="<%=primaryPicture.get('name') %>" width="250" />
+        </a>
+        <p><%=pictureSet.get('description') %></p>
+    </li>
+<%
+        }
+    });
+%>
+</ul>

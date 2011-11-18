@@ -31,9 +31,11 @@
       picture_sets: []
     };
     DayCareModel.prototype.uri = "/day-cares/load";
+    DayCareModel.prototype.pictureSets = null;
     DayCareModel.prototype.initialize = function(options, uri) {
       this.uri = uri || this.uri;
       this.id = this.get('_id') || this.id;
+      this.bind('change', this.setPictureSets);
       return this;
     };
     DayCareModel.prototype.url = function() {
@@ -72,6 +74,10 @@
       return $.grep(pictureSets, function(set) {
         return set.type === type;
       });
+    };
+    DayCareModel.prototype.setPictureSets = function() {
+      this.pictureSets || (this.pictureSets = new window.Kin.PictureSetsCollection());
+      return this.pictureSets.add(this.get('picture_sets'));
     };
     return DayCareModel;
   })();
