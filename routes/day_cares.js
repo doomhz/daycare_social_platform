@@ -35,19 +35,30 @@
         });
       });
     });
+    app.get('/day-cares/view/picture-set/:id', function(req, res) {
+      var pictureSetId;
+      pictureSetId = req.params.id;
+      return DayCare.findOne({
+        'picture_sets._id': pictureSetId
+      }).run(function(err, dayCare) {
+        var pictureSet;
+        pictureSet = dayCare.picture_sets.id(pictureSetId);
+        pictureSet.daycare_id = dayCare._id;
+        return res.json(pictureSet);
+      });
+    });
     return app.post('/day-cares/upload', function(req, res) {
-      var dayCareId, dirPath, fileExtension, fileName, filePath, pictureSetId, relativeDirPath, relativeFilePath, ws;
-      dayCareId = req.query.dayCareId;
+      var dirPath, fileExtension, fileName, filePath, pictureSetId, relativeDirPath, relativeFilePath, ws;
       pictureSetId = req.query.setId;
       fileName = req.query.qqfile;
       fileExtension = fileName.substring(fileName.length - 3);
       fileName = new Date().getTime();
-      dirPath = './public/daycares/' + dayCareId + '/';
-      relativeDirPath = '/daycares/' + dayCareId + '/';
+      dirPath = './public/daycares/' + pictureSetId + '/';
+      relativeDirPath = '/daycares/' + pictureSetId + '/';
       filePath = dirPath + fileName + '.' + fileExtension;
       relativeFilePath = relativeDirPath + fileName + '.' + fileExtension;
       DayCare.findOne({
-        _id: dayCareId
+        'picture_sets._id': pictureSetId
       }).run(function(err, dayCare) {
         var pictureSet, pictureSets, _i, _len;
         pictureSets = dayCare.picture_sets;

@@ -13,6 +13,7 @@
       PictureModel.__super__.constructor.apply(this, arguments);
     }
     PictureModel.prototype.defaults = {
+      _id: null,
       primary: false,
       description: null,
       url: null

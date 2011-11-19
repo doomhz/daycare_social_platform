@@ -6,7 +6,7 @@ class window.Kin.MainRouter extends Backbone.Router
     'day-cares/view/:id': 'viewDayCare'
     'day-cares/view/gallery/:id': 'viewDayCareGallery'
     'day-cares/edit/:id': 'editDayCare'
-    'day-cares/manage-pictures/:id': 'managePicturesDayCare'
+    'day-cares/view/picture-set/:id': 'viewDayCarePictureSet'
 
   mainColumnView: null
 
@@ -72,19 +72,19 @@ class window.Kin.MainRouter extends Backbone.Router
           el: '#side-column1'
         that.side1ColumnView.render()
 
-  managePicturesDayCare: (id)->
+  viewDayCarePictureSet: (id)->
     that = @
     @clearColumns()
-    dayCare = new window.Kin.DayCareModel({_id: id})
-    dayCare.fetch
+    pictureSet = new window.Kin.PictureSetModel({_id: id})
+    pictureSet.fetch
       success: (model, response)->
 
-        that.mainColumnView = new window.Kin.DayCare.ManagePicturesView
+        that.mainColumnView = new window.Kin.DayCare.PictureSetView
           model: model
           el: '#main-column'
         that.mainColumnView.render()
 
-        that.side1ColumnView = new window.Kin.DayCare.ManagePicturesSide1View
+        that.side1ColumnView = new window.Kin.DayCare.PictureSetSide1View
           model: model
           el: '#side-column1'
         that.side1ColumnView.render()

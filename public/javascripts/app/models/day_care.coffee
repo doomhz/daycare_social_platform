@@ -21,14 +21,13 @@ class window.Kin.DayCareModel extends Backbone.Model
 
   pictureSets: null
 
-  initialize: (options, uri)->
+  initialize: (attributes, uri)->
     @uri = uri or @uri
-    @id = @get('_id') or @id
     @bind 'change', @setPictureSets
     @
 
   url: ()->
-    "#{@uri}/#{@id}"
+    "#{@uri}/#{@get('_id')}"
 
   getProfilePicture: ()->
     profilePictureSet = @getProfilePictureSet(@get('picture_sets'))

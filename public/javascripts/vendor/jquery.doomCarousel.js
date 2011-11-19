@@ -152,7 +152,7 @@
 		return false;
 	},
 
-    $.fn.changeCounter = function (withValue) {$.l(withValue);
+    $.fn.changeCounter = function (withValue) {
         var currentPicNr = parseInt(this.$picCounter.text());
         var newPicNr = withValue === 0 ? 1 : (currentPicNr + parseInt(withValue));
         newPicNr = newPicNr < 1 ? 1 : newPicNr;

@@ -18,7 +18,7 @@
       'day-cares/view/:id': 'viewDayCare',
       'day-cares/view/gallery/:id': 'viewDayCareGallery',
       'day-cares/edit/:id': 'editDayCare',
-      'day-cares/manage-pictures/:id': 'managePicturesDayCare'
+      'day-cares/view/picture-set/:id': 'viewDayCarePictureSet'
     };
     MainRouter.prototype.mainColumnView = null;
     MainRouter.prototype.side1ColumnView = null;
@@ -99,21 +99,21 @@
         }
       });
     };
-    MainRouter.prototype.managePicturesDayCare = function(id) {
-      var dayCare, that;
+    MainRouter.prototype.viewDayCarePictureSet = function(id) {
+      var pictureSet, that;
       that = this;
       this.clearColumns();
-      dayCare = new window.Kin.DayCareModel({
+      pictureSet = new window.Kin.PictureSetModel({
         _id: id
       });
-      return dayCare.fetch({
+      return pictureSet.fetch({
         success: function(model, response) {
-          that.mainColumnView = new window.Kin.DayCare.ManagePicturesView({
+          that.mainColumnView = new window.Kin.DayCare.PictureSetView({
             model: model,
             el: '#main-column'
           });
           that.mainColumnView.render();
-          that.side1ColumnView = new window.Kin.DayCare.ManagePicturesSide1View({
+          that.side1ColumnView = new window.Kin.DayCare.PictureSetSide1View({
             model: model,
             el: '#side-column1'
           });

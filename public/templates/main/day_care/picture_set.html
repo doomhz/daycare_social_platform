@@ -1,0 +1,26 @@
+<h1><%=pictureSet.get('name') %></h1>
+
+<h2>Add pictures</h2>
+
+<div class="form">
+    <div class="grid-12-12">
+        <div id="picture-uploader"></div>
+    </div>
+</div>
+
+<h2>Pictures</h2>
+
+<ul id="pictures-list">
+<%
+    _.each(pictureSet.pictures.models, function (picture) {
+%>
+    <li>
+        <a href="<%=picture.get('url') %>" title="<%=picture.get('description') %>" target="_blank">
+            <img src="<%=picture.get('url') %>" alt="<%=picture.get('name') %>" width="170" />
+        </a>
+        <p><%=picture.get('description') %></p>
+    </li>
+<%
+    });
+%>
+</ul>

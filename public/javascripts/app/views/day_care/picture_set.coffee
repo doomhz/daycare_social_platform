@@ -1,8 +1,8 @@
-class window.Kin.DayCare.ManagePicturesView extends Backbone.View
+class window.Kin.DayCare.PictureSetView extends Backbone.View
 
   el: null
 
-  tplUrl: '/templates/main/day_care/manage_pictures.html'
+  tplUrl: '/templates/main/day_care/picture_set.html'
 
   uploader: null
 
@@ -17,15 +17,14 @@ class window.Kin.DayCare.ManagePicturesView extends Backbone.View
       url: @tplUrl
       onLoad: (tpl)->
         $el = $(that.el)
-        $el.html(tpl({dayCare: that.model}))
+        $el.html(tpl({pictureSet: that.model}))
         that.uploader = new qq.FileUploader
           element: document.getElementById('picture-uploader')
           action: 'day-cares/upload'
           debug: false
           onSubmit: (id, fileName)->
             that.uploader.setParams
-              dayCareId: that.model.get('_id')
-              setId: that.$('#picture-set-list option:selected').val()
+              setId: that.model.get('_id')
     @
 
   remove: ()->

@@ -26,19 +26,26 @@ module.exports = (app)->
     DayCare.update {_id: req.params.id}, data, {}, (err, dayCare) ->
       res.json {success: true}
 
+  app.get '/day-cares/view/picture-set/:id', (req, res)->
+    pictureSetId = req.params.id
+    DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
+      pictureSet = dayCare.picture_sets.id(pictureSetId)
+      pictureSet.daycare_id = dayCare._id
+
+      res.json pictureSet
+
   app.post '/day-cares/upload', (req, res)->
-    dayCareId = req.query.dayCareId
     pictureSetId = req.query.setId
     fileName = req.query.qqfile
 
     fileExtension = fileName.substring(fileName.length - 3)
     fileName = new Date().getTime()
-    dirPath = './public/daycares/' + dayCareId + '/'
-    relativeDirPath = '/daycares/' + dayCareId + '/'
+    dirPath = './public/daycares/' + pictureSetId + '/'
+    relativeDirPath = '/daycares/' + pictureSetId + '/'
     filePath = dirPath + fileName + '.' + fileExtension
     relativeFilePath = relativeDirPath + fileName + '.' + fileExtension
 
-    DayCare.findOne({_id: dayCareId}).run (err, dayCare) ->
+    DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
       pictureSets = dayCare.picture_sets
 
       for pictureSet in pictureSets

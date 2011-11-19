@@ -14,6 +14,9 @@
     }
   });
   PictureSet = new Schema({
+    daycare_id: {
+      type: String
+    },
     name: {
       type: String,
       index: true
