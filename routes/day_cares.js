@@ -16,14 +16,14 @@
           req.dayCare = dayCare
           next()
       */
-    app.get('/day-cares/load/:id', function(req, res) {
+    app.get('/day-cares/:id', function(req, res) {
       return DayCare.findOne({
         _id: req.params.id
       }).run(function(err, dayCare) {
         return res.json(dayCare);
       });
     });
-    app.put('/day-cares/load/:id', function(req, res) {
+    app.put('/day-cares/:id', function(req, res) {
       var data;
       data = req.body;
       delete data._id;
@@ -35,7 +35,7 @@
         });
       });
     });
-    app.get('/day-cares/view/picture-set/:id', function(req, res) {
+    app.get('/day-cares/picture-set/:id', function(req, res) {
       var pictureSetId;
       pictureSetId = req.params.id;
       return DayCare.findOne({
@@ -47,8 +47,60 @@
         return res.json(pictureSet);
       });
     });
+    app.get('/day-cares/pictures/:pictureSetId', function(req, res) {
+      var pictureSetId;
+      pictureSetId = req.params.pictureSetId;
+      return DayCare.findOne({
+        'picture_sets._id': pictureSetId
+      }).run(function(err, dayCare) {
+        var pictureSet, pictures;
+        pictureSet = dayCare.picture_sets.id(pictureSetId);
+        pictures = pictureSet.pictures;
+        return res.json(pictures);
+      });
+    });
+    app.del('/day-cares/picture/:pictureId', function(req, res) {
+      var pictureId;
+      pictureId = req.params.pictureId;
+      return DayCare.findOne({
+        'picture_sets.pictures._id': pictureId
+      }).run(function(err, dayCare) {
+        var filePath, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, _i, _j, _len, _len2, _ref, _ref2;
+        pictureSetIndex = -1;
+        pictureIndex = -1;
+        pictureSetIndexToGo = -1;
+        pictureIndexToGo = -1;
+        _ref = dayCare.picture_sets;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          pictureSet = _ref[_i];
+          pictureSetIndex++;
+          pictureIndex = -1;
+          _ref2 = pictureSet.pictures;
+          for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+            picture = _ref2[_j];
+            pictureIndex++;
+            if (("" + picture._id) === ("" + pictureId)) {
+              pictureSetIndexToGo = pictureSetIndex;
+              pictureIndexToGo = pictureIndex;
+              break;
+            }
+          }
+        }
+        filePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].url;
+        try {
+          fs.unlinkSync(filePath);
+        } catch (e) {
+          console.error(e);
+        }
+        dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove();
+        dayCare.save();
+        return res.json({
+          success: true
+        });
+      });
+    });
     return app.post('/day-cares/upload', function(req, res) {
-      var dirPath, fileExtension, fileName, filePath, pictureSetId, relativeDirPath, relativeFilePath, ws;
+      var dirPath, fileExtension, fileName, filePath, newPicture, newPictureData, pictureSetId, relativeDirPath, relativeFilePath, ws;
       pictureSetId = req.query.setId;
       fileName = req.query.qqfile;
       fileExtension = fileName.substring(fileName.length - 3);
@@ -57,21 +109,30 @@
       relativeDirPath = '/daycares/' + pictureSetId + '/';
       filePath = dirPath + fileName + '.' + fileExtension;
       relativeFilePath = relativeDirPath + fileName + '.' + fileExtension;
+      newPictureData = {
+        url: relativeFilePath
+      };
+      newPicture = null;
       DayCare.findOne({
         'picture_sets._id': pictureSetId
       }).run(function(err, dayCare) {
-        var pictureSet, pictureSets, _i, _len;
+        var newPicturePosition, pictureSet, pictureSetIndex, pictureSets, _i, _len;
         pictureSets = dayCare.picture_sets;
+        newPicturePosition = null;
+        pictureSetIndex = -1;
         for (_i = 0, _len = pictureSets.length; _i < _len; _i++) {
           pictureSet = pictureSets[_i];
+          pictureSetIndex++;
           if ("" + pictureSet._id === "" + pictureSetId) {
-            pictureSet.pictures.push({
-              url: relativeFilePath
-            });
+            newPicturePosition = pictureSet.pictures.push(newPictureData);
+            break;
           }
         }
         dayCare.picture_sets = pictureSets;
-        return dayCare.save();
+        dayCare.save();
+        newPicture = dayCare.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1];
+        newPicture.success = true;
+        return res.json(newPicture);
       });
       if (req.xhr) {
         try {
@@ -85,11 +146,8 @@
         } catch (e) {
 
         }
-        req.on('data', function(data) {
+        return req.on('data', function(data) {
           return ws.write(data);
-        });
-        return res.json({
-          success: true
         });
       } else {
         return res.json({

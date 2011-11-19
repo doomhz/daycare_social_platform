@@ -20,17 +20,21 @@
       pictures: [],
       daycare_id: null
     };
-    PictureSetModel.prototype.uri = '/day-cares/view/picture-set';
+    PictureSetModel.prototype.uri = '/day-cares/picture-set/:pictureSetId';
     PictureSetModel.prototype.pictures = null;
     PictureSetModel.prototype.initialize = function(attributes) {
+      this.id = attributes._id;
       this.setPictures();
-      return this.bind('change', this.setPictures);
+      this.bind('change', this.setPictures);
+      return this;
     };
     PictureSetModel.prototype.url = function() {
-      return "" + this.uri + "/" + (this.get('_id'));
+      return this.uri.replace(/:pictureSetId/g, this.get('_id'));
     };
     PictureSetModel.prototype.setPictures = function() {
-      this.pictures || (this.pictures = new Kin.PicturesCollection());
+      this.pictures || (this.pictures = new Kin.PicturesCollection([], {
+        pictureSetId: this.get('_id')
+      }));
       return this.pictures.add(this.get('pictures'));
     };
     return PictureSetModel;

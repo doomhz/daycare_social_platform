@@ -1,0 +1,15 @@
+<%
+    _.each(picturesCollection.models, function (picture) {
+%>
+    <li>
+        <a href="<%=picture.get('url') %>" title="<%=picture.get('description') %>" target="_blank">
+            <img src="<%=picture.get('url') %>" alt="<%=picture.get('name') %>" width="170" />
+        </a>
+        <p class="picture-description"><%=picture.get('description') %></p>
+        <p class="picture-buttons">
+            <a href="#" title="Delete picture" data-pic-id="<%=picture.get('_id') %>" class="delete-pic-bt">Delete</a>
+        </p>
+    </li>
+<%
+    });
+%>

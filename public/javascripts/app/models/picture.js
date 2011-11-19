@@ -18,6 +18,13 @@
       description: null,
       url: null
     };
+    PictureModel.prototype.uri = '/day-cares/picture/:pictureId';
+    PictureModel.prototype.initialize = function(attributes) {
+      return this.id = attributes._id;
+    };
+    PictureModel.prototype.url = function() {
+      return this.uri.replace(/:pictureId/g, this.get('_id'));
+    };
     return PictureModel;
   })();
 }).call(this);

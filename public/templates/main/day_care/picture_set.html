@@ -11,16 +11,4 @@
 <h2>Pictures</h2>
 
 <ul id="pictures-list">
-<%
-    _.each(pictureSet.pictures.models, function (picture) {
-%>
-    <li>
-        <a href="<%=picture.get('url') %>" title="<%=picture.get('description') %>" target="_blank">
-            <img src="<%=picture.get('url') %>" alt="<%=picture.get('name') %>" width="170" />
-        </a>
-        <p><%=picture.get('description') %></p>
-    </li>
-<%
-    });
-%>
 </ul>

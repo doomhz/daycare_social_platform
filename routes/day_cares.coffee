@@ -16,23 +16,62 @@ module.exports = (app)->
       next()
   ###
 
-  app.get '/day-cares/load/:id', (req, res)->
+  app.get '/day-cares/:id', (req, res)->
     DayCare.findOne({_id: req.params.id}).run (err, dayCare) ->
       res.json dayCare
 
-  app.put '/day-cares/load/:id', (req, res)->
+  app.put '/day-cares/:id', (req, res)->
     data = req.body
     delete data._id
     DayCare.update {_id: req.params.id}, data, {}, (err, dayCare) ->
       res.json {success: true}
 
-  app.get '/day-cares/view/picture-set/:id', (req, res)->
+  app.get '/day-cares/picture-set/:id', (req, res)->
     pictureSetId = req.params.id
     DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
       pictureSet = dayCare.picture_sets.id(pictureSetId)
       pictureSet.daycare_id = dayCare._id
 
       res.json pictureSet
+
+  app.get '/day-cares/pictures/:pictureSetId', (req, res)->
+    pictureSetId = req.params.pictureSetId
+    DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
+      pictureSet = dayCare.picture_sets.id(pictureSetId)
+      pictures = pictureSet.pictures
+
+      res.json pictures
+
+  app.del '/day-cares/picture/:pictureId', (req, res)->
+    pictureId = req.params.pictureId
+
+    DayCare.findOne({'picture_sets.pictures._id': pictureId}).run (err, dayCare) ->
+      pictureSetIndex = -1
+      pictureIndex = -1
+      pictureSetIndexToGo = -1
+      pictureIndexToGo = -1
+
+      for pictureSet in dayCare.picture_sets
+        pictureSetIndex++
+        pictureIndex = -1
+        for picture in pictureSet.pictures
+          pictureIndex++
+          if "#{picture._id}" is "#{pictureId}"
+            pictureSetIndexToGo = pictureSetIndex
+            pictureIndexToGo = pictureIndex
+            break
+
+      filePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].url
+      try
+        fs.unlinkSync(filePath)
+      catch e
+        console.error e
+      
+      dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove()
+      dayCare.save()
+
+      res.json {success: true}
+    
 
   app.post '/day-cares/upload', (req, res)->
     pictureSetId = req.query.setId
@@ -44,35 +83,46 @@ module.exports = (app)->
     relativeDirPath = '/daycares/' + pictureSetId + '/'
     filePath = dirPath + fileName + '.' + fileExtension
     relativeFilePath = relativeDirPath + fileName + '.' + fileExtension
+    newPictureData =
+      url: relativeFilePath
+
+    newPicture = null
 
     DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
       pictureSets = dayCare.picture_sets
 
+      newPicturePosition = null
+      pictureSetIndex = -1
+
       for pictureSet in pictureSets
+        pictureSetIndex++
         if "" + pictureSet._id is "" + pictureSetId
-          pictureSet.pictures.push({url: relativeFilePath})
+          newPicturePosition = pictureSet.pictures.push(newPictureData)
+          break
 
       dayCare.picture_sets = pictureSets
 
       dayCare.save()
 
+      newPicture = dayCare.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1]
+      newPicture.success = true
+      res.json newPicture
+
     if req.xhr
 
-        try
-          fs.statSync(dirPath)
-        catch e
-          fs.mkdirSync(dirPath, 0777)
+      try
+        fs.statSync(dirPath)
+      catch e
+        fs.mkdirSync(dirPath, 0777)
 
-        ws = fs.createWriteStream(filePath)
+      ws = fs.createWriteStream(filePath)
 
-        try
-          fs.chmodSync(filePath, 777)
-        catch e
-          
+      try
+        fs.chmodSync(filePath, 777)
+      catch e
 
-        req.on 'data', (data)->
-          ws.write(data)
+      req.on 'data', (data)->
+        ws.write(data)
 
-        res.json {success: true}
     else
       res.json {success: false}

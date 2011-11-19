@@ -100,8 +100,8 @@
 <%
     var allPictureSets = dayCare.pictureSets.models;
     _.each(allPictureSets, function (pictureSet) {
-        var primaryPicture = pictureSet.pictures.getPrimary();
-        if (primaryPicture) {
+        var primaryPicture = null;
+        if (pictureSet.pictures && (primaryPicture = pictureSet.pictures.getPrimary())) {
 %>
     <li>
         <h3>

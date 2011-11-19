@@ -34,7 +34,7 @@
           $el.html(tpl({
             pictureSet: that.model
           }));
-          return that.uploader = new qq.FileUploader({
+          that.uploader = new qq.FileUploader({
             element: document.getElementById('picture-uploader'),
             action: 'day-cares/upload',
             debug: false,
@@ -42,8 +42,16 @@
               return that.uploader.setParams({
                 setId: that.model.get('_id')
               });
+            },
+            onComplete: function(id, fileName, responseJSON) {
+              return that.model.pictures.add(responseJSON);
             }
           });
+          that.picturesListView = new Kin.DayCare.PicturesListView({
+            el: that.$('#pictures-list'),
+            collection: that.model.pictures
+          });
+          return that.picturesListView.render();
         }
       });
       return this;

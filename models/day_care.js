@@ -11,7 +11,8 @@
     },
     url: {
       type: String
-    }
+    },
+    success: Boolean
   });
   PictureSet = new Schema({
     daycare_id: {

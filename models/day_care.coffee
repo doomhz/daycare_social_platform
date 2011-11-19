@@ -10,6 +10,7 @@ Picture = new Schema
     type: String
   url:
     type: String
+  success: Boolean
 
 PictureSet = new Schema
   daycare_id:

@@ -13,6 +13,12 @@
       PicturesCollection.__super__.constructor.apply(this, arguments);
     }
     PicturesCollection.prototype.model = window.Kin.PictureModel;
+    PicturesCollection.prototype.uri = '/day-cares/pictures/:pictureSetId';
+    PicturesCollection.prototype.pictureSetId = null;
+    PicturesCollection.prototype.initialize = function(models, _arg) {
+      this.pictureSetId = _arg.pictureSetId;
+      return this;
+    };
     PicturesCollection.prototype.getPrimary = function(orFirst) {
       var primarys;
       if (orFirst == null) {
@@ -23,6 +29,9 @@
       });
       primarys || (primarys = [this.first()]);
       return primarys[0];
+    };
+    PicturesCollection.prototype.url = function() {
+      return this.uri.replace(/:pictureSetId/g, this.pictureSetId);
     };
     return PicturesCollection;
   })();

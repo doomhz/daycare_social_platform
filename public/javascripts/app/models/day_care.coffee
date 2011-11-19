@@ -17,17 +17,19 @@ class window.Kin.DayCareModel extends Backbone.Model
     serving_disabilities: false
     picture_sets: []
 
-  uri: "/day-cares/load"
+  uri: "/day-cares/:dayCareId"
 
   pictureSets: null
 
   initialize: (attributes, uri)->
+    @id = attributes._id
     @uri = uri or @uri
+    _.bindAll(@, 'setPictureSets')
     @bind 'change', @setPictureSets
     @
 
   url: ()->
-    "#{@uri}/#{@get('_id')}"
+    @uri.replace(/:dayCareId/g, @get('_id'))
 
   getProfilePicture: ()->
     profilePictureSet = @getProfilePictureSet(@get('picture_sets'))
@@ -55,4 +57,3 @@ class window.Kin.DayCareModel extends Backbone.Model
   setPictureSets: ()->
     @pictureSets or= new window.Kin.PictureSetsCollection()
     @pictureSets.add(@get('picture_sets'))
-    

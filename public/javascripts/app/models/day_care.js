@@ -30,15 +30,17 @@
       serving_disabilities: false,
       picture_sets: []
     };
-    DayCareModel.prototype.uri = "/day-cares/load";
+    DayCareModel.prototype.uri = "/day-cares/:dayCareId";
     DayCareModel.prototype.pictureSets = null;
     DayCareModel.prototype.initialize = function(attributes, uri) {
+      this.id = attributes._id;
       this.uri = uri || this.uri;
+      _.bindAll(this, 'setPictureSets');
       this.bind('change', this.setPictureSets);
       return this;
     };
     DayCareModel.prototype.url = function() {
-      return "" + this.uri + "/" + (this.get('_id'));
+      return this.uri.replace(/:dayCareId/g, this.get('_id'));
     };
     DayCareModel.prototype.getProfilePicture = function() {
       var profilePicture, profilePictureSet;

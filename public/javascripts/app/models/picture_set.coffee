@@ -8,17 +8,19 @@ class window.Kin.PictureSetModel extends Backbone.Model
     pictures: []
     daycare_id: null
 
-  uri: '/day-cares/view/picture-set'
+  uri: '/day-cares/picture-set/:pictureSetId'
 
   pictures: null
 
   initialize: (attributes)->
+    @id = attributes._id
     @setPictures()
     @bind 'change', @setPictures
+    @
 
   url: ()->
-    "#{@uri}/#{@get('_id')}"
+    @uri.replace(/:pictureSetId/g, @get('_id'))
 
   setPictures: ()->
-    @pictures or= new Kin.PicturesCollection()
+    @pictures or= new Kin.PicturesCollection([], {pictureSetId: @get('_id')})
     @pictures.add(@get('pictures'))

@@ -25,6 +25,13 @@ class window.Kin.DayCare.PictureSetView extends Backbone.View
           onSubmit: (id, fileName)->
             that.uploader.setParams
               setId: that.model.get('_id')
+          onComplete: (id, fileName, responseJSON)->
+            that.model.pictures.add(responseJSON)
+
+        that.picturesListView = new Kin.DayCare.PicturesListView
+          el: that.$('#pictures-list')
+          collection: that.model.pictures
+        that.picturesListView.render()
     @
 
   remove: ()->
