@@ -25,17 +25,18 @@ class window.Kin.MainRouter extends Backbone.Router
       el: '#main-column'
     @mainColumnView.render()
 
-  viewDayCare: (id, mainColumnTplUrl = null)->
+  viewDayCare: (id)->
     that = @
     @clearColumns()
     dayCare = new window.Kin.DayCareModel({_id: id})
     dayCare.fetch
       success: (model, response)->
 
+        model.setPictureSets()
+
         that.mainColumnView = new window.Kin.DayCare.ProfileView
           model: model
           el: '#main-column'
-          tplUrl: mainColumnTplUrl
         that.mainColumnView.render()
 
         that.side1ColumnView = new window.Kin.DayCare.ProfileSide1View
@@ -44,7 +45,23 @@ class window.Kin.MainRouter extends Backbone.Router
         that.side1ColumnView.render()
 
   viewDayCareGallery: (id)->
-    @viewDayCare(id, '/templates/main/day_care/profile_gallery.html')
+    that = @
+    @clearColumns()
+    dayCare = new window.Kin.DayCareModel({_id: id})
+    dayCare.fetch
+      success: (model, response)->
+
+        model.setPictureSets()
+
+        that.mainColumnView = new window.Kin.DayCare.ProfileGalleryView
+          model: model
+          el: '#main-column'
+        that.mainColumnView.render()
+
+        that.side1ColumnView = new window.Kin.DayCare.ProfileSide1View
+          model: model
+          el: '#side-column1'
+        that.side1ColumnView.render()
 
   editDayCare: (id)->
     that = @

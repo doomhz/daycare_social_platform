@@ -13,7 +13,6 @@
       PictureSetModel.__super__.constructor.apply(this, arguments);
     }
     PictureSetModel.prototype.defaults = {
-      _id: null,
       name: null,
       description: null,
       type: 'default',
@@ -29,7 +28,9 @@
       return this;
     };
     PictureSetModel.prototype.url = function() {
-      return this.uri.replace(/:pictureSetId/g, this.get('_id'));
+      var pictureSetId;
+      pictureSetId = this.get('_id') || '';
+      return this.uri.replace(/:pictureSetId/g, pictureSetId);
     };
     PictureSetModel.prototype.setPictures = function() {
       this.pictures || (this.pictures = new Kin.PicturesCollection([], {

@@ -7,7 +7,18 @@
         </a>
         <p class="picture-description"><%=picture.get('description') %></p>
         <p class="picture-buttons">
-            <a href="#" title="Delete picture" data-pic-id="<%=picture.get('_id') %>" class="delete-pic-bt">Delete</a>
+            <%
+                if (picture.get('primary')) {
+            %>
+            Primary
+            <%
+                } else {
+            %>
+            <a href="#" title="Set as primary picture" data-pic-id="<%=picture.get('_id') %>" class="primary-pic-bt">Make primary</a>
+            <%
+                }
+            %>
+            &nbsp;<a href="#" title="Delete picture" data-pic-id="<%=picture.get('_id') %>" class="delete-pic-bt">Delete</a>
         </p>
     </li>
 <%

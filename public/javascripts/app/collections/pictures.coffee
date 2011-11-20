@@ -12,8 +12,12 @@ class window.Kin.PicturesCollection extends Backbone.Collection
   getPrimary: (orFirst = true)->
     primarys = _.filter @models, (pictureModel)->
       pictureModel.get('primary')
-    primarys or= [@first()]
+    primarys = if primarys.length then primarys else [@first()]
     primarys[0]
 
   url: ()->
     @uri.replace(/:pictureSetId/g, @pictureSetId)
+
+  unsetPrimaryPicture: ()->
+    for picture in @models
+      picture.set({primary: false})

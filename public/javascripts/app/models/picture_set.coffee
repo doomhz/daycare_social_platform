@@ -1,7 +1,6 @@
 class window.Kin.PictureSetModel extends Backbone.Model
 
   defaults:
-    _id: null
     name: null
     description: null
     type: 'default'
@@ -19,7 +18,8 @@ class window.Kin.PictureSetModel extends Backbone.Model
     @
 
   url: ()->
-    @uri.replace(/:pictureSetId/g, @get('_id'))
+    pictureSetId = @get('_id') or ''
+    @uri.replace(/:pictureSetId/g, pictureSetId)
 
   setPictures: ()->
     @pictures or= new Kin.PicturesCollection([], {pictureSetId: @get('_id')})

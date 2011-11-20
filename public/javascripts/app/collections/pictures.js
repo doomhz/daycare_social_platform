@@ -27,11 +27,23 @@
       primarys = _.filter(this.models, function(pictureModel) {
         return pictureModel.get('primary');
       });
-      primarys || (primarys = [this.first()]);
+      primarys = primarys.length ? primarys : [this.first()];
       return primarys[0];
     };
     PicturesCollection.prototype.url = function() {
       return this.uri.replace(/:pictureSetId/g, this.pictureSetId);
+    };
+    PicturesCollection.prototype.unsetPrimaryPicture = function() {
+      var picture, _i, _len, _ref, _results;
+      _ref = this.models;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        picture = _ref[_i];
+        _results.push(picture.set({
+          primary: false
+        }));
+      }
+      return _results;
     };
     return PicturesCollection;
   })();

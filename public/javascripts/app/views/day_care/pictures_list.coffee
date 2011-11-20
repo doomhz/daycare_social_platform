@@ -6,6 +6,7 @@ class window.Kin.DayCare.PicturesListView extends Backbone.View
 
   events:
     'click .delete-pic-bt': 'deletePicture'
+    'click .primary-pic-bt': 'setAsPrimaryPicture'
 
   initialize: (options = {})->
     _.bindAll(@, 'render')
@@ -35,3 +36,15 @@ class window.Kin.DayCare.PicturesListView extends Backbone.View
     pictureModel = @collection.find (picture)->
       picture.get('_id') is picId
     pictureModel.destroy()
+
+  setAsPrimaryPicture: (ev)->
+    ev.preventDefault()
+    $primaryBt = @$(ev.target)
+    picId = $primaryBt.data('pic-id')
+    pictureModel = @collection.find (picture)->
+      picture.get('_id') is picId
+    @collection.unsetPrimaryPicture()
+    pictureModel.set({primary: true})
+    pictureModel.save()
+    @render()
+

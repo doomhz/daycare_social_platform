@@ -15,7 +15,8 @@
     PicturesListView.prototype.el = null;
     PicturesListView.prototype.tplUrl = '/templates/main/day_care/pictures_list.html';
     PicturesListView.prototype.events = {
-      'click .delete-pic-bt': 'deletePicture'
+      'click .delete-pic-bt': 'deletePicture',
+      'click .primary-pic-bt': 'setAsPrimaryPicture'
     };
     PicturesListView.prototype.initialize = function(options) {
       if (options == null) {
@@ -57,6 +58,21 @@
         return picture.get('_id') === picId;
       });
       return pictureModel.destroy();
+    };
+    PicturesListView.prototype.setAsPrimaryPicture = function(ev) {
+      var $primaryBt, picId, pictureModel;
+      ev.preventDefault();
+      $primaryBt = this.$(ev.target);
+      picId = $primaryBt.data('pic-id');
+      pictureModel = this.collection.find(function(picture) {
+        return picture.get('_id') === picId;
+      });
+      this.collection.unsetPrimaryPicture();
+      pictureModel.set({
+        primary: true
+      });
+      pictureModel.save();
+      return this.render();
     };
     return PicturesListView;
   })();

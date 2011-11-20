@@ -47,6 +47,37 @@
         return res.json(pictureSet);
       });
     });
+    app.del('/day-cares/picture-set/:id', function(req, res) {
+      var pictureSetId;
+      pictureSetId = req.params.id;
+      return DayCare.findOne({
+        'picture_sets._id': pictureSetId
+      }).run(function(err, dayCare) {
+        var filePath, picture, pictureSet, _i, _len, _ref;
+        pictureSet = dayCare.picture_sets.id(pictureSetId);
+        pictureSet.remove();
+        dayCare.save();
+        _ref = pictureSet.pictures;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          picture = _ref[_i];
+          filePath = './public/' + picture.url;
+          try {
+            fs.unlinkSync(filePath);
+          } catch (e) {
+            console.error(e);
+          }
+        }
+        filePath = './public/daycares/' + pictureSetId;
+        try {
+          fs.rmdirSync(filePath);
+        } catch (e) {
+          console.error(e);
+        }
+        return res.json({
+          success: true
+        });
+      });
+    });
     app.get('/day-cares/pictures/:pictureSetId', function(req, res) {
       var pictureSetId;
       pictureSetId = req.params.pictureSetId;
@@ -93,6 +124,45 @@
           console.error(e);
         }
         dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove();
+        dayCare.save();
+        return res.json({
+          success: true
+        });
+      });
+    });
+    app.put('/day-cares/picture/:pictureId', function(req, res) {
+      var pictureId;
+      pictureId = req.params.pictureId;
+      return DayCare.findOne({
+        'picture_sets.pictures._id': pictureId
+      }).run(function(err, dayCare) {
+        var picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3;
+        pictureSetIndex = -1;
+        pictureIndex = -1;
+        pictureSetIndexToGo = -1;
+        pictureIndexToGo = -1;
+        _ref = dayCare.picture_sets;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          pictureSet = _ref[_i];
+          pictureSetIndex++;
+          pictureIndex = -1;
+          _ref2 = pictureSet.pictures;
+          for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+            picture = _ref2[_j];
+            pictureIndex++;
+            if (("" + picture._id) === ("" + pictureId)) {
+              pictureSetIndexToGo = pictureSetIndex;
+              pictureIndexToGo = pictureIndex;
+              break;
+            }
+          }
+        }
+        _ref3 = dayCare.picture_sets[pictureSetIndexToGo].pictures;
+        for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
+          picture = _ref3[_k];
+          picture.primary = false;
+        }
+        dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].primary = true;
         dayCare.save();
         return res.json({
           success: true

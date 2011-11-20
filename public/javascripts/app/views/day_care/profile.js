@@ -16,8 +16,6 @@
     ProfileView.prototype.tplUrl = '/templates/main/day_care/profile.html';
     ProfileView.prototype.maps = null;
     ProfileView.prototype.initialize = function(options) {
-      this.model && (this.model.view = this);
-      this.tplUrl = options.tplUrl || this.tplUrl;
       return this;
     };
     ProfileView.prototype.render = function() {

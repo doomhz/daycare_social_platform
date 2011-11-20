@@ -7,8 +7,6 @@ class window.Kin.DayCare.ProfileView extends Backbone.View
   maps: null
 
   initialize: (options)->
-    @model and @model.view = @
-    @tplUrl = options.tplUrl or @tplUrl
     @
 
   render: ()->

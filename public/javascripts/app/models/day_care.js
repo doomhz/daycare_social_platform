@@ -13,7 +13,6 @@
       DayCareModel.__super__.constructor.apply(this, arguments);
     }
     DayCareModel.prototype.defaults = {
-      _id: null,
       name: '',
       speaking_classes: [],
       location: {
@@ -35,8 +34,8 @@
     DayCareModel.prototype.initialize = function(attributes, uri) {
       this.id = attributes._id;
       this.uri = uri || this.uri;
-      _.bindAll(this, 'setPictureSets');
-      this.bind('change', this.setPictureSets);
+      _.bindAll(this, 'setPictureSets', 'updatePicturesFromPictureSets');
+      this.setPictureSets();
       return this;
     };
     DayCareModel.prototype.url = function() {
@@ -77,8 +76,17 @@
       });
     };
     DayCareModel.prototype.setPictureSets = function() {
-      this.pictureSets || (this.pictureSets = new window.Kin.PictureSetsCollection());
-      return this.pictureSets.add(this.get('picture_sets'));
+      if (!this.pictureSets) {
+        this.pictureSets = new window.Kin.PictureSetsCollection();
+        this.pictureSets.bind('add', this.updatePicturesFromPictureSets);
+        this.pictureSets.bind('remove', this.updatePicturesFromPictureSets);
+      }
+      return this.pictureSets.reset(this.get('picture_sets'));
+    };
+    DayCareModel.prototype.updatePicturesFromPictureSets = function() {
+      return this.set({
+        picture_sets: this.pictureSets.toJSON()
+      });
     };
     return DayCareModel;
   })();

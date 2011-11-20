@@ -1,7 +1,6 @@
 class window.Kin.DayCareModel extends Backbone.Model
 
   defaults:
-    _id: null
     name: ''
     speaking_classes: []
     location:
@@ -24,8 +23,8 @@ class window.Kin.DayCareModel extends Backbone.Model
   initialize: (attributes, uri)->
     @id = attributes._id
     @uri = uri or @uri
-    _.bindAll(@, 'setPictureSets')
-    @bind 'change', @setPictureSets
+    _.bindAll(@, 'setPictureSets', 'updatePicturesFromPictureSets')
+    @setPictureSets()
     @
 
   url: ()->
@@ -55,5 +54,12 @@ class window.Kin.DayCareModel extends Backbone.Model
     )
 
   setPictureSets: ()->
-    @pictureSets or= new window.Kin.PictureSetsCollection()
-    @pictureSets.add(@get('picture_sets'))
+    if not @pictureSets
+      @pictureSets = new window.Kin.PictureSetsCollection()
+      @pictureSets.bind 'add', @updatePicturesFromPictureSets
+      @pictureSets.bind 'remove', @updatePicturesFromPictureSets
+    @pictureSets.reset(@get('picture_sets'))
+
+  updatePicturesFromPictureSets: ()->
+    @set({picture_sets: @pictureSets.toJSON()})
+  

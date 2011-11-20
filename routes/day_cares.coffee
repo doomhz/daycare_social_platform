@@ -34,6 +34,28 @@ module.exports = (app)->
 
       res.json pictureSet
 
+  app.del '/day-cares/picture-set/:id', (req, res)->
+    pictureSetId = req.params.id
+    DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
+      pictureSet = dayCare.picture_sets.id(pictureSetId)
+      pictureSet.remove()
+      dayCare.save()
+
+      for picture in pictureSet.pictures
+        filePath = './public/' + picture.url
+        try
+          fs.unlinkSync(filePath)
+        catch e
+          console.error e
+      
+      filePath = './public/daycares/' + pictureSetId
+      try
+        fs.rmdirSync(filePath)
+      catch e
+        console.error e
+
+      res.json {success: true}
+
   app.get '/day-cares/pictures/:pictureSetId', (req, res)->
     pictureSetId = req.params.pictureSetId
     DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
@@ -71,7 +93,33 @@ module.exports = (app)->
       dayCare.save()
 
       res.json {success: true}
-    
+
+  app.put '/day-cares/picture/:pictureId', (req, res)->
+    pictureId = req.params.pictureId
+
+    DayCare.findOne({'picture_sets.pictures._id': pictureId}).run (err, dayCare) ->
+      pictureSetIndex = -1
+      pictureIndex = -1
+      pictureSetIndexToGo = -1
+      pictureIndexToGo = -1
+
+      for pictureSet in dayCare.picture_sets
+        pictureSetIndex++
+        pictureIndex = -1
+        for picture in pictureSet.pictures
+          pictureIndex++
+          if "#{picture._id}" is "#{pictureId}"
+            pictureSetIndexToGo = pictureSetIndex
+            pictureIndexToGo = pictureIndex
+            break
+
+      for picture in dayCare.picture_sets[pictureSetIndexToGo].pictures
+        picture.primary = false
+
+      dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].primary = true
+      dayCare.save()
+
+      res.json {success: true}
 
   app.post '/day-cares/upload', (req, res)->
     pictureSetId = req.query.setId
