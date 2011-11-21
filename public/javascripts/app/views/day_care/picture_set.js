@@ -29,21 +29,24 @@
       $.tmpload({
         url: this.tplUrl,
         onLoad: function(tpl) {
-          var $el;
+          var $el, $pictureDescription;
           $el = $(that.el);
           $el.html(tpl({
             pictureSet: that.model
           }));
+          $pictureDescription = that.$('#new-picture-description');
           that.uploader = new qq.FileUploader({
             element: document.getElementById('picture-uploader'),
             action: 'day-cares/upload',
             debug: false,
             onSubmit: function(id, fileName) {
               return that.uploader.setParams({
-                setId: that.model.get('_id')
+                setId: that.model.get('_id'),
+                description: $pictureDescription.val()
               });
             },
             onComplete: function(id, fileName, responseJSON) {
+              $pictureDescription.val('');
               return that.model.pictures.add(responseJSON);
             }
           });

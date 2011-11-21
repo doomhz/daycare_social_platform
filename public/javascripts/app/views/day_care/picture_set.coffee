@@ -18,6 +18,7 @@ class window.Kin.DayCare.PictureSetView extends Backbone.View
       onLoad: (tpl)->
         $el = $(that.el)
         $el.html(tpl({pictureSet: that.model}))
+        $pictureDescription = that.$('#new-picture-description')
         that.uploader = new qq.FileUploader
           element: document.getElementById('picture-uploader')
           action: 'day-cares/upload'
@@ -25,7 +26,9 @@ class window.Kin.DayCare.PictureSetView extends Backbone.View
           onSubmit: (id, fileName)->
             that.uploader.setParams
               setId: that.model.get('_id')
+              description: $pictureDescription.val()
           onComplete: (id, fileName, responseJSON)->
+            $pictureDescription.val('')
             that.model.pictures.add(responseJSON)
 
         that.picturesListView = new Kin.DayCare.PicturesListView

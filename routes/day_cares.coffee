@@ -124,6 +124,7 @@ module.exports = (app)->
   app.post '/day-cares/upload', (req, res)->
     pictureSetId = req.query.setId
     fileName = req.query.qqfile
+    description = req.query.description
 
     fileExtension = fileName.substring(fileName.length - 3)
     fileName = new Date().getTime()
@@ -133,6 +134,7 @@ module.exports = (app)->
     relativeFilePath = relativeDirPath + fileName + '.' + fileExtension
     newPictureData =
       url: relativeFilePath
+      description: description
 
     newPicture = null
 

@@ -170,9 +170,10 @@
       });
     });
     return app.post('/day-cares/upload', function(req, res) {
-      var dirPath, fileExtension, fileName, filePath, newPicture, newPictureData, pictureSetId, relativeDirPath, relativeFilePath, ws;
+      var description, dirPath, fileExtension, fileName, filePath, newPicture, newPictureData, pictureSetId, relativeDirPath, relativeFilePath, ws;
       pictureSetId = req.query.setId;
       fileName = req.query.qqfile;
+      description = req.query.description;
       fileExtension = fileName.substring(fileName.length - 3);
       fileName = new Date().getTime();
       dirPath = './public/daycares/' + pictureSetId + '/';
@@ -180,7 +181,8 @@
       filePath = dirPath + fileName + '.' + fileExtension;
       relativeFilePath = relativeDirPath + fileName + '.' + fileExtension;
       newPictureData = {
-        url: relativeFilePath
+        url: relativeFilePath,
+        description: description
       };
       newPicture = null;
       DayCare.findOne({
