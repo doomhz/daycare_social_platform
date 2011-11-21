@@ -2,8 +2,8 @@
     _.each(picturesCollection.models, function (picture) {
 %>
     <li>
-        <a href="<%=picture.get('url') %>" title="<%=picture.get('description') %>" target="_blank">
-            <img src="<%=picture.get('url') %>" alt="<%=picture.get('name') %>" width="170" />
+        <a href="<%=picture.get('url') %>" title="<%=picture.get('description') %>" target="_blank" rel="prettyPhoto[album]">
+            <img src="<%=picture.get('url') %>" alt="<%=picture.get('description') %>" width="170" />
         </a>
         <p class="picture-description"><%=picture.get('description') %></p>
         <p class="picture-buttons">

@@ -74,7 +74,11 @@
                     <%
                         _.each(daycareSet.pictures, function (picture) {
                     %>
-                    <li><img src="<%=picture.url %>" alt="<%=picture.description %>" class="doom-carousel-pic" width="430" /></li>
+                    <li>
+                        <a href="<%=picture.url %>" title="<%=picture.description %>" rel="prettyPhoto[album-<%=daycareSet._id %>]">
+                            <img src="<%=picture.url %>" alt="<%=picture.description %>" class="doom-carousel-pic" width="430" />
+                        </a>
+                    </li>
                     <%
                         });
                     %>

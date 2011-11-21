@@ -50,11 +50,18 @@
           that.$('#daycare-gallery-tabs').doomTabs({
             onSelect: function($selectedTab) {}
           });
-          return that.$('div.doom-carousel').doomCarousel({
+          that.$('div.doom-carousel').doomCarousel({
             autoSlide: false,
             showCaption: false,
             slideSpeed: 400,
             showCounter: true
+          });
+          return that.$('a[rel^="prettyPhoto"]').prettyPhoto({
+            slideshow: false,
+            social_tools: false,
+            theme: 'light_rounded',
+            deeplinking: false,
+            animation_speed: 0
           });
         }
       });

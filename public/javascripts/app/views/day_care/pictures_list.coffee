@@ -21,6 +21,12 @@ class window.Kin.DayCare.PicturesListView extends Backbone.View
       onLoad: (tpl)->
         $el = $(that.el)
         $el.html(tpl({picturesCollection: that.collection}))
+        that.$('a[rel^="prettyPhoto"]').prettyPhoto
+          slideshow: false
+          social_tools: false
+          theme: 'light_rounded'
+          deeplinking: false
+          animation_speed: 0
     @
 
   remove: ()->

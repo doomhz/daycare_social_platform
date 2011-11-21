@@ -35,9 +35,16 @@
         onLoad: function(tpl) {
           var $el;
           $el = $(that.el);
-          return $el.html(tpl({
+          $el.html(tpl({
             picturesCollection: that.collection
           }));
+          return that.$('a[rel^="prettyPhoto"]').prettyPhoto({
+            slideshow: false,
+            social_tools: false,
+            theme: 'light_rounded',
+            deeplinking: false,
+            animation_speed: 0
+          });
         }
       });
       return this;

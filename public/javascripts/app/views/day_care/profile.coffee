@@ -37,6 +37,12 @@ class window.Kin.DayCare.ProfileView extends Backbone.View
           showCaption: false
           slideSpeed: 400
           showCounter: true
+        that.$('a[rel^="prettyPhoto"]').prettyPhoto
+          slideshow: false
+          social_tools: false
+          theme: 'light_rounded'
+          deeplinking: false
+          animation_speed: 0
 
     @
 
