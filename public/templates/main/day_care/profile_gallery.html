@@ -73,10 +73,11 @@
                 <ul class="doom-carousel-list">
                     <%
                         _.each(daycareSet.pictures, function (picture) {
+                            var mediumPictureUrl = picture.medium_url || picture.url;
                     %>
                     <li>
                         <a href="<%=picture.url %>" title="<%=picture.description %>" rel="prettyPhoto[album-<%=daycareSet._id %>]">
-                            <img src="<%=picture.url %>" alt="<%=picture.description %>" class="doom-carousel-pic" width="430" />
+                            <img src="<%=mediumPictureUrl %>" alt="<%=picture.description %>" class="doom-carousel-pic" width="430" />
                         </a>
                     </li>
                     <%
@@ -133,14 +134,15 @@
     var allPictureSets = dayCare.pictureSets.models;
     _.each(allPictureSets, function (pictureSet) {
         var primaryPicture = pictureSet.pictures.getPrimary();
-        primaryPictureUrl = primaryPicture ? primaryPicture.get('url') : '/';
+        var primaryPictureUrl = primaryPicture ? primaryPicture.get('url') : '/';
+        var primaryPictureThumbUrl = primaryPicture ? (primaryPicture.get('thumb_url') || primaryPicture.get('url')) : '/';
 %>
     <li>
         <h3>
             <a href="#day-cares/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>"><%=pictureSet.get('name') %></a>
         </h3>
         <a href="#day-cares/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>">
-            <img src="<%=primaryPictureUrl %>" alt="<%=pictureSet.get('name') %>" width="170" />
+            <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="170" />
         </a>
         <%
             if (pictureSet.get('type') !== 'profile') {

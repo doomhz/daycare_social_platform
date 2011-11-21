@@ -12,6 +12,12 @@
     url: {
       type: String
     },
+    thumb_url: {
+      type: String
+    },
+    medium_url: {
+      type: String
+    },
     success: Boolean
   });
   PictureSet = new Schema({

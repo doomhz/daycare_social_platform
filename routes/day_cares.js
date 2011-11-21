@@ -96,7 +96,7 @@
       return DayCare.findOne({
         'picture_sets.pictures._id': pictureId
       }).run(function(err, dayCare) {
-        var filePath, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, _i, _j, _len, _len2, _ref, _ref2;
+        var filePath, mediumFilePath, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, thumbFilePath, _i, _j, _len, _len2, _ref, _ref2;
         pictureSetIndex = -1;
         pictureIndex = -1;
         pictureSetIndexToGo = -1;
@@ -120,6 +120,18 @@
         filePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].url;
         try {
           fs.unlinkSync(filePath);
+        } catch (e) {
+          console.error(e);
+        }
+        thumbFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].thumb_url;
+        try {
+          fs.unlinkSync(thumbFilePath);
+        } catch (e) {
+          console.error(e);
+        }
+        mediumFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].medium_url;
+        try {
+          fs.unlinkSync(mediumFilePath);
         } catch (e) {
           console.error(e);
         }
@@ -170,42 +182,27 @@
       });
     });
     return app.post('/day-cares/upload', function(req, res) {
-      var description, dirPath, fileExtension, fileName, filePath, newPicture, newPictureData, pictureSetId, relativeDirPath, relativeFilePath, ws;
+      var description, dirPath, fileExtension, fileName, filePath, mediumFilePath, mediumRelativeFilePath, newPicture, newPictureData, pictureSetId, relativeDirPath, relativeFilePath, thumbFilePath, thumbRelativeFilePath, ws;
       pictureSetId = req.query.setId;
       fileName = req.query.qqfile;
       description = req.query.description;
-      fileExtension = fileName.substring(fileName.length - 3);
+      fileExtension = fileName.substring(fileName.length - 3).toLowerCase();
       fileName = new Date().getTime();
       dirPath = './public/daycares/' + pictureSetId + '/';
       relativeDirPath = '/daycares/' + pictureSetId + '/';
       filePath = dirPath + fileName + '.' + fileExtension;
+      thumbFilePath = dirPath + fileName + '_thumb.' + fileExtension;
+      mediumFilePath = dirPath + fileName + '_medium.' + fileExtension;
       relativeFilePath = relativeDirPath + fileName + '.' + fileExtension;
+      thumbRelativeFilePath = relativeDirPath + fileName + '_thumb.' + fileExtension;
+      mediumRelativeFilePath = relativeDirPath + fileName + '_medium.' + fileExtension;
       newPictureData = {
         url: relativeFilePath,
+        thumb_url: thumbRelativeFilePath,
+        medium_url: mediumRelativeFilePath,
         description: description
       };
       newPicture = null;
-      DayCare.findOne({
-        'picture_sets._id': pictureSetId
-      }).run(function(err, dayCare) {
-        var newPicturePosition, pictureSet, pictureSetIndex, pictureSets, _i, _len;
-        pictureSets = dayCare.picture_sets;
-        newPicturePosition = null;
-        pictureSetIndex = -1;
-        for (_i = 0, _len = pictureSets.length; _i < _len; _i++) {
-          pictureSet = pictureSets[_i];
-          pictureSetIndex++;
-          if ("" + pictureSet._id === "" + pictureSetId) {
-            newPicturePosition = pictureSet.pictures.push(newPictureData);
-            break;
-          }
-        }
-        dayCare.picture_sets = pictureSets;
-        dayCare.save();
-        newPicture = dayCare.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1];
-        newPicture.success = true;
-        return res.json(newPicture);
-      });
       if (req.xhr) {
         try {
           fs.statSync(dirPath);
@@ -218,8 +215,60 @@
         } catch (e) {
 
         }
-        return req.on('data', function(data) {
+        req.on('data', function(data) {
           return ws.write(data);
+        });
+        return req.on('end', function() {
+          return DayCare.findOne({
+            'picture_sets._id': pictureSetId
+          }).run(function(err, dayCare) {
+            var im, newPicturePosition, pictureSet, pictureSetIndex, pictureSets, _i, _len;
+            pictureSets = dayCare.picture_sets;
+            newPicturePosition = null;
+            pictureSetIndex = -1;
+            for (_i = 0, _len = pictureSets.length; _i < _len; _i++) {
+              pictureSet = pictureSets[_i];
+              pictureSetIndex++;
+              if ("" + pictureSet._id === "" + pictureSetId) {
+                newPicturePosition = pictureSet.pictures.push(newPictureData);
+                break;
+              }
+            }
+            dayCare.picture_sets = pictureSets;
+            dayCare.save();
+            newPicture = dayCare.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1];
+            newPicture.success = true;
+            im = require('imagemagick');
+            im.crop({
+              srcPath: filePath,
+              dstPath: thumbFilePath,
+              width: 170,
+              height: 130,
+              quality: 1
+            }, function(err, stdout, stderr) {
+              if (err) {
+                console.log(err);
+              }
+              if (err) {
+                console.log(stderr);
+              }
+              return res.json(newPicture);
+            });
+            return im.crop({
+              srcPath: filePath,
+              dstPath: mediumFilePath,
+              width: 430,
+              height: 300,
+              quality: 1
+            }, function(err, stdout, stderr) {
+              if (err) {
+                console.log(err);
+              }
+              if (err) {
+                return console.log(stderr);
+              }
+            });
+          });
         });
       } else {
         return res.json({

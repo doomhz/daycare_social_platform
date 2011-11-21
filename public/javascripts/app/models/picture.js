@@ -15,7 +15,9 @@
     PictureModel.prototype.defaults = {
       primary: false,
       description: null,
-      url: null
+      url: null,
+      thumb_url: null,
+      medium_url: null
     };
     PictureModel.prototype.uri = '/day-cares/picture/:pictureId';
     PictureModel.prototype.initialize = function(attributes) {

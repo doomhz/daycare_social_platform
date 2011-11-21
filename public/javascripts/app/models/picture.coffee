@@ -4,6 +4,8 @@ class window.Kin.PictureModel extends Backbone.Model
     primary: false
     description: null
     url: null
+    thumb_url: null
+    medium_url: null
 
   uri: '/day-cares/picture/:pictureId'
 

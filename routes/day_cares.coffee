@@ -24,6 +24,7 @@ module.exports = (app)->
     data = req.body
     delete data._id
     DayCare.update {_id: req.params.id}, data, {}, (err, dayCare) ->
+      # TODO Delete pictures here
       res.json {success: true}
 
   app.get '/day-cares/picture-set/:id', (req, res)->
@@ -88,6 +89,18 @@ module.exports = (app)->
         fs.unlinkSync(filePath)
       catch e
         console.error e
+
+      thumbFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].thumb_url
+      try
+        fs.unlinkSync(thumbFilePath)
+      catch e
+        console.error e
+
+      mediumFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].medium_url
+      try
+        fs.unlinkSync(mediumFilePath)
+      catch e
+        console.error e
       
       dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove()
       dayCare.save()
@@ -126,37 +139,23 @@ module.exports = (app)->
     fileName = req.query.qqfile
     description = req.query.description
 
-    fileExtension = fileName.substring(fileName.length - 3)
+    fileExtension = fileName.substring(fileName.length - 3).toLowerCase()
     fileName = new Date().getTime()
     dirPath = './public/daycares/' + pictureSetId + '/'
     relativeDirPath = '/daycares/' + pictureSetId + '/'
     filePath = dirPath + fileName + '.' + fileExtension
+    thumbFilePath = dirPath + fileName + '_thumb.' + fileExtension
+    mediumFilePath = dirPath + fileName + '_medium.' + fileExtension
     relativeFilePath = relativeDirPath + fileName + '.' + fileExtension
+    thumbRelativeFilePath = relativeDirPath + fileName + '_thumb.' + fileExtension
+    mediumRelativeFilePath = relativeDirPath + fileName + '_medium.' + fileExtension
     newPictureData =
       url: relativeFilePath
+      thumb_url: thumbRelativeFilePath
+      medium_url: mediumRelativeFilePath
       description: description
 
     newPicture = null
-
-    DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
-      pictureSets = dayCare.picture_sets
-
-      newPicturePosition = null
-      pictureSetIndex = -1
-
-      for pictureSet in pictureSets
-        pictureSetIndex++
-        if "" + pictureSet._id is "" + pictureSetId
-          newPicturePosition = pictureSet.pictures.push(newPictureData)
-          break
-
-      dayCare.picture_sets = pictureSets
-
-      dayCare.save()
-
-      newPicture = dayCare.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1]
-      newPicture.success = true
-      res.json newPicture
 
     if req.xhr
 
@@ -173,6 +172,54 @@ module.exports = (app)->
 
       req.on 'data', (data)->
         ws.write(data)
+
+      req.on 'end', ()->
+        DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
+          pictureSets = dayCare.picture_sets
+
+          newPicturePosition = null
+          pictureSetIndex = -1
+
+          for pictureSet in pictureSets
+            pictureSetIndex++
+            if "" + pictureSet._id is "" + pictureSetId
+              newPicturePosition = pictureSet.pictures.push(newPictureData)
+              break
+
+          dayCare.picture_sets = pictureSets
+
+          dayCare.save()
+
+          newPicture = dayCare.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1]
+          newPicture.success = true
+
+          im = require 'imagemagick'
+          im.crop(
+              srcPath: filePath
+              dstPath: thumbFilePath
+              width: 170
+              height: 130
+              quality: 1
+            , (err, stdout, stderr)->
+              if err
+                console.log err
+              if err
+                console.log stderr
+
+              res.json newPicture
+          )
+          im.crop(
+              srcPath: filePath
+              dstPath: mediumFilePath
+              width: 430
+              height: 300
+              quality: 1
+            , (err, stdout, stderr)->
+              if err
+                console.log err
+              if err
+                console.log stderr
+          )
 
     else
       res.json {success: false}
