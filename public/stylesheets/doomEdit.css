@@ -1,0 +1,8 @@
+.dedit-input {
+  cursor:pointer;
+}
+
+.dedit-input:hover {
+	background:#EFE32D url(/images/doom_edit/edit.png) no-repeat center right;
+	padding-right:20px;
+}

@@ -3,12 +3,13 @@
 %>
     <li>
         <%
-            thumbUrl = picture.get('thumb_url') || picture.get('url');
+            var thumbUrl    = picture.get('thumb_url') || picture.get('url');
+            var description = picture.get('description') || 'Click here to add a description';
         %>
         <a href="<%=picture.get('url') %>" title="<%=picture.get('description') %>" target="_blank" rel="prettyPhoto[album]">
             <img src="<%=thumbUrl %>" alt="<%=picture.get('description') %>" width="170" />
         </a>
-        <p class="picture-description"><%=picture.get('description') %></p>
+        <p class="picture-description dedit-input picture-text-edit"><%=description %></p>
         <p class="picture-buttons">
             <%
                 if (picture.get('primary')) {

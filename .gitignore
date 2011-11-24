@@ -1,6 +1,8 @@
 .DS_Store
 .idea
 .idea/*
+.settings.xml
+.monitor
 node_modules/*
 node_modules
 npm-debug.log

@@ -47,6 +47,35 @@
         return res.json(pictureSet);
       });
     });
+    app.put('/day-cares/picture-set/:id', function(req, res) {
+      var pictureSetId;
+      pictureSetId = req.params.id;
+      return DayCare.findOne({
+        'picture_sets._id': pictureSetId
+      }).run(function(err, dayCare) {
+        var key, pictureSet, pictureSetIndexToEdit, value, _i, _len, _ref, _ref2;
+        pictureSetIndexToEdit = -1;
+        _ref = dayCare.picture_sets;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          pictureSet = _ref[_i];
+          pictureSetIndexToEdit++;
+          if (pictureSet._id + "" === pictureSetId + "") {
+            break;
+          }
+        }
+        delete req.body._id;
+        _ref2 = req.body;
+        for (key in _ref2) {
+          value = _ref2[key];
+          console.log(key);
+          dayCare.picture_sets[pictureSetIndexToEdit][key] = value;
+        }
+        dayCare.save();
+        return res.json({
+          success: true
+        });
+      });
+    });
     app.del('/day-cares/picture-set/:id', function(req, res) {
       var pictureSetId;
       pictureSetId = req.params.id;

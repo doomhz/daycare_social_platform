@@ -35,6 +35,24 @@ module.exports = (app)->
 
       res.json pictureSet
 
+  app.put '/day-cares/picture-set/:id', (req, res)->
+    pictureSetId = req.params.id
+    DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
+      pictureSetIndexToEdit = -1
+      
+      for pictureSet in dayCare.picture_sets
+        pictureSetIndexToEdit++
+        if pictureSet._id + "" is pictureSetId + ""
+          break;
+
+      delete req.body._id
+      for key, value of req.body
+        console.log key
+        dayCare.picture_sets[pictureSetIndexToEdit][key] = value
+      dayCare.save()
+
+      res.json {success: true}
+
   app.del '/day-cares/picture-set/:id', (req, res)->
     pictureSetId = req.params.id
     DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->

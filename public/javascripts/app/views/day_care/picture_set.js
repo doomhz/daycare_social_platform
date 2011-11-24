@@ -20,7 +20,6 @@
         options = {};
       }
       this.model && (this.model.view = this);
-      this.maps = options.maps;
       return this;
     };
     PictureSetView.prototype.render = function() {
@@ -29,32 +28,46 @@
       $.tmpload({
         url: this.tplUrl,
         onLoad: function(tpl) {
-          var $el, $pictureDescription;
+          var $el;
           $el = $(that.el);
           $el.html(tpl({
             pictureSet: that.model
           }));
-          $pictureDescription = that.$('#new-picture-description');
           that.uploader = new qq.FileUploader({
             element: document.getElementById('picture-uploader'),
             action: 'day-cares/upload',
             debug: false,
+            uploadButtonText: 'add photos',
             onSubmit: function(id, fileName) {
               return that.uploader.setParams({
-                setId: that.model.get('_id'),
-                description: $pictureDescription.val()
+                setId: that.model.get('_id')
               });
             },
             onComplete: function(id, fileName, responseJSON) {
-              $pictureDescription.val('');
               return that.model.pictures.add(responseJSON);
             }
           });
-          that.picturesListView = new Kin.DayCare.PicturesListView({
-            el: that.$('#pictures-list'),
-            collection: that.model.pictures
+          if (!that.picturesListView) {
+            that.picturesListView = new Kin.DayCare.PicturesListView({
+              el: that.$('#pictures-list'),
+              collection: that.model.pictures
+            });
+          }
+          that.picturesListView.render();
+          return that.$('#picture-set-text-edit').doomEdit({
+            ajaxSubmit: false,
+            afterFormSubmit: function(data, form, $el) {
+              $el.text(data);
+              that.model.set({
+                name: data
+              }, {
+                silent: true
+              });
+              return that.model.save(null, {
+                silent: true
+              });
+            }
           });
-          return that.picturesListView.render();
         }
       });
       return this;
@@ -64,6 +77,7 @@
       $el = $(this.el);
       this.unbind();
       $el.unbind().empty();
+      that.picturesListView.remove();
       return this;
     };
     return PictureSetView;

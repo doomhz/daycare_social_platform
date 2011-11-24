@@ -125,7 +125,7 @@ form .form-txt:focus, .form input[type="text"]:focus, .form input[type="password
 }
 
 /* form buttons */
-.form-button, .form input[type="submit"], .form input[type="button"], .form input[type="reset"] {
+.form-button, .form input[type="submit"], .form input[type="button"], .form input[type="reset"], .qq-upload-button {
   font-size:1.4em;
   line-height:1.4em;
   font-weight:bolder;

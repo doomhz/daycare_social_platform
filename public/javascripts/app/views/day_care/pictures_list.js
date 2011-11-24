@@ -38,12 +38,23 @@
           $el.html(tpl({
             picturesCollection: that.collection
           }));
-          return that.$('a[rel^="prettyPhoto"]').prettyPhoto({
+          that.$('a[rel^="prettyPhoto"]').prettyPhoto({
             slideshow: false,
             social_tools: false,
             theme: 'light_rounded',
             deeplinking: false,
             animation_speed: 0
+          });
+          return that.$('.picture-text-edit').doomEdit({
+            ajaxSubmit: false,
+            onStartEdit: function($form, $elem) {
+              if ($elem.text() === 'Click here to add a description') {
+                return $form.find('input').val('');
+              }
+            },
+            afterFormSubmit: function(data, form, $elem) {
+              return $elem.text(data);
+            }
           });
         }
       });
