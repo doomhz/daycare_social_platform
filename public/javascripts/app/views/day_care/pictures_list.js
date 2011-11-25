@@ -53,7 +53,15 @@
               }
             },
             afterFormSubmit: function(data, form, $elem) {
-              return $elem.text(data);
+              var picCid, pictureModel;
+              $elem.text(data);
+              picCid = $elem.data('pic-cid');
+              pictureModel = that.collection.getByCid(picCid);
+              return pictureModel.save({
+                description: data
+              }, {
+                silent: true
+              });
             }
           });
         }
@@ -68,28 +76,23 @@
       return this;
     };
     PicturesListView.prototype.deletePicture = function(ev) {
-      var $delBt, picId, pictureModel;
+      var $delBt, picCid, pictureModel;
       ev.preventDefault();
       $delBt = this.$(ev.target);
-      picId = $delBt.data('pic-id');
-      pictureModel = this.collection.find(function(picture) {
-        return picture.get('_id') === picId;
-      });
+      picCid = $delBt.data('pic-cid');
+      pictureModel = this.collection.getByCid(picCid);
       return pictureModel.destroy();
     };
     PicturesListView.prototype.setAsPrimaryPicture = function(ev) {
-      var $primaryBt, picId, pictureModel;
+      var $primaryBt, picCid, pictureModel;
       ev.preventDefault();
       $primaryBt = this.$(ev.target);
-      picId = $primaryBt.data('pic-id');
-      pictureModel = this.collection.find(function(picture) {
-        return picture.get('_id') === picId;
-      });
+      picCid = $primaryBt.data('pic-cid');
+      pictureModel = this.collection.getByCid(picCid);
       this.collection.unsetPrimaryPicture();
-      pictureModel.set({
+      pictureModel.save({
         primary: true
       });
-      pictureModel.save();
       return this.render();
     };
     return PicturesListView;

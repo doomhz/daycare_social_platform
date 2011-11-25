@@ -67,7 +67,6 @@
         _ref2 = req.body;
         for (key in _ref2) {
           value = _ref2[key];
-          console.log(key);
           dayCare.picture_sets[pictureSetIndexToEdit][key] = value;
         }
         dayCare.save();
@@ -177,7 +176,7 @@
       return DayCare.findOne({
         'picture_sets.pictures._id': pictureId
       }).run(function(err, dayCare) {
-        var picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3;
+        var key, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, value, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3, _ref4;
         pictureSetIndex = -1;
         pictureIndex = -1;
         pictureSetIndexToGo = -1;
@@ -203,7 +202,12 @@
           picture = _ref3[_k];
           picture.primary = false;
         }
-        dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].primary = true;
+        delete req.body._id;
+        _ref4 = req.body;
+        for (key in _ref4) {
+          value = _ref4[key];
+          dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo][key] = value;
+        }
         dayCare.save();
         return res.json({
           success: true

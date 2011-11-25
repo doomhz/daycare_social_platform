@@ -54,16 +54,30 @@
             });
           }
           that.picturesListView.render();
-          return that.$('#picture-set-text-edit').doomEdit({
+          that.$('#picture-set-text-edit').doomEdit({
             ajaxSubmit: false,
             afterFormSubmit: function(data, form, $el) {
               $el.text(data);
-              that.model.set({
+              return that.model.save({
                 name: data
               }, {
                 silent: true
               });
-              return that.model.save(null, {
+            }
+          });
+          return that.$('#picture-set-type-select').doomEdit({
+            ajaxSubmit: false,
+            autoDisableBt: false,
+            editField: '<select name="setTypeSelect"><option value="daycare">Public</option><option value="default">Private</option></select>',
+            onStartEdit: function($form, $elem) {
+              return $form.find('select').val($elem.data('type'));
+            },
+            afterFormSubmit: function(data, $form, $el) {
+              $el.text($form.find('select >option:selected').text());
+              $el.data('type', data);
+              return that.model.save({
+                type: data
+              }, {
                 silent: true
               });
             }
@@ -77,7 +91,7 @@
       $el = $(this.el);
       this.unbind();
       $el.unbind().empty();
-      that.picturesListView.remove();
+      this.picturesListView.remove();
       return this;
     };
     return PictureSetView;

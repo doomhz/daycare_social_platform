@@ -36,6 +36,10 @@ class window.Kin.DayCare.PicturesListView extends Backbone.View
               $form.find('input').val('')
           afterFormSubmit: (data, form, $elem)->
             $elem.text(data)
+            picCid = $elem.data('pic-cid')
+            pictureModel = that.collection.getByCid(picCid)
+            pictureModel.save({description: data}, {silent: true})
+            
     @
 
   remove: ()->
@@ -47,19 +51,16 @@ class window.Kin.DayCare.PicturesListView extends Backbone.View
   deletePicture: (ev)->
     ev.preventDefault()
     $delBt = @$(ev.target)
-    picId = $delBt.data('pic-id')
-    pictureModel = @collection.find (picture)->
-      picture.get('_id') is picId
+    picCid = $delBt.data('pic-cid')
+    pictureModel = @collection.getByCid(picCid)
     pictureModel.destroy()
 
   setAsPrimaryPicture: (ev)->
     ev.preventDefault()
     $primaryBt = @$(ev.target)
-    picId = $primaryBt.data('pic-id')
-    pictureModel = @collection.find (picture)->
-      picture.get('_id') is picId
+    picCid = $primaryBt.data('pic-cid')
+    pictureModel = @collection.getByCid(picCid)
     @collection.unsetPrimaryPicture()
-    pictureModel.set({primary: true})
-    pictureModel.save()
+    pictureModel.save({primary: true})
     @render()
 

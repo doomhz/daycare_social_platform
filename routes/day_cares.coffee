@@ -47,7 +47,6 @@ module.exports = (app)->
 
       delete req.body._id
       for key, value of req.body
-        console.log key
         dayCare.picture_sets[pictureSetIndexToEdit][key] = value
       dayCare.save()
 
@@ -147,7 +146,10 @@ module.exports = (app)->
       for picture in dayCare.picture_sets[pictureSetIndexToGo].pictures
         picture.primary = false
 
-      dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].primary = true
+      delete req.body._id
+      for key, value of req.body
+        dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo][key] = value
+      
       dayCare.save()
 
       res.json {success: true}
