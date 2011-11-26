@@ -5,8 +5,12 @@ class window.Kin.DayCare.ProfileView extends Backbone.View
   tplUrl: '/templates/main/day_care/profile.html'
 
   maps: null
-
-  initialize: (options)->
+  
+  router: null
+  
+  profileGeneralInfo: null
+  
+  initialize: ({@router})->
     @
 
   render: ()->
@@ -24,11 +28,18 @@ class window.Kin.DayCare.ProfileView extends Backbone.View
               that.maps = new window.Kin.GoogleMapsView
                 id: '#profile-address-maps'
                 mapsOptions:
-                  zoom: 6
+                  zoom: 15
                   mapTypeId: 'google.maps.MapTypeId.ROADMAP'
                   center: "new google.maps.LatLng(#{mapCenterLat}, #{mapCenterLng})"
               that.maps.render()
               that.addAddressMarker(mapCenterLat, mapCenterLng, that.model.get('name'))
+
+        if not that.profileGeneralInfo
+          that.profileGeneralInfo = new Kin.DayCare.ProfileGeneralInfoView
+            el: that.$('#profile-info-tab')
+            model: that.model
+            router: that.router
+        that.profileGeneralInfo.render()
 
         that.$('#daycare-gallery-tabs').doomTabs
           onSelect: ($selectedTab)->
@@ -51,7 +62,9 @@ class window.Kin.DayCare.ProfileView extends Backbone.View
       @maps.remove()
     @unbind()
     $(@el).unbind().empty()
+    @profileGeneralInfo.remove()
     @
 
   addAddressMarker: (lat, lng, name)->
     @addressMarker = @maps.addMarker(lat, lng, name, false)
+    

@@ -2,7 +2,8 @@
   cursor:pointer;
 }
 
-.dedit-input:hover, .dedit-select:hover {
+.dedit-input:hover, .dedit-select:hover, #profile-general-info:hover {
 	background:#EFE32D url(/images/doom_edit/edit.png) no-repeat center right;
 	padding-right:20px;
+  cursor:pointer;
 }

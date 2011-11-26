@@ -15,7 +15,8 @@
     ProfileEditView.prototype.el = null;
     ProfileEditView.prototype.tplUrl = '/templates/main/day_care/edit.html';
     ProfileEditView.prototype.events = {
-      'submit #day-care-edit-form': 'saveDayCare'
+      'submit #day-care-edit-form': 'saveDayCare',
+      'change #licensed-options': 'toggleLicenseNumberField'
     };
     ProfileEditView.prototype.addressAutocompleteEl = '#address-autocomplete';
     ProfileEditView.prototype.locationAutocompleteUrl = '/geolocation';
@@ -41,7 +42,8 @@
             dayCare: that.model
           }));
           that.setupLocationAutocompleteForAddress();
-          return that.loadGoogleMaps();
+          that.loadGoogleMaps();
+          return that.$(".chzn-select").chosen();
         }
       });
       return this;
@@ -139,6 +141,13 @@
       $formMessages.addClass('form-msg-' + type);
       $formMessages.find('h3').text(message);
       return $(window).scrollTop(0);
+    };
+    ProfileEditView.prototype.toggleLicenseNumberField = function(ev) {
+      if ($(ev.target).val() === "1") {
+        return this.$('#license-number-cnt').removeClass('hidden');
+      } else {
+        return this.$('#license-number-cnt').addClass('hidden');
+      }
     };
     return ProfileEditView;
   })();

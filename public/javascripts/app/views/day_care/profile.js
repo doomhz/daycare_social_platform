@@ -15,7 +15,10 @@
     ProfileView.prototype.el = null;
     ProfileView.prototype.tplUrl = '/templates/main/day_care/profile.html';
     ProfileView.prototype.maps = null;
-    ProfileView.prototype.initialize = function(options) {
+    ProfileView.prototype.router = null;
+    ProfileView.prototype.profileGeneralInfo = null;
+    ProfileView.prototype.initialize = function(_arg) {
+      this.router = _arg.router;
       return this;
     };
     ProfileView.prototype.render = function() {
@@ -37,7 +40,7 @@
                 that.maps = new window.Kin.GoogleMapsView({
                   id: '#profile-address-maps',
                   mapsOptions: {
-                    zoom: 6,
+                    zoom: 15,
                     mapTypeId: 'google.maps.MapTypeId.ROADMAP',
                     center: "new google.maps.LatLng(" + mapCenterLat + ", " + mapCenterLng + ")"
                   }
@@ -47,6 +50,14 @@
               }
             }
           });
+          if (!that.profileGeneralInfo) {
+            that.profileGeneralInfo = new Kin.DayCare.ProfileGeneralInfoView({
+              el: that.$('#profile-info-tab'),
+              model: that.model,
+              router: that.router
+            });
+          }
+          that.profileGeneralInfo.render();
           that.$('#daycare-gallery-tabs').doomTabs({
             onSelect: function($selectedTab) {}
           });
@@ -73,6 +84,7 @@
       }
       this.unbind();
       $(this.el).unbind().empty();
+      this.profileGeneralInfo.remove();
       return this;
     };
     ProfileView.prototype.addAddressMarker = function(lat, lng, name) {

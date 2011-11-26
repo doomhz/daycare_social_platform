@@ -3,7 +3,7 @@ class window.Kin.DayCare.ProfileEditSide1View extends Backbone.View
   el: null
 
   tplUrl: '/templates/side1/day_care/edit.html'
-
+  
   initialize: ()->
     @model and @model.view = @
     @

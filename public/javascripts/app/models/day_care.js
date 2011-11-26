@@ -21,8 +21,10 @@
       },
       email: '',
       phone: '',
+      fax: '',
       contact_person: '',
       licensed: false,
+      license_number: '',
       type: 'daycare',
       opened_since: '',
       open_door_policy: false,
@@ -47,6 +49,9 @@
       return profilePicture = this.getPrimaryPictureFromSet(profilePictureSet);
     };
     DayCareModel.prototype.getProfilePictureSet = function(pictureSets) {
+      if (pictureSets == null) {
+        pictureSets = this.get('picture_sets');
+      }
       return this.getSetsByType(pictureSets, 'profile')[0];
     };
     DayCareModel.prototype.getPrimaryPictureFromSet = function(set) {

@@ -14,7 +14,9 @@
     }
     ProfileSide1View.prototype.el = null;
     ProfileSide1View.prototype.tplUrl = '/templates/side1/day_care/profile.html';
-    ProfileSide1View.prototype.initialize = function() {
+    ProfileSide1View.prototype.selectedMenuItem = null;
+    ProfileSide1View.prototype.initialize = function(_arg) {
+      this.selectedMenuItem = _arg.selectedMenuItem;
       this.model && (this.model.view = this);
       return this;
     };
@@ -25,7 +27,8 @@
         url: this.tplUrl,
         onLoad: function(tpl) {
           return $(that.el).html(tpl({
-            dayCare: that.model
+            dayCare: that.model,
+            selectedMenuItem: that.selectedMenuItem
           }));
         }
       });

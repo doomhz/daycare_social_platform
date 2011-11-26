@@ -6,6 +6,7 @@ class window.Kin.DayCare.ProfileEditView extends Backbone.View
 
   events:
     'submit #day-care-edit-form': 'saveDayCare'
+    'change #licensed-options'  : 'toggleLicenseNumberField'
 
   addressAutocompleteEl: '#address-autocomplete'
 
@@ -29,6 +30,8 @@ class window.Kin.DayCare.ProfileEditView extends Backbone.View
         $el.html(tpl({dayCare: that.model}))
         that.setupLocationAutocompleteForAddress()
         that.loadGoogleMaps()
+        
+        that.$(".chzn-select").chosen()
     @
 
   createAddressMarker: ()->
@@ -107,3 +110,9 @@ class window.Kin.DayCare.ProfileEditView extends Backbone.View
     $formMessages.addClass('form-msg-' + type)
     $formMessages.find('h3').text(message)
     $(window).scrollTop(0)
+  
+  toggleLicenseNumberField: (ev)->
+    if $(ev.target).val() is "1"
+      @$('#license-number-cnt').removeClass('hidden')
+    else
+      @$('#license-number-cnt').addClass('hidden')

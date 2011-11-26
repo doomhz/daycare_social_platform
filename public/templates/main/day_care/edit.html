@@ -9,20 +9,6 @@
         <input type="text" name="name" value="<%=dayCare.get('name') %>" />
     </div>
     <div class="grid-12-12">
-        <label>Speaking classes <em class="form-req">*</em></label>
-        <select multiple="multiple" name="speaking_classes">
-        <%
-            var speakingClasses = dayCare.get('speaking_classes');
-            var speakingClassesOptions = {0: 'English', 1: 'Spanish', 2: 'Russian'};
-            _.each(speakingClassesOptions, function (val, key) {
-        %>
-            <option value="<%=key %>"<% if (_.include(speakingClasses, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
-        <%
-            });
-        %>
-        </select>
-    </div>
-    <div class="grid-12-12">
         <label>Address <em class="form-req">*</em></label>
         <input type="text" name="address" value="<%=dayCare.get('address') %>" id="address-autocomplete" />
         <input type="hidden" name="location[lat]" value="<%=dayCare.get('location').lat %>" id="location-lat" />
@@ -38,12 +24,30 @@
         <input type="text" name="phone" value="<%=dayCare.get('phone') %>" />
     </div>
     <div class="grid-12-12">
+        <label>Fax</label>
+        <input type="text" name="fax" value="<%=dayCare.get('fax') %>" />
+    </div>
+    <div class="grid-12-12">
         <label>Contact person <em class="form-req">*</em></label>
         <input type="text" name="contact_person" value="<%=dayCare.get('contact_person') %>" />
     </div>
     <div class="grid-12-12">
+        <label>Speaking classes <em class="form-req">*</em></label>
+        <select multiple="multiple" name="speaking_classes" class="chzn-select" data-placeholder="Add a language...">
+        <%
+            var speakingClasses = dayCare.get('speaking_classes');
+            var speakingClassesOptions = {0: 'English', 1: 'Spanish', 2: 'Russian'};
+            _.each(speakingClassesOptions, function (val, key) {
+        %>
+            <option value="<%=key %>"<% if (_.include(speakingClasses, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
+        <%
+            });
+        %>
+        </select>
+    </div>
+    <div class="grid-12-12">
         <label>Licensed <em class="form-req">*</em></label>
-        <ul class="form-list">
+        <ul class="form-list" id="licensed-options">
             <li>
                 <input type="radio" name="licensed" value="1" <% if (dayCare.get('licensed')) { %>checked="checked"<% } %> />
                 <label>Yes</label>
@@ -53,6 +57,10 @@
                 <label>No</label>
             </li>
         </ul>
+    </div>
+    <div class="grid-12-12 <%= dayCare.get('licensed') ? '' : 'hidden' %>" id="license-number-cnt">
+        <label>License number</label>
+        <input type="text" name="license_number" value="<%=dayCare.get('license_number') %>" />
     </div>
     <div class="grid-12-12">
         <label>Type <em class="form-req">*</em></label>
@@ -75,20 +83,14 @@
             var openedSinceMonth = openedSince.getMonth() + 1;
             var openedSinceYear = openedSince.getFullYear();
             var now = new Date();
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         %>
         <label>Opened since <em class="form-req">*</em></label>
         <ul class="form-list">
             <li>
-                <select name="opened_since[year]">
-                    <% for (var i = now.getFullYear(), lastYear = now.getFullYear() - 20; i >= lastYear; i--) { %>
-                    <option value="<%=i %>" <% if (i === openedSinceYear) { print('selected="selected"');} %>><%=i %></option>
-                    <% } %>
-                </select>
-            </li>
-            <li>
                 <select name="opened_since[month]">
                     <% for (var i = 1; i <= 12; i++) { %>
-                    <option value="<%=i %>" <% if (i === openedSinceMonth) { print('selected="selected"');} %>><%=i %></option>
+                    <option value="<%=i %>" <% if (i === openedSinceMonth) { print('selected="selected"');} %>><%=months[i - 1] %></option>
                     <% } %>
                 </select>
             </li>
@@ -96,6 +98,13 @@
                 <select name="opened_since[day]">
                     <% for (var i = 1; i <= 31; i++) { %>
                     <option value="<%=i %>" <% if (i === openedSinceDay) { print('selected="selected"');} %>><%=i %></option>
+                    <% } %>
+                </select>
+            </li>
+            <li>
+                <select name="opened_since[year]">
+                    <% for (var i = now.getFullYear(), lastYear = now.getFullYear() - 20; i >= lastYear; i--) { %>
+                    <option value="<%=i %>" <% if (i === openedSinceYear) { print('selected="selected"');} %>><%=i %></option>
                     <% } %>
                 </select>
             </li>

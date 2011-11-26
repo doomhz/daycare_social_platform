@@ -7,7 +7,7 @@
             var description = picture.get('description') || 'Click here to add a description';
         %>
         <a href="<%=picture.get('big_url') %>" title="<%=picture.get('description') %>" target="_blank" rel="prettyPhoto[album]" class="photo-frame">
-            <img src="<%=thumbUrl %>" alt="<%=picture.get('description') %>" width="160" />
+            <img src="<%=thumbUrl %>" alt="<%=picture.get('description') %>" width="160" height="130" />
         </a>
         <p class="picture-description dedit-input picture-text-edit" data-pic-cid="<%=picture.cid %>"><%=description %></p>
         <p class="picture-buttons">

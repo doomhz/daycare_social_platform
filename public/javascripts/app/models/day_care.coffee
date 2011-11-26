@@ -8,8 +8,10 @@ class window.Kin.DayCareModel extends Backbone.Model
       lng: 40
     email: ''
     phone: ''
+    fax: ''
     contact_person: ''
     licensed: false
+    license_number: ''
     type: 'daycare'
     opened_since: ''
     open_door_policy: false
@@ -34,7 +36,7 @@ class window.Kin.DayCareModel extends Backbone.Model
     profilePictureSet = @getProfilePictureSet(@get('picture_sets'))
     profilePicture = @getPrimaryPictureFromSet(profilePictureSet)
       
-  getProfilePictureSet: (pictureSets)->
+  getProfilePictureSet: (pictureSets = @get('picture_sets'))->
     @getSetsByType(pictureSets, 'profile')[0]
 
   getPrimaryPictureFromSet: (set = {pictures: []})->

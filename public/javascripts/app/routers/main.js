@@ -49,7 +49,8 @@
           model.setPictureSets();
           that.mainColumnView = new window.Kin.DayCare.ProfileView({
             model: model,
-            el: '#main-column'
+            el: '#main-column',
+            router: that
           });
           that.mainColumnView.render();
           that.side1ColumnView = new window.Kin.DayCare.ProfileSide1View({
@@ -72,12 +73,14 @@
           model.setPictureSets();
           that.mainColumnView = new window.Kin.DayCare.ProfileGalleryView({
             model: model,
-            el: '#main-column'
+            el: '#main-column',
+            router: that
           });
           that.mainColumnView.render();
           that.side1ColumnView = new window.Kin.DayCare.ProfileSide1View({
             model: model,
-            el: '#side-column1'
+            el: '#side-column1',
+            selectedMenuItem: 'gallery-menu-item'
           });
           return that.side1ColumnView.render();
         }
@@ -101,7 +104,7 @@
             maps: new window.Kin.GoogleMapsView({
               id: '#profile-address-maps',
               mapsOptions: {
-                zoom: 6,
+                zoom: 15,
                 mapTypeId: 'google.maps.MapTypeId.ROADMAP',
                 center: "new google.maps.LatLng(" + mapCenterLat + ", " + mapCenterLng + ")"
               }

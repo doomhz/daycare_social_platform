@@ -42,9 +42,11 @@ DayCare = new Schema
     lng: Number
   email: String
   phone: String
+  fax: String
   contact_person: String
   licensed:
     type: Boolean
+  license_number: String
   type:
     type: String
     enum: ['daycare', 'kindergarten', 'preschool']

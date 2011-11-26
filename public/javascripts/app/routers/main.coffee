@@ -37,6 +37,7 @@ class window.Kin.MainRouter extends Backbone.Router
         that.mainColumnView = new window.Kin.DayCare.ProfileView
           model: model
           el: '#main-column'
+          router: that
         that.mainColumnView.render()
 
         that.side1ColumnView = new window.Kin.DayCare.ProfileSide1View
@@ -56,11 +57,13 @@ class window.Kin.MainRouter extends Backbone.Router
         that.mainColumnView = new window.Kin.DayCare.ProfileGalleryView
           model: model
           el: '#main-column'
+          router: that
         that.mainColumnView.render()
 
         that.side1ColumnView = new window.Kin.DayCare.ProfileSide1View
           model: model
           el: '#side-column1'
+          selectedMenuItem: 'gallery-menu-item'
         that.side1ColumnView.render()
 
   editDayCare: (id)->
@@ -79,7 +82,7 @@ class window.Kin.MainRouter extends Backbone.Router
           maps: new window.Kin.GoogleMapsView
             id: '#profile-address-maps'
             mapsOptions:
-              zoom: 6
+              zoom: 15
               mapTypeId: 'google.maps.MapTypeId.ROADMAP'
               center: "new google.maps.LatLng(#{mapCenterLat}, #{mapCenterLng})"
         that.mainColumnView.render()

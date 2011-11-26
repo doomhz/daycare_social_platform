@@ -7,40 +7,6 @@
     </ul>
 
     <div id="profile-info-tab">
-        <ul id="profile-general-info">
-            <li><span>Name:</span> <%=dayCare.get('name') %></li>
-            <li><span>Speaking classes:</span>
-            <%
-                var speakingClasses = dayCare.get('speaking_classes');
-                var speakingClassesOptions = {0: 'English', 1: 'Spanish', 2: 'Russian'};
-                _.each(speakingClasses, function (val, key) {
-                    print(speakingClassesOptions[parseInt(key)], ', ');
-                });
-            %>
-            </li>
-            <li><span>E-mail:</span> <%=dayCare.get('email') %></li>
-            <li><span>Phone:</span> <%=dayCare.get('phone') %></li>
-            <li><span>Contact person:</span> <%=dayCare.get('contact_person') %></li>
-            <li><span>Licensed:</span> <% if (dayCare.get('licensed')) {print('Yes');} else {print('No');} %></li>
-            <li><span>Type:</span>
-            <%
-                var type = dayCare.get('type');
-                var typeOptions = {'daycare': 'Day Care', 'kindergarten': 'Kindergarten', 'afterschool': 'Afterschool'};
-                _.each(typeOptions, function (val, key) {
-                    if (key === type) {print(typeOptions[key], ', ');}
-                });
-            %>
-            </li>
-            <%
-                var openedSince = new Date(dayCare.get('opened_since'));
-                var openedSinceDay = openedSince.getDate();
-                var openedSinceMonth = openedSince.getMonth() + 1;
-                var openedSinceYear = openedSince.getFullYear();
-            %>
-            <li><span>Opened since:</span> <%=(openedSinceYear + '-' + openedSinceMonth + '-' + openedSinceDay) %></li>
-            <li><span>Open door policy:</span> <% if (dayCare.get('open_door_policy')) {print('Yes');} else {print('No');} %></li>
-            <li><span>Serving people with disabilities:</span> <% if (dayCare.get('serving_disabilities')) {print('Yes');} else {print('No');} %></li>
-        </ul>
     </div>
     <div id="profile-view-on-map-tab">
         <div id="profile-address-maps"></div>
@@ -77,7 +43,7 @@
                     %>
                     <li>
                         <a href="<%=picture.big_url %>" title="<%=picture.description %>" rel="prettyPhoto[album-<%=daycareSet._id %>]" class="photo-frame">
-                            <img src="<%=mediumPictureUrl %>" alt="<%=picture.description %>" class="doom-carousel-pic" width="420" />
+                            <img src="<%=mediumPictureUrl %>" alt="<%=picture.description %>" class="doom-carousel-pic" width="420" height="290" />
                         </a>
                     </li>
                     <%
@@ -140,7 +106,7 @@
             </a>
         </h3>
         <a href="#day-cares/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>" class="photo-frame">
-            <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="160" />
+            <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="160" height="130" />
         </a>
         <%
             if (pictureSet.get('type') !== 'profile') {

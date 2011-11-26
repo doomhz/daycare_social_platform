@@ -14,7 +14,9 @@
     }
     PictureSetSide1View.prototype.el = null;
     PictureSetSide1View.prototype.tplUrl = '/templates/side1/day_care/profile.html';
-    PictureSetSide1View.prototype.initialize = function() {
+    PictureSetSide1View.prototype.selectedMenuItem = null;
+    PictureSetSide1View.prototype.initialize = function(_arg) {
+      this.selectedMenuItem = _arg.selectedMenuItem;
       this.model && (this.model.view = this);
       return this;
     };
@@ -32,7 +34,8 @@
             success: function(dayCare) {
               return $(that.el).html(tpl({
                 pictureSet: that.model,
-                dayCare: dayCare
+                dayCare: dayCare,
+                selectedMenuItem: that.selectedMenuItem
               }));
             }
           });

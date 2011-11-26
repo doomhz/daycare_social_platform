@@ -3,8 +3,10 @@ class window.Kin.DayCare.ProfileSide1View extends Backbone.View
   el: null
 
   tplUrl: '/templates/side1/day_care/profile.html'
+  
+  selectedMenuItem: null
 
-  initialize: ()->
+  initialize: ({@selectedMenuItem})->
     @model and @model.view = @
     @
 
@@ -13,7 +15,7 @@ class window.Kin.DayCare.ProfileSide1View extends Backbone.View
     $.tmpload
       url: @tplUrl
       onLoad: (tpl)->
-        $(that.el).html(tpl({dayCare: that.model}))
+        $(that.el).html(tpl({dayCare: that.model, selectedMenuItem: that.selectedMenuItem}))
     @
 
   remove: ()->

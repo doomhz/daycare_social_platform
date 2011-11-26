@@ -16,6 +16,10 @@ body {
 }
 a {
   color: #5b8fa3;
+  outline: none;
+}
+:-moz-any-link:focus {
+  outline: none;
 }
 h1 {
   color: #575757;
@@ -211,23 +215,31 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   height: 24px;
   background: url("/images/profile_info_bt.png") no-repeat;
 }
+#page-wrapper #main-column #profile-tab-menu li.view-info.tab-active a {
+  background: url("/images/profile_info_selected_bt.png") no-repeat;
+}
 #page-wrapper #main-column #profile-tab-menu li.view-on-map a {
   width: 91px;
   height: 24px;
   background: url("/images/profile_view_on_map_bt.png") no-repeat;
 }
+#page-wrapper #main-column #profile-tab-menu li.view-on-map.tab-active a {
+  background: url("/images/profile_view_on_map_selected_bt.png") no-repeat;
+}
 #page-wrapper #main-column #profile-general-info {
-  text-align: left;
+  text-align: justify;
+  clear: both;
 }
 #page-wrapper #main-column #profile-general-info li {
-  display: inline-block;
+  display: inline;
   margin: 0 10px 5px 0;
   border-right: solid 1px #c9c9c9;
   padding: 0 10px 0 0;
   color: #a1a1a1;
 }
-#page-wrapper #main-column #profile-general-info li span {
+#page-wrapper #main-column #profile-general-info li span.value {
   font-weight: bold;
+  color: #5b8fa3;
 }
 #page-wrapper #main-column #day-care-list {
   margin: 10px 0 0 20px;
@@ -275,13 +287,22 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   text-decoration: none;
   display: inline-block;
   padding: 10px 0 10px 25px;
-  width: 90%;
+  width: 86.5%;
+  background-repeat: no-repeat;
+  background-color: transparent;
 }
 #page-wrapper #side-column1 #profile-left-menu #gallery-menu-item {
   border-top: solid 1px #eee;
 }
 #page-wrapper #side-column1 #profile-left-menu #gallery-menu-item a {
-  background: url("/images/gallery_menu_bt.png") no-repeat left 9px;
+  background-image: url("/images/gallery_menu_bt.png");
+  background-position: left 9px;
+}
+#page-wrapper #side-column1 #profile-left-menu li a:hover {
+  background-color: #e9f2f7;
+}
+#page-wrapper #side-column1 #profile-left-menu li.selected a {
+  background-color: #daebf4;
 }
 #page-wrapper #side-column2 {
   padding: 10px 0 0 0;
@@ -313,6 +334,7 @@ footer #footer-wrapper #copyright {
 }
 #profile-main-tabs {
   overflow: hidden;
+  margin-top: -32px;
 }
 #profile-view-on-map-tab {
   clear: both;
