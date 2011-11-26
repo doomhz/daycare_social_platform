@@ -68,6 +68,7 @@ header #header-wrapper #main-menu li a {
   color: #fff;
   text-decoration: none;
   font-size: 12px;
+  font-weight: bold;
 }
 header #header-wrapper #events-menu {
   float: right;
