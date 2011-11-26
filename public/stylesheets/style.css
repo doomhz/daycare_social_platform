@@ -12,7 +12,8 @@
   border-radius: 5px;
 }
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
 }
 a {
   color: #5b8fa3;
