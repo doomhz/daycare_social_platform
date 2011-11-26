@@ -235,33 +235,37 @@ module.exports = (app)->
                 console.log err
               if err
                 console.log stderr
-
-              res.json newPicture
+              
+              im.crop(
+                  srcPath: filePath
+                  dstPath: mediumFilePath
+                  width: 420
+                  height: 290
+                  quality: 1
+                , (err, stdout, stderr)->
+                  if err
+                    console.log err
+                  if err
+                    console.log stderr
+                  
+                  im.crop(
+                      srcPath: filePath
+                      dstPath: bigFilePath
+                      width: 800
+                      height: 600
+                      quality: 1
+                    , (err, stdout, stderr)->
+                      if err
+                        console.log err
+                      if err
+                        console.log stderr
+                      
+                      res.json newPicture
+                  )
+              )
           )
-          im.crop(
-              srcPath: filePath
-              dstPath: mediumFilePath
-              width: 420
-              height: 290
-              quality: 1
-            , (err, stdout, stderr)->
-              if err
-                console.log err
-              if err
-                console.log stderr
-          )
-          im.crop(
-              srcPath: filePath
-              dstPath: bigFilePath
-              width: 800
-              height: 600
-              quality: 1
-            , (err, stdout, stderr)->
-              if err
-                console.log err
-              if err
-                console.log stderr
-          )
+          
+          
 
     else
       res.json {success: false}

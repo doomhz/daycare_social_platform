@@ -281,7 +281,7 @@
             newPicture = dayCare.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1];
             newPicture.success = true;
             im = require('imagemagick');
-            im.crop({
+            return im.crop({
               srcPath: filePath,
               dstPath: thumbFilePath,
               width: 160,
@@ -294,35 +294,35 @@
               if (err) {
                 console.log(stderr);
               }
-              return res.json(newPicture);
-            });
-            im.crop({
-              srcPath: filePath,
-              dstPath: mediumFilePath,
-              width: 420,
-              height: 290,
-              quality: 1
-            }, function(err, stdout, stderr) {
-              if (err) {
-                console.log(err);
-              }
-              if (err) {
-                return console.log(stderr);
-              }
-            });
-            return im.crop({
-              srcPath: filePath,
-              dstPath: bigFilePath,
-              width: 800,
-              height: 600,
-              quality: 1
-            }, function(err, stdout, stderr) {
-              if (err) {
-                console.log(err);
-              }
-              if (err) {
-                return console.log(stderr);
-              }
+              return im.crop({
+                srcPath: filePath,
+                dstPath: mediumFilePath,
+                width: 420,
+                height: 290,
+                quality: 1
+              }, function(err, stdout, stderr) {
+                if (err) {
+                  console.log(err);
+                }
+                if (err) {
+                  console.log(stderr);
+                }
+                return im.crop({
+                  srcPath: filePath,
+                  dstPath: bigFilePath,
+                  width: 800,
+                  height: 600,
+                  quality: 1
+                }, function(err, stdout, stderr) {
+                  if (err) {
+                    console.log(err);
+                  }
+                  if (err) {
+                    console.log(stderr);
+                  }
+                  return res.json(newPicture);
+                });
+              });
             });
           });
         });
