@@ -3,8 +3,8 @@
     if (profilePicture) {
 %>
     <div id="profile-pic-cnt">
-        <a href="#day-cares/view/<%=dayCare.get('_id') %>" title="View Day Care">
-            <img src="<%=profilePicture.url %>" alt="<%=profilePicture.description %>" width="175" id="profile-pic" />
+        <a href="#day-cares/view/<%=dayCare.get('_id') %>" title="View Day Care" class="photo-frame">
+            <img src="<%=profilePicture.thumb_url %>" alt="<%=profilePicture.description %>" width="160" id="profile-pic" />
         </a>
     </div>
 <%

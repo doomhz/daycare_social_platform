@@ -124,7 +124,7 @@
       return DayCare.findOne({
         'picture_sets.pictures._id': pictureId
       }).run(function(err, dayCare) {
-        var filePath, mediumFilePath, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, thumbFilePath, _i, _j, _len, _len2, _ref, _ref2;
+        var bigFilePath, filePath, mediumFilePath, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, thumbFilePath, _i, _j, _len, _len2, _ref, _ref2;
         pictureSetIndex = -1;
         pictureIndex = -1;
         pictureSetIndexToGo = -1;
@@ -160,6 +160,12 @@
         mediumFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].medium_url;
         try {
           fs.unlinkSync(mediumFilePath);
+        } catch (e) {
+          console.error(e);
+        }
+        bigFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].big_url;
+        try {
+          fs.unlinkSync(bigFilePath);
         } catch (e) {
           console.error(e);
         }
@@ -215,7 +221,7 @@
       });
     });
     return app.post('/day-cares/upload', function(req, res) {
-      var description, dirPath, fileExtension, fileName, filePath, mediumFilePath, mediumRelativeFilePath, newPicture, newPictureData, pictureSetId, relativeDirPath, relativeFilePath, thumbFilePath, thumbRelativeFilePath, ws;
+      var bigFilePath, bigRelativeFilePath, description, dirPath, fileExtension, fileName, filePath, mediumFilePath, mediumRelativeFilePath, newPicture, newPictureData, pictureSetId, relativeDirPath, relativeFilePath, thumbFilePath, thumbRelativeFilePath, ws;
       pictureSetId = req.query.setId;
       fileName = req.query.qqfile;
       description = req.query.description;
@@ -226,13 +232,16 @@
       filePath = dirPath + fileName + '.' + fileExtension;
       thumbFilePath = dirPath + fileName + '_thumb.' + fileExtension;
       mediumFilePath = dirPath + fileName + '_medium.' + fileExtension;
+      bigFilePath = dirPath + fileName + '_big.' + fileExtension;
       relativeFilePath = relativeDirPath + fileName + '.' + fileExtension;
       thumbRelativeFilePath = relativeDirPath + fileName + '_thumb.' + fileExtension;
       mediumRelativeFilePath = relativeDirPath + fileName + '_medium.' + fileExtension;
+      bigRelativeFilePath = relativeDirPath + fileName + '_big.' + fileExtension;
       newPictureData = {
         url: relativeFilePath,
         thumb_url: thumbRelativeFilePath,
         medium_url: mediumRelativeFilePath,
+        big_url: bigRelativeFilePath,
         description: description
       };
       newPicture = null;
@@ -275,7 +284,7 @@
             im.crop({
               srcPath: filePath,
               dstPath: thumbFilePath,
-              width: 170,
+              width: 160,
               height: 130,
               quality: 1
             }, function(err, stdout, stderr) {
@@ -287,11 +296,25 @@
               }
               return res.json(newPicture);
             });
-            return im.crop({
+            im.crop({
               srcPath: filePath,
               dstPath: mediumFilePath,
-              width: 430,
-              height: 300,
+              width: 420,
+              height: 290,
+              quality: 1
+            }, function(err, stdout, stderr) {
+              if (err) {
+                console.log(err);
+              }
+              if (err) {
+                return console.log(stderr);
+              }
+            });
+            return im.crop({
+              srcPath: filePath,
+              dstPath: bigFilePath,
+              width: 800,
+              height: 600,
               quality: 1
             }, function(err, stdout, stderr) {
               if (err) {

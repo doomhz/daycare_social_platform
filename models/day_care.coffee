@@ -14,6 +14,8 @@ Picture = new Schema
     type: String
   medium_url:
     type: String
+  big_url:
+    type: String
   success: Boolean
 
 PictureSet = new Schema

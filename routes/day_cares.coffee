@@ -119,6 +119,12 @@ module.exports = (app)->
       catch e
         console.error e
       
+      bigFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].big_url
+      try
+        fs.unlinkSync(bigFilePath)
+      catch e
+        console.error e
+      
       dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove()
       dayCare.save()
 
@@ -166,13 +172,17 @@ module.exports = (app)->
     filePath = dirPath + fileName + '.' + fileExtension
     thumbFilePath = dirPath + fileName + '_thumb.' + fileExtension
     mediumFilePath = dirPath + fileName + '_medium.' + fileExtension
+    bigFilePath = dirPath + fileName + '_big.' + fileExtension
     relativeFilePath = relativeDirPath + fileName + '.' + fileExtension
     thumbRelativeFilePath = relativeDirPath + fileName + '_thumb.' + fileExtension
     mediumRelativeFilePath = relativeDirPath + fileName + '_medium.' + fileExtension
+    bigRelativeFilePath = relativeDirPath + fileName + '_big.' + fileExtension
+    
     newPictureData =
       url: relativeFilePath
       thumb_url: thumbRelativeFilePath
       medium_url: mediumRelativeFilePath
+      big_url: bigRelativeFilePath
       description: description
 
     newPicture = null
@@ -217,7 +227,7 @@ module.exports = (app)->
           im.crop(
               srcPath: filePath
               dstPath: thumbFilePath
-              width: 170
+              width: 160
               height: 130
               quality: 1
             , (err, stdout, stderr)->
@@ -231,8 +241,20 @@ module.exports = (app)->
           im.crop(
               srcPath: filePath
               dstPath: mediumFilePath
-              width: 430
-              height: 300
+              width: 420
+              height: 290
+              quality: 1
+            , (err, stdout, stderr)->
+              if err
+                console.log err
+              if err
+                console.log stderr
+          )
+          im.crop(
+              srcPath: filePath
+              dstPath: bigFilePath
+              width: 800
+              height: 600
               quality: 1
             , (err, stdout, stderr)->
               if err

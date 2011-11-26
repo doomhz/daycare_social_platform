@@ -37,7 +37,7 @@
             element: document.getElementById('picture-uploader'),
             action: 'day-cares/upload',
             debug: false,
-            uploadButtonText: 'add photos',
+            uploadButtonText: that.model.get('type') === 'profile' ? 'add profile picture' : 'add photos',
             onSubmit: function(id, fileName) {
               return that.uploader.setParams({
                 setId: that.model.get('_id')

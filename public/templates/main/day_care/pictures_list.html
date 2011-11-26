@@ -6,8 +6,8 @@
             var thumbUrl    = picture.get('thumb_url') || picture.get('url');
             var description = picture.get('description') || 'Click here to add a description';
         %>
-        <a href="<%=picture.get('url') %>" title="<%=picture.get('description') %>" target="_blank" rel="prettyPhoto[album]">
-            <img src="<%=thumbUrl %>" alt="<%=picture.get('description') %>" width="170" />
+        <a href="<%=picture.get('big_url') %>" title="<%=picture.get('description') %>" target="_blank" rel="prettyPhoto[album]" class="photo-frame">
+            <img src="<%=thumbUrl %>" alt="<%=picture.get('description') %>" width="160" />
         </a>
         <p class="picture-description dedit-input picture-text-edit" data-pic-cid="<%=picture.cid %>"><%=description %></p>
         <p class="picture-buttons">

@@ -76,8 +76,8 @@
                             var mediumPictureUrl = picture.medium_url || picture.url;
                     %>
                     <li>
-                        <a href="<%=picture.url %>" title="<%=picture.description %>" rel="prettyPhoto[album-<%=daycareSet._id %>]">
-                            <img src="<%=mediumPictureUrl %>" alt="<%=picture.description %>" class="doom-carousel-pic" width="430" />
+                        <a href="<%=picture.big_url %>" title="<%=picture.description %>" rel="prettyPhoto[album-<%=daycareSet._id %>]" class="photo-frame">
+                            <img src="<%=mediumPictureUrl %>" alt="<%=picture.description %>" class="doom-carousel-pic" width="420" />
                         </a>
                     </li>
                     <%
@@ -89,20 +89,16 @@
             <span class="pic-counter pic-nr">1</span><span class="pic-nr-separator pic-nr">/</span><span class="pic-total pic-nr"><%=daycareSet.pictures.length %></span>
             <a href="#right" title="Right" class="doom-carousel-right-btn"><span>Next</span></a>
         </div>
-        <p>
-            <h4><%=daycareSet.name %></h4>
-            <%=daycareSet.description %>
-        </p>
     </div>
     <%
         });
     %>
 </div>
 
-<h2>Picture sets</h2>
+<h2>Albums</h2>
 
 <p>
-    <button id="show-new-pic-set-form-bt" class="form-button">+ Add new picture set</button>
+    <button id="show-new-pic-set-form-bt" class="form-button">+ Add album</button>
 </p>
 
 <form id="create-new-pic-cnt" class="form hidden">
@@ -139,10 +135,12 @@
 %>
     <li>
         <h3>
-            <a href="#day-cares/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>"><%=pictureSet.get('name') %></a>
+            <a href="#day-cares/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>">
+              <%=pictureSet.get('name') %> (<%=pictureSet.get('pictures').length %>)
+            </a>
         </h3>
-        <a href="#day-cares/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>">
-            <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="170" />
+        <a href="#day-cares/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>" class="photo-frame">
+            <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="160" />
         </a>
         <%
             if (pictureSet.get('type') !== 'profile') {

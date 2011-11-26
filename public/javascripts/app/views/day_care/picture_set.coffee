@@ -21,7 +21,7 @@ class window.Kin.DayCare.PictureSetView extends Backbone.View
           element: document.getElementById('picture-uploader')
           action: 'day-cares/upload'
           debug: false
-          uploadButtonText: 'add photos'
+          uploadButtonText: if that.model.get('type') is 'profile' then 'add profile picture' else 'add photos'
           onSubmit: (id, fileName)->
             that.uploader.setParams
               setId: that.model.get('_id')

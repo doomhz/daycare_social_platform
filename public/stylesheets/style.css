@@ -5,6 +5,12 @@
 .hidden {
   display: none;
 }
+.photo-frame {
+  display: inline-block;
+  background: #eee;
+  padding: 4px;
+  border-radius: 5px;
+}
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
@@ -171,6 +177,8 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   background: -webkit-linear-gradient(top, #5393c2 40%, #3a77a4);
   border-radius: 4px;
   box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.40);
+  padding: 7px;
+  width: auto;
 }
 #page-wrapper #main-column .qq-upload-button:hover {
   background: #70aedd;
@@ -339,15 +347,33 @@ footer #footer-wrapper #copyright {
 #daycare-gallery-tabs .doom-carousel {
   width: 430px;
 }
+#picture-sets-list {
+  padding: 10px 0 0 0;
+}
 #picture-sets-list li {
   width: 170px;
+  height: 180px;
   overflow: hidden;
   float: left;
   margin: 5px 5px 5px 5px;
 }
+#picture-sets-list li h3 {
+  padding: 0 0 5px 0;
+}
+#picture-sets-list li h3 a {
+  text-decoration: none;
+  color: #575757;
+}
+#picture-sets-list li .photo-frame {
+  height: 130px;
+}
 #pictures-list li {
   width: 170px;
+  height: 185px;
   overflow: hidden;
   float: left;
   margin: 5px 5px 5px 5px;
+}
+#pictures-list li .photo-frame {
+  height: 130px;
 }
