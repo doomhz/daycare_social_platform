@@ -1,7 +1,6 @@
 (function() {
-  var DayCare, User, fs;
+  var DayCare, fs;
   DayCare = require('../models/day_care');
-  User = require('../models/user');
   fs = require('fs');
   module.exports = function(app) {
     app.get('/day-cares', function(req, res) {

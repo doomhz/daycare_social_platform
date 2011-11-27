@@ -1,8 +1,7 @@
-var express = require('express'),
-    mongooseAuth = require('mongoose-auth'),
-    everyauth = require('./node_modules/mongoose-auth/node_modules/everyauth');
-
-everyauth.debug = true;
+var express = require('express');
+//    mongooseAuth = require('mongoose-auth');
+//var everyauth = require('./node_modules/mongoose-auth/node_modules/everyauth');
+//everyauth.debug = true;
 
 require('./models/db_connect');
 
@@ -15,8 +14,8 @@ var app = module.exports = express.createServer(
   express.static(__dirname + '/public'),
   express.cookieParser(),
   express.session({secret: 'kinsecretkey83'}),
-  require('stylus').middleware({ src: __dirname + '/public' }),
-  mongooseAuth.middleware()
+  require('stylus').middleware({ src: __dirname + '/public' })
+//  mongooseAuth.middleware()
 );
 
 // Configuration
@@ -39,7 +38,7 @@ require('./routes/site')(app);
 require('./routes/users')(app);
 require('./routes/day_cares')(app);
 
-mongooseAuth.helpExpress(app);
+//mongooseAuth.helpExpress(app);
 
 app.listen(6986);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
