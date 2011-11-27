@@ -1,6 +1,5 @@
 (function() {
   var DayCare, Picture, PictureSet, exports;
-  require('./db_connect');
   Picture = new Schema({
     primary: {
       type: Boolean,

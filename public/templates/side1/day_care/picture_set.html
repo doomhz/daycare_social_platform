@@ -1,0 +1,26 @@
+<%
+    var profilePicture = dayCare.getProfilePicture();
+    var profilePictureSet = dayCare.getProfilePictureSet();
+    if (profilePicture) {
+%>
+    <div id="profile-pic-cnt">
+        <a href="#day-cares/view/picture-set/<%=profilePictureSet._id %>" title="View Day Care" class="photo-frame">
+            <img src="<%=profilePicture.thumb_url %>" alt="<%=profilePicture.description %>" width="160" height="130" id="profile-pic" />
+        </a>
+    </div>
+<%
+    }
+%>
+<ul id="profile-bt-menu">
+    <li>
+        <a href="#day-cares/edit/<%=dayCare.get('_id') %>" id="profile-edit-bt"><span>Edit</span></a>
+    </li>
+    <li>
+        <a href="#day-cares">&larr; Back to day cares</a>
+    </li>
+</ul>
+<ul id="profile-left-menu">
+    <li id="gallery-menu-item">
+        <a href="#day-cares/view/gallery/<%=dayCare.get('_id') %>"><span>Gallery</span></a>
+    </li>
+</ul>

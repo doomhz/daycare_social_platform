@@ -1,6 +1,7 @@
 (function() {
-  var DayCare, fs;
+  var DayCare, User, fs;
   DayCare = require('../models/day_care');
+  User = require('../models/user');
   fs = require('fs');
   module.exports = function(app) {
     app.get('/day-cares', function(req, res) {
@@ -8,14 +9,6 @@
         return res.json(dayCares);
       });
     });
-    /*
-      app.param 'id', (req, res, next, id)->
-        DayCare.findOne({ _id : req.params.id }, (err, dayCare)->
-          if (err) return next(err);
-          if (!dayCare) return next(new Error('Failed to load article ' + id));
-          req.dayCare = dayCare
-          next()
-      */
     app.get('/day-cares/:id', function(req, res) {
       return DayCare.findOne({
         _id: req.params.id

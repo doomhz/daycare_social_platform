@@ -7,6 +7,7 @@
     , "stylus": ">= 0.0.1"
     , "jade": ">= 0.0.1"
     , "mongoose": "latest"
+    , "mongoose-auth": "latest"
     , "imagemagick": "latest"
     , "expresso": "latest"
     , "coffee-script": "latest"
