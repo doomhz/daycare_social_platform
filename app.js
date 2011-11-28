@@ -6,7 +6,7 @@ var express = require('express');
 require('./models/db_connect');
 
 // TODO Figure out how to include the mongooseAuth.middleware() without instatiating a User before 
-User = require('./models/user');
+//User = require('./models/user');
 
 var app = module.exports = express.createServer(
   express.bodyParser(),
