@@ -6,15 +6,15 @@ var express = require('express');
 require('./models/db_connect');
 
 // TODO Figure out how to include the mongooseAuth.middleware() without instatiating a User before 
-//User = require('./models/user');
+User = require('./models/user');
 
 var app = module.exports = express.createServer(
   express.bodyParser(),
   express.methodOverride(),
-  express.static(__dirname + '/public'),
   express.cookieParser(),
   express.session({secret: 'kinsecretkey83'}),
-  require('stylus').middleware({ src: __dirname + '/public' })
+  require('stylus').middleware({ src: __dirname + '/public' }),
+  express.static(__dirname + '/public')
 //  mongooseAuth.middleware()
 );
 

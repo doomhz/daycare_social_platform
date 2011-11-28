@@ -24,14 +24,17 @@ a {
 }
 h1 {
   color: #575757;
-  font-size: 18px;
+  font-size: 15px;
   margin: 10px 0 10px 0;
 }
 h2 {
   color: #575757;
-  font-size: 15px;
+  font-size: 13px;
   margin: 10px 0 10px 0;
   text-transform: uppercase;
+}
+h3 {
+  font-size: 11px;
 }
 ul {
   list-style-type: none;
@@ -67,7 +70,7 @@ header #header-wrapper #main-menu li {
 header #header-wrapper #main-menu li a {
   color: #fff;
   text-decoration: none;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: bold;
 }
 header #header-wrapper #events-menu {
@@ -159,7 +162,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   overflow: hidden;
   border-right: solid 1px #d9d9d9;
   border-left: solid 1px #d9d9d9;
-  font-size: 12px;
+  font-size: 11px;
 }
 #page-wrapper #main-column {
   padding: 10px 0 0 0;
@@ -171,8 +174,8 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 #page-wrapper #main-column .qq-upload-button {
   float: right;
   top: -42px;
-  font-size: 12px;
-  line-height: 12px;
+  font-size: 11px;
+  line-height: 11px;
   font-weight: normal;
   text-transform: uppercase;
   letter-spacing: -0.015em;
@@ -288,7 +291,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   font-weight: bold;
   text-decoration: none;
   display: inline-block;
-  padding: 10px 0 10px 25px;
+  padding: 3px 0 3px 25px;
   width: 86.5%;
   background-repeat: no-repeat;
   background-color: transparent;
@@ -298,7 +301,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #side-column1 #profile-left-menu #gallery-menu-item a {
   background-image: url("/images/gallery_menu_bt.png");
-  background-position: left 9px;
+  background-position: left 3px;
 }
 #page-wrapper #side-column1 #profile-left-menu li a:hover {
   background-color: #e9f2f7;
@@ -323,7 +326,7 @@ footer #footer-wrapper {
   overflow: hidden;
   border-right: solid 1px #d9d9d9;
   border-left: solid 1px #d9d9d9;
-  font-size: 12px;
+  font-size: 11px;
   text-align: center;
   padding: 30px 0 30px 0;
 }
