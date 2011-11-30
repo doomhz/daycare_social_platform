@@ -13,6 +13,7 @@
       DayCareModel.__super__.constructor.apply(this, arguments);
     }
     DayCareModel.prototype.defaults = {
+      user_id: null,
       name: '',
       speaking_classes: [],
       location: {

@@ -13,6 +13,11 @@ class window.Kin.MainRouter extends Backbone.Router
   side1ColumnView: null
 
   initialize: ()->
+    Kin.currentUser = new Kin.UserModel()
+    Kin.currentUser.fetch
+      success: (model)->
+        if not model.get('_id')
+          window.location = '/login'
 
   root: ()->
     @clearColumns()

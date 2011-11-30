@@ -31,6 +31,8 @@ PictureSet = new Schema
   pictures: [Picture]
 
 DayCare = new Schema
+  user_id:
+    type: String
   name:
     type: String
     index: true
@@ -57,6 +59,14 @@ DayCare = new Schema
     type: Boolean
   picture_sets:
     type: [PictureSet]
+    #default: [
+      #{
+        #type: 'profile'
+        #name: 'Profile pictures'
+        #description: 'Your profile pictures.'
+        #pictures: []
+      #}
+    #]
 
 
 exports = module.exports = mongoose.model('DayCare', DayCare)

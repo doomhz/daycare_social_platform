@@ -1,6 +1,5 @@
 (function() {
-  var DayCare, http, querystring;
-  DayCare = require('../models/day_care');
+  var http, querystring;
   http = require('http');
   querystring = require('querystring');
   module.exports = function(app) {
@@ -9,7 +8,7 @@
         title: "Kindzy.com"
       });
     });
-    return app.get('/geolocation', function(req, res) {
+    app.get('/geolocation', function(req, res) {
       var options, q;
       q = req.query.q;
       options = {
@@ -63,6 +62,32 @@
           error: true
         });
       });
+    });
+    return app.get('/current_user', function(req, res) {
+      var DayCare, userData, _ref;
+            if ((_ref = req.user) != null) {
+        _ref;
+      } else {
+        req.user = {};
+      };
+      userData = {
+        _id: req.user._id,
+        email: req.user.email,
+        type: req.user.type
+      };
+      if (userData.type === 'daycare') {
+        DayCare = require('../models/day_care');
+        return DayCare.findOne({
+          user_id: userData._id
+        }).run(function(err, dayCare) {
+          if (dayCare) {
+            userData.daycare_id = dayCare._id;
+          }
+          return res.json(userData);
+        });
+      } else {
+        return res.json(userData);
+      }
     });
   };
 }).call(this);

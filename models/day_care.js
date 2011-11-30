@@ -41,6 +41,9 @@
     pictures: [Picture]
   });
   DayCare = new Schema({
+    user_id: {
+      type: String
+    },
     name: {
       type: String,
       index: true

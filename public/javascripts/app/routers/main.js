@@ -22,7 +22,16 @@
     };
     MainRouter.prototype.mainColumnView = null;
     MainRouter.prototype.side1ColumnView = null;
-    MainRouter.prototype.initialize = function() {};
+    MainRouter.prototype.initialize = function() {
+      Kin.currentUser = new Kin.UserModel();
+      return Kin.currentUser.fetch({
+        success: function(model) {
+          if (!model.get('_id')) {
+            return window.location = '/login';
+          }
+        }
+      });
+    };
     MainRouter.prototype.root = function() {
       this.clearColumns();
       return this.navigate('day-cares', true);

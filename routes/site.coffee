@@ -1,4 +1,3 @@
-DayCare = require('../models/day_care');
 http = require('http')
 querystring = require('querystring')
 
@@ -48,3 +47,19 @@ module.exports = (app)->
       console.log("Got error: " + e.message)
       res.render 'site/geolocation', {layout: false, error: true}
     )
+  
+  app.get '/current_user', (req, res)->
+    req.user ?= {}
+    userData =
+      _id:   req.user._id
+      email: req.user.email
+      type:  req.user.type
+    
+    if userData.type is 'daycare'
+      DayCare = require('../models/day_care')
+      DayCare.findOne({user_id: userData._id}).run (err, dayCare) ->
+        if dayCare
+          userData.daycare_id = dayCare._id
+        res.json userData
+    else
+      res.json userData

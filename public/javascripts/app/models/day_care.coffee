@@ -1,6 +1,7 @@
 class window.Kin.DayCareModel extends Backbone.Model
 
   defaults:
+    user_id: null
     name: ''
     speaking_classes: []
     location:
