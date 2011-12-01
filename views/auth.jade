@@ -2,7 +2,66 @@
 html
   head
     title Kindzy.com
+    link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    h1 Welcome to Kindzy.com
-    #main
-      != body
+    header
+      #header-wrapper
+        ul#main-menu
+          li
+            a(href='#') Kindzy
+          li
+            a(href='#') Home
+          li
+            a(href='#') Profile
+          li
+            a(href='#') Account
+        ul#events-menu
+          li.messages
+            a(href='#')
+              span Messages
+          li.friend-request
+            a(href='#')
+              span Friend request ?
+          li.notifications
+            a(href='#')
+              span Notifications ?
+          li.ccn
+            a(href='#')
+              span CCN ?
+        a(href='/')
+          img(src='/images/logo.png', alt='Kindzy.com', id='logo')
+        #search-cnt
+          ul#search-menu
+            li.by-type
+              a(href='#search-by-name')
+                span by type
+            li.by-name
+              a(href='#search-by-type')
+                span by name
+          #search-bar
+            button#search-bt
+    #page-wrapper
+      #side-column1
+      #side-column2
+      #main-column
+        !{body}
+    footer
+      #footer-wrapper
+        ul
+          li
+            a(href='#') About Us
+          li
+            a(href='#') Contact Us
+          li
+            a(href='#') Help
+          li
+            a(href='#') Submission Guidelines
+          li
+            a(href='#') Privacy Policy
+          li
+            a(href='#') Terms of Use
+          li
+            a(href='#') Partners
+          li
+            a(href='#') Widgets and Tools
+        p#copyright Copyright &copy; 2011 Kindzy.com, Inc. All rights reserved.
