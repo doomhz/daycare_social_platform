@@ -35,6 +35,7 @@ app.configure('production', function(){
 
 // Routes
 
+require('./routes/auth')(app);
 require('./routes/site')(app);
 require('./routes/day_cares')(app);
 

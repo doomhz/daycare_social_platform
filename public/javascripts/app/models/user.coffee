@@ -6,4 +6,4 @@ class Kin.UserModel extends Backbone.Model
     email:      null
     daycare_id: null
 
-  url: '/current_user'
+  url: '/current-user'

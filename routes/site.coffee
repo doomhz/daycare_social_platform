@@ -48,7 +48,7 @@ module.exports = (app)->
       res.render 'site/geolocation', {layout: false, error: true}
     )
   
-  app.get '/current_user', (req, res)->
+  app.get '/current-user', (req, res)->
     req.user ?= {}
     userData =
       _id:   req.user._id

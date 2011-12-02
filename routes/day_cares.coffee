@@ -1,5 +1,5 @@
 DayCare = require('../models/day_care');
-#User = require('../models/user');
+User = require('../models/user');
 fs = require('fs')
 
 module.exports = (app)->

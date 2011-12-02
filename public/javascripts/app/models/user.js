@@ -18,7 +18,7 @@
       email: null,
       daycare_id: null
     };
-    UserModel.prototype.url = '/current_user';
+    UserModel.prototype.url = '/current-user';
     return UserModel;
   })();
 }).call(this);

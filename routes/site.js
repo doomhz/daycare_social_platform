@@ -63,7 +63,7 @@
         });
       });
     });
-    return app.get('/current_user', function(req, res) {
+    return app.get('/current-user', function(req, res) {
       var DayCare, userData, _ref;
             if ((_ref = req.user) != null) {
         _ref;
