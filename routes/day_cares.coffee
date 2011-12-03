@@ -10,66 +10,80 @@ module.exports = (app)->
 
   app.get '/day-cares/:id', (req, res)->
     DayCare.findOne({_id: req.params.id}).run (err, dayCare) ->
-      res.json dayCare
+      currentUser = if req.user then req.user else {}
+      res.json dayCare.filterPrivateDataByUserId(currentUser._id)
 
   app.put '/day-cares/:id', (req, res)->
     data = req.body
     delete data._id
-    DayCare.update {_id: req.params.id}, data, {}, (err, dayCare) ->
+    DayCare.update {_id: req.params.id, user_id: req.user._id}, data, {}, (err, dayCare) ->      
       # TODO Delete pictures here
-      res.json {success: true}
+      if not err
+        res.json {success: true}
+      else
+        res.json {success: false}
 
   app.get '/day-cares/picture-set/:id', (req, res)->
     pictureSetId = req.params.id
+    currentUser = if req.user then req.user else {}
     DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
       pictureSet = dayCare.picture_sets.id(pictureSetId)
+      pictureSet = DayCare.filterPrivatePictureSetsByUserId(currentUser._id, dayCare.user_id, [pictureSet])[0]
       pictureSet.daycare_id = dayCare._id
-
+      
       res.json pictureSet
 
   app.put '/day-cares/picture-set/:id', (req, res)->
     pictureSetId = req.params.id
-    DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
-      pictureSetIndexToEdit = -1
+    DayCare.findOne({'picture_sets._id': pictureSetId, user_id: req.user._id}).run (err, dayCare) ->
+      if dayCare
+        pictureSetIndexToEdit = -1
       
-      for pictureSet in dayCare.picture_sets
-        pictureSetIndexToEdit++
-        if pictureSet._id + "" is pictureSetId + ""
-          break;
+        for pictureSet in dayCare.picture_sets
+          pictureSetIndexToEdit++
+          if pictureSet._id + "" is pictureSetId + ""
+            break;
 
-      delete req.body._id
-      for key, value of req.body
-        dayCare.picture_sets[pictureSetIndexToEdit][key] = value
-      dayCare.save()
+        delete req.body._id
+        for key, value of req.body
+          dayCare.picture_sets[pictureSetIndexToEdit][key] = value
+        dayCare.save()
 
-      res.json {success: true}
+        res.json {success: true}
+      else
+        res.json {success: false}
 
   app.del '/day-cares/picture-set/:id', (req, res)->
     pictureSetId = req.params.id
-    DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
-      pictureSet = dayCare.picture_sets.id(pictureSetId)
-      pictureSet.remove()
-      dayCare.save()
+    DayCare.findOne({'picture_sets._id': pictureSetId, user_id: req.user._id}).run (err, dayCare) ->
+      if dayCare
+        pictureSet = dayCare.picture_sets.id(pictureSetId)
+        pictureSet.remove()
+        dayCare.save()
 
-      for picture in pictureSet.pictures
-        filePath = './public/' + picture.url
+        for picture in pictureSet.pictures
+          filePath = './public/' + picture.url
+          try
+            fs.unlinkSync(filePath)
+          catch e
+            console.error e
+      
+        filePath = './public/daycares/' + pictureSetId
         try
-          fs.unlinkSync(filePath)
+          fs.rmdirSync(filePath)
         catch e
           console.error e
-      
-      filePath = './public/daycares/' + pictureSetId
-      try
-        fs.rmdirSync(filePath)
-      catch e
-        console.error e
 
-      res.json {success: true}
+        res.json {success: true}
+      else
+        res.json {success: false}
 
   app.get '/day-cares/pictures/:pictureSetId', (req, res)->
     pictureSetId = req.params.pictureSetId
+    currentUser = if req.user then req.user else {}
     DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
       pictureSet = dayCare.picture_sets.id(pictureSetId)
+      pictureSet = DayCare.filterPrivatePictureSetsByUserId(currentUser._id, dayCare.user_id, [pictureSet])[0] or {}
       pictures = pictureSet.pictures
 
       res.json pictures
@@ -77,80 +91,86 @@ module.exports = (app)->
   app.del '/day-cares/picture/:pictureId', (req, res)->
     pictureId = req.params.pictureId
 
-    DayCare.findOne({'picture_sets.pictures._id': pictureId}).run (err, dayCare) ->
-      pictureSetIndex = -1
-      pictureIndex = -1
-      pictureSetIndexToGo = -1
-      pictureIndexToGo = -1
-
-      for pictureSet in dayCare.picture_sets
-        pictureSetIndex++
+    DayCare.findOne({'picture_sets.pictures._id': pictureId, user_id: req.user._id}).run (err, dayCare) ->
+      if dayCare  
+        pictureSetIndex = -1
         pictureIndex = -1
-        for picture in pictureSet.pictures
-          pictureIndex++
-          if "#{picture._id}" is "#{pictureId}"
-            pictureSetIndexToGo = pictureSetIndex
-            pictureIndexToGo = pictureIndex
-            break
+        pictureSetIndexToGo = -1
+        pictureIndexToGo = -1
 
-      filePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].url
-      try
-        fs.unlinkSync(filePath)
-      catch e
-        console.error e
+        for pictureSet in dayCare.picture_sets
+          pictureSetIndex++
+          pictureIndex = -1
+          for picture in pictureSet.pictures
+            pictureIndex++
+            if "#{picture._id}" is "#{pictureId}"
+              pictureSetIndexToGo = pictureSetIndex
+              pictureIndexToGo = pictureIndex
+              break
 
-      thumbFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].thumb_url
-      try
-        fs.unlinkSync(thumbFilePath)
-      catch e
-        console.error e
+        filePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].url
+        try
+          fs.unlinkSync(filePath)
+        catch e
+          console.error e
 
-      mediumFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].medium_url
-      try
-        fs.unlinkSync(mediumFilePath)
-      catch e
-        console.error e
+        thumbFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].thumb_url
+        try
+          fs.unlinkSync(thumbFilePath)
+        catch e
+          console.error e
+
+        mediumFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].medium_url
+        try
+          fs.unlinkSync(mediumFilePath)
+        catch e
+          console.error e
       
-      bigFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].big_url
-      try
-        fs.unlinkSync(bigFilePath)
-      catch e
-        console.error e
+        bigFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].big_url
+        try
+          fs.unlinkSync(bigFilePath)
+        catch e
+          console.error e
       
-      dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove()
-      dayCare.save()
+        dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove()
+        dayCare.save()
 
-      res.json {success: true}
+        res.json {success: true}
+      else
+        res.json {success: false}
 
   app.put '/day-cares/picture/:pictureId', (req, res)->
     pictureId = req.params.pictureId
 
-    DayCare.findOne({'picture_sets.pictures._id': pictureId}).run (err, dayCare) ->
-      pictureSetIndex = -1
-      pictureIndex = -1
-      pictureSetIndexToGo = -1
-      pictureIndexToGo = -1
-
-      for pictureSet in dayCare.picture_sets
-        pictureSetIndex++
+    DayCare.findOne({'picture_sets.pictures._id': pictureId, user_id: req.user._id}).run (err, dayCare) ->
+      if dayCare
+        pictureSetIndex = -1
         pictureIndex = -1
-        for picture in pictureSet.pictures
-          pictureIndex++
-          if "#{picture._id}" is "#{pictureId}"
-            pictureSetIndexToGo = pictureSetIndex
-            pictureIndexToGo = pictureIndex
-            break
+        pictureSetIndexToGo = -1
+        pictureIndexToGo = -1
 
-      for picture in dayCare.picture_sets[pictureSetIndexToGo].pictures
-        picture.primary = false
+        for pictureSet in dayCare.picture_sets
+          pictureSetIndex++
+          pictureIndex = -1
+          for picture in pictureSet.pictures
+            pictureIndex++
+            if "#{picture._id}" is "#{pictureId}"
+              pictureSetIndexToGo = pictureSetIndex
+              pictureIndexToGo = pictureIndex
+              break
 
-      delete req.body._id
-      for key, value of req.body
-        dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo][key] = value
+        for picture in dayCare.picture_sets[pictureSetIndexToGo].pictures
+          picture.primary = false
+
+        delete req.body._id
+        for key, value of req.body
+          dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo][key] = value
       
-      dayCare.save()
+        dayCare.save()
 
-      res.json {success: true}
+        res.json {success: true}
+      else
+        res.json {success: false}
 
   app.post '/day-cares/upload', (req, res)->
     pictureSetId = req.query.setId
@@ -196,68 +216,69 @@ module.exports = (app)->
         ws.write(data)
 
       req.on 'end', ()->
-        DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
-          pictureSets = dayCare.picture_sets
+        DayCare.findOne({'picture_sets._id': pictureSetId, user_id: req.user._id}).run (err, dayCare) ->
+          if dayCare
+            pictureSets = dayCare.picture_sets
 
-          newPicturePosition = null
-          pictureSetIndex = -1
+            newPicturePosition = null
+            pictureSetIndex = -1
 
-          for pictureSet in pictureSets
-            pictureSetIndex++
-            if "" + pictureSet._id is "" + pictureSetId
-              newPicturePosition = pictureSet.pictures.push(newPictureData)
-              break
+            for pictureSet in pictureSets
+              pictureSetIndex++
+              if "" + pictureSet._id is "" + pictureSetId
+                newPicturePosition = pictureSet.pictures.push(newPictureData)
+                break
 
-          dayCare.picture_sets = pictureSets
+            dayCare.picture_sets = pictureSets
 
-          dayCare.save()
+            dayCare.save()
 
-          newPicture = dayCare.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1]
-          newPicture.success = true
+            newPicture = dayCare.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1]
+            newPicture.success = true
 
-          im = require 'imagemagick'
-          im.crop(
-              srcPath: filePath
-              dstPath: thumbFilePath
-              width: 160
-              height: 130
-              quality: 1
-            , (err, stdout, stderr)->
-              if err
-                console.log err
-              if err
-                console.log stderr
+            im = require 'imagemagick'
+            im.crop(
+                srcPath: filePath
+                dstPath: thumbFilePath
+                width: 160
+                height: 130
+                quality: 1
+              , (err, stdout, stderr)->
+                if err
+                  console.log err
+                if err
+                  console.log stderr
               
-              im.crop(
-                  srcPath: filePath
-                  dstPath: mediumFilePath
-                  width: 420
-                  height: 290
-                  quality: 1
-                , (err, stdout, stderr)->
-                  if err
-                    console.log err
-                  if err
-                    console.log stderr
+                im.crop(
+                    srcPath: filePath
+                    dstPath: mediumFilePath
+                    width: 420
+                    height: 290
+                    quality: 1
+                  , (err, stdout, stderr)->
+                    if err
+                      console.log err
+                    if err
+                      console.log stderr
                   
-                  im.crop(
-                      srcPath: filePath
-                      dstPath: bigFilePath
-                      width: 800
-                      height: 600
-                      quality: 1
-                    , (err, stdout, stderr)->
-                      if err
-                        console.log err
-                      if err
-                        console.log stderr
+                    im.crop(
+                        srcPath: filePath
+                        dstPath: bigFilePath
+                        width: 800
+                        height: 600
+                        quality: 1
+                      , (err, stdout, stderr)->
+                        if err
+                          console.log err
+                        if err
+                          console.log stderr
                       
-                      res.json newPicture
-                  )
-              )
-          )
-          
-          
+                        res.json newPicture
+                    )
+                )
+            )
+          else
+            res.json {success: false}
 
     else
       res.json {success: false}

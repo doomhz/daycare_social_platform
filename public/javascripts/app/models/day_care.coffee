@@ -4,6 +4,7 @@ class window.Kin.DayCareModel extends Backbone.Model
     user_id: null
     name: ''
     speaking_classes: []
+    address: ''
     location:
       lat: 10
       lng: 40
@@ -65,4 +66,3 @@ class window.Kin.DayCareModel extends Backbone.Model
 
   updatePicturesFromPictureSets: ()->
     @set({picture_sets: @pictureSets.toJSON()})
-  

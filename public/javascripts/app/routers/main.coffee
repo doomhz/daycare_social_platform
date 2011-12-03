@@ -43,11 +43,13 @@ class window.Kin.MainRouter extends Backbone.Router
           model: model
           el: '#main-column'
           router: that
+          currentUser: Kin.currentUser
         that.mainColumnView.render()
 
         that.side1ColumnView = new window.Kin.DayCare.ProfileSide1View
           model: model
           el: '#side-column1'
+          currentUser: Kin.currentUser
         that.side1ColumnView.render()
 
   viewDayCareGallery: (id)->
@@ -63,12 +65,14 @@ class window.Kin.MainRouter extends Backbone.Router
           model: model
           el: '#main-column'
           router: that
+          currentUser: Kin.currentUser
         that.mainColumnView.render()
 
         that.side1ColumnView = new window.Kin.DayCare.ProfileSide1View
           model: model
           el: '#side-column1'
           selectedMenuItem: 'gallery-menu-item'
+          currentUser: Kin.currentUser
         that.side1ColumnView.render()
 
   editDayCare: (id)->
@@ -107,11 +111,13 @@ class window.Kin.MainRouter extends Backbone.Router
         that.mainColumnView = new window.Kin.DayCare.PictureSetView
           model: model
           el: '#main-column'
+          currentUser: Kin.currentUser
         that.mainColumnView.render()
 
         that.side1ColumnView = new window.Kin.DayCare.PictureSetSide1View
           model: model
           el: '#side-column1'
+          currentUser: Kin.currentUser
         that.side1ColumnView.render()
 
   clearColumns: (columns = ['main', 'side1'])->

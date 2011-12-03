@@ -1,4 +1,4 @@
-<ul id="profile-general-info" data-edit-url="#day-cares/edit/<%=dayCare.get('_id') %>">
+<ul id="profile-general-info" data-edit-url="#day-cares/edit/<%=dayCare.get('_id') %>" class="<%= (canEdit) ? "dedit" : "" %>">
     <% if (dayCare.get('address')) { %>
     <li><span>Address:</span> <span class="value"><%=dayCare.get('address') %></span></li>
     <% } %>

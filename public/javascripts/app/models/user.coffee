@@ -7,3 +7,6 @@ class Kin.UserModel extends Backbone.Model
     daycare_id: null
 
   url: '/current-user'
+
+  canEditDayCare: (dayCareId)->
+    dayCareId is @get('daycare_id')

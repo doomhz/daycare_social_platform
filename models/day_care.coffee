@@ -37,6 +37,7 @@ DayCare = new Schema
     type: String
     index: true
   speaking_classes: [Number]
+  address: String
   location:
     lat: Number
     lng: Number
@@ -68,5 +69,65 @@ DayCare = new Schema
       #}
     #]
 
+DayCare.methods.filterPrivateDataByUserId = (user_id)->
+  if @constructor is Array
+    dayCares = []
+    for dayCare in @
+      if "#{user_id}" is "#{dayCare.user_id}"
+        dayCares.push(dayCare)
+      else
+        dayCares.push(DayCare.statics.getPublicData(dayCare))
+    return dayCares
+  else
+    if "#{user_id}" is "#{@user_id}"
+      return @
+    else
+      return DayCare.statics.getPublicData(@)
+
+DayCare.statics.filterPrivatePictureSetsByUserId = (user_id, dayCareUserId, pictureSets)->
+  if "#{user_id}" is "#{dayCareUserId}"
+    return pictureSets
+  else
+    publicPictureSetTypes = ["profile", "daycare"]
+    publicPictureSets = []
+
+    for pictureSet in pictureSets
+      if pictureSet.type in publicPictureSetTypes
+        publicPictureSets.push(pictureSet)
+
+    return publicPictureSets
+
+DayCare.statics.getPublicData = (dayCare)->
+  data = {}
+  publicRows =
+    "user_id": true
+    "name": true
+    "speaking_classes": true
+    "address": true
+    "location": true
+    "email": true
+    "phone": true
+    "fax": true
+    "contact_person": true
+    "licensed": true
+    "license_number": true
+    "type": true
+    "opened_since": true
+    "open_door_policy": true
+    "serving_disabilities": true
+    
+  for key, val of dayCare
+    if publicRows[key]
+      data[key] = val
+
+  data.picture_sets = []
+  publicPictureSetTypes = ["profile", "daycare"]
+  
+  for pictureSet in dayCare.picture_sets
+    if pictureSet.type in publicPictureSetTypes
+      data.picture_sets.push(pictureSet)
+
+  data
+  
 
 exports = module.exports = mongoose.model('DayCare', DayCare)

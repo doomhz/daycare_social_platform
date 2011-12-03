@@ -1,13 +1,12 @@
 class Kin.DayCare.ProfileGeneralInfoView extends Backbone.View
   
   tplUrl: '/templates/main/day_care/profile_general_info.html'
-  
-  events:
-    'click #profile-general-info': 'goToEditProfile'
 
   router: null
+  
+  currentUser: null
 
-  initialize: ({@router})->
+  initialize: ({@router, @currentUser})->
   
   render: ()->
     that = @
@@ -15,7 +14,10 @@ class Kin.DayCare.ProfileGeneralInfoView extends Backbone.View
       url: @tplUrl
       onLoad: (tpl)->
         $el = $(that.el)
-        $el.html(tpl({dayCare: that.model}))
+        canEdit = that.currentUser.canEditDayCare(that.model.get('_id'))
+        $el.html(tpl({dayCare: that.model, canEdit: canEdit}))
+        if canEdit
+          that.$("#profile-general-info").bind("click", that.goToEditProfile)
   
   @
   
@@ -25,6 +27,6 @@ class Kin.DayCare.ProfileGeneralInfoView extends Backbone.View
     $el.unbind()
     @
   
-  goToEditProfile: (ev)->
+  goToEditProfile: (ev)=>
     editProfileUrl = $(ev.currentTarget).data('edit-url')
     @router.navigate(editProfileUrl, true)

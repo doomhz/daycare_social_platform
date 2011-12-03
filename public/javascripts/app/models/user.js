@@ -19,6 +19,9 @@
       daycare_id: null
     };
     UserModel.prototype.url = '/current-user';
+    UserModel.prototype.canEditDayCare = function(dayCareId) {
+      return dayCareId === this.get('daycare_id');
+    };
     return UserModel;
   })();
 }).call(this);

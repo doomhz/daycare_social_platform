@@ -8,9 +8,11 @@ class window.Kin.DayCare.ProfileView extends Backbone.View
   
   router: null
   
+  currentUser: null
+  
   profileGeneralInfo: null
   
-  initialize: ({@router})->
+  initialize: ({@router, @currentUser})->
     @
 
   render: ()->
@@ -18,7 +20,8 @@ class window.Kin.DayCare.ProfileView extends Backbone.View
     $.tmpload
       url: @tplUrl
       onLoad: (tpl)->
-        $(that.el).html(tpl({dayCare: that.model}))
+        canEdit = that.currentUser.canEditDayCare(that.model.get('_id'))
+        $(that.el).html(tpl({dayCare: that.model, canEdit: canEdit}))
         that.$('#profile-main-tabs').doomTabs
           firstSelectedTab: 1
           onSelect: ($selectedTab)->
@@ -39,6 +42,7 @@ class window.Kin.DayCare.ProfileView extends Backbone.View
             el: that.$('#profile-info-tab')
             model: that.model
             router: that.router
+            currentUser: that.currentUser
         that.profileGeneralInfo.render()
 
         that.$('#daycare-gallery-tabs').doomTabs

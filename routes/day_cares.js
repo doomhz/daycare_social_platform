@@ -13,7 +13,9 @@
       return DayCare.findOne({
         _id: req.params.id
       }).run(function(err, dayCare) {
-        return res.json(dayCare);
+        var currentUser;
+        currentUser = req.user ? req.user : {};
+        return res.json(dayCare.filterPrivateDataByUserId(currentUser._id));
       });
     });
     app.put('/day-cares/:id', function(req, res) {
@@ -21,21 +23,30 @@
       data = req.body;
       delete data._id;
       return DayCare.update({
-        _id: req.params.id
+        _id: req.params.id,
+        user_id: req.user._id
       }, data, {}, function(err, dayCare) {
-        return res.json({
-          success: true
-        });
+        if (!err) {
+          return res.json({
+            success: true
+          });
+        } else {
+          return res.json({
+            success: false
+          });
+        }
       });
     });
     app.get('/day-cares/picture-set/:id', function(req, res) {
-      var pictureSetId;
+      var currentUser, pictureSetId;
       pictureSetId = req.params.id;
+      currentUser = req.user ? req.user : {};
       return DayCare.findOne({
         'picture_sets._id': pictureSetId
       }).run(function(err, dayCare) {
         var pictureSet;
         pictureSet = dayCare.picture_sets.id(pictureSetId);
+        pictureSet = DayCare.filterPrivatePictureSetsByUserId(currentUser._id, dayCare.user_id, [pictureSet])[0];
         pictureSet.daycare_id = dayCare._id;
         return res.json(pictureSet);
       });
@@ -44,69 +55,85 @@
       var pictureSetId;
       pictureSetId = req.params.id;
       return DayCare.findOne({
-        'picture_sets._id': pictureSetId
+        'picture_sets._id': pictureSetId,
+        user_id: req.user._id
       }).run(function(err, dayCare) {
         var key, pictureSet, pictureSetIndexToEdit, value, _i, _len, _ref, _ref2;
-        pictureSetIndexToEdit = -1;
-        _ref = dayCare.picture_sets;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          pictureSet = _ref[_i];
-          pictureSetIndexToEdit++;
-          if (pictureSet._id + "" === pictureSetId + "") {
-            break;
+        if (dayCare) {
+          pictureSetIndexToEdit = -1;
+          _ref = dayCare.picture_sets;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            pictureSet = _ref[_i];
+            pictureSetIndexToEdit++;
+            if (pictureSet._id + "" === pictureSetId + "") {
+              break;
+            }
           }
+          delete req.body._id;
+          _ref2 = req.body;
+          for (key in _ref2) {
+            value = _ref2[key];
+            dayCare.picture_sets[pictureSetIndexToEdit][key] = value;
+          }
+          dayCare.save();
+          return res.json({
+            success: true
+          });
+        } else {
+          return res.json({
+            success: false
+          });
         }
-        delete req.body._id;
-        _ref2 = req.body;
-        for (key in _ref2) {
-          value = _ref2[key];
-          dayCare.picture_sets[pictureSetIndexToEdit][key] = value;
-        }
-        dayCare.save();
-        return res.json({
-          success: true
-        });
       });
     });
     app.del('/day-cares/picture-set/:id', function(req, res) {
       var pictureSetId;
       pictureSetId = req.params.id;
       return DayCare.findOne({
-        'picture_sets._id': pictureSetId
+        'picture_sets._id': pictureSetId,
+        user_id: req.user._id
       }).run(function(err, dayCare) {
         var filePath, picture, pictureSet, _i, _len, _ref;
-        pictureSet = dayCare.picture_sets.id(pictureSetId);
-        pictureSet.remove();
-        dayCare.save();
-        _ref = pictureSet.pictures;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          picture = _ref[_i];
-          filePath = './public/' + picture.url;
+        if (dayCare) {
+          pictureSet = dayCare.picture_sets.id(pictureSetId);
+          pictureSet.remove();
+          dayCare.save();
+          _ref = pictureSet.pictures;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            picture = _ref[_i];
+            filePath = './public/' + picture.url;
+            try {
+              fs.unlinkSync(filePath);
+            } catch (e) {
+              console.error(e);
+            }
+          }
+          filePath = './public/daycares/' + pictureSetId;
           try {
-            fs.unlinkSync(filePath);
+            fs.rmdirSync(filePath);
           } catch (e) {
             console.error(e);
           }
+          return res.json({
+            success: true
+          });
+        } else {
+          return res.json({
+            success: false
+          });
         }
-        filePath = './public/daycares/' + pictureSetId;
-        try {
-          fs.rmdirSync(filePath);
-        } catch (e) {
-          console.error(e);
-        }
-        return res.json({
-          success: true
-        });
       });
     });
     app.get('/day-cares/pictures/:pictureSetId', function(req, res) {
-      var pictureSetId;
+      var currentUser, pictureSetId;
       pictureSetId = req.params.pictureSetId;
+      currentUser = req.user ? req.user : {};
       return DayCare.findOne({
         'picture_sets._id': pictureSetId
       }).run(function(err, dayCare) {
         var pictureSet, pictures;
         pictureSet = dayCare.picture_sets.id(pictureSetId);
+        pictureSet = DayCare.filterPrivatePictureSetsByUserId(currentUser._id, dayCare.user_id, [pictureSet])[0] || {};
         pictures = pictureSet.pictures;
         return res.json(pictures);
       });
@@ -115,102 +142,116 @@
       var pictureId;
       pictureId = req.params.pictureId;
       return DayCare.findOne({
-        'picture_sets.pictures._id': pictureId
+        'picture_sets.pictures._id': pictureId,
+        user_id: req.user._id
       }).run(function(err, dayCare) {
         var bigFilePath, filePath, mediumFilePath, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, thumbFilePath, _i, _j, _len, _len2, _ref, _ref2;
-        pictureSetIndex = -1;
-        pictureIndex = -1;
-        pictureSetIndexToGo = -1;
-        pictureIndexToGo = -1;
-        _ref = dayCare.picture_sets;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          pictureSet = _ref[_i];
-          pictureSetIndex++;
+        if (dayCare) {
+          pictureSetIndex = -1;
           pictureIndex = -1;
-          _ref2 = pictureSet.pictures;
-          for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
-            picture = _ref2[_j];
-            pictureIndex++;
-            if (("" + picture._id) === ("" + pictureId)) {
-              pictureSetIndexToGo = pictureSetIndex;
-              pictureIndexToGo = pictureIndex;
-              break;
+          pictureSetIndexToGo = -1;
+          pictureIndexToGo = -1;
+          _ref = dayCare.picture_sets;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            pictureSet = _ref[_i];
+            pictureSetIndex++;
+            pictureIndex = -1;
+            _ref2 = pictureSet.pictures;
+            for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+              picture = _ref2[_j];
+              pictureIndex++;
+              if (("" + picture._id) === ("" + pictureId)) {
+                pictureSetIndexToGo = pictureSetIndex;
+                pictureIndexToGo = pictureIndex;
+                break;
+              }
             }
           }
+          filePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].url;
+          try {
+            fs.unlinkSync(filePath);
+          } catch (e) {
+            console.error(e);
+          }
+          thumbFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].thumb_url;
+          try {
+            fs.unlinkSync(thumbFilePath);
+          } catch (e) {
+            console.error(e);
+          }
+          mediumFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].medium_url;
+          try {
+            fs.unlinkSync(mediumFilePath);
+          } catch (e) {
+            console.error(e);
+          }
+          bigFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].big_url;
+          try {
+            fs.unlinkSync(bigFilePath);
+          } catch (e) {
+            console.error(e);
+          }
+          dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove();
+          dayCare.save();
+          return res.json({
+            success: true
+          });
+        } else {
+          return res.json({
+            success: false
+          });
         }
-        filePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].url;
-        try {
-          fs.unlinkSync(filePath);
-        } catch (e) {
-          console.error(e);
-        }
-        thumbFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].thumb_url;
-        try {
-          fs.unlinkSync(thumbFilePath);
-        } catch (e) {
-          console.error(e);
-        }
-        mediumFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].medium_url;
-        try {
-          fs.unlinkSync(mediumFilePath);
-        } catch (e) {
-          console.error(e);
-        }
-        bigFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].big_url;
-        try {
-          fs.unlinkSync(bigFilePath);
-        } catch (e) {
-          console.error(e);
-        }
-        dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove();
-        dayCare.save();
-        return res.json({
-          success: true
-        });
       });
     });
     app.put('/day-cares/picture/:pictureId', function(req, res) {
       var pictureId;
       pictureId = req.params.pictureId;
       return DayCare.findOne({
-        'picture_sets.pictures._id': pictureId
+        'picture_sets.pictures._id': pictureId,
+        user_id: req.user._id
       }).run(function(err, dayCare) {
         var key, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, value, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3, _ref4;
-        pictureSetIndex = -1;
-        pictureIndex = -1;
-        pictureSetIndexToGo = -1;
-        pictureIndexToGo = -1;
-        _ref = dayCare.picture_sets;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          pictureSet = _ref[_i];
-          pictureSetIndex++;
+        if (dayCare) {
+          pictureSetIndex = -1;
           pictureIndex = -1;
-          _ref2 = pictureSet.pictures;
-          for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
-            picture = _ref2[_j];
-            pictureIndex++;
-            if (("" + picture._id) === ("" + pictureId)) {
-              pictureSetIndexToGo = pictureSetIndex;
-              pictureIndexToGo = pictureIndex;
-              break;
+          pictureSetIndexToGo = -1;
+          pictureIndexToGo = -1;
+          _ref = dayCare.picture_sets;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            pictureSet = _ref[_i];
+            pictureSetIndex++;
+            pictureIndex = -1;
+            _ref2 = pictureSet.pictures;
+            for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+              picture = _ref2[_j];
+              pictureIndex++;
+              if (("" + picture._id) === ("" + pictureId)) {
+                pictureSetIndexToGo = pictureSetIndex;
+                pictureIndexToGo = pictureIndex;
+                break;
+              }
             }
           }
+          _ref3 = dayCare.picture_sets[pictureSetIndexToGo].pictures;
+          for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
+            picture = _ref3[_k];
+            picture.primary = false;
+          }
+          delete req.body._id;
+          _ref4 = req.body;
+          for (key in _ref4) {
+            value = _ref4[key];
+            dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo][key] = value;
+          }
+          dayCare.save();
+          return res.json({
+            success: true
+          });
+        } else {
+          return res.json({
+            success: false
+          });
         }
-        _ref3 = dayCare.picture_sets[pictureSetIndexToGo].pictures;
-        for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
-          picture = _ref3[_k];
-          picture.primary = false;
-        }
-        delete req.body._id;
-        _ref4 = req.body;
-        for (key in _ref4) {
-          value = _ref4[key];
-          dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo][key] = value;
-        }
-        dayCare.save();
-        return res.json({
-          success: true
-        });
       });
     });
     return app.post('/day-cares/upload', function(req, res) {
@@ -255,43 +296,32 @@
         });
         return req.on('end', function() {
           return DayCare.findOne({
-            'picture_sets._id': pictureSetId
+            'picture_sets._id': pictureSetId,
+            user_id: req.user._id
           }).run(function(err, dayCare) {
             var im, newPicturePosition, pictureSet, pictureSetIndex, pictureSets, _i, _len;
-            pictureSets = dayCare.picture_sets;
-            newPicturePosition = null;
-            pictureSetIndex = -1;
-            for (_i = 0, _len = pictureSets.length; _i < _len; _i++) {
-              pictureSet = pictureSets[_i];
-              pictureSetIndex++;
-              if ("" + pictureSet._id === "" + pictureSetId) {
-                newPicturePosition = pictureSet.pictures.push(newPictureData);
-                break;
+            if (dayCare) {
+              pictureSets = dayCare.picture_sets;
+              newPicturePosition = null;
+              pictureSetIndex = -1;
+              for (_i = 0, _len = pictureSets.length; _i < _len; _i++) {
+                pictureSet = pictureSets[_i];
+                pictureSetIndex++;
+                if ("" + pictureSet._id === "" + pictureSetId) {
+                  newPicturePosition = pictureSet.pictures.push(newPictureData);
+                  break;
+                }
               }
-            }
-            dayCare.picture_sets = pictureSets;
-            dayCare.save();
-            newPicture = dayCare.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1];
-            newPicture.success = true;
-            im = require('imagemagick');
-            return im.crop({
-              srcPath: filePath,
-              dstPath: thumbFilePath,
-              width: 160,
-              height: 130,
-              quality: 1
-            }, function(err, stdout, stderr) {
-              if (err) {
-                console.log(err);
-              }
-              if (err) {
-                console.log(stderr);
-              }
+              dayCare.picture_sets = pictureSets;
+              dayCare.save();
+              newPicture = dayCare.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1];
+              newPicture.success = true;
+              im = require('imagemagick');
               return im.crop({
                 srcPath: filePath,
-                dstPath: mediumFilePath,
-                width: 420,
-                height: 290,
+                dstPath: thumbFilePath,
+                width: 160,
+                height: 130,
                 quality: 1
               }, function(err, stdout, stderr) {
                 if (err) {
@@ -302,9 +332,9 @@
                 }
                 return im.crop({
                   srcPath: filePath,
-                  dstPath: bigFilePath,
-                  width: 800,
-                  height: 600,
+                  dstPath: mediumFilePath,
+                  width: 420,
+                  height: 290,
                   quality: 1
                 }, function(err, stdout, stderr) {
                   if (err) {
@@ -313,10 +343,28 @@
                   if (err) {
                     console.log(stderr);
                   }
-                  return res.json(newPicture);
+                  return im.crop({
+                    srcPath: filePath,
+                    dstPath: bigFilePath,
+                    width: 800,
+                    height: 600,
+                    quality: 1
+                  }, function(err, stdout, stderr) {
+                    if (err) {
+                      console.log(err);
+                    }
+                    if (err) {
+                      console.log(stderr);
+                    }
+                    return res.json(newPicture);
+                  });
                 });
               });
-            });
+            } else {
+              return res.json({
+                success: false
+              });
+            }
           });
         });
       } else {

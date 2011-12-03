@@ -1,11 +1,13 @@
 <h1>
-  <span <% if (pictureSet.get('type') !== 'profile') { %>class="dedit-input" id="picture-set-text-edit"<% } %>><%=pictureSet.get('name') %></span>
+  <span <% if (pictureSet.get('type') !== 'profile') { %>class="<%= (canEdit ? "dedit-input" : "") %>" id="picture-set-text-edit"<% } %>><%=pictureSet.get('name') %></span>
   <% if (pictureSet.get('type') !== 'profile') { %>
-  (<span class="dedit-select" id="picture-set-type-select" data-type="<%=pictureSet.get('type') %>"><%=pictureSet.get('type') === 'daycare' ? 'Public' : 'Private' %></span>)
+  (<span class="<%= (canEdit ? "dedit-select" : "") %>" id="picture-set-type-select" data-type="<%=pictureSet.get('type') %>"><%=pictureSet.get('type') === 'daycare' ? 'Public' : 'Private' %></span>)
   <% } %>
 </h1>
 
+<% if (canEdit) { %>
 <div id="picture-uploader"></div>
+<% } %>
 
 <ul id="pictures-list">
 </ul>

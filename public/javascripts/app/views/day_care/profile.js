@@ -16,9 +16,10 @@
     ProfileView.prototype.tplUrl = '/templates/main/day_care/profile.html';
     ProfileView.prototype.maps = null;
     ProfileView.prototype.router = null;
+    ProfileView.prototype.currentUser = null;
     ProfileView.prototype.profileGeneralInfo = null;
     ProfileView.prototype.initialize = function(_arg) {
-      this.router = _arg.router;
+      this.router = _arg.router, this.currentUser = _arg.currentUser;
       return this;
     };
     ProfileView.prototype.render = function() {
@@ -27,8 +28,11 @@
       $.tmpload({
         url: this.tplUrl,
         onLoad: function(tpl) {
+          var canEdit;
+          canEdit = that.currentUser.canEditDayCare(that.model.get('_id'));
           $(that.el).html(tpl({
-            dayCare: that.model
+            dayCare: that.model,
+            canEdit: canEdit
           }));
           that.$('#profile-main-tabs').doomTabs({
             firstSelectedTab: 1,
@@ -54,7 +58,8 @@
             that.profileGeneralInfo = new Kin.DayCare.ProfileGeneralInfoView({
               el: that.$('#profile-info-tab'),
               model: that.model,
-              router: that.router
+              router: that.router,
+              currentUser: that.currentUser
             });
           }
           that.profileGeneralInfo.render();

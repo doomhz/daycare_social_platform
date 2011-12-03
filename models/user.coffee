@@ -5,6 +5,8 @@ UserSchema = new Schema
     type: String
     enum: ['daycare', 'parent']
     default: 'daycare'
+  daycare_id:
+    type: String
 
 UserSchema.plugin(
   mongooseAuth,
@@ -50,10 +52,24 @@ UserSchema.plugin(
                 }
               ]
             dayCare.save()
+            User = require('./user')
+            User.update({_id: user._id}, {daycare_id: dayCare._id})
             redirectTo = "/#day-cares/edit/#{dayCare._id}"
           res.writeHead(303, {'Location': redirectTo})
           res.end()
   }
 )
+
+UserSchema.statics.checkPermissions = (object = {}, requiredKey, requiredValue, resForAutoRedirect)->
+  if object and (not requiredKey or not requiredValue)
+    return true
+  if object[requiredKey] is requiredValue
+    return true
+  if resForAutoRedirect
+    resForAutoRedirect.writeHead(303, {'Location': '/login'})
+    resForAutoRedirect.end()
+  false
+  
+  
 
 exports = module.exports = mongoose.model('User', UserSchema)

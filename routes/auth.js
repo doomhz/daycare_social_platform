@@ -2,19 +2,28 @@
   var User;
   User = require('../models/user');
   module.exports = function(app) {
-    return app.get('/*', function(req, res, next) {
-      var publicRoutes;
-      console.log(req);
-      publicRoutes = {
-        "/": true,
-        "/current-user": true
-      };
-      if (!req.user && !publicRoutes[req.url]) {
-        res.writeHead(303, {
-          'Location': '/login'
-        });
-        return res.end();
-      } else {
+    app.get('/day-care*', function(req, res, next) {
+      if (User.checkPermissions(req.user, null, null, res)) {
+        return next();
+      }
+    });
+    app.put('/day-care*', function(req, res, next) {
+      if (User.checkPermissions(req.user, null, null, res)) {
+        return next();
+      }
+    });
+    app.post('/day-care*', function(req, res, next) {
+      if (User.checkPermissions(req.user, null, null, res)) {
+        return next();
+      }
+    });
+    app.del('/day-care*', function(req, res, next) {
+      if (User.checkPermissions(req.user, null, null, res)) {
+        return next();
+      }
+    });
+    return app.get('/geolocatio*', function(req, res, next) {
+      if (User.checkPermissions(req.user, null, null, res)) {
         return next();
       }
     });

@@ -18,10 +18,9 @@
       'click .delete-pic-bt': 'deletePicture',
       'click .primary-pic-bt': 'setAsPrimaryPicture'
     };
-    PicturesListView.prototype.initialize = function(options) {
-      if (options == null) {
-        options = {};
-      }
+    PicturesListView.prototype.canEdit = null;
+    PicturesListView.prototype.initialize = function(_arg) {
+      this.canEdit = _arg.canEdit;
       _.bindAll(this, 'render');
       this.collection.bind('add', this.render);
       this.collection.bind('remove', this.render);
@@ -33,10 +32,12 @@
       $.tmpload({
         url: this.tplUrl,
         onLoad: function(tpl) {
-          var $el;
+          var $el, canEdit;
           $el = $(that.el);
+          canEdit = that.canEdit;
           $el.html(tpl({
-            picturesCollection: that.collection
+            picturesCollection: that.collection,
+            canEdit: canEdit
           }));
           that.$('a[rel^="prettyPhoto"]').prettyPhoto({
             slideshow: false,
@@ -45,25 +46,27 @@
             deeplinking: false,
             animation_speed: 0
           });
-          return that.$('.picture-text-edit').doomEdit({
-            ajaxSubmit: false,
-            onStartEdit: function($form, $elem) {
-              if ($elem.text() === 'Click here to add a description') {
-                return $form.find('input').val('');
+          if (canEdit) {
+            return that.$('.picture-text-edit').doomEdit({
+              ajaxSubmit: false,
+              onStartEdit: function($form, $elem) {
+                if ($elem.text() === 'Click here to add a description') {
+                  return $form.find('input').val('');
+                }
+              },
+              afterFormSubmit: function(data, form, $elem) {
+                var picCid, pictureModel;
+                $elem.text(data);
+                picCid = $elem.data('pic-cid');
+                pictureModel = that.collection.getByCid(picCid);
+                return pictureModel.save({
+                  description: data
+                }, {
+                  silent: true
+                });
               }
-            },
-            afterFormSubmit: function(data, form, $elem) {
-              var picCid, pictureModel;
-              $elem.text(data);
-              picCid = $elem.data('pic-cid');
-              pictureModel = that.collection.getByCid(picCid);
-              return pictureModel.save({
-                description: data
-              }, {
-                silent: true
-              });
-            }
-          });
+            });
+          }
         }
       });
       return this;

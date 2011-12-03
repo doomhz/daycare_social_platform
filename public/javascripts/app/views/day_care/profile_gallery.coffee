@@ -8,7 +8,7 @@ class Kin.DayCare.ProfileGalleryView extends Kin.DayCare.ProfileView
     'submit #create-new-pic-cnt'     : 'submitCreateNewPicSetForm'
     'click .delete-pic-set-bt'       : 'deletePictureSet'
 
-  initialize: ({@router})->
+  initialize: ({@router, @currentUser})->
     _.bindAll @, 'render'
 
   openNewPicSetForm: (ev)->

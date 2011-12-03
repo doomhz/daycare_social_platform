@@ -16,6 +16,7 @@
       user_id: null,
       name: '',
       speaking_classes: [],
+      address: '',
       location: {
         lat: 10,
         lng: 40

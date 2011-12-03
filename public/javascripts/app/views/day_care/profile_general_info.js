@@ -1,5 +1,5 @@
 (function() {
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
     ctor.prototype = parent.prototype;
@@ -10,15 +10,14 @@
   Kin.DayCare.ProfileGeneralInfoView = (function() {
     __extends(ProfileGeneralInfoView, Backbone.View);
     function ProfileGeneralInfoView() {
+      this.goToEditProfile = __bind(this.goToEditProfile, this);
       ProfileGeneralInfoView.__super__.constructor.apply(this, arguments);
     }
     ProfileGeneralInfoView.prototype.tplUrl = '/templates/main/day_care/profile_general_info.html';
-    ProfileGeneralInfoView.prototype.events = {
-      'click #profile-general-info': 'goToEditProfile'
-    };
     ProfileGeneralInfoView.prototype.router = null;
+    ProfileGeneralInfoView.prototype.currentUser = null;
     ProfileGeneralInfoView.prototype.initialize = function(_arg) {
-      this.router = _arg.router;
+      this.router = _arg.router, this.currentUser = _arg.currentUser;
     };
     ProfileGeneralInfoView.prototype.render = function() {
       var that;
@@ -26,11 +25,16 @@
       return $.tmpload({
         url: this.tplUrl,
         onLoad: function(tpl) {
-          var $el;
+          var $el, canEdit;
           $el = $(that.el);
-          return $el.html(tpl({
-            dayCare: that.model
+          canEdit = that.currentUser.canEditDayCare(that.model.get('_id'));
+          $el.html(tpl({
+            dayCare: that.model,
+            canEdit: canEdit
           }));
+          if (canEdit) {
+            return that.$("#profile-general-info").bind("click", that.goToEditProfile);
+          }
         }
       });
     };

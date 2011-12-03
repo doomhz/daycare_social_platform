@@ -63,6 +63,8 @@
 
 <h2>Albums</h2>
 
+<% if (canEdit) { %>
+
 <p>
     <button id="show-new-pic-set-form-bt" class="form-button">+ Add album</button>
 </p>
@@ -91,6 +93,8 @@
     </div>
 </form>
 
+<% } %>
+
 <ul id="picture-sets-list">
 <%
     var allPictureSets = dayCare.pictureSets.models;
@@ -109,7 +113,7 @@
             <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="160" height="130" />
         </a>
         <%
-            if (pictureSet.get('type') !== 'profile') {
+            if (canEdit && pictureSet.get('type') !== 'profile') {
         %>
         <p>
             <a href="#" title="Delete picture set" data-pic-set-id="<%=pictureSet.get('_id') %>" class="delete-pic-set-bt">Delete</a>

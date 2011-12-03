@@ -5,8 +5,10 @@ class window.Kin.DayCare.PictureSetView extends Backbone.View
   tplUrl: '/templates/main/day_care/picture_set.html'
 
   uploader: null
+  
+  currentUser: null
 
-  initialize: (options = {})->
+  initialize: ({@currentUser})->
     @model and @model.view = @
     @
 
@@ -16,40 +18,45 @@ class window.Kin.DayCare.PictureSetView extends Backbone.View
       url: @tplUrl
       onLoad: (tpl)->
         $el = $(that.el)
-        $el.html(tpl({pictureSet: that.model}))
-        that.uploader = new qq.FileUploader
-          element: document.getElementById('picture-uploader')
-          action: 'day-cares/upload'
-          debug: false
-          uploadButtonText: if that.model.get('type') is 'profile' then 'add profile picture' else 'add photos'
-          onSubmit: (id, fileName)->
-            that.uploader.setParams
-              setId: that.model.get('_id')
-          onComplete: (id, fileName, responseJSON)->
-            that.model.pictures.add(responseJSON)
-
+        canEdit = that.currentUser.canEditDayCare(that.model.get('daycare_id'))
+        $el.html(tpl({pictureSet: that.model, canEdit: canEdit}))
+        
         if not that.picturesListView
           that.picturesListView = new Kin.DayCare.PicturesListView
             el: that.$('#pictures-list')
             collection: that.model.pictures
+            currentUser: that.currentUser
+            canEdit: canEdit
         that.picturesListView.render()
         
-        that.$('#picture-set-text-edit').doomEdit
-          ajaxSubmit: false
-          afterFormSubmit: (data, form, $el)->
-            $el.text(data)
-            that.model.save({name: data}, {silent: true})
+        if canEdit
+          that.uploader = new qq.FileUploader
+            element: document.getElementById('picture-uploader')
+            action: 'day-cares/upload'
+            debug: false
+            uploadButtonText: if that.model.get('type') is 'profile' then 'add profile picture' else 'add photos'
+            onSubmit: (id, fileName)->
+              that.uploader.setParams
+                setId: that.model.get('_id')
+            onComplete: (id, fileName, responseJSON)->
+              that.model.pictures.add(responseJSON)
+            
+          that.$('#picture-set-text-edit').doomEdit
+            ajaxSubmit: false
+            afterFormSubmit: (data, form, $el)->
+              $el.text(data)
+              that.model.save({name: data}, {silent: true})
         
-        that.$('#picture-set-type-select').doomEdit
-          ajaxSubmit: false
-          autoDisableBt: false
-          editField: '<select name="setTypeSelect"><option value="daycare">Public</option><option value="default">Private</option></select>'
-          onStartEdit: ($form, $elem)->
-            $form.find('select').val($elem.data('type'))
-          afterFormSubmit: (data, $form, $el)->
-            $el.text($form.find('select >option:selected').text())
-            $el.data('type', data)
-            that.model.save({type: data}, {silent: true})
+          that.$('#picture-set-type-select').doomEdit
+            ajaxSubmit: false
+            autoDisableBt: false
+            editField: '<select name="setTypeSelect"><option value="daycare">Public</option><option value="default">Private</option></select>'
+            onStartEdit: ($form, $elem)->
+              $form.find('select').val($elem.data('type'))
+            afterFormSubmit: (data, $form, $el)->
+              $el.text($form.find('select >option:selected').text())
+              $el.data('type', data)
+              that.model.save({type: data}, {silent: true})
     @
 
   remove: ()->

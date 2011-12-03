@@ -59,12 +59,14 @@
           that.mainColumnView = new window.Kin.DayCare.ProfileView({
             model: model,
             el: '#main-column',
-            router: that
+            router: that,
+            currentUser: Kin.currentUser
           });
           that.mainColumnView.render();
           that.side1ColumnView = new window.Kin.DayCare.ProfileSide1View({
             model: model,
-            el: '#side-column1'
+            el: '#side-column1',
+            currentUser: Kin.currentUser
           });
           return that.side1ColumnView.render();
         }
@@ -83,13 +85,15 @@
           that.mainColumnView = new window.Kin.DayCare.ProfileGalleryView({
             model: model,
             el: '#main-column',
-            router: that
+            router: that,
+            currentUser: Kin.currentUser
           });
           that.mainColumnView.render();
           that.side1ColumnView = new window.Kin.DayCare.ProfileSide1View({
             model: model,
             el: '#side-column1',
-            selectedMenuItem: 'gallery-menu-item'
+            selectedMenuItem: 'gallery-menu-item',
+            currentUser: Kin.currentUser
           });
           return that.side1ColumnView.render();
         }
@@ -139,12 +143,14 @@
         success: function(model, response) {
           that.mainColumnView = new window.Kin.DayCare.PictureSetView({
             model: model,
-            el: '#main-column'
+            el: '#main-column',
+            currentUser: Kin.currentUser
           });
           that.mainColumnView.render();
           that.side1ColumnView = new window.Kin.DayCare.PictureSetSide1View({
             model: model,
-            el: '#side-column1'
+            el: '#side-column1',
+            currentUser: Kin.currentUser
           });
           return that.side1ColumnView.render();
         }

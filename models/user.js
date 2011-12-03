@@ -6,6 +6,9 @@
       type: String,
       "enum": ['daycare', 'parent'],
       "default": 'daycare'
+    },
+    daycare_id: {
+      type: String
     }
   });
   UserSchema.plugin(mongooseAuth, {
@@ -43,7 +46,7 @@
         loginSuccessRedirect: '/',
         registerSuccessRedirect: '/',
         respondToRegistrationSucceed: function(res, user, data) {
-          var DayCare, dayCare, redirectTo;
+          var DayCare, User, dayCare, redirectTo;
           redirectTo = '/';
           if (user.type === 'daycare') {
             DayCare = require('./day_care');
@@ -59,6 +62,12 @@
               ]
             });
             dayCare.save();
+            User = require('./user');
+            User.update({
+              _id: user._id
+            }, {
+              daycare_id: dayCare._id
+            });
             redirectTo = "/#day-cares/edit/" + dayCare._id;
           }
           res.writeHead(303, {
@@ -69,5 +78,23 @@
       }
     }
   });
+  UserSchema.statics.checkPermissions = function(object, requiredKey, requiredValue, resForAutoRedirect) {
+    if (object == null) {
+      object = {};
+    }
+    if (object && (!requiredKey || !requiredValue)) {
+      return true;
+    }
+    if (object[requiredKey] === requiredValue) {
+      return true;
+    }
+    if (resForAutoRedirect) {
+      resForAutoRedirect.writeHead(303, {
+        'Location': '/login'
+      });
+      resForAutoRedirect.end();
+    }
+    return false;
+  };
   exports = module.exports = mongoose.model('User', UserSchema);
 }).call(this);

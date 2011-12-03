@@ -8,7 +8,9 @@ class window.Kin.DayCare.PicturesListView extends Backbone.View
     'click .delete-pic-bt': 'deletePicture'
     'click .primary-pic-bt': 'setAsPrimaryPicture'
 
-  initialize: (options = {})->
+  canEdit: null
+
+  initialize: ({@canEdit})->
     _.bindAll(@, 'render')
     @collection.bind('add', @render)
     @collection.bind('remove', @render)
@@ -20,7 +22,8 @@ class window.Kin.DayCare.PicturesListView extends Backbone.View
       url: @tplUrl
       onLoad: (tpl)->
         $el = $(that.el)
-        $el.html(tpl({picturesCollection: that.collection}))
+        canEdit = that.canEdit
+        $el.html(tpl({picturesCollection: that.collection, canEdit: canEdit}))
         
         that.$('a[rel^="prettyPhoto"]').prettyPhoto
           slideshow: false
@@ -29,16 +32,17 @@ class window.Kin.DayCare.PicturesListView extends Backbone.View
           deeplinking: false
           animation_speed: 0
         
-        that.$('.picture-text-edit').doomEdit
-          ajaxSubmit: false
-          onStartEdit: ($form, $elem)->
-            if $elem.text() is 'Click here to add a description'
-              $form.find('input').val('')
-          afterFormSubmit: (data, form, $elem)->
-            $elem.text(data)
-            picCid = $elem.data('pic-cid')
-            pictureModel = that.collection.getByCid(picCid)
-            pictureModel.save({description: data}, {silent: true})
+        if canEdit
+          that.$('.picture-text-edit').doomEdit
+            ajaxSubmit: false
+            onStartEdit: ($form, $elem)->
+              if $elem.text() is 'Click here to add a description'
+                $form.find('input').val('')
+            afterFormSubmit: (data, form, $elem)->
+              $elem.text(data)
+              picCid = $elem.data('pic-cid')
+              pictureModel = that.collection.getByCid(picCid)
+              pictureModel.save({description: data}, {silent: true})
             
     @
 
