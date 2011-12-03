@@ -66,31 +66,37 @@
 <% if (canEdit) { %>
 
 <p>
-    <button id="show-new-pic-set-form-bt" class="form-button">+ Add album</button>
+    <button id="show-new-pic-set-form-bt" class="btn primary">+ Add album</button>
 </p>
 
-<form id="create-new-pic-cnt" class="form hidden">
-    <div class="grid-12-12">
-        <label>Name</label>
-        <input type="text" name="new-pic-set-name" />
-    </div>
-    <div class="grid-12-12">
-        <label>Type <em class="form-req">*</em></label>
-        <select name="new-pic-set-type">
-        <%
-            var typeOptions = {'daycare': 'Public', 'default': 'Private'};
-            _.each(typeOptions, function (val, key) {
-        %>
-            <option value="<%=key %>"><%=val %></option>
-        <%
-            });
-        %>
-        </select>
-    </div>
-    <div class="grid-12-12">
-        <input id="create-new-pic-set-bt" class="form-button" type="submit" value="Create picture set" />
-        <input id="cancel-new-pic-set-bt" class="form-button" type="button" value="Cancel" />
-    </div>
+<form id="create-new-pic-cnt" class="hidden">
+	<fieldset>
+    	<div class="clearfix">
+	        <label for="new-pic-set-name">Name</label>
+			<div class="input">
+	        	<input type="text" name="new-pic-set-name" />
+			</div>
+	    </div>
+	    <div class="clearfix">
+	        <label for="new-pic-set-type">Type</label>
+			<div class="input">
+	        	<select name="new-pic-set-type">
+		        <%
+		            var typeOptions = {'daycare': 'Public', 'default': 'Private'};
+		            _.each(typeOptions, function (val, key) {
+		        %>
+		            <option value="<%=key %>"><%=val %></option>
+		        <%
+		            });
+		        %>
+		        </select>
+			</div>
+	    </div>
+	    <div class="actions">
+	        <input id="create-new-pic-set-bt" class="btn primary" type="submit" value="Create picture set" />
+	        <input id="cancel-new-pic-set-bt" class="btn" type="button" value="Cancel" />
+	    </div>
+	</fieldset>
 </form>
 
 <% } %>

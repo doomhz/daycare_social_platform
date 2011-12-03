@@ -35,6 +35,11 @@ class window.Kin.DayCare.PictureSetView extends Backbone.View
             action: 'day-cares/upload'
             debug: false
             uploadButtonText: if that.model.get('type') is 'profile' then 'add profile picture' else 'add photos'
+            template: '<div class="qq-uploader">' + 
+                '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+                '<div class="qq-upload-button primary btn">{uploadButtonText}</div>' +
+                '<ul class="qq-upload-list"></ul>' + 
+             '</div>',
             onSubmit: (id, fileName)->
               that.uploader.setParams
                 setId: that.model.get('_id')

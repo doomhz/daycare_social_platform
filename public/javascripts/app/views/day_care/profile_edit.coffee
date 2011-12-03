@@ -106,9 +106,9 @@ class window.Kin.DayCare.ProfileEditView extends Backbone.View
 
   addFormMessage: ($form, type = 'info', message)->
     $formMessages = $form.find('#form-messages')
-    $formMessages.attr('class', '')
-    $formMessages.addClass('form-msg-' + type)
-    $formMessages.find('h3').text(message)
+    $formMessages.removeClass('success error warning hidden')
+    $formMessages.addClass(type)
+    $formMessages.find('p').text(message)
     $(window).scrollTop(0)
   
   toggleLicenseNumberField: (ev)->

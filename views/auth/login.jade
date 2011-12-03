@@ -1,17 +1,21 @@
 h2 Login
 - if ('undefined' !== typeof errors && errors.length)
-  ul#errors
-    - each error in errors
-      li.error= error
+  div.alert-message.block-message.error
+    ul#errors
+      - each error in errors
+        li.error= error
 form(action='/login', method='POST')
-  #login
-    label(for=everyauth.password.loginFormFieldName) E-mail
-    input(type='text', name=everyauth.password.loginFormFieldName, value=email)
-  #password
-    label(for=everyauth.password.passwordFormFieldName) Password
-    input(type='password', name=everyauth.password.passwordFormFieldName)
-  #submit
-    input(type='submit', value='Login') Login
+  fieldset
+    #login.clearfix
+      label(for=everyauth.password.loginFormFieldName) E-mail
+      .input
+        input(type='text', name=everyauth.password.loginFormFieldName, value=email)
+    #password.clearfix
+      label(for=everyauth.password.passwordFormFieldName) Password
+      .input
+        input(type='password', name=everyauth.password.passwordFormFieldName)
+    #submit.actions
+      input.btn.primary(type='submit', value='Login') Login
 
-p Don't have an account yet? 
-  a(href='/register') Click here to register.
+    p Don't have an account yet? 
+      a(href='/register') Click here to register.

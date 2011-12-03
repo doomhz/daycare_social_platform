@@ -49,6 +49,7 @@
               action: 'day-cares/upload',
               debug: false,
               uploadButtonText: that.model.get('type') === 'profile' ? 'add profile picture' : 'add photos',
+              template: '<div class="qq-uploader">' + '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' + '<div class="qq-upload-button primary btn">{uploadButtonText}</div>' + '<ul class="qq-upload-list"></ul>' + '</div>',
               onSubmit: function(id, fileName) {
                 return that.uploader.setParams({
                   setId: that.model.get('_id')

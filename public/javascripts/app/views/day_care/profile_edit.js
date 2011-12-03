@@ -137,9 +137,9 @@
         type = 'info';
       }
       $formMessages = $form.find('#form-messages');
-      $formMessages.attr('class', '');
-      $formMessages.addClass('form-msg-' + type);
-      $formMessages.find('h3').text(message);
+      $formMessages.removeClass('success error warning hidden');
+      $formMessages.addClass(type);
+      $formMessages.find('p').text(message);
       return $(window).scrollTop(0);
     };
     ProfileEditView.prototype.toggleLicenseNumberField = function(ev) {

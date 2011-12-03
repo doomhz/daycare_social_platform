@@ -1,23 +1,33 @@
 h2 Register
 - if ('undefined' !== typeof errors && errors.length)
-  ul#errors
-    - each error in errors
-      li.error= error
+  div.alert-message.block-message.error
+    ul#errors
+      - each error in errors
+        li.error= error
 form(action='/register', method='POST')
-  #register-as
-    label(for='type') I am a
-    input(type='radio', name='type', value='daycare', checked='checked')
-    span Daycare
-    input(type='radio', name='type', value='parent')
-    span Parent
-  #email
-    label(for=everyauth.password.loginFormFieldName) E-mail
-    input(type='text', name=everyauth.password.loginFormFieldName, value=userParams[everyauth.password.loginFormFieldName])
-  #password
-    label(for=everyauth.password.passwordFormFieldName) Password
-    input(type='password', name=everyauth.password.passwordFormFieldName)
-  #submit
-    input(type='submit', value='Register')
+  fieldset
+    #register-as.clearfix
+      label(for='type') I am a
+      .input
+        ul.inputs-list
+          li
+            label
+              input(type='radio', name='type', value='daycare', checked='checked')
+              span Daycare
+          li
+            label
+              input(type='radio', name='type', value='parent')
+              span Parent
+    #email.clearfix
+      label(for=everyauth.password.loginFormFieldName) E-mail
+      .input
+        input(type='text', name=everyauth.password.loginFormFieldName, value=userParams[everyauth.password.loginFormFieldName])
+    #password.clearfix
+      label(for=everyauth.password.passwordFormFieldName) Password
+      .input
+        input(type='password', name=everyauth.password.passwordFormFieldName)
+    #submit.actions
+      input.btn.primary(type='submit', value='Register')
 
-p Already a member? 
-  a(href='/login') Click here to login.
+    p Already a member? 
+      a(href='/login') Click here to login.
