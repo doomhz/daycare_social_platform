@@ -18,6 +18,14 @@ form(action='/register', method='POST')
             label
               input(type='radio', name='type', value='parent')
               span Parent
+    #name.clearfix
+      label(for="name") Name
+      .input
+        .inline-inputs
+          input(type='text', name="name", value=userParams["name"], class="small", placeholder="Name")
+          span &nbsp;&nbsp;&nbsp;&nbsp;
+          input(type='text', name="surname", value=userParams["surname"], class="small", placeholder="Surname")
+          input(type='hidden', name="daycare_name", value=userParams["daycare_name"])
     #email.clearfix
       label(for=everyauth.password.loginFormFieldName) E-mail
       .input

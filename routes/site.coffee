@@ -51,15 +51,18 @@ module.exports = (app)->
   app.get '/current-user', (req, res)->
     req.user ?= {}
     userData =
-      _id:   req.user._id
-      email: req.user.email
-      type:  req.user.type
+      _id:     req.user._id
+      name:    req.user.name
+      surname: req.user.surname
+      email:   req.user.email
+      type:    req.user.type
     
     if userData.type is 'daycare'
       DayCare = require('../models/day_care')
       DayCare.findOne({user_id: userData._id}).run (err, dayCare) ->
         if dayCare
-          userData.daycare_id = dayCare._id
+          userData.daycare_id   = dayCare._id
+          userData.daycare_name = dayCare.name
         res.json userData
     else
       res.json userData

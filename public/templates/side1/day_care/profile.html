@@ -20,6 +20,9 @@
     </li>
 </ul>
 <ul id="profile-left-menu">
+    <li id="wall-menu-item" class="<%=(selectedMenuItem === 'wall-menu-item' ? 'selected' : '') %>">
+        <a href="#day-cares/view/<%=dayCare.get('_id') %>"><span>Wall</span></a>
+    </li>
     <li id="gallery-menu-item" class="<%=(selectedMenuItem === 'gallery-menu-item' ? 'selected' : '') %>">
         <a href="#day-cares/view/gallery/<%=dayCare.get('_id') %>"><span>Gallery</span></a>
     </li>

@@ -37,6 +37,8 @@ app.configure('production', function(){
 
 require('./routes/auth')(app);
 require('./routes/site')(app);
+require('./routes/comments')(app);
+require('./routes/messages')(app);
 require('./routes/day_cares')(app);
 
 mongooseAuth.helpExpress(app);

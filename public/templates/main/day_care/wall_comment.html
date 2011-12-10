@@ -1,0 +1,61 @@
+<%
+  if (comment.get("type") === "status") {
+%>
+<div class="status-cnt">
+<%
+  }
+%>
+<p class="avatar">
+  <img src="/images/no_pic.png" width="60" height="60" />
+</p>
+<p class="comment-header">
+  <%
+    var commentDate = $.timeago(_.escape(comment.get("updated_at")));
+    var name = comment.get("from_user").type === "daycare" ? comment.get("from_user").daycare_name : comment.get("from_user").name + " " + comment.get("from_user").surname;
+  %>
+  <span class="name"><%= _.escape(name) %></span>: <span class="time"><%= commentDate %></span>
+</p>
+<p>
+  <%
+    var content = comment.get("content");
+    if (typeof content === "object") {
+      if (content.type === "new_picture") {
+        %>
+        added a new picture in the album <a href="#day-cares/view/picture-set/<%=content.picture_set_id %>"><%= content.picture_set_name %></a>.
+        <br />
+        <a href="<%=content.picture.big_url %>" title="<%=content.picture.description %>" class="photo-frame" rel="prettyPhoto">
+          <img src="<%=content.picture.thumb_url %>" />
+        </a>
+        <%
+      }
+    } else {
+      print(_.escape(content));
+    }
+  %>
+</p>
+<%
+  if (comment.get("type") === "status") {
+%>
+</div>
+<%
+  }
+%>
+
+<%
+  if (comment.get("type") === "status") {
+%>
+<ul class="followups"></ul>
+<div class="add-followup-box">
+  <form class="add-followup-form" method="post" action="/comments">
+    <input name="to_id" type="hidden" value="<%= comment.get('_id') %>" />
+    <input name="wall_id" type="hidden" value="<%= comment.get('wall_id') %>" />
+    <input name="type" type="hidden" value="followup" />
+    <div>
+      <textarea name="content" resize="none" placeholder="add a comment ..." rows="1" cols="40"></textarea>
+      <input type="submit" value="Add" class="btn primary" />
+    </div>
+  </form>
+</div>
+<%
+  }
+%>

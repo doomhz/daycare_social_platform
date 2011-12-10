@@ -7,6 +7,12 @@ UserSchema = new Schema
     default: 'daycare'
   daycare_id:
     type: String
+  daycare_name:
+    type: String
+  name:
+    type: String
+  surname:
+    type: String
 
 UserSchema.plugin(
   mongooseAuth,
@@ -24,7 +30,10 @@ UserSchema.plugin(
     password:
       loginWith: 'email'
       extraParams:
-        type: String
+        type:         String
+        name:         String
+        surname:      String
+        daycare_name: String
       everyauth:
         loginFormFieldName: 'email'
         getLoginPath: '/login'

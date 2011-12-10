@@ -50,6 +50,7 @@ class window.Kin.MainRouter extends Backbone.Router
           model: model
           el: '#side-column1'
           currentUser: Kin.currentUser
+          selectedMenuItem: "wall-menu-item"
         that.side1ColumnView.render()
 
   viewDayCareGallery: (id)->

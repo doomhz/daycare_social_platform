@@ -16,7 +16,8 @@
       _id: null,
       type: null,
       email: null,
-      daycare_id: null
+      daycare_id: null,
+      daycare_name: ""
     };
     UserModel.prototype.url = '/current-user';
     UserModel.prototype.canEditDayCare = function(dayCareId) {

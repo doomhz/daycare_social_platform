@@ -14,10 +14,15 @@
     }
     ProfileView.prototype.el = null;
     ProfileView.prototype.tplUrl = '/templates/main/day_care/profile.html';
+    ProfileView.prototype.events = {
+      "submit #add-comment-form": "addCommentHandler",
+      "submit .add-followup-form": "addFollowupHandler"
+    };
     ProfileView.prototype.maps = null;
     ProfileView.prototype.router = null;
     ProfileView.prototype.currentUser = null;
     ProfileView.prototype.profileGeneralInfo = null;
+    ProfileView.prototype.renderProfileWall = true;
     ProfileView.prototype.initialize = function(_arg) {
       this.router = _arg.router, this.currentUser = _arg.currentUser;
       return this;
@@ -32,7 +37,8 @@
           canEdit = that.currentUser.canEditDayCare(that.model.get('_id'));
           $(that.el).html(tpl({
             dayCare: that.model,
-            canEdit: canEdit
+            canEdit: canEdit,
+            currentUser: that.currentUser
           }));
           that.$('#profile-main-tabs').doomTabs({
             firstSelectedTab: 1,
@@ -72,13 +78,27 @@
             slideSpeed: 400,
             showCounter: true
           });
-          return that.$('a[rel^="prettyPhoto"]').prettyPhoto({
+          that.$('a[rel^="prettyPhoto"]').prettyPhoto({
             slideshow: false,
             social_tools: false,
             theme: 'light_rounded',
             deeplinking: false,
             animation_speed: 0
           });
+          that.$("#add-comment-form textarea").autoResize({
+            extraSpace: -4
+          });
+          if (that.renderProfileWall && !that.profileWall) {
+            return that.profileWall = new Kin.DayCare.ProfileWallView({
+              el: that.$('#wall-comments-list'),
+              model: that.model,
+              collection: new Kin.WallCommentsCollection([], {
+                dayCareId: that.model.get("_id")
+              }),
+              router: that.router,
+              currentUser: that.currentUser
+            });
+          }
         }
       });
       return this;
@@ -89,11 +109,40 @@
       }
       this.unbind();
       $(this.el).unbind().empty();
-      this.profileGeneralInfo.remove();
+      if (this.profileGeneralInfo) {
+        this.profileGeneralInfo.remove();
+      }
+      if (this.profileWall) {
+        this.profileWall.remove();
+      }
       return this;
     };
     ProfileView.prototype.addAddressMarker = function(lat, lng, name) {
       return this.addressMarker = this.maps.addMarker(lat, lng, name, false);
+    };
+    ProfileView.prototype.addCommentHandler = function(ev) {
+      var $form;
+      ev.preventDefault();
+      $form = this.$(ev.target);
+      this.sendCommentFromForm($form);
+      return $form.find("textarea").val("").keyup();
+    };
+    ProfileView.prototype.addFollowupHandler = function(ev) {
+      var $form;
+      ev.preventDefault();
+      $form = this.$(ev.target);
+      this.sendCommentFromForm($form);
+      return $form.find("textarea").val("").keyup();
+    };
+    ProfileView.prototype.sendCommentFromForm = function($form) {
+      var comment, commentData;
+      commentData = $form.serialize();
+      comment = new Kin.CommentModel({
+        wall_id: this.model.get("_id")
+      });
+      return comment.save(null, {
+        data: commentData
+      });
     };
     return ProfileView;
   })();

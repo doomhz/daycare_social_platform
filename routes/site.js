@@ -72,6 +72,8 @@
       };
       userData = {
         _id: req.user._id,
+        name: req.user.name,
+        surname: req.user.surname,
         email: req.user.email,
         type: req.user.type
       };
@@ -82,6 +84,7 @@
         }).run(function(err, dayCare) {
           if (dayCare) {
             userData.daycare_id = dayCare._id;
+            userData.daycare_name = dayCare.name;
           }
           return res.json(userData);
         });

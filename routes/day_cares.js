@@ -1,7 +1,8 @@
 (function() {
-  var DayCare, User, fs;
+  var Comment, DayCare, User, fs;
   DayCare = require('../models/day_care');
   User = require('../models/user');
+  Comment = require('../models/comment');
   fs = require('fs');
   module.exports = function(app) {
     app.get('/day-cares', function(req, res) {
@@ -19,16 +20,24 @@
       });
     });
     app.put('/day-cares/:id', function(req, res) {
-      var data;
+      var data, user;
+      user = req.user ? req.user : {};
       data = req.body;
       delete data._id;
       return DayCare.update({
         _id: req.params.id,
-        user_id: req.user._id
+        user_id: user._id
       }, data, {}, function(err, dayCare) {
         if (!err) {
-          return res.json({
-            success: true
+          return User.findOne({
+            _id: user._id
+          }).run(function(err, usr) {
+            usr.daycare_name = data.name;
+            req.user.daycare_name = data.name;
+            usr.save();
+            return res.json({
+              success: true
+            });
           });
         } else {
           return res.json({
@@ -255,7 +264,8 @@
       });
     });
     return app.post('/day-cares/upload', function(req, res) {
-      var bigFilePath, bigRelativeFilePath, description, dirPath, fileExtension, fileName, filePath, mediumFilePath, mediumRelativeFilePath, newPicture, newPictureData, pictureSetId, relativeDirPath, relativeFilePath, thumbFilePath, thumbRelativeFilePath, ws;
+      var bigFilePath, bigRelativeFilePath, description, dirPath, fileExtension, fileName, filePath, mediumFilePath, mediumRelativeFilePath, newPicture, newPictureData, pictureSetId, relativeDirPath, relativeFilePath, thumbFilePath, thumbRelativeFilePath, user, ws;
+      user = req.user ? req.user : {};
       pictureSetId = req.query.setId;
       fileName = req.query.qqfile;
       description = req.query.description;
@@ -350,12 +360,27 @@
                     height: 600,
                     quality: 1
                   }, function(err, stdout, stderr) {
+                    var comment;
                     if (err) {
                       console.log(err);
                     }
                     if (err) {
                       console.log(stderr);
                     }
+                    comment = new Comment({
+                      from_id: user._id,
+                      to_id: dayCare._id,
+                      wall_id: dayCare._id,
+                      type: "status",
+                      content: {
+                        type: "new_picture",
+                        picture_set_id: dayCare.picture_sets[pictureSetIndex]._id,
+                        picture_set_name: dayCare.picture_sets[pictureSetIndex].name,
+                        picture: newPicture
+                      }
+                    });
+                    comment.save();
+                    comment.postOnWall();
                     return res.json(newPicture);
                   });
                 });

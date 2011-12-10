@@ -1,6 +1,7 @@
-DayCare = require('../models/day_care');
-User = require('../models/user');
-fs = require('fs')
+DayCare = require('../models/day_care')
+User    = require('../models/user')
+Comment = require('../models/comment')
+fs      = require('fs')
 
 module.exports = (app)->
 
@@ -14,12 +15,17 @@ module.exports = (app)->
       res.json dayCare.filterPrivateDataByUserId(currentUser._id)
 
   app.put '/day-cares/:id', (req, res)->
+    user = if req.user then req.user else {}
     data = req.body
     delete data._id
-    DayCare.update {_id: req.params.id, user_id: req.user._id}, data, {}, (err, dayCare) ->      
+    DayCare.update {_id: req.params.id, user_id: user._id}, data, {}, (err, dayCare) ->
       # TODO Delete pictures here
       if not err
-        res.json {success: true}
+        User.findOne({_id: user._id}).run (err, usr)->
+          usr.daycare_name = data.name
+          req.user.daycare_name = data.name
+          usr.save()
+          res.json {success: true}
       else
         res.json {success: false}
 
@@ -173,6 +179,7 @@ module.exports = (app)->
         res.json {success: false}
 
   app.post '/day-cares/upload', (req, res)->
+    user = if req.user then req.user else {}
     pictureSetId = req.query.setId
     fileName = req.query.qqfile
     description = req.query.description
@@ -273,6 +280,20 @@ module.exports = (app)->
                         if err
                           console.log stderr
                       
+                        comment = new Comment
+                          from_id: user._id
+                          to_id: dayCare._id
+                          wall_id: dayCare._id
+                          type: "status"
+                          content:
+                            type: "new_picture"
+                            picture_set_id: dayCare.picture_sets[pictureSetIndex]._id
+                            picture_set_name: dayCare.picture_sets[pictureSetIndex].name
+                            picture: newPicture
+                        
+                        comment.save()
+                        comment.postOnWall()
+                      
                         res.json newPicture
                     )
                 )
@@ -282,3 +303,5 @@ module.exports = (app)->
 
     else
       res.json {success: false}
+
+        

@@ -22,7 +22,12 @@
         return next();
       }
     });
-    return app.get('/geolocatio*', function(req, res, next) {
+    app.get('/geolocatio*', function(req, res, next) {
+      if (User.checkPermissions(req.user, null, null, res)) {
+        return next();
+      }
+    });
+    return app.post('/comment*', function(req, res, next) {
       if (User.checkPermissions(req.user, null, null, res)) {
         return next();
       }

@@ -12,3 +12,18 @@
         <div id="profile-address-maps"></div>
     </div>
 </div>
+
+<div id="add-comment-box">
+  <form id="add-comment-form" method="post" action="/comments">
+    <input name="to_id" type="hidden" value="<%= dayCare.get('_id') %>" />
+    <input name="wall_id" type="hidden" value="<%= dayCare.get('_id') %>" />
+    <input name="type" type="hidden" value="status" />
+    <div>
+      <textarea name="content" resize="none" placeholder="add a comment ..." rows="1" cols="40"></textarea>
+      <input type="submit" value="Post it" class="btn primary" />
+    </div>
+  </form>
+</div>
+
+<ul id="wall-comments-list">
+</ul>

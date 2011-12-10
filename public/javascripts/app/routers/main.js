@@ -66,7 +66,8 @@
           that.side1ColumnView = new window.Kin.DayCare.ProfileSide1View({
             model: model,
             el: '#side-column1',
-            currentUser: Kin.currentUser
+            currentUser: Kin.currentUser,
+            selectedMenuItem: "wall-menu-item"
           });
           return that.side1ColumnView.render();
         }

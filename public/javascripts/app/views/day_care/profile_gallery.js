@@ -19,6 +19,7 @@
       'submit #create-new-pic-cnt': 'submitCreateNewPicSetForm',
       'click .delete-pic-set-bt': 'deletePictureSet'
     };
+    ProfileGalleryView.prototype.renderProfileWall = false;
     ProfileGalleryView.prototype.initialize = function(_arg) {
       this.router = _arg.router, this.currentUser = _arg.currentUser;
       return _.bindAll(this, 'render');

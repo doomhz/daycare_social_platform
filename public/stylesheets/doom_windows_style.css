@@ -1,0 +1,103 @@
+.doom-win-overlay {
+	background: #AAA;
+	/*opacity:0.6;*/
+	background: rgba(0,0,0,0.6);
+}
+
+.doom-win * {
+    margin:0;
+    padding:0;
+}
+
+.doom-win {
+	background: rgba(0,0,0,0.6);
+	padding: 10px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+
+.doom-win-content {
+	background: #fff;
+	overflow: hidden;
+	min-width: 250px;
+	min-height: 50px;
+}
+
+.doom-win-bt-cnt {
+	background: #fff;
+	padding: 0 10px 0 10px;
+}
+
+.doom-win-bt-cnt-header {
+	background: #fff;
+	padding: 0;
+}
+
+.doom-win-bt-cnt-header .doom-win-bt-list {
+	padding: 0;
+	height: 0;
+}
+
+.doom-win-bt-list {
+	background: #fff;
+	list-style-type: none;
+	text-align: right;
+	border-top: solid 1px #DDD;
+	padding: 5px 0 5px 0;
+}
+
+.doom-win-bt-list li {
+	display: inline-block;
+	margin-left: 10px;
+}
+
+.doom-win-bt-list li button {
+	border:none;
+	font-size:13px;
+	font-weight:bold;
+	height:22px;
+	padding-right:18px;
+	text-align:right;
+	text-transform:uppercase;
+	cursor: pointer;
+	background: transparent;
+	color: #777;
+}
+
+.doom-win-bt-list .doom-win-bt-close button {
+	background:url(icon_close.png) no-repeat scroll right center transparent;
+	width: 34px;
+	height: 36px;
+	box-shadow:none;
+	position: relative;
+	float: right;
+	width: 34px;
+	height: 36px;
+	top:-18px;
+	right:-18px;
+}
+
+.doom-win-bt-list .doom-win-bt-close span {
+	display: none;
+}
+
+.doom-win-ajax-loading {
+	background:#fff url(ajax_loader.gif) no-repeat center center;
+}
+
+.d-alert-msg {
+	font-size: 14px;
+	text-align: center;
+	display: block;
+	padding: 20px;
+}
+
+.d-confirm-msg {
+	font-size: 14px;
+	text-align: center;
+	display: block;
+	padding: 20px 10px 0 10px;
+}
+
+	

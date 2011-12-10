@@ -11,6 +11,7 @@
     , "imagemagick": "latest"
     , "expresso": "latest"
     , "coffee-script": "latest"
+    , "socket.io": "latest"
     , "jake": "latest"
     , "jasmine-node":   "1.0.11"
     , "jasmine-jquery": "1.3.3"
