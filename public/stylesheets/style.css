@@ -61,17 +61,57 @@ header #header-wrapper #logo {
 }
 header #header-wrapper #main-menu {
   float: right;
-  margin: 27px 0 0 0;
+  margin: 24px 0 0 0;
 }
 header #header-wrapper #main-menu li {
-  display: inline;
-  margin-left: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 0 20px;
 }
 header #header-wrapper #main-menu li a {
   color: #fff;
   text-decoration: none;
   font-size: 11px;
   font-weight: bold;
+}
+header #header-wrapper #main-menu #account-bt {
+  height: 16px;
+  overflow: hidden;
+}
+header #header-wrapper #main-menu #account-bt a {
+  display: inline-block;
+  background: url("/images/settings.png") no-repeat;
+  width: 16px;
+  height: 16px;
+}
+header #header-wrapper #main-menu #account-bt a span {
+  display: none;
+}
+header #header-wrapper #main-menu #account-bt ul.submenu {
+  float: right;
+  position: absolute;
+  right: 184px;
+  background: #e1f5fc;
+  margin: -3px 0 0 0;
+}
+header #header-wrapper #main-menu #account-bt ul.submenu li {
+  margin: 0;
+}
+header #header-wrapper #main-menu #account-bt ul.submenu li a {
+  display: inline-block;
+  width: 90px;
+  padding: 5px;
+  background: none;
+  color: #000;
+}
+header #header-wrapper #main-menu #account-bt ul.submenu li a:hover {
+  background: #c8e9fa;
+}
+header #header-wrapper #main-menu #account-bt.selected {
+  background-color: #e1f5fc;
+}
+header #header-wrapper #main-menu #account-bt.selected a {
+  color: #000;
 }
 header #header-wrapper #events-menu {
   float: right;

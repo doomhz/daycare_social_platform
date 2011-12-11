@@ -13,11 +13,9 @@ class window.Kin.MainRouter extends Backbone.Router
   side1ColumnView: null
 
   initialize: ()->
-    Kin.currentUser = new Kin.UserModel()
-    Kin.currentUser.fetch
-      success: (model)->
-        if not model.get('_id')
-          window.location = '/login'
+    @loadCurrentUser()
+    @loadWindow()
+    @loadHeaderMenu()
 
   root: ()->
     @clearColumns()
@@ -123,6 +121,20 @@ class window.Kin.MainRouter extends Backbone.Router
 
   clearColumns: (columns = ['main', 'side1'])->
     (@["#{column}ColumnView"] and @["#{column}ColumnView"].remove()) for column in columns
+  
+  loadCurrentUser: ()->
+    Kin.currentUser = new Kin.UserModel()
+    Kin.currentUser.fetch
+      success: (model)->
+        if not model.get('_id')
+          window.location = '/login'
 
+  loadWindow: ()->
+    Kin.window = new Kin.WindowView()
+
+  loadHeaderMenu: ()->
+    headerSettingsSubmenu = new Kin.Header.SubmenuView
+      el: "header #account-bt"
+    Kin.window.addEventDelegate(headerSettingsSubmenu)
 
 

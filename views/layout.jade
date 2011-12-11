@@ -39,6 +39,8 @@ html
     script(src='/javascripts/app/collections/pictures.js')
     script(src='/javascripts/app/collections/day_care.js')
     script(src='/javascripts/app/collections/wall_comments.js')
+    script(src='/javascripts/app/views/window.js')
+    script(src='/javascripts/app/views/header/submenu.js')
     script(src='/javascripts/app/views/day_care/profile.js')
     script(src='/javascripts/app/views/day_care/profile_gallery.js')
     script(src='/javascripts/app/views/day_care/profile_general_info.js')
@@ -66,8 +68,12 @@ html
             a(href='#') Home
           li
             a(href='#') Profile
-          li
-            a(href='#') Account
+          li#account-bt
+            a(href='#')
+              span Account
+            ul.submenu.hidden
+              li
+                a(href="/logout") Logout
         ul#events-menu
           li.messages
             a(href='#')

@@ -23,14 +23,9 @@
     MainRouter.prototype.mainColumnView = null;
     MainRouter.prototype.side1ColumnView = null;
     MainRouter.prototype.initialize = function() {
-      Kin.currentUser = new Kin.UserModel();
-      return Kin.currentUser.fetch({
-        success: function(model) {
-          if (!model.get('_id')) {
-            return window.location = '/login';
-          }
-        }
-      });
+      this.loadCurrentUser();
+      this.loadWindow();
+      return this.loadHeaderMenu();
     };
     MainRouter.prototype.root = function() {
       this.clearColumns();
@@ -168,6 +163,26 @@
         _results.push(this["" + column + "ColumnView"] && this["" + column + "ColumnView"].remove());
       }
       return _results;
+    };
+    MainRouter.prototype.loadCurrentUser = function() {
+      Kin.currentUser = new Kin.UserModel();
+      return Kin.currentUser.fetch({
+        success: function(model) {
+          if (!model.get('_id')) {
+            return window.location = '/login';
+          }
+        }
+      });
+    };
+    MainRouter.prototype.loadWindow = function() {
+      return Kin.window = new Kin.WindowView();
+    };
+    MainRouter.prototype.loadHeaderMenu = function() {
+      var headerSettingsSubmenu;
+      headerSettingsSubmenu = new Kin.Header.SubmenuView({
+        el: "header #account-bt"
+      });
+      return Kin.window.addEventDelegate(headerSettingsSubmenu);
     };
     return MainRouter;
   })();
