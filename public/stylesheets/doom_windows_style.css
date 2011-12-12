@@ -66,7 +66,7 @@
 }
 
 .doom-win-bt-list .doom-win-bt-close button {
-	background:url(icon_close.png) no-repeat scroll right center transparent;
+	background:url(/images/doom_windows/icon_close.png) no-repeat scroll right center transparent;
 	width: 34px;
 	height: 36px;
 	box-shadow:none;
@@ -83,7 +83,7 @@
 }
 
 .doom-win-ajax-loading {
-	background:#fff url(ajax_loader.gif) no-repeat center center;
+	background:#fff url(/images/doom_windows/ajax_loader.gif) no-repeat center center;
 }
 
 .d-alert-msg {
