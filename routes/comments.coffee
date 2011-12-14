@@ -28,11 +28,12 @@ module.exports = (app)->
             usersToFind.push(comment.from_id)
           if usersToFind.length
             User.where("_id").in(usersToFind).run (err, users)->
-              for comment in comments
-                for user in users
-                  if "#{user._id}" is "#{comment.from_id}"
-                    comment.from_user = user
-              socket.emit("new-wall-comments", {comments: comments})
+              if users
+                for comment in comments
+                  for user in users
+                    if "#{user._id}" is "#{comment.from_id}"
+                      comment.from_user = user
+                socket.emit("new-wall-comments", {comments: comments})
     socket.on "disconnect", ()->
       # socket.disconnect()
   
