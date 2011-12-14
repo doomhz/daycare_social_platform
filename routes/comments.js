@@ -26,26 +26,30 @@
           wall_id: data.wall_id
         }).desc("type").asc("updated_at").run(function(err, comments) {
           var comment, usersToFind, _i, _len;
-          usersToFind = [];
-          for (_i = 0, _len = comments.length; _i < _len; _i++) {
-            comment = comments[_i];
-            usersToFind.push(comment.from_id);
-          }
-          return User.where("_id")["in"](usersToFind).run(function(err, users) {
-            var comment, user, _j, _k, _len2, _len3;
-            for (_j = 0, _len2 = comments.length; _j < _len2; _j++) {
-              comment = comments[_j];
-              for (_k = 0, _len3 = users.length; _k < _len3; _k++) {
-                user = users[_k];
-                if (("" + user._id) === ("" + comment.from_id)) {
-                  comment.from_user = user;
-                }
-              }
+          if (comments) {
+            usersToFind = [];
+            for (_i = 0, _len = comments.length; _i < _len; _i++) {
+              comment = comments[_i];
+              usersToFind.push(comment.from_id);
             }
-            return socket.emit("new-wall-comments", {
-              comments: comments
-            });
-          });
+            if (usersToFind.length) {
+              return User.where("_id")["in"](usersToFind).run(function(err, users) {
+                var comment, user, _j, _k, _len2, _len3;
+                for (_j = 0, _len2 = comments.length; _j < _len2; _j++) {
+                  comment = comments[_j];
+                  for (_k = 0, _len3 = users.length; _k < _len3; _k++) {
+                    user = users[_k];
+                    if (("" + user._id) === ("" + comment.from_id)) {
+                      comment.from_user = user;
+                    }
+                  }
+                }
+                return socket.emit("new-wall-comments", {
+                  comments: comments
+                });
+              });
+            }
+          }
         });
       });
       return socket.on("disconnect", function() {});
