@@ -521,3 +521,13 @@ footer #footer-wrapper #copyright {
 #pictures-list li .photo-frame {
   height: 130px;
 }
+#quick-message-win #quick-message-box-content {
+  padding: 20px 20px 0 20px;
+}
+#quick-message-win #quick-message-box-content textarea {
+  width: 350px;
+  height: 90px;
+  margin: 10px 0 10px 0;
+  padding: 5px;
+  resize: none;
+}

@@ -1,5 +1,5 @@
 <div id="quick-message-box-content">
-  <p>To: <%= dayCare.get("name") %></p>
+  <p>To: <span id="message-to-name"><%= dayCare.get("name") %></span></p>
   <form>
     <fieldset>
       <input type="hidden" name="from_id" value="<%= Kin.currentUser.get("_id") %>" />

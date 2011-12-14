@@ -58,14 +58,29 @@
             dayCare: that.model
           });
           return dWindow(winContent, {
+            wrapperId: "quick-message-win",
             closeOnSideClick: false,
             buttons: {
               "send": "send",
               "cancel": "cancel"
             },
             buttonClick: function(btType, $win) {
+              var $form, formData, messageModel;
               if (btType === "send") {
-                $.jGrowl("Message sent!");
+                $form = $win.find("form:first");
+                formData = $form.serialize();
+                messageModel = new Kin.MessageModel;
+                messageModel.save(null, {
+                  data: formData,
+                  success: function() {
+                    var toName;
+                    toName = $win.find("#message-to-name").text();
+                    return $.jGrowl("Message sent to " + toName);
+                  },
+                  error: function() {
+                    return $.jGrowl("Message could not be sent :( Please try again.");
+                  }
+                });
               }
               return $win.close();
             }

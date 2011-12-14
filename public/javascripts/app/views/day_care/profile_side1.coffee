@@ -39,12 +39,22 @@ class window.Kin.DayCare.ProfileSide1View extends Backbone.View
       onLoad: (tpl)->
         winContent = tpl({dayCare: that.model})
         dWindow(winContent, {
+          wrapperId: "quick-message-win"
           closeOnSideClick: false
           buttons:
             "send":   "send"
             "cancel": "cancel"
           buttonClick: (btType, $win)->
             if btType is "send"
-              $.jGrowl("Message sent!")
+              $form = $win.find("form:first")
+              formData = $form.serialize()
+              messageModel = new Kin.MessageModel
+              messageModel.save null,
+                data: formData
+                success: ()->
+                  toName = $win.find("#message-to-name").text()
+                  $.jGrowl("Message sent to #{toName}")
+                error: ()->
+                  $.jGrowl("Message could not be sent :( Please try again.")
             $win.close()
         })
