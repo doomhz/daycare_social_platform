@@ -33,7 +33,7 @@ module.exports = (app)->
                   for user in users
                     if "#{user._id}" is "#{comment.from_id}"
                       comment.from_user = user
-                socket.emit("new-wall-comments", {comments: comments})
+              socket.emit("new-wall-comments", {comments: comments})
     socket.on "disconnect", ()->
       # socket.disconnect()
   

@@ -45,10 +45,10 @@
                       }
                     }
                   }
-                  return socket.emit("new-wall-comments", {
-                    comments: comments
-                  });
                 }
+                return socket.emit("new-wall-comments", {
+                  comments: comments
+                });
               });
             }
           }
