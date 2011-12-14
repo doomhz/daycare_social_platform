@@ -1,12 +1,16 @@
 class window.Kin.MainRouter extends Backbone.Router
 
   routes:
-    ''         : 'root'
-    'day-cares': 'dayCares'
-    'day-cares/view/:id': 'viewDayCare'
-    'day-cares/view/gallery/:id': 'viewDayCareGallery'
-    'day-cares/edit/:id': 'editDayCare'
-    'day-cares/view/picture-set/:id': 'viewDayCarePictureSet'
+    ''                               : 'root'
+    'day-cares'                      : 'dayCares'
+    'day-cares/view/:id'             : 'viewDayCare'
+    'day-cares/view/gallery/:id'     : 'viewDayCareGallery'
+    'day-cares/edit/:id'             : 'editDayCare'
+    'day-cares/view/picture-set/:id' : 'viewDayCarePictureSet'
+    'messages/inbox'                 : 'viewInboxMessages'
+    'messages/draft'                 : 'viewDraftMessages'
+    'messages/sent'                  : 'viewSentMessages'
+    'messages/trash'                 : 'viewTrashMessages'
 
   mainColumnView: null
 
@@ -118,6 +122,58 @@ class window.Kin.MainRouter extends Backbone.Router
           el: '#side-column1'
           currentUser: Kin.currentUser
         that.side1ColumnView.render()
+
+  viewInboxMessages: ()->
+    that = @
+    @clearColumns()
+
+    that.mainColumnView = new window.Kin.Messages.InboxView
+      el: '#main-column'
+    that.mainColumnView.render()
+
+    that.side1ColumnView = new window.Kin.Messages.InboxSide1View
+      el: '#side-column1'
+      selectedMenuItem: "inbox-menu-item"
+    that.side1ColumnView.render()
+
+  viewDraftMessages: ()->
+    that = @
+    @clearColumns()
+
+    that.mainColumnView = new window.Kin.Messages.DraftView
+      el: '#main-column'
+    that.mainColumnView.render()
+
+    that.side1ColumnView = new window.Kin.Messages.DraftSide1View
+      el: '#side-column1'
+      selectedMenuItem: "draft-menu-item"
+    that.side1ColumnView.render()
+
+  viewSentMessages: ()->
+    that = @
+    @clearColumns()
+
+    that.mainColumnView = new window.Kin.Messages.SentView
+      el: '#main-column'
+    that.mainColumnView.render()
+
+    that.side1ColumnView = new window.Kin.Messages.SentSide1View
+      el: '#side-column1'
+      selectedMenuItem: "sent-menu-item"
+    that.side1ColumnView.render()
+
+  viewTrashMessages: ()->
+    that = @
+    @clearColumns()
+
+    that.mainColumnView = new window.Kin.Messages.TrashView
+      el: '#main-column'
+    that.mainColumnView.render()
+
+    that.side1ColumnView = new window.Kin.Messages.TrashSide1View
+      el: '#side-column1'
+      selectedMenuItem: "trash-menu-item"
+    that.side1ColumnView.render()
 
   clearColumns: (columns = ['main', 'side1'])->
     (@["#{column}ColumnView"] and @["#{column}ColumnView"].remove()) for column in columns

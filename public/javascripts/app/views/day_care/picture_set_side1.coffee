@@ -1,4 +1,4 @@
-class window.Kin.DayCare.PictureSetSide1View extends Backbone.View
+class window.Kin.DayCare.PictureSetSide1View extends Kin.DayCare.ProfileSide1View
 
   el: null
 

@@ -59,6 +59,14 @@ html
     script(src='/javascripts/app/views/day_care/picture_set.js')
     script(src='/javascripts/app/views/day_care/picture_set_side1.js')
     script(src='/javascripts/app/views/day_care/pictures_list.js')
+    script(src='/javascripts/app/views/messages/inbox.js')
+    script(src='/javascripts/app/views/messages/inbox_side1.js')
+    script(src='/javascripts/app/views/messages/draft.js')
+    script(src='/javascripts/app/views/messages/draft_side1.js')
+    script(src='/javascripts/app/views/messages/sent.js')
+    script(src='/javascripts/app/views/messages/sent_side1.js')
+    script(src='/javascripts/app/views/messages/trash.js')
+    script(src='/javascripts/app/views/messages/trash_side1.js')
     script(src='/javascripts/app/views/google_maps.js')
     script(src='/javascripts/app/routers/main.js')
     script(src='/javascripts/app/app.js')
@@ -81,7 +89,7 @@ html
                 a(href="/logout") Logout
         ul#events-menu
           li.messages
-            a(href='#')
+            a(href='#messages/inbox')
               span Messages
           li.friend-request
             a(href='#')

@@ -14,7 +14,7 @@
     }
     ProfileSide1View.prototype.el = null;
     ProfileSide1View.prototype.tplUrl = '/templates/side1/day_care/profile.html';
-    ProfileSide1View.prototype.quickMessageTplUrl = '/templates/side1/day_care/quick_message_box.html';
+    ProfileSide1View.prototype.quickMessageTplUrl = '/templates/side1/messages/quick_message_box.html';
     ProfileSide1View.prototype.selectedMenuItem = null;
     ProfileSide1View.prototype.events = {
       "click #quick-message-bt": "quickMessageHandler"

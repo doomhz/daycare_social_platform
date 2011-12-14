@@ -4,7 +4,7 @@ class window.Kin.DayCare.ProfileSide1View extends Backbone.View
 
   tplUrl: '/templates/side1/day_care/profile.html'
   
-  quickMessageTplUrl: '/templates/side1/day_care/quick_message_box.html'
+  quickMessageTplUrl: '/templates/side1/messages/quick_message_box.html'
   
   selectedMenuItem: null
 

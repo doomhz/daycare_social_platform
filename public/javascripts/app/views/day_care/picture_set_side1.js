@@ -8,7 +8,7 @@
     return child;
   };
   window.Kin.DayCare.PictureSetSide1View = (function() {
-    __extends(PictureSetSide1View, Backbone.View);
+    __extends(PictureSetSide1View, Kin.DayCare.ProfileSide1View);
     function PictureSetSide1View() {
       PictureSetSide1View.__super__.constructor.apply(this, arguments);
     }

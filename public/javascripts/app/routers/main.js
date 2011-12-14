@@ -18,7 +18,11 @@
       'day-cares/view/:id': 'viewDayCare',
       'day-cares/view/gallery/:id': 'viewDayCareGallery',
       'day-cares/edit/:id': 'editDayCare',
-      'day-cares/view/picture-set/:id': 'viewDayCarePictureSet'
+      'day-cares/view/picture-set/:id': 'viewDayCarePictureSet',
+      'messages/inbox': 'viewInboxMessages',
+      'messages/draft': 'viewDraftMessages',
+      'messages/sent': 'viewSentMessages',
+      'messages/trash': 'viewTrashMessages'
     };
     MainRouter.prototype.mainColumnView = null;
     MainRouter.prototype.side1ColumnView = null;
@@ -151,6 +155,62 @@
           return that.side1ColumnView.render();
         }
       });
+    };
+    MainRouter.prototype.viewInboxMessages = function() {
+      var that;
+      that = this;
+      this.clearColumns();
+      that.mainColumnView = new window.Kin.Messages.InboxView({
+        el: '#main-column'
+      });
+      that.mainColumnView.render();
+      that.side1ColumnView = new window.Kin.Messages.InboxSide1View({
+        el: '#side-column1',
+        selectedMenuItem: "inbox-menu-item"
+      });
+      return that.side1ColumnView.render();
+    };
+    MainRouter.prototype.viewDraftMessages = function() {
+      var that;
+      that = this;
+      this.clearColumns();
+      that.mainColumnView = new window.Kin.Messages.DraftView({
+        el: '#main-column'
+      });
+      that.mainColumnView.render();
+      that.side1ColumnView = new window.Kin.Messages.DraftSide1View({
+        el: '#side-column1',
+        selectedMenuItem: "draft-menu-item"
+      });
+      return that.side1ColumnView.render();
+    };
+    MainRouter.prototype.viewSentMessages = function() {
+      var that;
+      that = this;
+      this.clearColumns();
+      that.mainColumnView = new window.Kin.Messages.SentView({
+        el: '#main-column'
+      });
+      that.mainColumnView.render();
+      that.side1ColumnView = new window.Kin.Messages.SentSide1View({
+        el: '#side-column1',
+        selectedMenuItem: "sent-menu-item"
+      });
+      return that.side1ColumnView.render();
+    };
+    MainRouter.prototype.viewTrashMessages = function() {
+      var that;
+      that = this;
+      this.clearColumns();
+      that.mainColumnView = new window.Kin.Messages.TrashView({
+        el: '#main-column'
+      });
+      that.mainColumnView.render();
+      that.side1ColumnView = new window.Kin.Messages.TrashSide1View({
+        el: '#side-column1',
+        selectedMenuItem: "trash-menu-item"
+      });
+      return that.side1ColumnView.render();
     };
     MainRouter.prototype.clearColumns = function(columns) {
       var column, _i, _len, _results;

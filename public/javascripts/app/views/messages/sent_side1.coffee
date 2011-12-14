@@ -1,0 +1,1 @@
+class Kin.Messages.SentSide1View extends Kin.Messages.InboxSide1View

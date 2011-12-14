@@ -8,7 +8,7 @@
     return child;
   };
   window.Kin.DayCare.ProfileEditSide1View = (function() {
-    __extends(ProfileEditSide1View, Backbone.View);
+    __extends(ProfileEditSide1View, Kin.DayCare.ProfileSide1View);
     function ProfileEditSide1View() {
       ProfileEditSide1View.__super__.constructor.apply(this, arguments);
     }
