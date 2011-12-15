@@ -127,8 +127,12 @@ class window.Kin.MainRouter extends Backbone.Router
     that = @
     @clearColumns()
 
+    messagesCollection = new window.Kin.MessagesCollection [],
+      url: "/messages/default"
+
     that.mainColumnView = new window.Kin.Messages.InboxView
       el: '#main-column'
+      collection: messagesCollection
     that.mainColumnView.render()
 
     that.side1ColumnView = new window.Kin.Messages.InboxSide1View
@@ -140,8 +144,12 @@ class window.Kin.MainRouter extends Backbone.Router
     that = @
     @clearColumns()
 
+    messagesCollection = new window.Kin.MessagesCollection [],
+      url: "/messages/draft"
+
     that.mainColumnView = new window.Kin.Messages.DraftView
       el: '#main-column'
+      collection: messagesCollection
     that.mainColumnView.render()
 
     that.side1ColumnView = new window.Kin.Messages.DraftSide1View
@@ -153,8 +161,12 @@ class window.Kin.MainRouter extends Backbone.Router
     that = @
     @clearColumns()
 
+    messagesCollection = new window.Kin.MessagesCollection [],
+      url: "/messages/sent"
+
     that.mainColumnView = new window.Kin.Messages.SentView
       el: '#main-column'
+      collection: messagesCollection
     that.mainColumnView.render()
 
     that.side1ColumnView = new window.Kin.Messages.SentSide1View
@@ -165,9 +177,13 @@ class window.Kin.MainRouter extends Backbone.Router
   viewTrashMessages: ()->
     that = @
     @clearColumns()
+    
+    messagesCollection = new window.Kin.MessagesCollection [],
+      url: "/messages/deleted"
 
     that.mainColumnView = new window.Kin.Messages.TrashView
       el: '#main-column'
+      collection: messagesCollection
     that.mainColumnView.render()
 
     that.side1ColumnView = new window.Kin.Messages.TrashSide1View

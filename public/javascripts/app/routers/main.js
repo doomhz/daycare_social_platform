@@ -157,11 +157,15 @@
       });
     };
     MainRouter.prototype.viewInboxMessages = function() {
-      var that;
+      var messagesCollection, that;
       that = this;
       this.clearColumns();
+      messagesCollection = new window.Kin.MessagesCollection([], {
+        url: "/messages/default"
+      });
       that.mainColumnView = new window.Kin.Messages.InboxView({
-        el: '#main-column'
+        el: '#main-column',
+        collection: messagesCollection
       });
       that.mainColumnView.render();
       that.side1ColumnView = new window.Kin.Messages.InboxSide1View({
@@ -171,11 +175,15 @@
       return that.side1ColumnView.render();
     };
     MainRouter.prototype.viewDraftMessages = function() {
-      var that;
+      var messagesCollection, that;
       that = this;
       this.clearColumns();
+      messagesCollection = new window.Kin.MessagesCollection([], {
+        url: "/messages/draft"
+      });
       that.mainColumnView = new window.Kin.Messages.DraftView({
-        el: '#main-column'
+        el: '#main-column',
+        collection: messagesCollection
       });
       that.mainColumnView.render();
       that.side1ColumnView = new window.Kin.Messages.DraftSide1View({
@@ -185,11 +193,15 @@
       return that.side1ColumnView.render();
     };
     MainRouter.prototype.viewSentMessages = function() {
-      var that;
+      var messagesCollection, that;
       that = this;
       this.clearColumns();
+      messagesCollection = new window.Kin.MessagesCollection([], {
+        url: "/messages/sent"
+      });
       that.mainColumnView = new window.Kin.Messages.SentView({
-        el: '#main-column'
+        el: '#main-column',
+        collection: messagesCollection
       });
       that.mainColumnView.render();
       that.side1ColumnView = new window.Kin.Messages.SentSide1View({
@@ -199,11 +211,15 @@
       return that.side1ColumnView.render();
     };
     MainRouter.prototype.viewTrashMessages = function() {
-      var that;
+      var messagesCollection, that;
       that = this;
       this.clearColumns();
+      messagesCollection = new window.Kin.MessagesCollection([], {
+        url: "/messages/deleted"
+      });
       that.mainColumnView = new window.Kin.Messages.TrashView({
-        el: '#main-column'
+        el: '#main-column',
+        collection: messagesCollection
       });
       that.mainColumnView.render();
       that.side1ColumnView = new window.Kin.Messages.TrashSide1View({
