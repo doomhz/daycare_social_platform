@@ -12,7 +12,6 @@
     function TrashView() {
       TrashView.__super__.constructor.apply(this, arguments);
     }
-    TrashView.prototype.tplUrl = '/templates/main/messages/trash.html';
     return TrashView;
   })();
 }).call(this);

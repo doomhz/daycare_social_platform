@@ -12,7 +12,6 @@
     function SentView() {
       SentView.__super__.constructor.apply(this, arguments);
     }
-    SentView.prototype.tplUrl = '/templates/main/messages/sent.html';
     return SentView;
   })();
 }).call(this);

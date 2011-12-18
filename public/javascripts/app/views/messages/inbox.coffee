@@ -23,7 +23,7 @@ class Kin.Messages.InboxView extends Backbone.View
 
   addMessagesListItem: (messageModel)=>
     messageView = new @messageModelView({model: messageModel})
-    $list = $(@el).find('ul.messages-list:first')
+    $list = $(@el).find('#messages-list')
     $list.append(messageView.el)
     messageView.render()
 

@@ -12,6 +12,9 @@ MessageSchema = new Schema
     default: "default"
   content:
     default: ""
+  unread:
+    type: Boolean
+    default: false
   created_at:
     type: Date
     default: Date.now
@@ -20,5 +23,36 @@ MessageSchema = new Schema
     default: Date.now
   from_user:
     type: {}
+  to_user:
+    type: {}
+
+MessageSchema.statics.findDefault = (toUserId, onFind)->
+  @findMessages({to_id: toUserId, type: "default"}, onFind)
+
+MessageSchema.statics.findSent = (fromUserId, onFind)->
+  @findMessages({from_id: fromUserId, type: "sent"}, onFind)
+
+MessageSchema.statics.findDraft = (fromUserId, onFind)->
+  @findMessages({from_id: fromUserId, type: "draft"}, onFind)
+
+MessageSchema.statics.findDeleted = (toUserId, onFind)->
+  @findMessages({to_id: toUserId, type: "deleted"}, onFind)
+
+MessageSchema.statics.findMessages = (findOptions, onFind)->
+  @find(findOptions).desc('created_at').run (err, messages)->
+    usersToFind = []
+    if messages
+      for message in messages
+        if not (message.to_id in usersToFind) then usersToFind.push message.to_id
+        if not (message.from_id in usersToFind) then usersToFind.push message.from_id
+      # TODO Filter private data
+      User.find().where("_id").in(usersToFind).run (err, users)->
+        for message in messages
+          for user in users
+            if "#{user._id}" is "#{message.to_id}" then message.to_user = user
+            if "#{user._id}" is "#{message.from_id}" then message.from_user = user
+        onFind(err, messages)
+    else
+      onFind(err, messages)
 
 exports = module.exports = mongoose.model("Message", MessageSchema)

@@ -17,11 +17,21 @@
       to_id: null,
       type: "default",
       content: "",
+      unread: false,
       created_at: null,
       updated_at: null,
-      from_user: null
+      from_user: {},
+      to_user: {}
     };
     MessageModel.prototype.urlRoot = "/messages";
+    MessageModel.prototype.initialize = function(attributes, options) {
+      return this.id = this.get("_id");
+    };
+    MessageModel.prototype.url = function() {
+      var id;
+      id = this.get("_id") ? "/" + (this.get("_id")) : "";
+      return "" + this.urlRoot + id;
+    };
     return MessageModel;
   })();
 }).call(this);

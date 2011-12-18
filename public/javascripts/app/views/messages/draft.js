@@ -12,7 +12,6 @@
     function DraftView() {
       DraftView.__super__.constructor.apply(this, arguments);
     }
-    DraftView.prototype.tplUrl = '/templates/main/messages/draft.html';
     return DraftView;
   })();
 }).call(this);

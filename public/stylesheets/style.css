@@ -362,6 +362,71 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 #page-wrapper #main-column #wall-comments-list div.add-followup-box form div input {
   padding: 3px 14px 3px 14px;
 }
+#page-wrapper #main-column #messages-list {
+  margin: 10px 0 0 0;
+}
+#page-wrapper #main-column #messages-list li {
+  overflow: hidden;
+  margin: 0 0 5px 0;
+  padding: 3px;
+  background: #f2f2f2;
+  border-radius: 5px;
+}
+#page-wrapper #main-column #messages-list li .message-header-cnt {
+  overflow: hidden;
+  cursor: pointer;
+}
+#page-wrapper #main-column #messages-list li .message-header-cnt .delete-message-bt {
+  display: block;
+  float: right;
+  color: #8a8a8a;
+  text-decoration: none;
+  margin: 8px 5px 0 0;
+}
+#page-wrapper #main-column #messages-list li .message-header-cnt .avatar {
+  float: left;
+}
+#page-wrapper #main-column #messages-list li .message-header-cnt .message-header .name {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #7e962d;
+}
+#page-wrapper #main-column #messages-list li .message-body-cnt {
+  width: 89%;
+  float: right;
+}
+#page-wrapper #main-column #messages-list li .message-body-cnt .message-body {
+  padding: 10px 0 10px 0;
+}
+#page-wrapper #main-column #messages-list li .message-body-cnt div.add-reply-message-box {
+  margin: 0 0 0 0;
+}
+#page-wrapper #main-column #messages-list li .message-body-cnt div.add-reply-message-box form {
+  border-bottom-radius: 3px;
+  padding: 3px;
+  background: #e6f1f5;
+  margin: 0;
+}
+#page-wrapper #main-column #messages-list li .message-body-cnt div.add-reply-message-box form div {
+  background: #fff;
+  border-top: solid 1px #d9d9d9;
+  border-left: solid 1px #d9d9d9;
+  margin: 0;
+  padding: 3px;
+}
+#page-wrapper #main-column #messages-list li .message-body-cnt div.add-reply-message-box form div textarea {
+  resize: none;
+  height: 5px;
+  width: 396px;
+  border: none;
+  box-shadow: none;
+}
+#page-wrapper #main-column #messages-list li .message-body-cnt div.add-reply-message-box form div input {
+  padding: 3px 14px 3px 14px;
+}
+#page-wrapper #main-column #messages-list li.unread {
+  background: #e6f1f5;
+}
 #page-wrapper #side-column1 {
   padding: 10px 0 0 0;
   float: left;
@@ -389,15 +454,18 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 #page-wrapper #side-column1 #profile-pic-cnt {
   margin: 0 0 10px 0;
 }
-#page-wrapper #side-column1 #profile-left-menu {
+#page-wrapper #side-column1 #profile-left-menu,
+#page-wrapper #side-column1 #messages-left-menu {
   padding: 10px;
 }
-#page-wrapper #side-column1 #profile-left-menu li {
+#page-wrapper #side-column1 #profile-left-menu li,
+#page-wrapper #side-column1 #messages-left-menu li {
   text-align: left;
   padding: 0;
   border-bottom: dashed 1px #eee;
 }
-#page-wrapper #side-column1 #profile-left-menu li a {
+#page-wrapper #side-column1 #profile-left-menu li a,
+#page-wrapper #side-column1 #messages-left-menu li a {
   font-weight: bold;
   text-decoration: none;
   display: inline-block;
@@ -406,24 +474,30 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   background-repeat: no-repeat;
   background-color: transparent;
 }
-#page-wrapper #side-column1 #profile-left-menu #gallery-menu-item {
+#page-wrapper #side-column1 #profile-left-menu #gallery-menu-item,
+#page-wrapper #side-column1 #messages-left-menu #gallery-menu-item {
   border-top: solid 1px #eee;
 }
-#page-wrapper #side-column1 #profile-left-menu #gallery-menu-item a {
+#page-wrapper #side-column1 #profile-left-menu #gallery-menu-item a,
+#page-wrapper #side-column1 #messages-left-menu #gallery-menu-item a {
   background-image: url("/images/gallery_menu_bt.png");
   background-position: left 3px;
 }
-#page-wrapper #side-column1 #profile-left-menu #wall-menu-item {
+#page-wrapper #side-column1 #profile-left-menu #wall-menu-item,
+#page-wrapper #side-column1 #messages-left-menu #wall-menu-item {
   border-top: solid 1px #eee;
 }
-#page-wrapper #side-column1 #profile-left-menu #wall-menu-item a {
+#page-wrapper #side-column1 #profile-left-menu #wall-menu-item a,
+#page-wrapper #side-column1 #messages-left-menu #wall-menu-item a {
   background-image: url("/images/wall_menu_bt.png");
   background-position: left 3px;
 }
-#page-wrapper #side-column1 #profile-left-menu li a:hover {
+#page-wrapper #side-column1 #profile-left-menu li a:hover,
+#page-wrapper #side-column1 #messages-left-menu li a:hover {
   background-color: #e9f2f7;
 }
-#page-wrapper #side-column1 #profile-left-menu li.selected a {
+#page-wrapper #side-column1 #profile-left-menu li.selected a,
+#page-wrapper #side-column1 #messages-left-menu li.selected a {
   background-color: #daebf4;
 }
 #page-wrapper #side-column2 {

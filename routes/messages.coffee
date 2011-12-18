@@ -7,12 +7,14 @@ module.exports = (app)->
     user = if req.user then req.user else {}
     data = req.body
     data.from_id = user._id
+    delete data.to_user
     delete data.from_user
     delete data.created_at
     delete data.updated_at
     
     message = new Message(data)
     message.type = "default"
+    message.unread = true
     message.save()
     
     message = new Message(data)
@@ -21,24 +23,40 @@ module.exports = (app)->
     
     res.json {success: true}
 
+  app.del '/messages/:id', (req, res)->
+    messageId = req.params.id
+    user = if req.user then req.user else {}
+    Message.findOne({_id: messageId, to_id: user._id}).run (err, message)->
+      if message
+        message.type = "deleted"
+        message.save()
+    res.json {success: true}
+
+  app.put '/messages/:id', (req, res)->
+    messageId = req.params.id
+    user = if req.user then req.user else {}
+    data = req.body
+    delete data._id
+    delete data.updated_at
+    Message.update {_id: messageId, to_id: user._id}, data, {}, (err, message)->
+      res.json {success: true}
 
   app.get '/messages/default', (req, res)->
     user = if req.user then req.user else {}
-    Message.find({to_id: user._id, type: "default"}).desc('created_at').run (err, messages) ->
+    Message.findDefault user._id, (err, messages)->
       res.json messages
-
 
   app.get '/messages/sent', (req, res)->
     user = if req.user then req.user else {}
-    Message.find({from_id: user._id, type: "sent"}).desc('created_at').run (err, messages) ->
+    Message.findSent user._id, (err, messages)->
       res.json messages
 
   app.get '/messages/draft', (req, res)->
     user = if req.user then req.user else {}
-    Message.find({from_id: user._id, type: "draft"}).desc('created_at').run (err, messages) ->
+    Message.findDraft user._id, (err, messages)->
       res.json messages
 
   app.get '/messages/deleted', (req, res)->
     user = if req.user then req.user else {}
-    Message.find({from_id: user._id, type: "deleted"}).desc('created_at').run (err, messages) ->
+    Message.findDeleted user._id, (err, messages)->
       res.json messages

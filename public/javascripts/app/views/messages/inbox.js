@@ -41,7 +41,7 @@
       messageView = new this.messageModelView({
         model: messageModel
       });
-      $list = $(this.el).find('ul.messages-list:first');
+      $list = $(this.el).find('#messages-list');
       $list.append(messageView.el);
       return messageView.render();
     };

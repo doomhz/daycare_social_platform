@@ -247,6 +247,7 @@ header
             box-shadow none
           input
             padding 3px 14px 3px 14px
+    
     #wall-comments-list
       li
         overflow hidden
@@ -301,6 +302,59 @@ header
               box-shadow none
             input
               padding 3px 14px 3px 14px
+    
+    #messages-list
+      margin 10px 0 0 0
+      li
+        overflow hidden
+        margin 0 0 5px 0
+        padding 3px
+        background #f2f2f2
+        border-radius 5px
+        .message-header-cnt
+          overflow hidden
+          cursor pointer
+          .delete-message-bt
+            display block
+            float right
+            color #8a8a8a
+            text-decoration none
+            margin 8px 5px 0 0
+          .avatar
+            float left
+          .message-header
+            .name
+              text-transform uppercase
+              font-weight bold
+              color #7E962D
+        .message-body-cnt
+          width 89%
+          float right
+          .message-body
+            padding 10px 0 10px 0
+          div.add-reply-message-box
+            margin 0 0 0 0
+            form
+              border-bottom-radius 3px
+              padding 3px
+              background #e6f1f5
+              margin 0
+              div
+                background #fff
+                border-top solid 1px #d9d9d9
+                border-left solid 1px #d9d9d9
+                margin 0
+                padding 3px
+                textarea
+                  resize none
+                  height 5px
+                  width 396px
+                  border none
+                  box-shadow none
+                input
+                  padding 3px 14px 3px 14px
+      li.unread
+        background #e6f1f5
 
   #side-column1
     padding 10px 0 0 0
@@ -323,7 +377,7 @@ header
             display none
     #profile-pic-cnt
       margin 0 0 10px 0
-    #profile-left-menu
+    #profile-left-menu, #messages-left-menu
       padding 10px
       li
         text-align left
