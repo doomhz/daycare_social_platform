@@ -4,21 +4,20 @@
   Message = require('../models/message');
   module.exports = function(app) {
     app.post('/messages', function(req, res) {
-      var data, message, user;
+      var data, id, messageData, to_id, user, _i, _len;
       user = req.user ? req.user : {};
       data = req.body;
-      data.from_id = user._id;
-      delete data.to_user;
-      delete data.from_user;
-      delete data.created_at;
-      delete data.updated_at;
-      message = new Message(data);
-      message.type = "default";
-      message.unread = true;
-      message.save();
-      message = new Message(data);
-      message.type = "sent";
-      message.save();
+      to_id = data.to_id;
+      if (typeof to_id !== "string") {
+        for (_i = 0, _len = to_id.length; _i < _len; _i++) {
+          id = to_id[_i];
+          messageData = data;
+          messageData.to_id = id;
+          Message.send(user._id, messageData);
+        }
+      } else {
+        Message.send(user._id, data);
+      }
       return res.json({
         success: true
       });

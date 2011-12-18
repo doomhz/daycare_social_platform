@@ -36,6 +36,7 @@ app.configure('production', function(){
 // Routes
 
 require('./routes/auth')(app);
+require('./routes/users')(app);
 require('./routes/site')(app);
 require('./routes/comments')(app);
 require('./routes/messages')(app);

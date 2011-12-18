@@ -25,3 +25,23 @@ module.exports = (app)->
   app.post '/comment*', (req, res, next)->
     if User.checkPermissions(req.user, null, null, res)
       next()
+
+  app.post '/message*', (req, res, next)->
+    if User.checkPermissions(req.user, null, null, res)
+      next()
+
+  app.get '/message*', (req, res, next)->
+    if User.checkPermissions(req.user, null, null, res)
+      next()
+
+  app.put '/message*', (req, res, next)->
+    if User.checkPermissions(req.user, null, null, res)
+      next()
+
+  app.del '/message*', (req, res, next)->
+    if User.checkPermissions(req.user, null, null, res)
+      next()
+
+  app.post '/user*', (req, res, next)->
+    if User.checkPermissions(req.user, null, null, res)
+      next()

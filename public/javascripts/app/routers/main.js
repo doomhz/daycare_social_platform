@@ -19,6 +19,7 @@
       'day-cares/view/gallery/:id': 'viewDayCareGallery',
       'day-cares/edit/:id': 'editDayCare',
       'day-cares/view/picture-set/:id': 'viewDayCarePictureSet',
+      'messages/write': 'writeMessage',
       'messages/inbox': 'viewInboxMessages',
       'messages/draft': 'viewDraftMessages',
       'messages/sent': 'viewSentMessages',
@@ -155,6 +156,22 @@
           return that.side1ColumnView.render();
         }
       });
+    };
+    MainRouter.prototype.writeMessage = function() {
+      var that, usersCollection;
+      that = this;
+      this.clearColumns();
+      usersCollection = new Kin.UsersCollection;
+      that.mainColumnView = new window.Kin.Messages.WriteView({
+        el: '#main-column',
+        collection: usersCollection
+      });
+      that.mainColumnView.render();
+      that.side1ColumnView = new window.Kin.Messages.InboxSide1View({
+        el: '#side-column1',
+        selectedMenuItem: "write-menu-item"
+      });
+      return that.side1ColumnView.render();
     };
     MainRouter.prototype.viewInboxMessages = function() {
       var messagesCollection, that;

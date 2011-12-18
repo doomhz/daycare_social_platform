@@ -1,0 +1,32 @@
+<div id="write-message-cnt">
+  <form id="write-message-form">
+    <fieldset>
+      <input type="hidden" name="from_id" value="<%= Kin.currentUser.get("_id") %>" />
+      <input type="hidden" name="type" value="default" />
+      <div class="clear">
+        <label>To</label>
+        <div class="input">
+          <select multiple="multiple" name="to_id" class="chzn-select" data-placeholder="Add recipients...">
+    		  <%
+              _.each(users.models, function (user) {
+                var name = user.get("type") === "daycare" ? user.get("daycare_name") : user.get("name") + " " + user.get("surname");
+          %>
+              <option value="<%=user.get("_id") %>"><%=name %></option>
+          <%
+              });
+          %>
+          </select>
+        </div>
+      </div>
+      <div class="clear">
+        <label>Message</label>
+        <div class="input">
+          <textarea name="content"></textarea>        
+        </div>
+      </div>
+      <div class="actions">
+	        <input type="submit" id="save-day-care-bt" class="btn primary" value="Send" />
+	    </div>
+    </fieldset>
+  </form>
+</div>

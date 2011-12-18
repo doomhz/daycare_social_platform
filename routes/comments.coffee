@@ -31,6 +31,7 @@ module.exports = (app)->
               if users
                 for comment in comments
                   for user in users
+                    # TODO Filter public data
                     if "#{user._id}" is "#{comment.from_id}"
                       comment.from_user = user
               socket.emit("new-wall-comments", {comments: comments})

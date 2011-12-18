@@ -1,5 +1,5 @@
 (function() {
-  var MessageSchema, User, exports, mongooseAuth;
+  var Message, MessageSchema, User, exports, mongooseAuth;
   var __indexOf = Array.prototype.indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {
       if (this[i] === item) return i;
@@ -42,6 +42,21 @@
       type: {}
     }
   });
+  MessageSchema.statics.send = function(userId, data) {
+    var message;
+    data.from_id = userId;
+    delete data.to_user;
+    delete data.from_user;
+    delete data.created_at;
+    delete data.updated_at;
+    message = new this(data);
+    message.type = "default";
+    message.unread = true;
+    message.save();
+    message = new this(data);
+    message.type = "sent";
+    return message.save();
+  };
   MessageSchema.statics.findDefault = function(toUserId, onFind) {
     return this.findMessages({
       to_id: toUserId,
@@ -101,5 +116,6 @@
       }
     });
   };
-  exports = module.exports = mongoose.model("Message", MessageSchema);
+  Message = mongoose.model("Message", MessageSchema);
+  exports = module.exports = Message;
 }).call(this);

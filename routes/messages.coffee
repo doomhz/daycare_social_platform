@@ -6,21 +6,14 @@ module.exports = (app)->
   app.post '/messages', (req, res)->
     user = if req.user then req.user else {}
     data = req.body
-    data.from_id = user._id
-    delete data.to_user
-    delete data.from_user
-    delete data.created_at
-    delete data.updated_at
-    
-    message = new Message(data)
-    message.type = "default"
-    message.unread = true
-    message.save()
-    
-    message = new Message(data)
-    message.type = "sent"
-    message.save()
-    
+    to_id = data.to_id
+    if typeof to_id isnt "string"
+      for id in to_id
+        messageData = data
+        messageData.to_id = id
+        Message.send(user._id, messageData)
+    else
+      Message.send(user._id, data)
     res.json {success: true}
 
   app.del '/messages/:id', (req, res)->

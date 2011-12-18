@@ -26,6 +26,22 @@ MessageSchema = new Schema
   to_user:
     type: {}
 
+MessageSchema.statics.send = (userId, data)->
+  data.from_id = userId
+  delete data.to_user
+  delete data.from_user
+  delete data.created_at
+  delete data.updated_at
+
+  message = new @(data)
+  message.type = "default"
+  message.unread = true
+  message.save()
+  
+  message = new @(data)
+  message.type = "sent"
+  message.save()
+
 MessageSchema.statics.findDefault = (toUserId, onFind)->
   @findMessages({to_id: toUserId, type: "default"}, onFind)
 
@@ -55,4 +71,6 @@ MessageSchema.statics.findMessages = (findOptions, onFind)->
     else
       onFind(err, messages)
 
-exports = module.exports = mongoose.model("Message", MessageSchema)
+Message = mongoose.model("Message", MessageSchema)
+
+exports = module.exports = Message

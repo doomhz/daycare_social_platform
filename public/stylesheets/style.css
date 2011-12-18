@@ -605,3 +605,9 @@ footer #footer-wrapper #copyright {
   padding: 5px;
   resize: none;
 }
+#write-message-cnt textarea {
+  width: 388px;
+}
+#write-message-cnt .chzn-choices {
+  width: 395px;
+}
