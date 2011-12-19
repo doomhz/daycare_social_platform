@@ -314,7 +314,7 @@ header
         .message-header-cnt
           overflow hidden
           cursor pointer
-          .delete-message-bt
+          .delete-message-bt, .edit-draft-message-bt
             display block
             float right
             color #8a8a8a
@@ -391,16 +391,29 @@ header
           width 86.5%
           background-repeat no-repeat
           background-color transparent
+          background-position left 3px
+          border-top solid 1px #EEE
       #gallery-menu-item
-        border-top solid 1px #EEE
         a
           background-image url('/images/gallery_menu_bt.png')
-          background-position left 3px
       #wall-menu-item
-        border-top solid 1px #EEE
         a
           background-image url('/images/wall_menu_bt.png')
-          background-position left 3px
+      #write-menu-item
+        a
+          background-image url('/images/write_menu_bt.png')
+      #inbox-menu-item
+        a
+          background-image url('/images/inbox_menu_bt.png')
+      #sent-menu-item
+        a
+          background-image url('/images/sent_menu_bt.png')
+      #draft-menu-item
+        a
+          background-image url('/images/draft_menu_bt.png')
+      #trash-menu-item
+        a
+          background-image url('/images/deleted_menu_bt.png')
       li
         a:hover
           background-color #e9f2f7

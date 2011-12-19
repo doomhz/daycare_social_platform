@@ -42,6 +42,18 @@ MessageSchema.statics.send = (userId, data)->
   message.type = "sent"
   message.save()
 
+MessageSchema.statics.saveDraft = (userId, data)->
+  data.from_id = userId
+  delete data.to_user
+  delete data.to_id
+  delete data.from_user
+  delete data.created_at
+  delete data.updated_at
+
+  message = new @(data)
+  message.type = "draft"
+  message.save()
+
 MessageSchema.statics.findDefault = (toUserId, onFind)->
   @findMessages({to_id: toUserId, type: "default"}, onFind)
 
@@ -63,10 +75,11 @@ MessageSchema.statics.findMessages = (findOptions, onFind)->
         if not (message.from_id in usersToFind) then usersToFind.push message.from_id
       # TODO Filter private data
       User.find().where("_id").in(usersToFind).run (err, users)->
-        for message in messages
-          for user in users
-            if "#{user._id}" is "#{message.to_id}" then message.to_user = user
-            if "#{user._id}" is "#{message.from_id}" then message.from_user = user
+        if users
+          for message in messages
+            for user in users
+              if "#{user._id}" is "#{message.to_id}" then message.to_user = user
+              if "#{user._id}" is "#{message.from_id}" then message.from_user = user
         onFind(err, messages)
     else
       onFind(err, messages)

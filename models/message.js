@@ -57,6 +57,18 @@
     message.type = "sent";
     return message.save();
   };
+  MessageSchema.statics.saveDraft = function(userId, data) {
+    var message;
+    data.from_id = userId;
+    delete data.to_user;
+    delete data.to_id;
+    delete data.from_user;
+    delete data.created_at;
+    delete data.updated_at;
+    message = new this(data);
+    message.type = "draft";
+    return message.save();
+  };
   MessageSchema.statics.findDefault = function(toUserId, onFind) {
     return this.findMessages({
       to_id: toUserId,
@@ -97,15 +109,17 @@
         }
         return User.find().where("_id")["in"](usersToFind).run(function(err, users) {
           var message, user, _j, _k, _len2, _len3;
-          for (_j = 0, _len2 = messages.length; _j < _len2; _j++) {
-            message = messages[_j];
-            for (_k = 0, _len3 = users.length; _k < _len3; _k++) {
-              user = users[_k];
-              if (("" + user._id) === ("" + message.to_id)) {
-                message.to_user = user;
-              }
-              if (("" + user._id) === ("" + message.from_id)) {
-                message.from_user = user;
+          if (users) {
+            for (_j = 0, _len2 = messages.length; _j < _len2; _j++) {
+              message = messages[_j];
+              for (_k = 0, _len3 = users.length; _k < _len3; _k++) {
+                user = users[_k];
+                if (("" + user._id) === ("" + message.to_id)) {
+                  message.to_user = user;
+                }
+                if (("" + user._id) === ("" + message.from_id)) {
+                  message.from_user = user;
+                }
               }
             }
           }

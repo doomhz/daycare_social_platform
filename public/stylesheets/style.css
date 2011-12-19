@@ -376,7 +376,8 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   overflow: hidden;
   cursor: pointer;
 }
-#page-wrapper #main-column #messages-list li .message-header-cnt .delete-message-bt {
+#page-wrapper #main-column #messages-list li .message-header-cnt .delete-message-bt,
+#page-wrapper #main-column #messages-list li .message-header-cnt .edit-draft-message-bt {
   display: block;
   float: right;
   color: #8a8a8a;
@@ -473,24 +474,36 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   width: 86.5%;
   background-repeat: no-repeat;
   background-color: transparent;
-}
-#page-wrapper #side-column1 #profile-left-menu #gallery-menu-item,
-#page-wrapper #side-column1 #messages-left-menu #gallery-menu-item {
+  background-position: left 3px;
   border-top: solid 1px #eee;
 }
 #page-wrapper #side-column1 #profile-left-menu #gallery-menu-item a,
 #page-wrapper #side-column1 #messages-left-menu #gallery-menu-item a {
   background-image: url("/images/gallery_menu_bt.png");
-  background-position: left 3px;
-}
-#page-wrapper #side-column1 #profile-left-menu #wall-menu-item,
-#page-wrapper #side-column1 #messages-left-menu #wall-menu-item {
-  border-top: solid 1px #eee;
 }
 #page-wrapper #side-column1 #profile-left-menu #wall-menu-item a,
 #page-wrapper #side-column1 #messages-left-menu #wall-menu-item a {
   background-image: url("/images/wall_menu_bt.png");
-  background-position: left 3px;
+}
+#page-wrapper #side-column1 #profile-left-menu #write-menu-item a,
+#page-wrapper #side-column1 #messages-left-menu #write-menu-item a {
+  background-image: url("/images/write_menu_bt.png");
+}
+#page-wrapper #side-column1 #profile-left-menu #inbox-menu-item a,
+#page-wrapper #side-column1 #messages-left-menu #inbox-menu-item a {
+  background-image: url("/images/inbox_menu_bt.png");
+}
+#page-wrapper #side-column1 #profile-left-menu #sent-menu-item a,
+#page-wrapper #side-column1 #messages-left-menu #sent-menu-item a {
+  background-image: url("/images/sent_menu_bt.png");
+}
+#page-wrapper #side-column1 #profile-left-menu #draft-menu-item a,
+#page-wrapper #side-column1 #messages-left-menu #draft-menu-item a {
+  background-image: url("/images/draft_menu_bt.png");
+}
+#page-wrapper #side-column1 #profile-left-menu #trash-menu-item a,
+#page-wrapper #side-column1 #messages-left-menu #trash-menu-item a {
+  background-image: url("/images/deleted_menu_bt.png");
 }
 #page-wrapper #side-column1 #profile-left-menu li a:hover,
 #page-wrapper #side-column1 #messages-left-menu li a:hover {

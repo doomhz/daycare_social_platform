@@ -21,11 +21,12 @@
       <div class="clear">
         <label>Message</label>
         <div class="input">
-          <textarea name="content"></textarea>        
+          <textarea name="content"><%= message ? message.get("content") : "" %></textarea>        
         </div>
       </div>
       <div class="actions">
-	        <input type="submit" id="save-day-care-bt" class="btn primary" value="Send" />
+	        <input type="submit" id="send-message-bt" class="btn primary" value="Send" />
+          <input type="button" id="save-draft-message-bt" class="btn" value="Save draft" />
 	    </div>
     </fieldset>
   </form>

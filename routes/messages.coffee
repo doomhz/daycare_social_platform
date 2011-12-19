@@ -7,13 +7,16 @@ module.exports = (app)->
     user = if req.user then req.user else {}
     data = req.body
     to_id = data.to_id
-    if typeof to_id isnt "string"
-      for id in to_id
-        messageData = data
-        messageData.to_id = id
-        Message.send(user._id, messageData)
+    if data.type is "draft"
+      Message.saveDraft(user._id, data)
     else
-      Message.send(user._id, data)
+      if typeof to_id isnt "string"
+        for id in to_id
+          messageData = data
+          messageData.to_id = id
+          Message.send(user._id, messageData)
+      else
+        Message.send(user._id, data)
     res.json {success: true}
 
   app.del '/messages/:id', (req, res)->
@@ -53,3 +56,9 @@ module.exports = (app)->
     user = if req.user then req.user else {}
     Message.findDeleted user._id, (err, messages)->
       res.json messages
+
+  app.get '/messages/:id', (req, res)->
+    messageId = req.params.id
+    user = if req.user then req.user else {}
+    Message.findOne({_id: messageId}).run (err, message)->
+      res.json message

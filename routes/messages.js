@@ -8,15 +8,19 @@
       user = req.user ? req.user : {};
       data = req.body;
       to_id = data.to_id;
-      if (typeof to_id !== "string") {
-        for (_i = 0, _len = to_id.length; _i < _len; _i++) {
-          id = to_id[_i];
-          messageData = data;
-          messageData.to_id = id;
-          Message.send(user._id, messageData);
-        }
+      if (data.type === "draft") {
+        Message.saveDraft(user._id, data);
       } else {
-        Message.send(user._id, data);
+        if (typeof to_id !== "string") {
+          for (_i = 0, _len = to_id.length; _i < _len; _i++) {
+            id = to_id[_i];
+            messageData = data;
+            messageData.to_id = id;
+            Message.send(user._id, messageData);
+          }
+        } else {
+          Message.send(user._id, data);
+        }
       }
       return res.json({
         success: true
@@ -76,11 +80,21 @@
         return res.json(messages);
       });
     });
-    return app.get('/messages/deleted', function(req, res) {
+    app.get('/messages/deleted', function(req, res) {
       var user;
       user = req.user ? req.user : {};
       return Message.findDeleted(user._id, function(err, messages) {
         return res.json(messages);
+      });
+    });
+    return app.get('/messages/:id', function(req, res) {
+      var messageId, user;
+      messageId = req.params.id;
+      user = req.user ? req.user : {};
+      return Message.findOne({
+        _id: messageId
+      }).run(function(err, message) {
+        return res.json(message);
       });
     });
   };

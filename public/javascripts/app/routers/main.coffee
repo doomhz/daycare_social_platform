@@ -8,6 +8,7 @@ class window.Kin.MainRouter extends Backbone.Router
     'day-cares/edit/:id'             : 'editDayCare'
     'day-cares/view/picture-set/:id' : 'viewDayCarePictureSet'
     'messages/write'                 : 'writeMessage'
+    'messages/write/:id'             : 'writeMessage'
     'messages/inbox'                 : 'viewInboxMessages'
     'messages/draft'                 : 'viewDraftMessages'
     'messages/sent'                  : 'viewSentMessages'
@@ -124,15 +125,20 @@ class window.Kin.MainRouter extends Backbone.Router
           currentUser: Kin.currentUser
         that.side1ColumnView.render()
 
-  writeMessage: ()->
+  writeMessage: (id)->
     that = @
     @clearColumns()
     
     usersCollection = new Kin.UsersCollection
+    
+    if id
+      draftMessage = new Kin.MessageModel
+        _id: id
 
     that.mainColumnView = new window.Kin.Messages.WriteView
       el: '#main-column'
       collection: usersCollection
+      model: draftMessage
     that.mainColumnView.render()
 
     that.side1ColumnView = new window.Kin.Messages.InboxSide1View
