@@ -7,6 +7,8 @@ class Kin.Messages.InboxView extends Backbone.View
   messageModelView: window.Kin.Messages.ListItemView
 
   tplUrl: '/templates/main/messages/inbox.html'
+  
+  listItemTplUrl: '/templates/main/messages/list_item.html'
 
   initialize: ()->
     if @collection
@@ -19,7 +21,10 @@ class Kin.Messages.InboxView extends Backbone.View
       url: @tplUrl
       onLoad: (tpl)->
         $(that.el).html(tpl())
-        that.collection.fetch({add: true})
+        $.tmpload
+          url: that.listItemTplUrl
+          onLoad: (tpl)->
+            that.collection.fetch({add: true})
 
   addMessagesListItem: (messageModel)=>
     messageView = new @messageModelView({model: messageModel})

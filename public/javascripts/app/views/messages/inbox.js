@@ -17,6 +17,7 @@
     InboxView.prototype.collection = null;
     InboxView.prototype.messageModelView = window.Kin.Messages.ListItemView;
     InboxView.prototype.tplUrl = '/templates/main/messages/inbox.html';
+    InboxView.prototype.listItemTplUrl = '/templates/main/messages/list_item.html';
     InboxView.prototype.initialize = function() {
       if (this.collection) {
         this.collection.bind('add', this.addMessagesListItem);
@@ -30,8 +31,13 @@
         url: this.tplUrl,
         onLoad: function(tpl) {
           $(that.el).html(tpl());
-          return that.collection.fetch({
-            add: true
+          return $.tmpload({
+            url: that.listItemTplUrl,
+            onLoad: function(tpl) {
+              return that.collection.fetch({
+                add: true
+              });
+            }
           });
         }
       });

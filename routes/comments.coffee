@@ -16,7 +16,7 @@ module.exports = (app)->
     
     res.json {success: true}
 
-  
+
   sio = io.listen(app)
   dayCareWallComments = sio.of("/day-cares-wall-comments").on "connection", (socket)->
     socket.on "get-new-comments", (data)->

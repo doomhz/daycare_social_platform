@@ -26,7 +26,7 @@
   <div class="add-reply-message-box">
     <form class="add-reply-message-form" method="post" action="/messages">
       <input name="to_id" type="hidden" value="<%= message.get('from_id') %>" />
-      <input name="from_id" type="hidden" value="<%= Kin.currentUser.get("_id") %>" />
+      <input name="from_id" type="hidden" value="<%= Kin.app.currentUser.get("_id") %>" />
       <input name="type" type="hidden" value="default" />
       <div>
         <textarea name="content" resize="none" placeholder="write reply ..." rows="1" cols="40"></textarea>

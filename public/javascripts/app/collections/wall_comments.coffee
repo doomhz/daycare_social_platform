@@ -22,7 +22,6 @@ class Kin.WallCommentsCollection extends Backbone.Collection
       else
         that.addAll(data.comments)
     @socket.emit("get-new-comments", {wall_id: that.dayCareId})
-    window.s = @socket
 
   stopAutoUpdateComments: ()->
     # @socket.emit("disconnect")

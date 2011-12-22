@@ -7,6 +7,8 @@ class window.Kin.DayCare.ListView extends Backbone.View
   dayCareModelView: window.Kin.DayCare.ListItemView
 
   tplUrl: '/templates/main/day_care/list.html'
+  
+  lisItemTplUrl: '/templates/main/day_care/list_item.html'
 
   initialize: ()->
     _.bindAll(@, 'render', 'addDayCareListItem')
@@ -21,7 +23,11 @@ class window.Kin.DayCare.ListView extends Backbone.View
       url: @tplUrl
       onLoad: (tpl)->
         $(that.el).html(tpl())
-        that.collection.fetch({add: true})
+        
+        $.tmpload
+          url: that.lisItemTplUrl
+          onLoad: ()->
+            that.collection.fetch({add: true})
     @
 
   addDayCareListItem: (dayCareModel)->

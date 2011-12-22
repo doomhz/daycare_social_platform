@@ -33,10 +33,9 @@
           return that.addAll(data.comments);
         }
       });
-      this.socket.emit("get-new-comments", {
+      return this.socket.emit("get-new-comments", {
         wall_id: that.dayCareId
       });
-      return window.s = this.socket;
     };
     WallCommentsCollection.prototype.stopAutoUpdateComments = function() {};
     WallCommentsCollection.prototype.addAll = function(comments) {

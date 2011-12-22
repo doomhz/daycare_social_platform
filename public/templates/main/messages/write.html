@@ -1,7 +1,7 @@
 <div id="write-message-cnt">
   <form id="write-message-form">
     <fieldset>
-      <input type="hidden" name="from_id" value="<%= Kin.currentUser.get("_id") %>" />
+      <input type="hidden" name="from_id" value="<%= Kin.app.currentUser.get("_id") %>" />
       <input type="hidden" name="type" value="default" />
       <div class="clear">
         <label>To</label>

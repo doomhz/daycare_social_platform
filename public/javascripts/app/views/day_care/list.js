@@ -16,6 +16,7 @@
     ListView.prototype.collection = null;
     ListView.prototype.dayCareModelView = window.Kin.DayCare.ListItemView;
     ListView.prototype.tplUrl = '/templates/main/day_care/list.html';
+    ListView.prototype.lisItemTplUrl = '/templates/main/day_care/list_item.html';
     ListView.prototype.initialize = function() {
       _.bindAll(this, 'render', 'addDayCareListItem');
       if (this.collection) {
@@ -31,8 +32,13 @@
         url: this.tplUrl,
         onLoad: function(tpl) {
           $(that.el).html(tpl());
-          return that.collection.fetch({
-            add: true
+          return $.tmpload({
+            url: that.lisItemTplUrl,
+            onLoad: function() {
+              return that.collection.fetch({
+                add: true
+              });
+            }
           });
         }
       });

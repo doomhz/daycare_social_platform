@@ -38,6 +38,7 @@ app.configure('production', function(){
 require('./routes/auth')(app);
 require('./routes/users')(app);
 require('./routes/site')(app);
+require('./routes/notifications')(app);
 require('./routes/comments')(app);
 require('./routes/messages')(app);
 require('./routes/day_cares')(app);
