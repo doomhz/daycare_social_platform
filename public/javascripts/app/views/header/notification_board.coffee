@@ -15,5 +15,7 @@ class Kin.Header.NotificationBoardView extends Backbone.View
     @socket = window.io.connect(@socketUrl)
     @socket.on "new-messages-total", (data)->
       $.l data
+    @socket.on "last-messages", (data)->
+      $.l data
     @socket.emit("get-new-messages-total", {user_id: that.currentUser.get("_id")})
-    window.s = @socket
+    @socket.emit("get-last-messages", {user_id: that.currentUser.get("_id")})

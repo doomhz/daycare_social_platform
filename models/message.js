@@ -93,8 +93,17 @@
       type: "deleted"
     }, onFind);
   };
-  MessageSchema.statics.findMessages = function(findOptions, onFind) {
-    return this.find(findOptions).desc('created_at').run(function(err, messages) {
+  MessageSchema.statics.findLastMessages = function(toUserId, limit, onFind) {
+    return this.findMessages({
+      to_id: toUserId,
+      type: "default"
+    }, onFind, limit);
+  };
+  MessageSchema.statics.findMessages = function(findOptions, onFind, limit) {
+    if (limit == null) {
+      limit = false;
+    }
+    return this.find(findOptions).desc('created_at').limit(limit).run(function(err, messages) {
       var message, usersToFind, _i, _len, _ref, _ref2;
       usersToFind = [];
       if (messages) {

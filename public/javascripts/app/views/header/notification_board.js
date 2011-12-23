@@ -26,10 +26,15 @@
       this.socket.on("new-messages-total", function(data) {
         return $.l(data);
       });
+      this.socket.on("last-messages", function(data) {
+        return $.l(data);
+      });
       this.socket.emit("get-new-messages-total", {
         user_id: that.currentUser.get("_id")
       });
-      return window.s = this.socket;
+      return this.socket.emit("get-last-messages", {
+        user_id: that.currentUser.get("_id")
+      });
     };
     return NotificationBoardView;
   })();

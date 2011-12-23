@@ -66,8 +66,11 @@ MessageSchema.statics.findDraft = (fromUserId, onFind)->
 MessageSchema.statics.findDeleted = (toUserId, onFind)->
   @findMessages({to_id: toUserId, type: "deleted"}, onFind)
 
-MessageSchema.statics.findMessages = (findOptions, onFind)->
-  @find(findOptions).desc('created_at').run (err, messages)->
+MessageSchema.statics.findLastMessages = (toUserId, limit, onFind)->
+  @findMessages({to_id: toUserId, type: "default"}, onFind, limit)
+
+MessageSchema.statics.findMessages = (findOptions, onFind, limit = false)->
+  @find(findOptions).desc('created_at').limit(limit).run (err, messages)->
     usersToFind = []
     if messages
       for message in messages
