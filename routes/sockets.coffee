@@ -1,7 +1,8 @@
-User    = require('../models/user')
-Comment = require('../models/comment')
-Message = require('../models/message')
-io      = require('socket.io')
+User         = require('../models/user')
+Comment      = require('../models/comment')
+Message      = require('../models/message')
+Notification = require('../models/notification')
+io           = require('socket.io')
 
 module.exports = (app)->
 
@@ -19,6 +20,8 @@ module.exports = (app)->
         socket.emit("last-messages", {messages: messages})
     socket.on "disconnect", ()->
       # socket.disconnect()
+
+  Notification.setNotificationsSocket(userNotifications)
 
   dayCareWallComments = sio.of("/day-cares-wall-comments").on "connection", (socket)->
     socket.on "get-new-comments", (data)->

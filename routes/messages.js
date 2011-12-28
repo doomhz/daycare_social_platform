@@ -1,7 +1,8 @@
 (function() {
-  var Message, User;
+  var Message, Notification, User;
   User = require('../models/user');
   Message = require('../models/message');
+  Notification = require('../models/notification');
   module.exports = function(app) {
     app.post('/messages', function(req, res) {
       var data, id, messageData, to_id, user, _i, _len;
@@ -22,6 +23,7 @@
           Message.send(user._id, data);
         }
       }
+      Notification.triggerNewMessages(user._id);
       return res.json({
         success: true
       });
@@ -36,8 +38,9 @@
       }).run(function(err, message) {
         if (message) {
           message.type = "deleted";
-          return message.save();
+          message.save();
         }
+        return Notification.triggerNewMessages(user._id);
       });
       return res.json({
         success: true
@@ -54,6 +57,7 @@
         _id: messageId,
         to_id: user._id
       }, data, {}, function(err, message) {
+        Notification.triggerNewMessages(user._id);
         return res.json({
           success: true
         });

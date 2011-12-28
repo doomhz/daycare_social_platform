@@ -48,6 +48,9 @@ class window.Kin.DayCare.PictureSetView extends Backbone.View
             
           that.$('#picture-set-text-edit').doomEdit
             ajaxSubmit: false
+            submitOnBlur: true
+            submitBtn: false
+            cancelBtn: false
             afterFormSubmit: (data, form, $el)->
               $el.text(data)
               that.model.save({name: data}, {silent: true})
@@ -55,6 +58,9 @@ class window.Kin.DayCare.PictureSetView extends Backbone.View
           that.$('#picture-set-type-select').doomEdit
             ajaxSubmit: false
             autoDisableBt: false
+            submitOnBlur: true
+            submitBtn: false
+            cancelBtn: false
             editField: '<select name="setTypeSelect"><option value="daycare">Public</option><option value="default">Private</option></select>'
             onStartEdit: ($form, $elem)->
               $form.find('select').val($elem.data('type'))

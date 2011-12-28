@@ -24,7 +24,8 @@
       that = this;
       this.socket = window.io.connect(this.socketUrl);
       this.socket.on("new-messages-total", function(data) {
-        return $.l(data);
+        $.l(data);
+        return that.updateNewMessagesIndicator(data.total);
       });
       this.socket.on("last-messages", function(data) {
         return $.l(data);
@@ -35,6 +36,9 @@
       return this.socket.emit("get-last-messages", {
         user_id: that.currentUser.get("_id")
       });
+    };
+    NotificationBoardView.prototype.updateNewMessagesIndicator = function(total) {
+      return this.$("#new-messages-indicator").text(total);
     };
     return NotificationBoardView;
   })();

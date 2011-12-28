@@ -131,7 +131,8 @@ header #header-wrapper #events-menu li a {
   display: block;
 }
 header #header-wrapper #events-menu li span {
-  display: none;
+  background: #f00;
+  color: #fff;
 }
 header #header-wrapper #events-menu li.messages {
   border: none;

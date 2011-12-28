@@ -49,11 +49,9 @@
           if (canEdit) {
             return that.$('.picture-text-edit').doomEdit({
               ajaxSubmit: false,
-              onStartEdit: function($form, $elem) {
-                if ($elem.text() === 'Click here to add a description') {
-                  return $form.find('input').val('');
-                }
-              },
+              submitOnBlur: true,
+              submitBtn: false,
+              cancelBtn: false,
               afterFormSubmit: function(data, form, $elem) {
                 var picCid, pictureModel;
                 $elem.text(data);

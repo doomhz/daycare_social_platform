@@ -35,9 +35,9 @@ class window.Kin.DayCare.PicturesListView extends Backbone.View
         if canEdit
           that.$('.picture-text-edit').doomEdit
             ajaxSubmit: false
-            onStartEdit: ($form, $elem)->
-              if $elem.text() is 'Click here to add a description'
-                $form.find('input').val('')
+            submitOnBlur: true
+            submitBtn: false
+            cancelBtn: false
             afterFormSubmit: (data, form, $elem)->
               $elem.text(data)
               picCid = $elem.data('pic-cid')

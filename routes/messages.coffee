@@ -1,5 +1,6 @@
-User    = require('../models/user')
-Message = require('../models/message')
+User         = require('../models/user')
+Message      = require('../models/message')
+Notification = require('../models/notification')
 
 module.exports = (app)->
 
@@ -17,6 +18,7 @@ module.exports = (app)->
           Message.send(user._id, messageData)
       else
         Message.send(user._id, data)
+    Notification.triggerNewMessages(user._id)
     res.json {success: true}
 
   app.del '/messages/:id', (req, res)->
@@ -26,6 +28,7 @@ module.exports = (app)->
       if message
         message.type = "deleted"
         message.save()
+      Notification.triggerNewMessages(user._id)    
     res.json {success: true}
 
   app.put '/messages/:id', (req, res)->
@@ -35,6 +38,7 @@ module.exports = (app)->
     delete data._id
     delete data.updated_at
     Message.update {_id: messageId, to_id: user._id}, data, {}, (err, message)->
+      Notification.triggerNewMessages(user._id)
       res.json {success: true}
 
   app.get '/messages/default', (req, res)->

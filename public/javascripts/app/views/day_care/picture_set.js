@@ -61,6 +61,9 @@
             });
             that.$('#picture-set-text-edit').doomEdit({
               ajaxSubmit: false,
+              submitOnBlur: true,
+              submitBtn: false,
+              cancelBtn: false,
               afterFormSubmit: function(data, form, $el) {
                 $el.text(data);
                 return that.model.save({
@@ -73,6 +76,9 @@
             return that.$('#picture-set-type-select').doomEdit({
               ajaxSubmit: false,
               autoDisableBt: false,
+              submitOnBlur: true,
+              submitBtn: false,
+              cancelBtn: false,
               editField: '<select name="setTypeSelect"><option value="daycare">Public</option><option value="default">Private</option></select>',
               onStartEdit: function($form, $elem) {
                 return $form.find('select').val($elem.data('type'));

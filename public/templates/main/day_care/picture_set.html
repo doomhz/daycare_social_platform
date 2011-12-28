@@ -1,5 +1,5 @@
 <h1>
-  <span <% if (pictureSet.get('type') !== 'profile') { %>class="<%= (canEdit ? "dedit-input" : "") %>" id="picture-set-text-edit"<% } %>><%=pictureSet.get('name') %></span>
+  <span <% if (pictureSet.get('type') !== 'profile') { %>class="<%= (canEdit ? "dedit-input" : "") %>" id="picture-set-text-edit"<% } %> data-placeholder="Click here to edit."><%=pictureSet.get('name') %></span>
   <% if (pictureSet.get('type') !== 'profile') { %>
   (<span class="<%= (canEdit ? "dedit-select" : "") %>" id="picture-set-type-select" data-type="<%=pictureSet.get('type') %>"><%=pictureSet.get('type') === 'daycare' ? 'Public' : 'Private' %></span>)
   <% } %>

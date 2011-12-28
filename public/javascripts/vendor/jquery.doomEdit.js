@@ -3,7 +3,7 @@
 *
 * @author Dumitru Glavan
 * @link http://dumitruglavan.com/jquery-doom-inplace-edit-plugin/
-* @version 2.0 (23-NOV-2011)
+* @version 2.0 (14-DEC-2011)
 * @requires jQuery v1.4 or later
 *
 * @example $('.dedit-simple').doomEdit({ajaxSubmit:false, afterFormSubmit: function (data, form, el) {el.text(data);}}); - Simple inline edit
@@ -21,7 +21,7 @@
 *
 */
 (function ($) {
-  $.fn.doomEdit = function (options) {
+	$.fn.doomEdit = function (options) {
 
 		if ($(this).length > 1) {
 			$(this).each(function (i, el) {
@@ -41,9 +41,11 @@
 			submitBtn: '<button type="submit" class="save-btn">Save</button>',
 			cancelBtn: '<button type="button" class="cancel-btn">Cancel</button>',
 			autoDisableBt: true,
+            placeholder: true,
 			extraHtml: '',
 			showOnEvent: 'click',
 			autoTrigger: false,
+            submitOnBlur: false,
 			afterFormSubmit: function (data, form, el) {
 				$('button', form).removeAttr('disabled').fadeTo(0, 1);
 			},
@@ -57,6 +59,18 @@
 
 		var self = this;
 		var $self = $(this);
+        this.showPlaceholder = function () {
+            if (self.config.placeholder && $self.data('placeholder') && ($self.html() === '')) {
+                $self.text($self.data('placeholder'));
+            }
+        };
+        this.hidePlaceholder = function ($inputEl) {
+            if (self.config.placeholder && ($self.data('placeholder') === $inputEl.val())) {
+                $inputEl.val('');
+            }
+        };
+        
+        this.showPlaceholder();
 
 		if (this.config.showOnEvent) {
 			$self.unbind(this.config.showOnEvent);
@@ -87,7 +101,8 @@
 		var cancelButton = $(self.config.cancelBtn).addClass('button inactive');
 		cancelButton.click(function () {
 			editForm.remove();
-			$self.show();
+			self.showPlaceholder();
+            $self.show();
 			$.isFunction(self.config.onCancel) && self.config.onCancel(editForm, $self);
 		});
 		if (self.config.autoDisableBt) {
@@ -110,18 +125,20 @@
 					url: editForm.attr('action'),
 					type: editForm.attr('method'),
 					data: editForm.serialize(),
-					beforeSend: function(data){
+					beforeSend: function(data) {
 						$.isFunction(self.config.beforeFormSubmit) && self.config.beforeFormSubmit(data, editForm, $self);
 					},
-					success: function(data){
+					success: function(data) {
 						$.isFunction(self.config.afterFormSubmit) && self.config.afterFormSubmit(data, editForm, $self, newVal);
 						editForm.remove();
-						$(self).show();
+						self.showPlaceholder();
+                        $(self).show();
 					}
 				});
 			} else {				
 				$.isFunction(self.config.afterFormSubmit) && self.config.afterFormSubmit(newVal, editForm, $self);
 				editForm.remove();
+                self.showPlaceholder();
 				$(self).show();
 			}
 			return false;
@@ -129,7 +146,15 @@
 
 		$self.hide().after(editForm);
 		editElement.focus();
+        
+        if (self.config.submitOnBlur) {
+            editElement.blur(function () {
+                editForm.submit();
+            });
+        }
 
 		$.isFunction(self.config.onStartEdit) && self.config.onStartEdit(editForm, $self);
+        
+        self.hidePlaceholder(editElement);
 	};
 })(jQuery);

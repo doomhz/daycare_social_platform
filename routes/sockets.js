@@ -1,8 +1,9 @@
 (function() {
-  var Comment, Message, User, io;
+  var Comment, Message, Notification, User, io;
   User = require('../models/user');
   Comment = require('../models/comment');
   Message = require('../models/message');
+  Notification = require('../models/notification');
   io = require('socket.io');
   module.exports = function(app) {
     var dayCareWallComments, sio, userNotifications;
@@ -32,6 +33,7 @@
       });
       return socket.on("disconnect", function() {});
     });
+    Notification.setNotificationsSocket(userNotifications);
     dayCareWallComments = sio.of("/day-cares-wall-comments").on("connection", function(socket) {
       socket.on("get-new-comments", function(data) {
         return Comment.find({
