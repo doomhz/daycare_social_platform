@@ -7,35 +7,54 @@ io           = require('socket.io')
 module.exports = (app)->
 
   sio = io.listen(app)
-  
 
   userNotifications = sio.of("/user-notifications").on "connection", (socket)->
+    userNotifications.userSessions or= {}
+
     socket.on "get-new-messages-total", (data)->
       userId = data.user_id
+      sessionId = data.session_id
+      userSocket = userNotifications.socket(sessionId)
+      userNotifications.userSessions[userId] = sessionId
       Message.find({to_id: userId, type: "default", unread: true}).count (err, newMessagesTotal)->
-        socket.emit("new-messages-total", {total: newMessagesTotal})
+        userSocket.emit("new-messages-total", {total: newMessagesTotal})
     socket.on "get-last-messages", (data)->
       userId = data.user_id
+      sessionId = data.session_id
+      userSocket = userNotifications.socket(sessionId)
+      userNotifications.userSessions[userId] = sessionId
       Message.findLastMessages userId, 5, (err, messages)->
-        socket.emit("last-messages", {messages: messages})
+        userSocket.emit("last-messages", {messages: messages})
     
     socket.on "get-new-wall-posts-total", (data)->
       userId = data.user_id
+      sessionId = data.session_id
+      userSocket = userNotifications.socket(sessionId)
+      userNotifications.userSessions[userId] = sessionId
       Notification.find({user_id: userId, type: "status", unread: true}).count (err, wallPostsTotal)->
-        socket.emit("new-wall-posts-total", {total: wallPostsTotal})
+        userSocket.emit("new-wall-posts-total", {total: wallPostsTotal})
     socket.on "get-last-wall-posts", (data)->
       userId = data.user_id
+      sessionId = data.session_id
+      userSocket = userNotifications.socket(sessionId)
+      userNotifications.userSessions[userId] = sessionId
       Notification.findLastWallPosts userId, 5, (err, wallPosts)->
-        socket.emit("last-wall-posts", {wall_posts: wallPosts})
+        userSocket.emit("last-wall-posts", {wall_posts: wallPosts})
 
     socket.on "get-new-followups-total", (data)->
       userId = data.user_id
+      sessionId = data.session_id
+      userSocket = userNotifications.socket(sessionId)
+      userNotifications.userSessions[userId] = sessionId
       Notification.find({user_id: userId, type: "followup", unread: true}).count (err, followupsTotal)->
-        socket.emit("new-followups-total", {total: followupsTotal})
+        userSocket.emit("new-followups-total", {total: followupsTotal})
     socket.on "get-last-followups", (data)->
       userId = data.user_id
+      sessionId = data.session_id
+      userSocket = userNotifications.socket(sessionId)
+      userNotifications.userSessions[userId] = sessionId
       Notification.findLastFollowups userId, 5, (err, followups)->
-        socket.emit("last-followups", {followups: followups})
+        userSocket.emit("last-followups", {followups: followups})
 
 
     socket.on "disconnect", ()->

@@ -50,23 +50,33 @@
       this.socket.on("last-followups", function(data) {
         return that.triggerChangeOnDelegates("last-followups", data.followups);
       });
-      this.socket.emit("get-new-messages-total", {
-        user_id: that.currentUser.get("_id")
-      });
-      this.socket.emit("get-last-messages", {
-        user_id: that.currentUser.get("_id")
-      });
-      this.socket.emit("get-new-wall-posts-total", {
-        user_id: that.currentUser.get("_id")
-      });
-      this.socket.emit("get-last-wall-posts", {
-        user_id: that.currentUser.get("_id")
-      });
-      this.socket.emit("get-new-followups-total", {
-        user_id: that.currentUser.get("_id")
-      });
-      return this.socket.emit("get-last-followups", {
-        user_id: that.currentUser.get("_id")
+      return this.socket.on("connect", function(socket) {
+        var sessionId;
+        sessionId = that.socket.socket.sessionid;
+        that.socket.emit("get-new-messages-total", {
+          user_id: that.currentUser.get("_id"),
+          session_id: sessionId
+        });
+        that.socket.emit("get-last-messages", {
+          user_id: that.currentUser.get("_id"),
+          session_id: sessionId
+        });
+        that.socket.emit("get-new-wall-posts-total", {
+          user_id: that.currentUser.get("_id"),
+          session_id: sessionId
+        });
+        that.socket.emit("get-last-wall-posts", {
+          user_id: that.currentUser.get("_id"),
+          session_id: sessionId
+        });
+        that.socket.emit("get-new-followups-total", {
+          user_id: that.currentUser.get("_id"),
+          session_id: sessionId
+        });
+        return that.socket.emit("get-last-followups", {
+          user_id: that.currentUser.get("_id"),
+          session_id: sessionId
+        });
       });
     };
     NotificationBoardView.prototype.triggerChangeOnDelegates = function(attribute, value) {

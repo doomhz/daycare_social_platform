@@ -22,6 +22,7 @@ class Kin.Header.NotificationBoardView extends Backbone.View
   watch: ()->
     that = @
     @socket = window.io.connect(@socketUrl)
+
     @socket.on "new-messages-total", (data)->
       that.triggerChangeOnDelegates("new-messages-total", data.total)
     @socket.on "last-messages", (data)->
@@ -37,14 +38,17 @@ class Kin.Header.NotificationBoardView extends Backbone.View
     @socket.on "last-followups", (data)->
       that.triggerChangeOnDelegates("last-followups", data.followups)
 
-    @socket.emit("get-new-messages-total", {user_id: that.currentUser.get("_id")})
-    @socket.emit("get-last-messages", {user_id: that.currentUser.get("_id")})
+    @socket.on "connect", (socket)->
+      sessionId = that.socket.socket.sessionid
 
-    @socket.emit("get-new-wall-posts-total", {user_id: that.currentUser.get("_id")})
-    @socket.emit("get-last-wall-posts", {user_id: that.currentUser.get("_id")})
+      that.socket.emit("get-new-messages-total", {user_id: that.currentUser.get("_id"), session_id: sessionId})
+      that.socket.emit("get-last-messages", {user_id: that.currentUser.get("_id"), session_id: sessionId})
+
+      that.socket.emit("get-new-wall-posts-total", {user_id: that.currentUser.get("_id"), session_id: sessionId})
+      that.socket.emit("get-last-wall-posts", {user_id: that.currentUser.get("_id"), session_id: sessionId})
     
-    @socket.emit("get-new-followups-total", {user_id: that.currentUser.get("_id")})
-    @socket.emit("get-last-followups", {user_id: that.currentUser.get("_id")})
+      that.socket.emit("get-new-followups-total", {user_id: that.currentUser.get("_id"), session_id: sessionId})
+      that.socket.emit("get-last-followups", {user_id: that.currentUser.get("_id"), session_id: sessionId})
 
   triggerChangeOnDelegates: (attribute, value)->
     for delegate in @delegates

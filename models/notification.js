@@ -37,19 +37,21 @@
     return notificationsSocket;
   };
   NotificationSchema.statics.triggerNewMessages = function(userId) {
-    var Message;
+    var Message, sessionId, userSocket;
+    sessionId = notificationsSocket.userSessions[userId];
+    userSocket = notificationsSocket.socket(sessionId);
     Message = require("./message");
     Message.find({
       to_id: userId,
       type: "default",
       unread: true
     }).count(function(err, newMessagesTotal) {
-      return notificationsSocket.emit("new-messages-total", {
+      return userSocket.emit("new-messages-total", {
         total: newMessagesTotal
       });
     });
     return Message.findLastMessages(userId, 5, function(err, messages) {
-      return notificationsSocket.emit("last-messages", {
+      return userSocket.emit("last-messages", {
         messages: messages
       });
     });
@@ -61,17 +63,20 @@
     }).desc('created_at').limit(limit).run(onFind);
   };
   NotificationSchema.statics.triggerNewWallPosts = function(userId) {
+    var sessionId, userSocket;
+    sessionId = notificationsSocket.userSessions[userId];
+    userSocket = notificationsSocket.socket(sessionId);
     this.find({
       user_id: userId,
       type: "status",
       unread: true
     }).count(function(err, newWallPostsTotal) {
-      return notificationsSocket.emit("new-wall-posts-total", {
+      return userSocket.emit("new-wall-posts-total", {
         total: newWallPostsTotal
       });
     });
     return this.findLastWallPosts(userId, 5, function(err, wallPosts) {
-      return notificationsSocket.emit("last-wall-posts", {
+      return userSocket.emit("last-wall-posts", {
         wall_posts: wallPosts
       });
     });
@@ -83,17 +88,20 @@
     }).desc('created_at').limit(limit).run(onFind);
   };
   NotificationSchema.statics.triggerNewFollowups = function(userId) {
+    var sessionId, userSocket;
+    sessionId = notificationsSocket.userSessions[userId];
+    userSocket = notificationsSocket.socket(sessionId);
     this.find({
       user_id: userId,
       type: "followup",
       unread: true
     }).count(function(err, newFollowupsTotal) {
-      return notificationsSocket.emit("new-followups-total", {
+      return userSocket.emit("new-followups-total", {
         total: newFollowupsTotal
       });
     });
     return this.findLastFollowups(userId, 5, function(err, followups) {
-      return notificationsSocket.emit("last-followups", {
+      return userSocket.emit("last-followups", {
         followups: followups
       });
     });
