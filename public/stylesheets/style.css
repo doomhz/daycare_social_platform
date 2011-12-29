@@ -90,7 +90,7 @@ header #header-wrapper #main-menu #account-bt a span {
 header #header-wrapper #main-menu #account-bt ul.submenu {
   float: right;
   position: absolute;
-  right: 210px;
+  right: 226px;
   background: #e1f5fc;
   margin: -3px 0 0 0;
 }
@@ -120,32 +120,95 @@ header #header-wrapper #events-menu {
 header #header-wrapper #events-menu li {
   display: block;
   float: left;
-  padding: 0 10px 0 10px;
-  border-left: solid 1px #3982a3;
+  height: 28px;
 }
 header #header-wrapper #events-menu li a {
   color: #fff;
   text-decoration: none;
+  text-align: right;
   width: 21px;
   height: 20px;
   display: block;
+  border-left: solid 1px #3982a3;
+  padding: 0 10px 0 10px;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
-header #header-wrapper #events-menu li span {
-  background: #f00;
+header #header-wrapper #events-menu li span.indicator {
+  background: #8ca637;
   color: #fff;
+  font-size: 8px;
+  padding: 1px 4px;
+  border-radius: 8px;
+  margin: 0 -5px 0 0;
+  border: solid 1px #fff;
+}
+header #header-wrapper #events-menu li ul.notification-list {
+  float: right;
+  position: absolute;
+  background: #e1f5fc;
+  margin: 8px 0 0 0;
+  z-index: 999;
+}
+header #header-wrapper #events-menu li ul.notification-list li {
+  margin: 0;
+  float: none;
+  padding: 0;
+  border-bottom: solid 1px #fff;
+  border-left: none;
+  height: auto;
+  overflow: hidden;
+}
+header #header-wrapper #events-menu li ul.notification-list li a {
+  display: inline-block;
+  width: 250px;
+  padding: 5px;
+  background: none;
+  color: #000;
+  border: none;
+  height: auto;
+  overflow: hidden;
+}
+header #header-wrapper #events-menu li ul.notification-list li a:hover {
+  background: #c8e9fa;
+}
+header #header-wrapper #events-menu li ul.notification-list li .avatar {
+  float: left;
+}
+header #header-wrapper #events-menu li ul.notification-list li .message-header {
+  float: left;
+}
+header #header-wrapper #events-menu li ul.notification-list li .message-header .name {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #7e962d;
+}
+header #header-wrapper #events-menu li ul.notification-list li .message-body {
+  float: left;
+}
+header #header-wrapper #events-menu li ul.notification-list li.view-all-list-items-bt {
+  text-align: center;
+}
+header #header-wrapper #events-menu li ul.notification-list li.unread {
+  background: #c8e9fa;
 }
 header #header-wrapper #events-menu li.messages {
   border: none;
-  background: url("/images/messages_events.png") no-repeat center center;
 }
-header #header-wrapper #events-menu li.friend-request {
+header #header-wrapper #events-menu li.messages a {
+  background-image: url("/images/messages_events.png");
+}
+header #header-wrapper #events-menu li.friend-request a {
   background: url("/images/friend_requests_events.png") no-repeat center center;
 }
-header #header-wrapper #events-menu li.notifications {
+header #header-wrapper #events-menu li.notifications a {
   background: url("/images/notifications_events.png") no-repeat center center;
 }
-header #header-wrapper #events-menu li.ccn {
+header #header-wrapper #events-menu li.ccn a {
   background: url("/images/ccn_events.png") no-repeat center center;
+}
+header #header-wrapper #events-menu li.selected {
+  background-color: #e1f5fc;
 }
 header #header-wrapper #search-cnt {
   float: right;

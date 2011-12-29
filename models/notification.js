@@ -1,6 +1,5 @@
 (function() {
-  var Message, NotificationSchema, exports, notificationsSocket;
-  Message = require("./message");
+  var NotificationSchema, exports, notificationsSocket;
   NotificationSchema = new Schema;
   notificationsSocket = null;
   NotificationSchema.statics.setNotificationsSocket = function(socket) {
@@ -10,6 +9,8 @@
     return notificationsSocket;
   };
   NotificationSchema.statics.triggerNewMessages = function(userId) {
+    var Message;
+    Message = require("./message");
     Message.find({
       to_id: userId,
       type: "default",

@@ -16,19 +16,27 @@
     NotificationBoardView.prototype.currentUser = null;
     NotificationBoardView.prototype.socket = null;
     NotificationBoardView.prototype.socketUrl = "http://" + window.location.hostname + "/user-notifications";
+    NotificationBoardView.prototype.delegates = [];
     NotificationBoardView.prototype.initialize = function(_arg) {
       this.currentUser = _arg.currentUser;
+    };
+    NotificationBoardView.prototype.addDelegate = function(delegate) {
+      return this.delegates.push(delegate);
+    };
+    NotificationBoardView.prototype.removeDelegate = function(delegate) {
+      return this.delegates = _.filter(this.delegates, function(obj) {
+        return obj === delegate;
+      });
     };
     NotificationBoardView.prototype.watch = function() {
       var that;
       that = this;
       this.socket = window.io.connect(this.socketUrl);
       this.socket.on("new-messages-total", function(data) {
-        $.l(data);
-        return that.updateNewMessagesIndicator(data.total);
+        return that.triggerChangeOnDelegates("new-messages-total", data.total);
       });
       this.socket.on("last-messages", function(data) {
-        return $.l(data);
+        return that.triggerChangeOnDelegates("last-messages", data.messages);
       });
       this.socket.emit("get-new-messages-total", {
         user_id: that.currentUser.get("_id")
@@ -37,8 +45,15 @@
         user_id: that.currentUser.get("_id")
       });
     };
-    NotificationBoardView.prototype.updateNewMessagesIndicator = function(total) {
-      return this.$("#new-messages-indicator").text(total);
+    NotificationBoardView.prototype.triggerChangeOnDelegates = function(attribute, value) {
+      var delegate, _i, _len, _ref, _results;
+      _ref = this.delegates;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        delegate = _ref[_i];
+        _results.push(delegate.trigger("change", attribute, value));
+      }
+      return _results;
     };
     return NotificationBoardView;
   })();

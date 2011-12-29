@@ -18,7 +18,6 @@ module.exports = (app)->
           Message.send(user._id, messageData)
       else
         Message.send(user._id, data)
-    Notification.triggerNewMessages(user._id)
     res.json {success: true}
 
   app.del '/messages/:id', (req, res)->

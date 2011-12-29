@@ -23,7 +23,6 @@
           Message.send(user._id, data);
         }
       }
-      Notification.triggerNewMessages(user._id);
       return res.json({
         success: true
       });

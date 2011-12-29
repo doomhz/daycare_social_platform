@@ -1,5 +1,5 @@
 (function() {
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
     ctor.prototype = parent.prototype;
@@ -10,16 +10,15 @@
   Kin.Header.SubmenuView = (function() {
     __extends(SubmenuView, Backbone.View);
     function SubmenuView() {
+      this.menuButtonClickHandler = __bind(this.menuButtonClickHandler, this);
       SubmenuView.__super__.constructor.apply(this, arguments);
     }
     SubmenuView.prototype.el = null;
     SubmenuView.prototype.submenuSelector = "ul.submenu";
-    SubmenuView.prototype.events = {
-      "click a:first": "menuButtonClickHandler"
-    };
     SubmenuView.prototype.doNotClose = false;
     SubmenuView.prototype.initialize = function() {
-      return this.bind("click:window", this.windowClickHandler);
+      this.bind("click:window", this.windowClickHandler);
+      return this.$("a:first").bind("click", this.menuButtonClickHandler);
     };
     SubmenuView.prototype.menuButtonClickHandler = function(ev) {
       ev.preventDefault();

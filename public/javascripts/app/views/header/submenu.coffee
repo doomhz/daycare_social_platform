@@ -4,15 +4,13 @@ class Kin.Header.SubmenuView extends Backbone.View
   
   submenuSelector: "ul.submenu"
 
-  events:
-    "click a:first": "menuButtonClickHandler"
-  
   doNotClose: false
   
   initialize: ()->
     @bind("click:window", @windowClickHandler)
+    @$("a:first").bind("click", @menuButtonClickHandler)
 
-  menuButtonClickHandler: (ev)->
+  menuButtonClickHandler: (ev)=>
     ev.preventDefault()
     if @$(@submenuSelector).hasClass("hidden")
       @selectMenuItem()

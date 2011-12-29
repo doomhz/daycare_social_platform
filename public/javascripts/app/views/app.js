@@ -57,14 +57,21 @@
       headerSettingsSubmenu = new Kin.Header.SubmenuView({
         el: "header #account-bt"
       });
-      return this.window.addEventDelegate(headerSettingsSubmenu);
+      return this.window.addDelegate(headerSettingsSubmenu);
     };
     AppView.prototype.initHeaderNotification = function() {
-      var headerNotificationBoard;
+      var headerNotificationBoard, messagesNotification;
       headerNotificationBoard = new Kin.Header.NotificationBoardView({
         el: "header #notification-board",
         currentUser: this.currentUser
       });
+      messagesNotification = new Kin.Header.NotificationView({
+        el: headerNotificationBoard.$(".messages"),
+        indicatorId: "new-messages-total",
+        listId: "last-messages"
+      });
+      headerNotificationBoard.addDelegate(messagesNotification);
+      this.window.addDelegate(messagesNotification);
       return headerNotificationBoard.watch();
     };
     AppView.prototype.renderDaycares = function() {

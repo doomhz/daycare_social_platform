@@ -52,7 +52,11 @@
     message = new this(data);
     message.type = "default";
     message.unread = true;
-    message.save();
+    message.save(function() {
+      var Notification;
+      Notification = require("./notification");
+      return Notification.triggerNewMessages(data.to_id);
+    });
     message = new this(data);
     message.type = "sent";
     return message.save();

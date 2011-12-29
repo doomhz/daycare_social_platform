@@ -80,7 +80,7 @@ header
         ul.submenu
           float right
           position absolute
-          right 210px
+          right 226px
           background #e1f5fc
           margin -3px 0 0 0
           li
@@ -103,26 +103,80 @@ header
       li
         display block
         float left
-        padding 0 10px 0 10px
-        border-left solid 1px #3982a3
+        height 28px
         a
           color #FFF
           text-decoration none
+          text-align right
           width 21px
           height 20px
           display block
-        span
-          background red
+          border-left solid 1px #3982a3
+          padding 0 10px 0 10px
+          background-repeat no-repeat
+          background-position center center
+        span.indicator
+          background #8ca637
           color #FFF
+          font-size 8px
+          padding 1px 4px
+          border-radius 8px
+          margin 0 -5px 0 0
+          border solid 1px #FFF
+        ul.notification-list
+          float right
+          position absolute
+          background #e1f5fc
+          margin 8px 0 0 0
+          z-index 999
+          li
+            margin 0
+            float none
+            padding 0
+            border-bottom solid 1px #FFF
+            border-left none
+            height auto
+            overflow hidden
+            a
+              display inline-block
+              width 250px
+              padding 5px
+              background none
+              color #000
+              border none
+              height auto
+              overflow hidden
+            a:hover
+              background #c8e9fa
+            .avatar
+              float left
+            .message-header
+              float left
+              .name
+                text-transform uppercase
+                font-weight bold
+                color #7E962D
+            .message-body
+              float left
+          li.view-all-list-items-bt
+            text-align center
+          li.unread
+            background #c8e9fa
       li.messages
         border none
-        background url('/images/messages_events.png') no-repeat center center
+        a
+          background-image url('/images/messages_events.png')
       li.friend-request
-        background url('/images/friend_requests_events.png') no-repeat center center
+        a
+          background url('/images/friend_requests_events.png') no-repeat center center
       li.notifications
-        background url('/images/notifications_events.png') no-repeat center center
+        a
+          background url('/images/notifications_events.png') no-repeat center center
       li.ccn
-        background url('/images/ccn_events.png') no-repeat center center
+        a
+          background url('/images/ccn_events.png') no-repeat center center
+      li.selected
+        background-color #e1f5fc
     #search-cnt
       float right
       margin 8px 30px 0 0

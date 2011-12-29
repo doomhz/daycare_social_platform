@@ -36,7 +36,9 @@ MessageSchema.statics.send = (userId, data)->
   message = new @(data)
   message.type = "default"
   message.unread = true
-  message.save()
+  message.save ()->
+    Notification = require("./notification")
+    Notification.triggerNewMessages(data.to_id)
   
   message = new @(data)
   message.type = "sent"

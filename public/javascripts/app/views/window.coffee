@@ -5,14 +5,14 @@ class Kin.WindowView extends Backbone.View
   events:
     "click": "clickHandler"
   
-  eventDelegates: []
+  delegates: []
   
   clickHandler: (ev)->
     @announceDelegates(ev)
   
   announceDelegates: (ev)->
-    for eventDelegate in @eventDelegates
+    for eventDelegate in @delegates
       eventDelegate.trigger("click:window", ev)
   
-  addEventDelegate: (delegate)->
-    @eventDelegates.push(delegate)
+  addDelegate: (delegate)->
+    @delegates.push(delegate)

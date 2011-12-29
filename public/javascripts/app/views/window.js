@@ -16,13 +16,13 @@
     WindowView.prototype.events = {
       "click": "clickHandler"
     };
-    WindowView.prototype.eventDelegates = [];
+    WindowView.prototype.delegates = [];
     WindowView.prototype.clickHandler = function(ev) {
       return this.announceDelegates(ev);
     };
     WindowView.prototype.announceDelegates = function(ev) {
       var eventDelegate, _i, _len, _ref, _results;
-      _ref = this.eventDelegates;
+      _ref = this.delegates;
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         eventDelegate = _ref[_i];
@@ -30,8 +30,8 @@
       }
       return _results;
     };
-    WindowView.prototype.addEventDelegate = function(delegate) {
-      return this.eventDelegates.push(delegate);
+    WindowView.prototype.addDelegate = function(delegate) {
+      return this.delegates.push(delegate);
     };
     return WindowView;
   })();

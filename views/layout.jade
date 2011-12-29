@@ -50,6 +50,7 @@ html
     script(src='/javascripts/app/views/window.js')
     script(src='/javascripts/app/views/header/submenu.js')
     script(src='/javascripts/app/views/header/notification_board.js')
+    script(src='/javascripts/app/views/header/notification.js')
     script(src='/javascripts/app/views/day_care/profile.js')
     script(src='/javascripts/app/views/day_care/profile_gallery.js')
     script(src='/javascripts/app/views/day_care/profile_general_info.js')
@@ -96,16 +97,17 @@ html
         ul#events-menu
           li.messages
             a(href='#messages/inbox')
-              span#new-messages-indicator 0
+              span#new-messages-total.indicator.hidden 0
+            ul#last-messages.notification-list.hidden
           li.friend-request
             a(href='#')
-              span 0
+              span.indicator.indicator.hidden 0
           li.notifications
             a(href='#')
-              span 0
+              span.indicator.indicator.hidden 0
           li.ccn
             a(href='#')
-              span 0
+              span.indicator.indicator.hidden 0
         a(href='/')
           img(src='/images/logo.png', alt='Kindzy.com', id='logo')
         #search-cnt

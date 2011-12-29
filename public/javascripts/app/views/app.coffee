@@ -44,12 +44,18 @@ class Kin.AppView extends Backbone.View
   initHeaderMenu: ()->
     headerSettingsSubmenu = new Kin.Header.SubmenuView
       el: "header #account-bt"
-    @window.addEventDelegate(headerSettingsSubmenu)
+    @window.addDelegate(headerSettingsSubmenu)
   
   initHeaderNotification: ()->
     headerNotificationBoard = new Kin.Header.NotificationBoardView
       el: "header #notification-board"
       currentUser: @currentUser
+    messagesNotification = new Kin.Header.NotificationView
+      el: headerNotificationBoard.$(".messages")
+      indicatorId: "new-messages-total"
+      listId: "last-messages"
+    headerNotificationBoard.addDelegate(messagesNotification)
+    @window.addDelegate(messagesNotification)
     headerNotificationBoard.watch()
   
   renderDaycares: ()->
