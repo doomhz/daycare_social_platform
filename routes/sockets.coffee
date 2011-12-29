@@ -18,6 +18,26 @@ module.exports = (app)->
       userId = data.user_id
       Message.findLastMessages userId, 5, (err, messages)->
         socket.emit("last-messages", {messages: messages})
+    
+    socket.on "get-new-wall-posts-total", (data)->
+      userId = data.user_id
+      Notification.find({user_id: userId, type: "status", unread: true}).count (err, wallPostsTotal)->
+        socket.emit("new-wall-posts-total", {total: wallPostsTotal})
+    socket.on "get-last-wall-posts", (data)->
+      userId = data.user_id
+      Notification.findLastWallPosts userId, 5, (err, wallPosts)->
+        socket.emit("last-wall-posts", {wall_posts: wallPosts})
+
+    socket.on "get-new-followups-total", (data)->
+      userId = data.user_id
+      Notification.find({user_id: userId, type: "followup", unread: true}).count (err, followupsTotal)->
+        socket.emit("new-followups-total", {total: followupsTotal})
+    socket.on "get-last-followups", (data)->
+      userId = data.user_id
+      Notification.findLastFollowups userId, 5, (err, followups)->
+        socket.emit("last-followups", {followups: followups})
+
+
     socket.on "disconnect", ()->
       # socket.disconnect()
 

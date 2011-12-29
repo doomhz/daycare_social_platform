@@ -31,6 +31,50 @@
           });
         });
       });
+      socket.on("get-new-wall-posts-total", function(data) {
+        var userId;
+        userId = data.user_id;
+        return Notification.find({
+          user_id: userId,
+          type: "status",
+          unread: true
+        }).count(function(err, wallPostsTotal) {
+          return socket.emit("new-wall-posts-total", {
+            total: wallPostsTotal
+          });
+        });
+      });
+      socket.on("get-last-wall-posts", function(data) {
+        var userId;
+        userId = data.user_id;
+        return Notification.findLastWallPosts(userId, 5, function(err, wallPosts) {
+          return socket.emit("last-wall-posts", {
+            wall_posts: wallPosts
+          });
+        });
+      });
+      socket.on("get-new-followups-total", function(data) {
+        var userId;
+        userId = data.user_id;
+        return Notification.find({
+          user_id: userId,
+          type: "followup",
+          unread: true
+        }).count(function(err, followupsTotal) {
+          return socket.emit("new-followups-total", {
+            total: followupsTotal
+          });
+        });
+      });
+      socket.on("get-last-followups", function(data) {
+        var userId;
+        userId = data.user_id;
+        return Notification.findLastFollowups(userId, 5, function(err, followups) {
+          return socket.emit("last-followups", {
+            followups: followups
+          });
+        });
+      });
       return socket.on("disconnect", function() {});
     });
     Notification.setNotificationsSocket(userNotifications);

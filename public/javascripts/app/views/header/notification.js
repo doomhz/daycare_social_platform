@@ -20,7 +20,7 @@
     NotificationView.prototype.submenuSelector = "ul.notification-list";
     NotificationView.prototype.doNotClose = false;
     NotificationView.prototype.initialize = function(_arg) {
-      this.indicatorId = _arg.indicatorId, this.listId = _arg.listId;
+      this.indicatorId = _arg.indicatorId, this.listId = _arg.listId, this.onShowUrl = _arg.onShowUrl;
       this.bind("change", this.changeHandler);
       this.bind("click:window", this.windowClickHandler);
       return this.$("a:first").bind("click", this.menuButtonClickHandler);

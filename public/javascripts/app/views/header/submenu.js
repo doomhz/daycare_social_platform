@@ -16,6 +16,7 @@
     SubmenuView.prototype.el = null;
     SubmenuView.prototype.submenuSelector = "ul.submenu";
     SubmenuView.prototype.doNotClose = false;
+    SubmenuView.prototype.onShow = null;
     SubmenuView.prototype.initialize = function() {
       this.bind("click:window", this.windowClickHandler);
       return this.$("a:first").bind("click", this.menuButtonClickHandler);
@@ -37,7 +38,16 @@
       }
     };
     SubmenuView.prototype.showSubmenu = function() {
-      return this.$(this.submenuSelector).removeClass("hidden");
+      this.$(this.submenuSelector).removeClass("hidden");
+      if (this.onShowUrl) {
+        return this.onShow();
+      }
+    };
+    SubmenuView.prototype.onShow = function() {
+      return $.ajax({
+        type: "PUT",
+        url: this.onShowUrl
+      });
     };
     SubmenuView.prototype.hideSubmenu = function() {
       return this.$(this.submenuSelector).addClass("hidden");

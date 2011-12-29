@@ -6,6 +6,8 @@ class Kin.Header.SubmenuView extends Backbone.View
 
   doNotClose: false
   
+  onShow: null
+  
   initialize: ()->
     @bind("click:window", @windowClickHandler)
     @$("a:first").bind("click", @menuButtonClickHandler)
@@ -26,6 +28,13 @@ class Kin.Header.SubmenuView extends Backbone.View
   
   showSubmenu: ()->
     @$(@submenuSelector).removeClass("hidden")
+    if @onShowUrl
+      @onShow()
+  
+  onShow: ()->
+    $.ajax
+      type: "PUT"
+      url: @onShowUrl
   
   hideSubmenu: ()->
     @$(@submenuSelector).addClass("hidden")

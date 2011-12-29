@@ -101,13 +101,15 @@ html
             ul#last-messages.notification-list.hidden
           li.friend-request
             a(href='#')
-              span.indicator.indicator.hidden 0
+              span.indicator.hidden 0
           li.notifications
             a(href='#')
-              span.indicator.indicator.hidden 0
+              span#new-followups-total.indicator.hidden 0
+            ul#last-followups.notification-list.hidden
           li.ccn
             a(href='#')
-              span.indicator.indicator.hidden 0
+              span#new-wall-posts-total.indicator.hidden 0
+            ul#last-wall-posts.notification-list.hidden
         a(href='/')
           img(src='/images/logo.png', alt='Kindzy.com', id='logo')
         #search-cnt

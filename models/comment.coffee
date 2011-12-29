@@ -1,5 +1,4 @@
-mongooseAuth = require('mongoose-auth')
-User         = require("./user")
+User = require("./user")
 
 CommentSchema = new Schema
   from_id:

@@ -2,6 +2,10 @@
   _.each(listItems, function (item) {
 %>
 <li class="<%= item.unread ? 'unread' : '' %>">
+  
+  <%
+    if (item.type === 'default') {
+  %>
   <a href="#messages/inbox">
     <p class="avatar">
       <img src="/images/no_pic.png" width="30" height="30" />
@@ -21,6 +25,38 @@
       %>
     </p>
   </a>
+  <%
+    }
+  %>
+  
+  <%
+    if (item.type === 'status') {
+  %>
+  <a href="#day-cares/view/<%= item.wall_id %>">
+    <p class="message-body">
+      <%
+        print(_.escape(item.content));
+      %>
+    </p>
+  </a>
+  <%
+    }
+  %>
+
+  <%
+    if (item.type === 'followup') {
+  %>
+  <a href="#day-cares/view/<%= item.wall_id %>">
+    <p class="message-body">
+      <%
+        print(_.escape(item.content));
+      %>
+    </p>
+  </a>
+  <%
+    }
+  %>
+  
 </li>
 <%  
   });

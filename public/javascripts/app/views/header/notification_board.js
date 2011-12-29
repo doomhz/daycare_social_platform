@@ -38,10 +38,34 @@
       this.socket.on("last-messages", function(data) {
         return that.triggerChangeOnDelegates("last-messages", data.messages);
       });
+      this.socket.on("new-wall-posts-total", function(data) {
+        return that.triggerChangeOnDelegates("new-wall-posts-total", data.total);
+      });
+      this.socket.on("last-wall-posts", function(data) {
+        return that.triggerChangeOnDelegates("last-wall-posts", data.wall_posts);
+      });
+      this.socket.on("new-followups-total", function(data) {
+        return that.triggerChangeOnDelegates("new-followups-total", data.total);
+      });
+      this.socket.on("last-followups", function(data) {
+        return that.triggerChangeOnDelegates("last-followups", data.followups);
+      });
       this.socket.emit("get-new-messages-total", {
         user_id: that.currentUser.get("_id")
       });
-      return this.socket.emit("get-last-messages", {
+      this.socket.emit("get-last-messages", {
+        user_id: that.currentUser.get("_id")
+      });
+      this.socket.emit("get-new-wall-posts-total", {
+        user_id: that.currentUser.get("_id")
+      });
+      this.socket.emit("get-last-wall-posts", {
+        user_id: that.currentUser.get("_id")
+      });
+      this.socket.emit("get-new-followups-total", {
+        user_id: that.currentUser.get("_id")
+      });
+      return this.socket.emit("get-last-followups", {
         user_id: that.currentUser.get("_id")
       });
     };

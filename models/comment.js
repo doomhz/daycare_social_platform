@@ -1,6 +1,5 @@
 (function() {
-  var CommentSchema, User, dayCareWallCommentsSocket, exports, mongooseAuth;
-  mongooseAuth = require('mongoose-auth');
+  var CommentSchema, User, dayCareWallCommentsSocket, exports;
   User = require("./user");
   CommentSchema = new Schema({
     from_id: {

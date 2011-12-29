@@ -14,7 +14,7 @@ class window.Kin.Header.NotificationView extends Kin.Header.SubmenuView
 
   doNotClose: false
 
-  initialize: ({@indicatorId, @listId})->
+  initialize: ({@indicatorId, @listId, @onShowUrl})->
     @bind("change", @changeHandler)
     @bind("click:window", @windowClickHandler)
     @$("a:first").bind("click", @menuButtonClickHandler)

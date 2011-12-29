@@ -50,12 +50,31 @@ class Kin.AppView extends Backbone.View
     headerNotificationBoard = new Kin.Header.NotificationBoardView
       el: "header #notification-board"
       currentUser: @currentUser
+    
     messagesNotification = new Kin.Header.NotificationView
       el: headerNotificationBoard.$(".messages")
       indicatorId: "new-messages-total"
       listId: "last-messages"
+      onShowUrl: null
     headerNotificationBoard.addDelegate(messagesNotification)
     @window.addDelegate(messagesNotification)
+    
+    wallPostsNotification = new Kin.Header.NotificationView
+      el: headerNotificationBoard.$(".ccn")
+      indicatorId: "new-wall-posts-total"
+      listId: "last-wall-posts"
+      onShowUrl: "/notifications/wall-posts"
+    headerNotificationBoard.addDelegate(wallPostsNotification)
+    @window.addDelegate(wallPostsNotification)
+
+    followupsNotification = new Kin.Header.NotificationView
+      el: headerNotificationBoard.$(".notifications")
+      indicatorId: "new-followups-total"
+      listId: "last-followups"
+      onShowUrl: "/notifications/followups"
+    headerNotificationBoard.addDelegate(followupsNotification)
+    @window.addDelegate(followupsNotification)
+    
     headerNotificationBoard.watch()
   
   renderDaycares: ()->
