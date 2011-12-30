@@ -186,7 +186,7 @@ header #header-wrapper #events-menu li ul.notification-list li .message-header .
 header #header-wrapper #events-menu li ul.notification-list li .message-body {
   float: left;
 }
-header #header-wrapper #events-menu li ul.notification-list li.view-all-list-items-bt {
+header #header-wrapper #events-menu li ul.notification-list li.view-all-list-items-bt a {
   text-align: center;
 }
 header #header-wrapper #events-menu li ul.notification-list li.unread {

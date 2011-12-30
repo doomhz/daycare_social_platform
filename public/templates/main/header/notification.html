@@ -16,13 +16,14 @@
         var messageDate = $.timeago(_.escape(item.created_at));
         var name = messageUser.type === "daycare" ? (messageUser.daycare_name || "") : (messageUser.name || "") + " " + (messageUser.surname || "");
       %>
-      <span class="name" id="message-to-name"><%= _.escape(name.substr(0, 30)) %></span> <span class="time"><%= messageDate %></span>
+      <span class="name" id="message-to-name"><%= _.escape(name) %></span> <span class="time"><%= messageDate %></span>
     </p>
         <br />
     <p class="message-body">
       <%
-        print(_.escape(item.content));
+        print(_.escape(item.content.substr(0, 30)));
       %>
+      ...
     </p>
   </a>
   <%
@@ -60,4 +61,16 @@
 </li>
 <%  
   });
+%>
+
+<%
+  if (listItems[0] && listItems[0].type === "default") {
+%>
+<li class="view-all-list-items-bt">
+  <a href="#messages/inbox">
+      View all messages
+  </a>
+</li>
+<%
+  }
 %>
