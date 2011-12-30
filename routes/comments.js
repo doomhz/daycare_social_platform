@@ -19,9 +19,19 @@
       delete data.updated_at;
       comment = new Comment(data);
       comment.save(function(err) {
-        var userName;
+        var triggerNewFollowups, triggerNewWallPosts, userName;
         comment.postOnWall();
         userName = user.type === "daycare" ? user.daycare_name : "" + user.name + " " + user.surname;
+        triggerNewWallPosts = function(userId, notif) {
+          return notif.save(function() {
+            return Notification.triggerNewWallPosts(userId);
+          });
+        };
+        triggerNewFollowups = function(userId, notif) {
+          return notif.save(function() {
+            return Notification.triggerNewFollowups(userId);
+          });
+        };
         if (data.type === "status") {
           User.find().run(function(err, users) {
             var notification, notificationData, usr, _i, _len, _results;
@@ -33,9 +43,7 @@
                 wall_id: data.wall_id,
                 type: "status",
                 content: "" + userName + " wrote on wall."
-              }, notification = new Notification(notificationData), notification.save(function() {
-                return Notification.triggerNewWallPosts(usr._id);
-              })) : void 0);
+              }, notification = new Notification(notificationData), triggerNewWallPosts(usr._id, notification)) : void 0);
             }
             return _results;
           });
@@ -61,9 +69,7 @@
                 wall_id: data.wall_id,
                 type: "followup",
                 content: "" + userName + " commented on a post."
-              }, notification = new Notification(notificationData), notification.save(function() {
-                return Notification.triggerNewFollowups(comment.from_id);
-              }), sentUserIds.push(comment.from_id)) : void 0);
+              }, notification = new Notification(notificationData), triggerNewFollowups(comment.from_id, notification), sentUserIds.push(comment.from_id)) : void 0);
             }
             return _results;
           });

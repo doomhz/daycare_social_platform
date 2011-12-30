@@ -16,6 +16,12 @@ module.exports = (app)->
       comment.postOnWall()
     
       userName = if user.type is "daycare" then user.daycare_name else "#{user.name} #{user.surname}"
+      triggerNewWallPosts = (userId, notif)->
+        notif.save ()->
+          Notification.triggerNewWallPosts(userId)
+      triggerNewFollowups = (userId, notif)->
+        notif.save ()->
+          Notification.triggerNewFollowups(userId)
     
       if data.type is "status"
         User.find().run (err, users)->
@@ -27,8 +33,7 @@ module.exports = (app)->
                 type: "status"
                 content: "#{userName} wrote on wall."
               notification = new Notification(notificationData)
-              notification.save ()->
-                Notification.triggerNewWallPosts(usr._id)
+              triggerNewWallPosts(usr._id, notification)
 
       if data.type is "followup"
         Comment.find([{type: "followup", wall_id: data.wall_id, to_id: data.to_id}, {type: "status", wall_id: data.wall_id}]).run (err, comments)->
@@ -41,8 +46,7 @@ module.exports = (app)->
                 type: "followup"
                 content: "#{userName} commented on a post."
               notification = new Notification(notificationData)
-              notification.save ()->
-                Notification.triggerNewFollowups(comment.from_id)
+              triggerNewFollowups(comment.from_id, notification)
               sentUserIds.push(comment.from_id)
     
     res.json {success: true}
