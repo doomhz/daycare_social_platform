@@ -135,13 +135,17 @@
       return $form.find("textarea").val("").keyup();
     };
     ProfileView.prototype.sendCommentFromForm = function($form) {
-      var comment, commentData;
+      var comment, commentData, that;
+      that = this;
       commentData = $form.serialize();
       comment = new Kin.CommentModel({
         wall_id: this.model.get("_id")
       });
       return comment.save(null, {
-        data: commentData
+        data: commentData,
+        success: function() {
+          return that.profileWall.collection.loadComments();
+        }
       });
     };
     return ProfileView;

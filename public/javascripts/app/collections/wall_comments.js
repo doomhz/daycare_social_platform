@@ -1,5 +1,5 @@
 (function() {
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
     ctor.prototype = parent.prototype;
@@ -10,12 +10,15 @@
   Kin.WallCommentsCollection = (function() {
     __extends(WallCommentsCollection, Backbone.Collection);
     function WallCommentsCollection() {
+      this.loadComments = __bind(this.loadComments, this);
       WallCommentsCollection.__super__.constructor.apply(this, arguments);
     }
     WallCommentsCollection.prototype.model = Kin.CommentModel;
     WallCommentsCollection.prototype.dayCareId = null;
-    WallCommentsCollection.prototype.socket = null;
-    WallCommentsCollection.prototype.socketUrl = "http://" + window.location.hostname + "/day-cares-wall-comments";
+    WallCommentsCollection.prototype.intervalId = null;
+    WallCommentsCollection.prototype.loadCommentsTime = 3000;
+    WallCommentsCollection.prototype.lastQueryTime = 0;
+    WallCommentsCollection.prototype.uri = "/comments/:wall_id/:last_query_time";
     WallCommentsCollection.prototype.initialize = function(models, _arg) {
       this.dayCareId = _arg.dayCareId;
       return this.startAutoUpdateComments();
@@ -23,34 +26,21 @@
     WallCommentsCollection.prototype.startAutoUpdateComments = function() {
       var that;
       that = this;
-      this.socket = window.io.connect(this.socketUrl);
-      this.socket.on("new-wall-comments", function(data) {
-        if (data.wall_id) {
-          if (data.wall_id === that.dayCareId) {
-            return that.add(data.comments);
-          }
-        } else {
-          return that.addAll(data.comments);
-        }
-      });
-      return this.socket.emit("get-new-comments", {
-        wall_id: that.dayCareId
+      return this.intervalId = window.setInterval(this.loadComments, this.loadCommentsTime);
+    };
+    WallCommentsCollection.prototype.stopAutoUpdateComments = function() {
+      return window.clearInterval(this.intervalId);
+    };
+    WallCommentsCollection.prototype.loadComments = function() {
+      return this.fetch({
+        add: true,
+        success: __bind(function(comments) {
+          return this.lastQueryTime = new Date().getTime();
+        }, this)
       });
     };
-    WallCommentsCollection.prototype.stopAutoUpdateComments = function() {};
-    WallCommentsCollection.prototype.addAll = function(comments) {
-      var loaderModel, that;
-      that = this;
-      loaderModel = new Kin.DayCare.WallCommentView();
-      return loaderModel.deferOnTemplateLoad(function() {
-        var comment, _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = comments.length; _i < _len; _i++) {
-          comment = comments[_i];
-          _results.push(that.add(comment));
-        }
-        return _results;
-      });
+    WallCommentsCollection.prototype.url = function() {
+      return this.uri.replace(":wall_id", this.dayCareId).replace(":last_query_time", this.lastQueryTime);
     };
     return WallCommentsCollection;
   })();

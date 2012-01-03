@@ -61,25 +61,3 @@ module.exports = (app)->
       # socket.disconnect()
 
   Notification.setNotificationsSocket(userNotifications)
-
-  dayCareWallComments = sio.of("/day-cares-wall-comments").on "connection", (socket)->
-    socket.on "get-new-comments", (data)->
-      # TODO Move this to the model and filter data we send on frontend about the user
-      Comment.find({wall_id: data.wall_id}).desc("type").asc("updated_at").run (err, comments)->
-        if comments
-          usersToFind = []
-          for comment in comments
-            usersToFind.push(comment.from_id)
-          if usersToFind.length
-            User.where("_id").in(usersToFind).run (err, users)->
-              if users
-                for comment in comments
-                  for user in users
-                    # TODO Filter public data
-                    if "#{user._id}" is "#{comment.from_id}"
-                      comment.from_user = user
-              socket.emit("new-wall-comments", {comments: comments})
-    socket.on "disconnect", ()->
-      # socket.disconnect()
-  
-  Comment.setDaycareWallSocket(dayCareWallComments)

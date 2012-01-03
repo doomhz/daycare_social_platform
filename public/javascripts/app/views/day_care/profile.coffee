@@ -105,7 +105,10 @@ class window.Kin.DayCare.ProfileView extends Backbone.View
     $form.find("textarea").val("").keyup()
 
   sendCommentFromForm: ($form)->
+    that = @
     commentData = $form.serialize()
     comment = new Kin.CommentModel({wall_id: @model.get("_id")})
     comment.save null,
       data: commentData
+      success: ()->
+        that.profileWall.collection.loadComments()

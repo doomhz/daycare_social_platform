@@ -4,9 +4,16 @@ class Kin.DayCare.ProfileWallView extends Backbone.View
   
   collection: null
   
+  commentTplUrl: '/templates/main/day_care/wall_comment.html'
+  
   initialize: ()->
     _.bindAll @, "addWallComment"
     @collection.bind("add", @addWallComment)
+    that = @
+    $.tmpload
+      url: @commentTplUrl
+      onLoad: ()->
+        that.collection.loadComments()
   
   addWallComment: (model)->
     that = @

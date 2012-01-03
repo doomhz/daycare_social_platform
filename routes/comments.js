@@ -10,6 +10,44 @@
   Comment = require('../models/comment');
   Notification = require('../models/notification');
   module.exports = function(app) {
+    app.get('/comments/:wall_id/:last_query_time', function(req, res) {
+      var lastQueryTime, wallId;
+      wallId = req.params.wall_id;
+      lastQueryTime = req.params.last_query_time;
+      return Comment.find({
+        wall_id: wallId
+      }).where('created_at').gt(lastQueryTime).desc("type").asc("updated_at").run(function(err, comments) {
+        var comment, usersToFind, _i, _len;
+        if (comments) {
+          usersToFind = [];
+          for (_i = 0, _len = comments.length; _i < _len; _i++) {
+            comment = comments[_i];
+            usersToFind.push(comment.from_id);
+          }
+          if (usersToFind.length) {
+            return User.where("_id")["in"](usersToFind).run(function(err, users) {
+              var comment, user, _j, _k, _len2, _len3;
+              if (users) {
+                for (_j = 0, _len2 = comments.length; _j < _len2; _j++) {
+                  comment = comments[_j];
+                  for (_k = 0, _len3 = users.length; _k < _len3; _k++) {
+                    user = users[_k];
+                    if (("" + user._id) === ("" + comment.from_id)) {
+                      comment.from_user = user;
+                    }
+                  }
+                }
+              }
+              return res.json(comments);
+            });
+          } else {
+            return res.json(comments);
+          }
+        } else {
+          return res.json([]);
+        }
+      });
+    });
     return app.post('/comments', function(req, res) {
       var comment, data, user;
       user = req.user ? req.user : {};
@@ -20,7 +58,6 @@
       comment = new Comment(data);
       comment.save(function(err) {
         var triggerNewFollowups, triggerNewWallPosts, userName;
-        comment.postOnWall();
         userName = user.type === "daycare" ? user.daycare_name : "" + user.name + " " + user.surname;
         triggerNewWallPosts = function(userId, notif) {
           return notif.save(function() {

@@ -4,34 +4,29 @@ class Kin.WallCommentsCollection extends Backbone.Collection
   
   dayCareId: null
   
-  socket: null
+  intervalId: null
   
-  socketUrl: "http://#{window.location.hostname}/day-cares-wall-comments"
+  loadCommentsTime: 3000
+  
+  lastQueryTime: 0
+  
+  uri: "/comments/:wall_id/:last_query_time"
 
   initialize: (models, {@dayCareId})->
     @startAutoUpdateComments()
   
   startAutoUpdateComments: ()->
-    that = @
-    @socket = window.io.connect(@socketUrl)
-    # @socket.on "connect", ()->
-    @socket.on "new-wall-comments", (data)->
-      if data.wall_id 
-        if data.wall_id is that.dayCareId
-          that.add(data.comments)
-      else
-        that.addAll(data.comments)
-    @socket.emit("get-new-comments", {wall_id: that.dayCareId})
+    that = @    
+    @intervalId = window.setInterval(@loadComments, @loadCommentsTime)
 
   stopAutoUpdateComments: ()->
-    # @socket.emit("disconnect")
-    # @socket.disconnect()
+    window.clearInterval(@intervalId)
+  
+  loadComments: ()=>
+    @fetch
+      add: true
+      success: (comments)=>
+        @lastQueryTime = new Date().getTime()
 
-  addAll: (comments)->
-    that = @
-    loaderModel = new Kin.DayCare.WallCommentView()
-    loaderModel.deferOnTemplateLoad(
-      ()->
-        for comment in comments
-          that.add(comment)
-    )
+  url: ()->
+    @uri.replace(":wall_id", @dayCareId).replace(":last_query_time", @lastQueryTime)

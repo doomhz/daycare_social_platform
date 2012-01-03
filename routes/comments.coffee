@@ -4,6 +4,29 @@ Notification = require('../models/notification')
 
 module.exports = (app)->
 
+  app.get '/comments/:wall_id/:last_query_time', (req, res)->
+    wallId = req.params.wall_id
+    lastQueryTime = req.params.last_query_time
+
+    Comment.find({wall_id: wallId}).where('created_at').gt(lastQueryTime).desc("type").asc("updated_at").run (err, comments)->
+      if comments
+        usersToFind = []
+        for comment in comments
+          usersToFind.push(comment.from_id)
+        if usersToFind.length
+          User.where("_id").in(usersToFind).run (err, users)->
+            if users
+              for comment in comments
+                for user in users
+                  # TODO Filter public data
+                  if "#{user._id}" is "#{comment.from_id}"
+                    comment.from_user = user
+            res.json comments
+        else
+          res.json comments
+      else
+        res.json []
+
   app.post '/comments', (req, res)->
     user = if req.user then req.user else {}
     data = req.body
@@ -13,7 +36,6 @@ module.exports = (app)->
     
     comment = new Comment(data)
     comment.save (err)->
-      comment.postOnWall()
     
       userName = if user.type is "daycare" then user.daycare_name else "#{user.name} #{user.surname}"
       triggerNewWallPosts = (userId, notif)->

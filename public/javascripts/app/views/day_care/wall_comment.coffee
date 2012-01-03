@@ -6,7 +6,6 @@ class Kin.DayCare.WallCommentView extends Backbone.View
 
   initialize: ()->
     @model and @model.view = @
-    @
 
   render: ()->
     that = @
@@ -24,10 +23,3 @@ class Kin.DayCare.WallCommentView extends Backbone.View
             theme: 'light_rounded'
             deeplinking: false
             animation_speed: 0
-    @
-  
-  deferOnTemplateLoad: (callback)->
-    $.tmpload
-      url: @tplUrl
-      onLoad: (tpl)->
-        callback()

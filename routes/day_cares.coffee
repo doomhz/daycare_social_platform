@@ -292,7 +292,6 @@ module.exports = (app)->
                             picture: newPicture
                         
                         comment.save()
-                        comment.postOnWall()
                       
                         res.json newPicture
                     )

@@ -15,13 +15,12 @@
     WallCommentView.prototype.tagName = 'li';
     WallCommentView.prototype.tplUrl = '/templates/main/day_care/wall_comment.html';
     WallCommentView.prototype.initialize = function() {
-      this.model && (this.model.view = this);
-      return this;
+      return this.model && (this.model.view = this);
     };
     WallCommentView.prototype.render = function() {
       var that;
       that = this;
-      $.tmpload({
+      return $.tmpload({
         url: this.tplUrl,
         onLoad: function(tpl) {
           $(that.el).addClass(that.model.get("type")).attr("data-id", that.model.get("_id")).html(tpl({
@@ -39,15 +38,6 @@
               animation_speed: 0
             });
           }
-        }
-      });
-      return this;
-    };
-    WallCommentView.prototype.deferOnTemplateLoad = function(callback) {
-      return $.tmpload({
-        url: this.tplUrl,
-        onLoad: function(tpl) {
-          return callback();
         }
       });
     };

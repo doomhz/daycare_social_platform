@@ -380,7 +380,6 @@
                       }
                     });
                     comment.save();
-                    comment.postOnWall();
                     return res.json(newPicture);
                   });
                 });

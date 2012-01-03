@@ -14,9 +14,18 @@
     }
     ProfileWallView.prototype.model = null;
     ProfileWallView.prototype.collection = null;
+    ProfileWallView.prototype.commentTplUrl = '/templates/main/day_care/wall_comment.html';
     ProfileWallView.prototype.initialize = function() {
+      var that;
       _.bindAll(this, "addWallComment");
-      return this.collection.bind("add", this.addWallComment);
+      this.collection.bind("add", this.addWallComment);
+      that = this;
+      return $.tmpload({
+        url: this.commentTplUrl,
+        onLoad: function() {
+          return that.collection.loadComments();
+        }
+      });
     };
     ProfileWallView.prototype.addWallComment = function(model) {
       var that, wallComment;
