@@ -33,9 +33,29 @@ form(action='/register', method='POST')
     #password.clearfix
       label(for=everyauth.password.passwordFormFieldName) Password
       .input
-        input(type='password', name=everyauth.password.passwordFormFieldName)
+        input(type='password', name=everyauth.password.passwordFormFieldName, class="password-fields")
+        a#show-password(href="#", data-show="Show password", data-hide="Hide password") Show password
     #submit.actions
       input.btn.primary(type='submit', value='Register')
 
     p Already a member? 
       a(href='/login') Click here to login.
+  
+script(type='text/javascript')
+  $("#show-password").click(function (ev) {
+    ev.preventDefault();
+    $(".password-fields").each(function (index, el) {
+      var $el = $(el);
+      var $clone = $el.clone();
+      var newType = $el.attr("type") === "text" ? "password" : "text";
+      $clone.attr("type", newType);
+      $el.replaceWith($clone);
+    });
+
+    var $pwdEl = $(ev.target);
+    if ($pwdEl.text() === $pwdEl.data("show")) {
+      $pwdEl.text($pwdEl.data("hide"));
+    } else {
+      $pwdEl.text($pwdEl.data("show"));
+    }
+  });

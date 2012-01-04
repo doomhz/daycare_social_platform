@@ -48,6 +48,10 @@ form {
 form div {
   margin: 0 0 10px 0;
 }
+#show-password {
+  padding: 0 0 0 10px;
+  cursor: pointer;
+}
 header {
   text-align: center;
   height: 55px;
