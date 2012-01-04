@@ -107,7 +107,7 @@
     _.each(allPictureSets, function (pictureSet) {
         var primaryPicture = pictureSet.pictures.getPrimary();
         var primaryPictureUrl = primaryPicture ? primaryPicture.get('url') : '/';
-        var primaryPictureThumbUrl = primaryPicture ? (primaryPicture.get('thumb_url') || primaryPicture.get('url')) : '/';
+        var primaryPictureThumbUrl = primaryPicture ? (primaryPicture.get('thumb_url') || primaryPicture.get('url')) : Kin.CONFIG.noPicture;
 %>
     <li>
         <h3>

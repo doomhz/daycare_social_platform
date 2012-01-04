@@ -233,6 +233,8 @@ module.exports = (app)->
             for pictureSet in pictureSets
               pictureSetIndex++
               if "" + pictureSet._id is "" + pictureSetId
+                if not pictureSet.pictures.length
+                  newPictureData.primary = true
                 newPicturePosition = pictureSet.pictures.push(newPictureData)
                 break
 

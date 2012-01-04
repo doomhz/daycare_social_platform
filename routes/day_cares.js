@@ -318,6 +318,9 @@
                 pictureSet = pictureSets[_i];
                 pictureSetIndex++;
                 if ("" + pictureSet._id === "" + pictureSetId) {
+                  if (!pictureSet.pictures.length) {
+                    newPictureData.primary = true;
+                  }
                   newPicturePosition = pictureSet.pictures.push(newPictureData);
                   break;
                 }
