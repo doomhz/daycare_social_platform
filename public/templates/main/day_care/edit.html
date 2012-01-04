@@ -50,8 +50,7 @@
 	        	<select multiple="multiple" name="speaking_classes" class="chzn-select" data-placeholder="Add a language...">
 		        <%
 		            var speakingClasses = dayCare.get('speaking_classes');
-		            var speakingClassesOptions = {0: 'English', 1: 'Spanish', 2: 'Russian'};
-		            _.each(speakingClassesOptions, function (val, key) {
+		            _.each(Kin.CONFIG.languages, function (val, key) {
 		        %>
 		            <option value="<%=key %>"<% if (_.include(speakingClasses, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
 		        <%

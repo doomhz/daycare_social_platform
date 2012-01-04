@@ -278,6 +278,9 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   margin: auto;
   text-align: left;
 }
+#page-wrapper #main-column #daycare-profile-title {
+  width: 350px;
+}
 #page-wrapper #main-column .qq-upload-button {
   float: right;
   top: -42px;

@@ -17,9 +17,8 @@
     <% if (dayCare.get('speaking_classes')) { %>
     <li><span>Speaking classes:</span> <span class="value"><%
         var speakingClasses = dayCare.get('speaking_classes');
-        var speakingClassesOptions = {0: 'English', 1: 'Spanish', 2: 'Russian'};
         _.each(speakingClasses, function (val, key) {
-            print(speakingClassesOptions[parseInt(key)], key === speakingClasses.length - 1 ? '' : ', ');
+            print(Kin.CONFIG.languages[parseInt(key)], key === speakingClasses.length - 1 ? '' : ', ');
         });
     %></span>
     </li>
