@@ -534,15 +534,16 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #side-column1 #profile-left-menu li a,
 #page-wrapper #side-column1 #messages-left-menu li a {
-  font-weight: bold;
+  font-weight: normal;
   text-decoration: none;
   display: inline-block;
   padding: 3px 0 3px 25px;
-  width: 86.5%;
+  width: 147px;
   background-repeat: no-repeat;
   background-color: transparent;
   background-position: left 3px;
   border-top: solid 1px #eee;
+  color: #7a7a7a;
 }
 #page-wrapper #side-column1 #profile-left-menu #gallery-menu-item a,
 #page-wrapper #side-column1 #messages-left-menu #gallery-menu-item a {
@@ -579,6 +580,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 #page-wrapper #side-column1 #profile-left-menu li.selected a,
 #page-wrapper #side-column1 #messages-left-menu li.selected a {
   background-color: #daebf4;
+  font-weight: bold;
 }
 #page-wrapper #side-column2 {
   padding: 10px 0 0 0;
