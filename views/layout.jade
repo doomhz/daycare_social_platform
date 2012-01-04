@@ -48,6 +48,7 @@ html
     script(src='/javascripts/app/collections/users.js')
     script(src='/javascripts/app/views/app.js')
     script(src='/javascripts/app/views/window.js')
+    script(src='/javascripts/app/views/header/search.js')
     script(src='/javascripts/app/views/header/submenu.js')
     script(src='/javascripts/app/views/header/notification_board.js')
     script(src='/javascripts/app/views/header/notification.js')
@@ -113,7 +114,7 @@ html
         a(href='/')
           img(src='/images/logo.png', alt='Kindzy.com', id='logo')
         #search-cnt
-          ul#search-menu
+          ul#search-menu.invisible
             li.by-type
               a(href='#search-by-name')
                 span by type

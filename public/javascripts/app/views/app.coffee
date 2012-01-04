@@ -20,6 +20,7 @@ class Kin.AppView extends Backbone.View
   onUserLoad: ()=>
     @initWindow()
     @initHeaderMenu()
+    @initHeaderSearch()
     @initHeaderNotification()
     @initRouter()
   
@@ -45,6 +46,10 @@ class Kin.AppView extends Backbone.View
     headerSettingsSubmenu = new Kin.Header.SubmenuView
       el: "header #account-bt"
     @window.addDelegate(headerSettingsSubmenu)
+
+  initHeaderSearch: ()->
+    headerSearch = new Kin.Header.SearchView
+      el: "header #search-cnt"
   
   initHeaderNotification: ()->
     headerNotificationBoard = new Kin.Header.NotificationBoardView

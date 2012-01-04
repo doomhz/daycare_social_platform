@@ -26,6 +26,7 @@
     AppView.prototype.onUserLoad = function() {
       this.initWindow();
       this.initHeaderMenu();
+      this.initHeaderSearch();
       this.initHeaderNotification();
       return this.initRouter();
     };
@@ -58,6 +59,12 @@
         el: "header #account-bt"
       });
       return this.window.addDelegate(headerSettingsSubmenu);
+    };
+    AppView.prototype.initHeaderSearch = function() {
+      var headerSearch;
+      return headerSearch = new Kin.Header.SearchView({
+        el: "header #search-cnt"
+      });
     };
     AppView.prototype.initHeaderNotification = function() {
       var followupsNotification, headerNotificationBoard, messagesNotification, wallPostsNotification;
