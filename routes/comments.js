@@ -56,7 +56,7 @@
       delete data.created_at;
       delete data.updated_at;
       comment = new Comment(data);
-      comment.save(function(err) {
+      return comment.save(function(err) {
         var triggerNewFollowups, triggerNewWallPosts, userName;
         userName = user.type === "daycare" ? user.daycare_name : "" + user.name + " " + user.surname;
         triggerNewWallPosts = function(userId, notif) {
@@ -86,7 +86,7 @@
           });
         }
         if (data.type === "followup") {
-          return Comment.find([
+          Comment.find([
             {
               type: "followup",
               wall_id: data.wall_id,
@@ -111,9 +111,9 @@
             return _results;
           });
         }
-      });
-      return res.json({
-        success: true
+        return res.json({
+          success: true
+        });
       });
     });
   };

@@ -71,4 +71,4 @@ module.exports = (app)->
               triggerNewFollowups(comment.from_id, notification)
               sentUserIds.push(comment.from_id)
     
-    res.json {success: true}
+      res.json {success: true}
