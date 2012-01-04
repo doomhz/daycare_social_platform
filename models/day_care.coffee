@@ -53,7 +53,7 @@ DayCare = new Schema
     enum: ['daycare', 'kindergarten', 'preschool']
     default: 'daycare'
   opened_since:
-    type: Date
+    type: String
   open_door_policy:
     type: Boolean
   serving_disabilities:

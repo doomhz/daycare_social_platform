@@ -74,7 +74,7 @@
       "default": 'daycare'
     },
     opened_since: {
-      type: Date
+      type: String
     },
     open_door_policy: {
       type: Boolean

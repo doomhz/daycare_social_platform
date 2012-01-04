@@ -38,14 +38,15 @@
     </li>
     <% } %>
     <%
-        var openedSince = new Date(dayCare.get('opened_since'));
-        var openedSinceDay = openedSince.getDate();
-        var openedSinceMonth = openedSince.getMonth();
-        var openedSinceYear = openedSince.getFullYear();
+        var openedSince = dayCare.get('opened_since').split("-");
+        var openedSinceDay = openedSince[2];
+        var openedSinceMonth = openedSince[1];
+        var openedSinceYear = openedSince[0];
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var openedSinceDate = (openedSinceMonth ? months[openedSinceMonth] + ' ' : "") + (openedSinceDay ? openedSinceDay + ', ' : "") + (openedSinceYear ? openedSinceYear : "");
     %>
-    <% if (openedSince) { %>
-    <li><span>Opened since:</span> <span class="value"><%=(months[openedSinceMonth] + ' ' + openedSinceDay + ', ' + openedSinceYear) %></span></li>
+    <% if (openedSinceDate) { %>
+    <li><span>Opened since:</span> <span class="value"><%=openedSinceDate %></span></li>
     <% } %>
     <% if (dayCare.get('open_door_policy')) { %>
     <li><span>Open door policy:</span> <span class="value"><% if (dayCare.get('open_door_policy')) {print('Yes');} else {print('No');} %></span></li>

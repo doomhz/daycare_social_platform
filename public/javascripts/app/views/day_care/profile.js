@@ -50,7 +50,7 @@
                 that.maps = new window.Kin.GoogleMapsView({
                   id: '#profile-address-maps',
                   mapsOptions: {
-                    zoom: 15,
+                    zoom: 16,
                     mapTypeId: 'google.maps.MapTypeId.ROADMAP',
                     center: "new google.maps.LatLng(" + mapCenterLat + ", " + mapCenterLng + ")"
                   }
