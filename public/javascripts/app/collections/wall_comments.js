@@ -35,7 +35,9 @@
       return this.fetch({
         add: true,
         success: __bind(function(comments) {
-          return this.lastQueryTime = new Date().getTime();
+          var createdAt;
+          createdAt = new Date(comments.last().get("created_at")).getTime();
+          return this.lastQueryTime = createdAt;
         }, this)
       });
     };

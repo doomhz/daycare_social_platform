@@ -27,6 +27,11 @@
         return next();
       }
     });
+    app.get('/comment*', function(req, res, next) {
+      if (User.checkPermissions(req.user, null, null, res)) {
+        return next();
+      }
+    });
     app.post('/comment*', function(req, res, next) {
       if (User.checkPermissions(req.user, null, null, res)) {
         return next();
@@ -52,7 +57,12 @@
         return next();
       }
     });
-    return app.post('/user*', function(req, res, next) {
+    app.post('/user*', function(req, res, next) {
+      if (User.checkPermissions(req.user, null, null, res)) {
+        return next();
+      }
+    });
+    return app.put('/notification*', function(req, res, next) {
       if (User.checkPermissions(req.user, null, null, res)) {
         return next();
       }

@@ -21,6 +21,10 @@ module.exports = (app)->
   app.get '/geolocatio*', (req, res, next)->
     if User.checkPermissions(req.user, null, null, res)
       next()
+
+  app.get '/comment*', (req, res, next)->
+    if User.checkPermissions(req.user, null, null, res)
+      next()
   
   app.post '/comment*', (req, res, next)->
     if User.checkPermissions(req.user, null, null, res)
@@ -43,5 +47,9 @@ module.exports = (app)->
       next()
 
   app.post '/user*', (req, res, next)->
+    if User.checkPermissions(req.user, null, null, res)
+      next()
+  
+  app.put '/notification*', (req, res, next)->
     if User.checkPermissions(req.user, null, null, res)
       next()
