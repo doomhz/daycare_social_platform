@@ -185,7 +185,6 @@ header #header-wrapper #events-menu li ul.notification-list li .message-header {
   float: left;
 }
 header #header-wrapper #events-menu li ul.notification-list li .message-header .name {
-  text-transform: uppercase;
   font-weight: bold;
   color: #7e962d;
 }
@@ -379,7 +378,6 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   float: left;
 }
 #page-wrapper #main-column #wall-comments-list li .comment-header .name {
-  text-transform: uppercase;
   font-weight: bold;
 }
 #page-wrapper #main-column #wall-comments-list li .status-cnt {
@@ -405,7 +403,6 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   float: left;
 }
 #page-wrapper #main-column #wall-comments-list ul.followups li.followup .comment-header .name {
-  text-transform: uppercase;
   font-weight: bold;
   color: #7e962d;
 }
@@ -461,7 +458,6 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   float: left;
 }
 #page-wrapper #main-column #messages-list li .message-header-cnt .message-header .name {
-  text-transform: uppercase;
   font-weight: bold;
   color: #7e962d;
 }

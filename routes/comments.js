@@ -77,6 +77,7 @@
               usr = users[_i];
               _results.push(("" + usr._id) !== ("" + user._id) ? (notificationData = {
                 user_id: usr._id,
+                from_id: user._id,
                 wall_id: data.wall_id,
                 type: "status",
                 content: "" + userName + " wrote on wall."
@@ -103,6 +104,7 @@
               comment = comments[_i];
               _results.push(("" + comment.from_id) !== ("" + user._id) && (_ref = comment.from_id, __indexOf.call(sentUserIds, _ref) < 0) ? (notificationData = {
                 user_id: comment.from_id,
+                from_id: user._id,
                 wall_id: data.wall_id,
                 type: "followup",
                 content: "" + userName + " commented on a post."

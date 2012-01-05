@@ -51,6 +51,7 @@ module.exports = (app)->
             if "#{usr._id}" isnt "#{user._id}"
               notificationData =
                 user_id: usr._id
+                from_id: user._id
                 wall_id: data.wall_id
                 type: "status"
                 content: "#{userName} wrote on wall."
@@ -64,6 +65,7 @@ module.exports = (app)->
             if "#{comment.from_id}" isnt "#{user._id}" and comment.from_id not in sentUserIds
               notificationData =
                 user_id: comment.from_id
+                from_id: user._id
                 wall_id: data.wall_id
                 type: "followup"
                 content: "#{userName} commented on a post."

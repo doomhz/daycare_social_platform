@@ -1,6 +1,8 @@
 NotificationSchema = new Schema
   user_id:
     type: String
+  from_id:
+    type: String
   unread:
     type: Boolean
     default: true
@@ -19,6 +21,8 @@ NotificationSchema = new Schema
   updated_at:
     type: Date
     default: Date.now
+  from_user:
+    type: {}
 
 notificationsSocket = null
 
@@ -39,7 +43,20 @@ NotificationSchema.statics.triggerNewMessages = (userId)->
       userSocket.emit("last-messages", {messages: messages})
 
 NotificationSchema.statics.findLastWallPosts = (userId, limit, onFind)->
-  @find({user_id: userId, type: "status"}).desc('created_at').limit(limit).run onFind
+  @find({user_id: userId, type: "status"}).desc('created_at').limit(limit).run (err, posts)->
+    usersToFind = []
+    if posts
+      for post in posts
+        if not (post.from_id in usersToFind) then usersToFind.push post.from_id
+      # TODO Filter private data
+      User.find().where("_id").in(usersToFind).run (err, users)->
+        if users
+          for post in posts
+            for user in users
+              if "#{user._id}" is "#{post.from_id}" then post.from_user = user
+        onFind(err, posts)
+    else
+      onFind(err, posts)
 
 NotificationSchema.statics.triggerNewWallPosts = (userId)->
   sessionId = notificationsSocket.userSessions[userId]
@@ -51,7 +68,20 @@ NotificationSchema.statics.triggerNewWallPosts = (userId)->
       userSocket.emit("last-wall-posts", {wall_posts: wallPosts})
 
 NotificationSchema.statics.findLastFollowups = (userId, limit, onFind)->
-  @find({user_id: userId, type: "followup"}).desc('created_at').limit(limit).run onFind
+  @find({user_id: userId, type: "followup"}).desc('created_at').limit(limit).run (err, followups)->
+    usersToFind = []
+    if followups
+      for followup in followups
+        if not (followup.from_id in usersToFind) then usersToFind.push followup.from_id
+      # TODO Filter private data
+      User.find().where("_id").in(usersToFind).run (err, users)->
+        if users
+          for followup in followups
+            for user in users
+              if "#{user._id}" is "#{followup.from_id}" then followup.from_user = user
+        onFind(err, followups)
+    else
+      onFind(err, followups)
 
 NotificationSchema.statics.triggerNewFollowups = (userId)->
   sessionId = notificationsSocket.userSessions[userId]
