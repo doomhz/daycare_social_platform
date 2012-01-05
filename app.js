@@ -2,6 +2,7 @@ var express = require('express');
     mongooseAuth = require('mongoose-auth');
 var everyauth = require('./node_modules/mongoose-auth/node_modules/everyauth');
 everyauth.debug = true;
+var RedisStore = require('connect-redis')(express);
 
 require('./models/db_connect');
 
@@ -12,7 +13,7 @@ var app = module.exports = express.createServer(
   express.bodyParser(),
   express.methodOverride(),
   express.cookieParser(),
-  express.session({secret: 'kinsecretkey83'}),
+  express.session({secret: 'kinsecretkey83', store: new RedisStore}),
   require('stylus').middleware({ src: __dirname + '/public' }),
   express.static(__dirname + '/public'),
   mongooseAuth.middleware()

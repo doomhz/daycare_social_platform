@@ -8,6 +8,7 @@
     , "jade": ">= 0.0.1"
     , "mongoose": "latest"
     , "mongoose-auth": "latest"
+    , "connect-redis": "latest"
     , "imagemagick": "latest"
     , "expresso": "latest"
     , "coffee-script": "latest"
