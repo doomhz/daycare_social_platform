@@ -26,8 +26,13 @@ class Kin.WallCommentsCollection extends Backbone.Collection
     @fetch
       add: true
       success: (comments)=>
-        createdAt = new Date(comments.last().get("created_at")).getTime()
-        @lastQueryTime = createdAt
+        if comments.length
+          lastCommentTime = 0
+          for comment in comments.models
+            createdAt = new Date(comment.get("created_at")).getTime()
+            if createdAt > lastCommentTime
+              lastCommentTime = createdAt
+          @lastQueryTime = lastCommentTime
 
   url: ()->
     @uri.replace(":wall_id", @dayCareId).replace(":last_query_time", @lastQueryTime)

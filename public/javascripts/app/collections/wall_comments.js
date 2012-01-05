@@ -35,9 +35,19 @@
       return this.fetch({
         add: true,
         success: __bind(function(comments) {
-          var createdAt;
-          createdAt = new Date(comments.last().get("created_at")).getTime();
-          return this.lastQueryTime = createdAt;
+          var comment, createdAt, lastCommentTime, _i, _len, _ref;
+          if (comments.length) {
+            lastCommentTime = 0;
+            _ref = comments.models;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              comment = _ref[_i];
+              createdAt = new Date(comment.get("created_at")).getTime();
+              if (createdAt > lastCommentTime) {
+                lastCommentTime = createdAt;
+              }
+            }
+            return this.lastQueryTime = lastCommentTime;
+          }
         }, this)
       });
     };

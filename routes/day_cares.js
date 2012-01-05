@@ -154,7 +154,7 @@
         'picture_sets.pictures._id': pictureId,
         user_id: req.user._id
       }).run(function(err, dayCare) {
-        var bigFilePath, filePath, mediumFilePath, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, thumbFilePath, _i, _j, _len, _len2, _ref, _ref2;
+        var bigFilePath, filePath, mediumFilePath, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, pictureToRemove, thumbFilePath, _i, _j, _len, _len2, _ref, _ref2;
         if (dayCare) {
           pictureSetIndex = -1;
           pictureIndex = -1;
@@ -176,25 +176,26 @@
               }
             }
           }
-          filePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].url;
+          pictureToRemove = dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo];
+          filePath = './public/' + pictureToRemove.url;
           try {
             fs.unlinkSync(filePath);
           } catch (e) {
             console.error(e);
           }
-          thumbFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].thumb_url;
+          thumbFilePath = './public/' + pictureToRemove.thumb_url;
           try {
             fs.unlinkSync(thumbFilePath);
           } catch (e) {
             console.error(e);
           }
-          mediumFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].medium_url;
+          mediumFilePath = './public/' + pictureToRemove.medium_url;
           try {
             fs.unlinkSync(mediumFilePath);
           } catch (e) {
             console.error(e);
           }
-          bigFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].big_url;
+          bigFilePath = './public/' + pictureToRemove.big_url;
           try {
             fs.unlinkSync(bigFilePath);
           } catch (e) {
@@ -202,6 +203,11 @@
           }
           dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove();
           dayCare.save();
+          Comment.findOne({
+            "content.picture._id": pictureToRemove._id
+          }).run(function(err, comment) {
+            return comment.remove();
+          });
           return res.json({
             success: true
           });

@@ -113,26 +113,28 @@ module.exports = (app)->
               pictureSetIndexToGo = pictureSetIndex
               pictureIndexToGo = pictureIndex
               break
+        
+        pictureToRemove = dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo]
 
-        filePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].url
+        filePath = './public/' + pictureToRemove.url
         try
           fs.unlinkSync(filePath)
         catch e
           console.error e
 
-        thumbFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].thumb_url
+        thumbFilePath = './public/' + pictureToRemove.thumb_url
         try
           fs.unlinkSync(thumbFilePath)
         catch e
           console.error e
 
-        mediumFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].medium_url
+        mediumFilePath = './public/' + pictureToRemove.medium_url
         try
           fs.unlinkSync(mediumFilePath)
         catch e
           console.error e
       
-        bigFilePath = './public/' + dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].big_url
+        bigFilePath = './public/' + pictureToRemove.big_url
         try
           fs.unlinkSync(bigFilePath)
         catch e
@@ -140,6 +142,9 @@ module.exports = (app)->
       
         dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove()
         dayCare.save()
+        
+        Comment.findOne({"content.picture._id": pictureToRemove._id}).run (err, comment)->
+          comment.remove()
 
         res.json {success: true}
       else
