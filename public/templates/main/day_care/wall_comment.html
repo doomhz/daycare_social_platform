@@ -10,10 +10,10 @@
 </p>
 <p class="comment-header">
   <%
-    var commentDate = $.timeago(_.escape(comment.get("updated_at")));
+    var commentTime = _.escape(comment.get("updated_at"));
     var name = comment.get("from_user").type === "daycare" ? comment.get("from_user").daycare_name : comment.get("from_user").name + " " + comment.get("from_user").surname;
   %>
-  <span class="name"><%= _.escape(name) %></span>: <span class="time"><%= commentDate %></span>
+  <span class="name"><%= _.escape(name) %></span>: <span class="time" title="<%= commentTime %>"><%= commentTime %></span>
 </p>
 <p>
   <%

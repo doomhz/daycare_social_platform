@@ -31,6 +31,7 @@
           $(that.el).html(tpl({
             message: that.model
           }));
+          that.$(".time").timeago();
           if (that.model.get("unread")) {
             $(that.el).addClass("unread");
           }

@@ -13,6 +13,7 @@ class Kin.DayCare.WallCommentView extends Backbone.View
       url: @tplUrl
       onLoad: (tpl)->
         $(that.el).addClass(that.model.get("type")).attr("data-id", that.model.get("_id")).html(tpl({comment: that.model}))
+        that.$(".time").timeago()
         if that.model.get("type") is "status"
           that.$(".add-followup-form:first textarea").autoResize
             extraSpace: -4

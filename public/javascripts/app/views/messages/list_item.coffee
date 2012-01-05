@@ -18,6 +18,8 @@ class window.Kin.Messages.ListItemView extends Backbone.View
       onLoad: (tpl)->
         $(that.el).html(tpl({message: that.model}))
         
+        that.$(".time").timeago()
+        
         if that.model.get("unread")
           $(that.el).addClass("unread")
           
