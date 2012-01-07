@@ -362,7 +362,7 @@
                   if (err) {
                     console.log(stderr);
                   }
-                  return im.crop({
+                  return im.resize({
                     srcPath: filePath,
                     dstPath: bigFilePath,
                     width: 800,

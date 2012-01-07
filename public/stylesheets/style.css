@@ -526,14 +526,15 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #side-column1 #profile-left-menu,
 #page-wrapper #side-column1 #messages-left-menu {
-  padding: 10px;
-  width: 160px;
+  padding: 10px 10px 10px 0;
+  margin: 0 0 0 10px;
+  width: 150px;
+  border-top: solid 1px #eee;
 }
 #page-wrapper #side-column1 #profile-left-menu li,
 #page-wrapper #side-column1 #messages-left-menu li {
   text-align: left;
   padding: 0;
-  border-bottom: dashed 1px #eee;
 }
 #page-wrapper #side-column1 #profile-left-menu li a,
 #page-wrapper #side-column1 #messages-left-menu li a {
@@ -545,7 +546,6 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   background-repeat: no-repeat;
   background-color: transparent;
   background-position: left 3px;
-  border-top: solid 1px #eee;
   color: #7a7a7a;
 }
 #page-wrapper #side-column1 #profile-left-menu #gallery-menu-item a,

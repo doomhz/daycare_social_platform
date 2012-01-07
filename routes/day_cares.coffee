@@ -275,7 +275,7 @@ module.exports = (app)->
                     if err
                       console.log stderr
                   
-                    im.crop(
+                    im.resize(
                         srcPath: filePath
                         dstPath: bigFilePath
                         width: 800
