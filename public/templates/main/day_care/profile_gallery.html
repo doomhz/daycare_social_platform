@@ -16,6 +16,7 @@
 <h2>Photo gallery - photos of the child care center</h2>
 
 <div id="daycare-gallery-tabs">
+    <h3 id="choose-places-title">Choose places</h3>
     <ul id="daycare-gallery-tab-menu">
     <%
         var daycareSets = dayCare.getDaycareSets();
@@ -51,9 +52,7 @@
                     %>
                 </ul>
             </div>
-            <a href="#left" title="Left" class="doom-carousel-left-btn"><span>Prev</span></a>
-            <span class="pic-counter pic-nr">1</span><span class="pic-nr-separator pic-nr">/</span><span class="pic-total pic-nr"><%=daycareSet.pictures.length %></span>
-            <a href="#right" title="Right" class="doom-carousel-right-btn"><span>Next</span></a>
+            <a href="#left" title="Left" class="doom-carousel-left-btn"><span>Prev</span></a><span class="pic-counter pic-nr">1</span><span class="pic-nr-separator pic-nr">/</span><span class="pic-total pic-nr"><%=daycareSet.pictures.length %></span><a href="#right" title="Right" class="doom-carousel-right-btn"><span>Next</span></a>
         </div>
     </div>
     <%
@@ -116,7 +115,7 @@
             </a>
         </h3>
         <a href="#day-cares/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>" class="photo-frame">
-            <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="160" height="130" />
+            <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="110" height="85" />
         </a>
         <%
             if (canEdit && pictureSet.get('type') !== 'profile') {

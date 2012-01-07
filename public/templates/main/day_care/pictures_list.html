@@ -8,7 +8,7 @@
             var placeholder = 'Click here to add a description';
         %>
         <a href="<%=picture.get('big_url') %>" title="<%=picture.get('description') %>" target="_blank" rel="prettyPhoto[album]" class="photo-frame">
-            <img src="<%=thumbUrl %>" alt="<%=picture.get('description') %>" width="160" height="130" />
+            <img src="<%=thumbUrl %>" alt="<%=picture.get('description') %>" width="110" height="85" />
         </a>
         <p class="picture-description <%= (canEdit ? "dedit-input picture-text-edit" : "" ) %>" data-pic-cid="<%=picture.cid %>" data-placeholder="<%= placeholder %>"><%=description %></p>
 		<%

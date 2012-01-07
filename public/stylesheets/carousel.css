@@ -16,22 +16,22 @@
 
 .doom-carousel-left-btn {
 	display:inline-block;
-	height:50px;
+	height:30px;
 	position:relative;
-	width:50px;
-    top:0px;
-    margin:auto;
-	background: url(/images/doom_carousel/left_arrow.png) center center no-repeat;
+	width:30px;
+  top:-36px;
+  margin:auto;
+	background: #FFF url(/images/doom_carousel/left_arrow.png) center center no-repeat;
 }
 
 .doom-carousel-right-btn {
 	display:inline-block;
-	height:50px;
+	height:30px;
 	position:relative;
-	width:50px;
-	top:0px;
-    margin:auto;
-	background: url(/images/doom_carousel/right_arrow.png) center center no-repeat;
+	width:30px;
+	top:-36px;
+  margin:auto;
+	background: #FFF url(/images/doom_carousel/right_arrow.png) center center no-repeat;
 }
 
 .doom-carousel-left-btn:hover, .doom-carousel-right-btn:hover {
@@ -73,10 +73,13 @@
 }
 
 .doom-carousel .pic-nr {
-    display: inline-block;
-    margin: auto;
-    height: 50px;
-    width: 15px;
-    overflow: hidden;
-    line-height: 50px;
+  display: inline-block;
+  position:relative;
+  margin: auto;
+  height: 30px;
+  width: 15px;
+  overflow: hidden;
+  line-height: 30px;
+  top:-36px;
+  background:#FFF;
 }
