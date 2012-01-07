@@ -25,7 +25,7 @@ class window.Kin.Messages.ListItemView extends Backbone.View
           
         if that.model.get("type") is "default"
           that.$(".add-reply-message-form:first textarea").autoResize
-            extraSpace: 0
+            extraSpace: -2
           that.$(".add-reply-message-form:first").bind("submit", that.sendReply)
   
   toggleMessageBody: ()->

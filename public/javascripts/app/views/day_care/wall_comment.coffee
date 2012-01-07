@@ -16,7 +16,7 @@ class Kin.DayCare.WallCommentView extends Backbone.View
         that.$(".time").timeago()
         if that.model.get("type") is "status"
           that.$(".add-followup-form:first textarea").autoResize
-            extraSpace: -4
+            extraSpace: -2
           
           that.$('a[rel^="prettyPhoto"]').prettyPhoto
             slideshow: false

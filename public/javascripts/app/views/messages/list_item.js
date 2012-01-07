@@ -37,7 +37,7 @@
           }
           if (that.model.get("type") === "default") {
             that.$(".add-reply-message-form:first textarea").autoResize({
-              extraSpace: 0
+              extraSpace: -2
             });
             return that.$(".add-reply-message-form:first").bind("submit", that.sendReply);
           }

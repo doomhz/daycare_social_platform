@@ -86,7 +86,7 @@
             animation_speed: 0
           });
           that.$("#add-comment-form textarea").autoResize({
-            extraSpace: -4
+            extraSpace: -2
           });
           if (that.renderProfileWall && !that.profileWall) {
             return that.profileWall = new Kin.DayCare.ProfileWallView({

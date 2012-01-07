@@ -29,7 +29,7 @@
           that.$(".time").timeago();
           if (that.model.get("type") === "status") {
             that.$(".add-followup-form:first textarea").autoResize({
-              extraSpace: -4
+              extraSpace: -2
             });
             return that.$('a[rel^="prettyPhoto"]').prettyPhoto({
               slideshow: false,

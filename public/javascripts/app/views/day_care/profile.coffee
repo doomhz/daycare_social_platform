@@ -66,7 +66,7 @@ class window.Kin.DayCare.ProfileView extends Backbone.View
           animation_speed: 0
         
         that.$("#add-comment-form textarea").autoResize
-          extraSpace: -4
+          extraSpace: -2
         
         if that.renderProfileWall and not that.profileWall
           that.profileWall = new Kin.DayCare.ProfileWallView
