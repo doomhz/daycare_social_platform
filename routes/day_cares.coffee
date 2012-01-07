@@ -254,8 +254,8 @@ module.exports = (app)->
             im.crop(
                 srcPath: filePath
                 dstPath: thumbFilePath
-                width: 160
-                height: 130
+                width: 110
+                height: 85
                 quality: 1
               , (err, stdout, stderr)->
                 if err

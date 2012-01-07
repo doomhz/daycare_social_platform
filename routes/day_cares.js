@@ -339,8 +339,8 @@
               return im.crop({
                 srcPath: filePath,
                 dstPath: thumbFilePath,
-                width: 160,
-                height: 130,
+                width: 110,
+                height: 85,
                 quality: 1
               }, function(err, stdout, stderr) {
                 if (err) {

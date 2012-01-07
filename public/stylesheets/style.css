@@ -487,7 +487,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 #page-wrapper #main-column #messages-list li .message-body-cnt div.add-reply-message-box form div textarea {
   resize: none;
   height: 5px;
-  width: 396px;
+  width: 374px;
   border: none;
   box-shadow: none;
 }
@@ -527,7 +527,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 #page-wrapper #side-column1 #profile-left-menu,
 #page-wrapper #side-column1 #messages-left-menu {
   padding: 10px;
-  width: 165px;
+  width: 160px;
 }
 #page-wrapper #side-column1 #profile-left-menu li,
 #page-wrapper #side-column1 #messages-left-menu li {
@@ -541,7 +541,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   text-decoration: none;
   display: inline-block;
   padding: 3px 0 3px 25px;
-  width: 140px;
+  width: 135px;
   background-repeat: no-repeat;
   background-color: transparent;
   background-position: left 3px;
@@ -720,8 +720,8 @@ footer #footer-wrapper #copyright {
   resize: none;
 }
 #write-message-cnt textarea {
-  width: 388px;
+  width: 364px;
 }
 #write-message-cnt .chzn-choices {
-  width: 395px;
+  width: 371px;
 }
