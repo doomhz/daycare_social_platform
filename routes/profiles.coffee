@@ -1,71 +1,63 @@
-DayCare = require('../models/day_care')
 User    = require('../models/user')
 Comment = require('../models/comment')
 fs      = require('fs')
 
 module.exports = (app)->
 
-  app.get '/day-cares', (req, res)->
-    DayCare.find({}).desc('created_at').run (err, dayCares) ->
-      res.json dayCares
+  app.get '/profiles', (req, res)->
+    User.find({type: 'daycare'}).desc('created_at').run (err, users) ->
+      res.json users
 
-  app.get '/day-cares/:id', (req, res)->
-    DayCare.findOne({_id: req.params.id}).run (err, dayCare) ->
+  app.get '/profiles/:id', (req, res)->
+    User.findOne({_id: req.params.id}).run (err, user) ->
       currentUser = if req.user then req.user else {}
-      res.json dayCare.filterPrivateDataByUserId(currentUser._id)
+      res.json user.filterPrivateDataByUserId(currentUser._id)
 
-  app.put '/day-cares/:id', (req, res)->
-    user = if req.user then req.user else {}
+  app.put '/profiles/:id', (req, res)->
+    currentUser = if req.user then req.user else {}
     data = req.body
     delete data._id
-    DayCare.update {_id: req.params.id, user_id: user._id}, data, {}, (err, dayCare) ->
+    User.update {_id: req.params.id, _id: currentUser._id}, data, {}, (err, user) ->
       # TODO Delete pictures here
-      if not err
-        User.findOne({_id: user._id}).run (err, usr)->
-          usr.daycare_name = data.name
-          req.user.daycare_name = data.name
-          usr.save()
-          res.json {success: true}
-      else
-        res.json {success: false}
+      res.json {success: true}
 
-  app.get '/day-cares/picture-set/:id', (req, res)->
+  app.get '/profiles/picture-set/:id', (req, res)->
     pictureSetId = req.params.id
     currentUser = if req.user then req.user else {}
-    DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
-      pictureSet = dayCare.picture_sets.id(pictureSetId)
-      pictureSet = DayCare.filterPrivatePictureSetsByUserId(currentUser._id, dayCare.user_id, [pictureSet])[0]
-      pictureSet.daycare_id = dayCare._id
+    User.findOne({'picture_sets._id': pictureSetId}).run (err, user) ->
+      pictureSet = user.picture_sets.id(pictureSetId)
+      pictureSet = User.filterPrivatePictureSetsByUserId(currentUser._id, user.user_id, [pictureSet])[0]
+      pictureSet.user_id = user._id
       
       res.json pictureSet
 
-  app.put '/day-cares/picture-set/:id', (req, res)->
+  app.put '/profiles/picture-set/:id', (req, res)->
     pictureSetId = req.params.id
-    DayCare.findOne({'picture_sets._id': pictureSetId, user_id: req.user._id}).run (err, dayCare) ->
-      if dayCare
+    User.findOne({'picture_sets._id': pictureSetId, _id: req.user._id}).run (err, user) ->
+      if user
         pictureSetIndexToEdit = -1
       
-        for pictureSet in dayCare.picture_sets
+        for pictureSet in user.picture_sets
           pictureSetIndexToEdit++
           if pictureSet._id + "" is pictureSetId + ""
             break;
 
         delete req.body._id
         for key, value of req.body
-          dayCare.picture_sets[pictureSetIndexToEdit][key] = value
-        dayCare.save()
+          user.picture_sets[pictureSetIndexToEdit][key] = value
+        user.save()
 
         res.json {success: true}
       else
         res.json {success: false}
 
-  app.del '/day-cares/picture-set/:id', (req, res)->
+  app.del '/profiles/picture-set/:id', (req, res)->
     pictureSetId = req.params.id
-    DayCare.findOne({'picture_sets._id': pictureSetId, user_id: req.user._id}).run (err, dayCare) ->
-      if dayCare
-        pictureSet = dayCare.picture_sets.id(pictureSetId)
+    User.findOne({'picture_sets._id': pictureSetId, _id: req.user._id}).run (err, user) ->
+      if user
+        pictureSet = user.picture_sets.id(pictureSetId)
         pictureSet.remove()
-        dayCare.save()
+        user.save()
 
         for picture in pictureSet.pictures
           filePath = './public/' + picture.url
@@ -74,7 +66,7 @@ module.exports = (app)->
           catch e
             console.error e
       
-        filePath = './public/daycares/' + pictureSetId
+        filePath = './public/users/' + pictureSetId
         try
           fs.rmdirSync(filePath)
         catch e
@@ -84,27 +76,27 @@ module.exports = (app)->
       else
         res.json {success: false}
 
-  app.get '/day-cares/pictures/:pictureSetId', (req, res)->
+  app.get '/profiles/pictures/:pictureSetId', (req, res)->
     pictureSetId = req.params.pictureSetId
     currentUser = if req.user then req.user else {}
-    DayCare.findOne({'picture_sets._id': pictureSetId}).run (err, dayCare) ->
-      pictureSet = dayCare.picture_sets.id(pictureSetId)
-      pictureSet = DayCare.filterPrivatePictureSetsByUserId(currentUser._id, dayCare.user_id, [pictureSet])[0] or {}
+    User.findOne({'picture_sets._id': pictureSetId}).run (err, user) ->
+      pictureSet = user.picture_sets.id(pictureSetId)
+      pictureSet = User.filterPrivatePictureSetsByUserId(currentUser._id, user.user_id, [pictureSet])[0] or {}
       pictures = pictureSet.pictures
 
       res.json pictures
 
-  app.del '/day-cares/picture/:pictureId', (req, res)->
+  app.del '/profiles/picture/:pictureId', (req, res)->
     pictureId = req.params.pictureId
 
-    DayCare.findOne({'picture_sets.pictures._id': pictureId, user_id: req.user._id}).run (err, dayCare) ->
-      if dayCare  
+    User.findOne({'picture_sets.pictures._id': pictureId, _id: req.user._id}).run (err, user) ->
+      if user
         pictureSetIndex = -1
         pictureIndex = -1
         pictureSetIndexToGo = -1
         pictureIndexToGo = -1
 
-        for pictureSet in dayCare.picture_sets
+        for pictureSet in user.picture_sets
           pictureSetIndex++
           pictureIndex = -1
           for picture in pictureSet.pictures
@@ -114,7 +106,7 @@ module.exports = (app)->
               pictureIndexToGo = pictureIndex
               break
         
-        pictureToRemove = dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo]
+        pictureToRemove = user.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo]
 
         filePath = './public/' + pictureToRemove.url
         try
@@ -140,8 +132,8 @@ module.exports = (app)->
         catch e
           console.error e
       
-        dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove()
-        dayCare.save()
+        user.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove()
+        user.save()
         
         Comment.findOne({"content.picture._id": pictureToRemove._id}).run (err, comment)->
           comment.remove()
@@ -150,17 +142,17 @@ module.exports = (app)->
       else
         res.json {success: false}
 
-  app.put '/day-cares/picture/:pictureId', (req, res)->
+  app.put '/profiles/picture/:pictureId', (req, res)->
     pictureId = req.params.pictureId
 
-    DayCare.findOne({'picture_sets.pictures._id': pictureId, user_id: req.user._id}).run (err, dayCare) ->
-      if dayCare
+    User.findOne({'picture_sets.pictures._id': pictureId, _id: req.user._id}).run (err, user) ->
+      if user
         pictureSetIndex = -1
         pictureIndex = -1
         pictureSetIndexToGo = -1
         pictureIndexToGo = -1
 
-        for pictureSet in dayCare.picture_sets
+        for pictureSet in user.picture_sets
           pictureSetIndex++
           pictureIndex = -1
           for picture in pictureSet.pictures
@@ -170,29 +162,29 @@ module.exports = (app)->
               pictureIndexToGo = pictureIndex
               break
 
-        for picture in dayCare.picture_sets[pictureSetIndexToGo].pictures
+        for picture in user.picture_sets[pictureSetIndexToGo].pictures
           picture.primary = false
 
         delete req.body._id
         for key, value of req.body
-          dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo][key] = value
+          user.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo][key] = value
       
-        dayCare.save()
+        user.save()
 
         res.json {success: true}
       else
         res.json {success: false}
 
-  app.post '/day-cares/upload', (req, res)->
-    user = if req.user then req.user else {}
+  app.post '/profiles/upload', (req, res)->
+    currentUser = if req.user then req.user else {}
     pictureSetId = req.query.setId
     fileName = req.query.qqfile
     description = req.query.description
 
     fileExtension = fileName.substring(fileName.length - 3).toLowerCase()
     fileName = new Date().getTime()
-    dirPath = './public/daycares/' + pictureSetId + '/'
-    relativeDirPath = '/daycares/' + pictureSetId + '/'
+    dirPath = './public/users/' + pictureSetId + '/'
+    relativeDirPath = '/users/' + pictureSetId + '/'
     filePath = dirPath + fileName + '.' + fileExtension
     thumbFilePath = dirPath + fileName + '_thumb.' + fileExtension
     mediumFilePath = dirPath + fileName + '_medium.' + fileExtension
@@ -228,9 +220,9 @@ module.exports = (app)->
         ws.write(data)
 
       req.on 'end', ()->
-        DayCare.findOne({'picture_sets._id': pictureSetId, user_id: req.user._id}).run (err, dayCare) ->
-          if dayCare
-            pictureSets = dayCare.picture_sets
+        User.findOne({'picture_sets._id': pictureSetId, _id: req.user._id}).run (err, user) ->
+          if user
+            pictureSets = user.picture_sets
 
             newPicturePosition = null
             pictureSetIndex = -1
@@ -243,11 +235,11 @@ module.exports = (app)->
                 newPicturePosition = pictureSet.pictures.push(newPictureData)
                 break
 
-            dayCare.picture_sets = pictureSets
+            user.picture_sets = pictureSets
 
-            dayCare.save()
+            user.save()
 
-            newPicture = dayCare.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1]
+            newPicture = user.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1]
             newPicture.success = true
 
             im = require 'imagemagick'
@@ -288,14 +280,14 @@ module.exports = (app)->
                           console.log stderr
                       
                         comment = new Comment
-                          from_id: user._id
-                          to_id: dayCare._id
-                          wall_id: dayCare._id
+                          from_id: currentUser._id
+                          to_id: user._id
+                          wall_id: user._id
                           type: "status"
                           content:
                             type: "new_picture"
-                            picture_set_id: dayCare.picture_sets[pictureSetIndex]._id
-                            picture_set_name: dayCare.picture_sets[pictureSetIndex].name
+                            picture_set_id: user.picture_sets[pictureSetIndex]._id
+                            picture_set_name: user.picture_sets[pictureSetIndex].name
                             picture: newPicture
                         
                         comment.save()

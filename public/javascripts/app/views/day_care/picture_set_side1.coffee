@@ -15,7 +15,7 @@ class window.Kin.DayCare.PictureSetSide1View extends Kin.DayCare.ProfileSide1Vie
     $.tmpload
       url: @tplUrl
       onLoad: (tpl)->
-        dayCareModel = new Kin.DayCareModel({_id: that.model.get('daycare_id')})
+        dayCareModel = new Kin.DayCareModel({_id: that.model.get('user_id')})
         dayCareModel.fetch
           success: (dayCare)->
             $(that.el).html(tpl({pictureSet: that.model, dayCare: dayCare, selectedMenuItem: that.selectedMenuItem}))

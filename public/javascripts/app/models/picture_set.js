@@ -19,7 +19,7 @@
       pictures: [],
       daycare_id: null
     };
-    PictureSetModel.prototype.uri = '/day-cares/picture-set/:pictureSetId';
+    PictureSetModel.prototype.uri = '/profiles/picture-set/:pictureSetId';
     PictureSetModel.prototype.pictures = null;
     PictureSetModel.prototype.initialize = function(attributes) {
       this.id = attributes._id;

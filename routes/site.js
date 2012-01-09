@@ -64,33 +64,18 @@
       });
     });
     return app.get('/current-user', function(req, res) {
-      var DayCare, userData, _ref;
+      var User, _ref;
             if ((_ref = req.user) != null) {
         _ref;
       } else {
         req.user = {};
       };
-      userData = {
-        _id: req.user._id,
-        name: req.user.name,
-        surname: req.user.surname,
-        email: req.user.email,
-        type: req.user.type
-      };
-      if (userData.type === 'daycare') {
-        DayCare = require('../models/day_care');
-        return DayCare.findOne({
-          user_id: userData._id
-        }).run(function(err, dayCare) {
-          if (dayCare) {
-            userData.daycare_id = dayCare._id;
-            userData.daycare_name = dayCare.name;
-          }
-          return res.json(userData);
-        });
-      } else {
-        return res.json(userData);
-      }
+      User = require('../models/user');
+      return User.findOne({
+        _id: req.user._id
+      }).run(function(err, updatedUser) {
+        return res.json(req.user);
+      });
     });
   };
 }).call(this);

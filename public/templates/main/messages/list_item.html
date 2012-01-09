@@ -1,12 +1,17 @@
 <div class="message-header-cnt">
   <p class="avatar">
-    <img src="/images/no_pic.png" width="60" height="60" />
+    <%
+      var pictureSets = new Kin.PictureSetsCollection();
+      var avatar = pictureSets.getPrimaryPicture(message.get("from_user").picture_sets);
+      var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
+    %>
+    <img src="<%= avatarUrl %>" width="60" height="60" />
   </p>
   <p class="message-header">
     <%
       var messageUser = $.inArray(message.get("type"), ["sent", "draft"]) > -1 ? message.get("to_user") : message.get("from_user");
       var messageTime = _.escape(message.get("created_at"));
-      var name = messageUser.type === "daycare" ? (messageUser.daycare_name || "") : (messageUser.name || "") + " " + (messageUser.surname || "");
+      var name = (messageUser.name || "") + " " + (messageUser.surname || "");
     %>
     <span class="name" id="message-to-name"><%= _.escape(name) %></span> <span class="time" title="<%= messageTime %>"><%= messageTime %></span>
   </p>

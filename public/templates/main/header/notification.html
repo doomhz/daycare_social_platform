@@ -8,13 +8,18 @@
   %>
   <a href="#messages/inbox">
     <p class="avatar">
-      <img src="/images/no_pic.png" width="30" height="30" />
+      <%
+        var pictureSets = new Kin.PictureSetsCollection();
+        var avatar = pictureSets.getPrimaryPicture(item.from_user.picture_sets);
+        var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
+      %>
+      <img src="<%= avatarUrl %>" width="30" height="30" />
     </p>
     <p class="message-header">
       <%
         var messageUser = $.inArray(item.type, ["sent", "draft"]) > -1 ? item.to_user : item.from_user;
         var messageDate = $.timeago(_.escape(item.created_at));
-        var name = messageUser.type === "daycare" ? (messageUser.daycare_name || "") : (messageUser.name || "") + " " + (messageUser.surname || "");
+        var name = (messageUser.name || "") + " " + (messageUser.surname || "");
       %>
       <span class="name" id="message-to-name"><%= _.escape(name) %></span> <span class="time"><%= messageDate %></span>
     </p>
@@ -35,13 +40,18 @@
   %>
   <a href="#day-cares/view/<%= item.wall_id %>">
     <p class="avatar">
-      <img src="/images/no_pic.png" width="30" height="30" />
+      <%
+        var pictureSets = new Kin.PictureSetsCollection();
+        var avatar = pictureSets.getPrimaryPicture(item.from_user.picture_sets);
+        var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
+      %>
+      <img src="<%= avatarUrl %>" width="30" height="30" />
     </p>
     <p class="message-header">
       <%
         var messageUser = item.from_user;
         var messageDate = $.timeago(_.escape(item.created_at));
-        var name = messageUser.type === "daycare" ? (messageUser.daycare_name || "") : (messageUser.name || "") + " " + (messageUser.surname || "");
+        var name = (messageUser.name || "") + " " + (messageUser.surname || "");
       %>
       <span class="name" id="message-to-name"><%= _.escape(name) %></span> <span class="time"><%= messageDate %></span>
     </p>
@@ -61,13 +71,18 @@
   %>
   <a href="#day-cares/view/<%= item.wall_id %>">
     <p class="avatar">
-      <img src="/images/no_pic.png" width="30" height="30" />
+      <%
+        var pictureSets = new Kin.PictureSetsCollection();
+        var avatar = pictureSets.getPrimaryPicture(item.from_user.picture_sets);
+        var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
+      %>
+      <img src="<%= avatarUrl %>" width="30" height="30" />
     </p>
     <p class="message-header">
       <%
         var messageUser = item.from_user;
         var messageDate = $.timeago(_.escape(item.created_at));
-        var name = messageUser.type === "daycare" ? (messageUser.daycare_name || "") : (messageUser.name || "") + " " + (messageUser.surname || "");
+        var name = (messageUser.name || "") + " " + (messageUser.surname || "");
       %>
       <span class="name" id="message-to-name"><%= _.escape(name) %></span> <span class="time"><%= messageDate %></span>
     </p>

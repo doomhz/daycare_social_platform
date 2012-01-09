@@ -1,9 +1,6 @@
 <h1>Edit day care</h1>
 <form id="day-care-edit-form">
 	<fieldset>
-    	<div class="hidden alert-message" id="form-messages">
-	        <p></p>
-	    </div>
 	    <input type="hidden" name="_id" value="<%=dayCare.get('_id') %>" />
 	    <div class="clearfix">
 	        <label for="name">Name</label>
@@ -19,12 +16,6 @@
 		        <input type="hidden" name="location[lng]" value="<%=dayCare.get('location').lng %>" id="location-lng" />
 			</div>
 	        <div id="profile-address-maps"></div>
-	    </div>
-	    <div class="clearfix">
-	        <label for="email">E-mail</label>
-			<div class="input">
-	        	<input type="text" name="email" value="<%=dayCare.get('email') %>" />
-			</div>
 	    </div>
 	    <div class="clearfix">
 	        <label for="phone">Phone</label>
@@ -85,22 +76,6 @@
 			</div>
 	    </div>
 	    <div class="clearfix">
-	        <label for="type">Type</label>
-			<div class="input">
-	        	<select name="type" class="normalSelect">
-		        <%
-		            var type = dayCare.get('type');
-		            var typeOptions = {'daycare': 'Day Care', 'kindergarten': 'Kindergarten', 'afterschool': 'Afterschool'};
-		            _.each(typeOptions, function (val, key) {
-		        %>
-		            <option value="<%=key %>"<% if (type === key) { %> selected="selected"<% } %>><%=val %></option>
-		        <%
-		            });
-		        %>
-		        </select>
-			</div>
-	    </div>
-	    <div class="clearfix">
 	        <%
 	            var openedSince = dayCare.get('opened_since').split("-");
 	            var openedSinceDay = openedSince[2];
@@ -113,8 +88,8 @@
 			<div class="input">
 		        <select name="opened_since[month]" class="mini">
 		            <option value="">-</option>
-		            <% for (var i = 1; i <= 12; i++) { %>
-		            <option value="<%=i %>" <% if (i == openedSinceMonth) { print('selected="selected"');} %>><%=months[i - 1] %></option>
+		            <% for (var i = 0; i <= 11; i++) { %>
+		            <option value="<%=i %>" <% if (i == openedSinceMonth) { print('selected="selected"');} %>><%=months[i] %></option>
 		            <% } %>
 		        </select>
 		        <select name="opened_since[day]" class="mini">

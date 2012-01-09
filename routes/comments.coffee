@@ -37,7 +37,6 @@ module.exports = (app)->
     comment = new Comment(data)
     comment.save (err)->
     
-      userName = if user.type is "daycare" then user.daycare_name else "#{user.name} #{user.surname}"
       triggerNewWallPosts = (userId, notif)->
         notif.save ()->
           Notification.triggerNewWallPosts(userId)
@@ -54,7 +53,7 @@ module.exports = (app)->
                 from_id: user._id
                 wall_id: data.wall_id
                 type: "status"
-                content: "#{userName} wrote on wall."
+                content: "wrote on wall."
               notification = new Notification(notificationData)
               triggerNewWallPosts(usr._id, notification)
 
@@ -68,7 +67,7 @@ module.exports = (app)->
                 from_id: user._id
                 wall_id: data.wall_id
                 type: "followup"
-                content: "#{userName} commented on a post."
+                content: "commented on a post."
               notification = new Notification(notificationData)
               triggerNewFollowups(comment.from_id, notification)
               sentUserIds.push(comment.from_id)

@@ -1,25 +1,186 @@
 (function() {
-  var UserSchema, exports, mongooseAuth;
+  var Picture, PictureSet, UserSchema, exports, mongooseAuth;
+  var __indexOf = Array.prototype.indexOf || function(item) {
+    for (var i = 0, l = this.length; i < l; i++) {
+      if (this[i] === item) return i;
+    }
+    return -1;
+  };
   mongooseAuth = require('mongoose-auth');
+  Picture = new Schema({
+    primary: {
+      type: Boolean,
+      "default": false
+    },
+    description: {
+      type: String
+    },
+    url: {
+      type: String
+    },
+    thumb_url: {
+      type: String
+    },
+    medium_url: {
+      type: String
+    },
+    big_url: {
+      type: String
+    },
+    success: Boolean
+  });
+  PictureSet = new Schema({
+    user_id: {
+      type: String
+    },
+    name: {
+      type: String,
+      index: true
+    },
+    description: {
+      type: String
+    },
+    type: {
+      type: String,
+      "enum": ['default', 'daycare', 'profile'],
+      "default": 'default'
+    },
+    pictures: [Picture]
+  });
   UserSchema = new Schema({
+    name: {
+      type: String,
+      index: true
+    },
+    surname: {
+      type: String,
+      index: true
+    },
+    speaking_classes: [Number],
+    address: String,
+    location: {
+      lat: Number,
+      lng: Number
+    },
+    email: String,
+    phone: String,
+    fax: String,
+    contact_person: String,
+    licensed: {
+      type: Boolean
+    },
+    license_number: String,
     type: {
       type: String,
       "enum": ['daycare', 'parent'],
       "default": 'daycare'
     },
-    daycare_id: {
+    opened_since: {
       type: String
     },
-    daycare_name: {
-      type: String
+    open_door_policy: {
+      type: Boolean
     },
-    name: {
-      type: String
+    serving_disabilities: {
+      type: Boolean
     },
-    surname: {
-      type: String
+    picture_sets: {
+      type: [PictureSet]
     }
   });
+  UserSchema.methods.filterPrivateDataByUserId = function(user_id) {
+    var user, users, _i, _len;
+    if (this.constructor === Array) {
+      users = [];
+      for (_i = 0, _len = this.length; _i < _len; _i++) {
+        user = this[_i];
+        if (("" + user_id) === ("" + user._id)) {
+          users.push(user);
+        } else {
+          users.push(UserSchema.statics.getPublicData(user));
+        }
+      }
+      return users;
+    } else {
+      if (("" + user_id) === ("" + this._id)) {
+        return this;
+      } else {
+        return UserSchema.statics.getPublicData(this);
+      }
+    }
+  };
+  UserSchema.statics.filterPrivatePictureSetsByUserId = function(user_id, guestUserId, pictureSets) {
+    var pictureSet, publicPictureSetTypes, publicPictureSets, _i, _len, _ref;
+    if (("" + user_id) === ("" + guestUserId)) {
+      return pictureSets;
+    } else {
+      publicPictureSetTypes = ["profile", "daycare"];
+      publicPictureSets = [];
+      for (_i = 0, _len = pictureSets.length; _i < _len; _i++) {
+        pictureSet = pictureSets[_i];
+        if (_ref = pictureSet.type, __indexOf.call(publicPictureSetTypes, _ref) >= 0) {
+          publicPictureSets.push(pictureSet);
+        }
+      }
+      return publicPictureSets;
+    }
+  };
+  UserSchema.statics.getPublicData = function(user) {
+    var data, key, pictureSet, publicPictureSetTypes, publicRows, val, _i, _len, _ref, _ref2;
+    data = {};
+    publicRows = {
+      "_id": true,
+      "name": true,
+      "surname": true,
+      "speaking_classes": true,
+      "address": true,
+      "location": true,
+      "email": true,
+      "phone": true,
+      "fax": true,
+      "contact_person": true,
+      "licensed": true,
+      "license_number": true,
+      "type": true,
+      "opened_since": true,
+      "open_door_policy": true,
+      "serving_disabilities": true
+    };
+    for (key in user) {
+      val = user[key];
+      if (publicRows[key]) {
+        data[key] = val;
+      }
+    }
+    data.picture_sets = [];
+    publicPictureSetTypes = ["profile", "daycare"];
+    _ref = user.picture_sets;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      pictureSet = _ref[_i];
+      if (_ref2 = pictureSet.type, __indexOf.call(publicPictureSetTypes, _ref2) >= 0) {
+        data.picture_sets.push(pictureSet);
+      }
+    }
+    return data;
+  };
+  UserSchema.statics.checkPermissions = function(object, requiredKey, requiredValue, resForAutoRedirect) {
+    if (object == null) {
+      object = {};
+    }
+    if (object && (!requiredKey || !requiredValue)) {
+      return true;
+    }
+    if (object[requiredKey] === requiredValue) {
+      return true;
+    }
+    if (resForAutoRedirect) {
+      resForAutoRedirect.writeHead(303, {
+        'Location': '/login'
+      });
+      resForAutoRedirect.end();
+    }
+    return false;
+  };
   UserSchema.plugin(mongooseAuth, {
     everymodule: {
       everyauth: {
@@ -42,8 +203,7 @@
       extraParams: {
         type: String,
         name: String,
-        surname: String,
-        daycare_name: String
+        surname: String
       },
       everyauth: {
         loginFormFieldName: 'email',
@@ -58,55 +218,33 @@
         loginSuccessRedirect: '/',
         registerSuccessRedirect: '/',
         respondToRegistrationSucceed: function(res, user, data) {
-          var DayCare, User, dayCare, redirectTo;
+          var User, redirectTo, userInfo;
           redirectTo = '/';
-          if (user.type === 'daycare') {
-            DayCare = require('./day_care');
-            dayCare = new DayCare({
-              user_id: user._id,
-              picture_sets: [
-                {
-                  type: 'profile',
-                  name: 'Profile pictures',
-                  description: 'Your profile pictures.',
-                  pictures: []
-                }
-              ]
+          userInfo = {
+            picture_sets: [
+              {
+                type: 'profile',
+                name: 'Profile pictures',
+                description: 'Your profile pictures.',
+                pictures: []
+              }
+            ]
+          };
+          User = require('./user');
+          return User.update({
+            _id: user._id
+          }, userInfo, {}, function(err, updatedUser) {
+            if (user.type === 'daycare') {
+              redirectTo = "/#day-cares/edit/" + user._id;
+            }
+            res.writeHead(303, {
+              'Location': redirectTo
             });
-            dayCare.save();
-            User = require('./user');
-            User.update({
-              _id: user._id
-            }, {
-              daycare_id: dayCare._id
-            });
-            redirectTo = "/#day-cares/edit/" + dayCare._id;
-          }
-          res.writeHead(303, {
-            'Location': redirectTo
+            return res.end();
           });
-          return res.end();
         }
       }
     }
   });
-  UserSchema.statics.checkPermissions = function(object, requiredKey, requiredValue, resForAutoRedirect) {
-    if (object == null) {
-      object = {};
-    }
-    if (object && (!requiredKey || !requiredValue)) {
-      return true;
-    }
-    if (object[requiredKey] === requiredValue) {
-      return true;
-    }
-    if (resForAutoRedirect) {
-      resForAutoRedirect.writeHead(303, {
-        'Location': '/login'
-      });
-      resForAutoRedirect.end();
-    }
-    return false;
-  };
   exports = module.exports = mongoose.model('User', UserSchema);
 }).call(this);

@@ -102,7 +102,7 @@
       this.clearColumns();
       this.mainColumnView = new Kin.DayCare.ListView({
         collection: new Kin.DayCareCollection([], {
-          url: '/day-cares'
+          url: '/profiles'
         }),
         el: this.mainColumnSelector
       });

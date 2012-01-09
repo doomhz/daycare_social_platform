@@ -14,14 +14,29 @@
     }
     UserModel.prototype.defaults = {
       _id: null,
-      type: null,
-      email: null,
-      daycare_id: null,
-      daycare_name: ""
+      name: '',
+      username: '',
+      speaking_classes: [],
+      address: '',
+      location: {
+        lat: 10,
+        lng: 40
+      },
+      email: '',
+      phone: '',
+      fax: '',
+      contact_person: '',
+      licensed: false,
+      license_number: '',
+      type: 'daycare',
+      opened_since: '',
+      open_door_policy: false,
+      serving_disabilities: false,
+      picture_sets: []
     };
     UserModel.prototype.url = '/current-user';
     UserModel.prototype.canEditDayCare = function(dayCareId) {
-      return dayCareId === this.get('daycare_id');
+      return dayCareId === this.get('_id');
     };
     return UserModel;
   })();

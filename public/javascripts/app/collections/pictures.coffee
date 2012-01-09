@@ -2,7 +2,7 @@ class window.Kin.PicturesCollection extends Backbone.Collection
 
   model: window.Kin.PictureModel
 
-  uri: '/day-cares/pictures/:pictureSetId'
+  uri: '/profiles/pictures/:pictureSetId'
 
   pictureSetId: null
 

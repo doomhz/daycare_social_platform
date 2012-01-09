@@ -1,8 +1,9 @@
-class window.Kin.DayCareModel extends Backbone.Model
+class window.Kin.DayCareModel extends Kin.UserModel
 
   defaults:
-    user_id: null
+    _id: null
     name: ''
+    username: ''
     speaking_classes: []
     address: ''
     location:
@@ -20,7 +21,7 @@ class window.Kin.DayCareModel extends Backbone.Model
     serving_disabilities: false
     picture_sets: []
 
-  uri: "/day-cares/:dayCareId"
+  uri: "/profiles/:dayCareId"
 
   pictureSets: null
 

@@ -28,7 +28,7 @@
         onLoad: function(tpl) {
           var dayCareModel;
           dayCareModel = new Kin.DayCareModel({
-            _id: that.model.get('daycare_id')
+            _id: that.model.get('user_id')
           });
           return dayCareModel.fetch({
             success: function(dayCare) {

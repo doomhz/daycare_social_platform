@@ -14,6 +14,17 @@
     }
     PictureSetsCollection.prototype.model = window.Kin.PictureSetModel;
     PictureSetsCollection.prototype.initialize = function() {};
+    PictureSetsCollection.prototype.getPrimaryPicture = function(pictureSets) {
+      var primarys, profileSet;
+      profileSet = _.filter(pictureSets, function(pictureSet) {
+        return pictureSet.type === "profile";
+      });
+      primarys = _.filter(profileSet[0].pictures, function(picture) {
+        return picture.primary;
+      });
+      primarys = primarys.length ? primarys : profileSet[0].pictures;
+      return primarys[0];
+    };
     return PictureSetsCollection;
   })();
 }).call(this);

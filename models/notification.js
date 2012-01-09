@@ -1,11 +1,12 @@
 (function() {
-  var NotificationSchema, exports, notificationsSocket;
+  var NotificationSchema, User, exports, notificationsSocket;
   var __indexOf = Array.prototype.indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {
       if (this[i] === item) return i;
     }
     return -1;
   };
+  User = require("./user");
   NotificationSchema = new Schema({
     user_id: {
       type: String

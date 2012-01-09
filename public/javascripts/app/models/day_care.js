@@ -8,13 +8,14 @@
     return child;
   };
   window.Kin.DayCareModel = (function() {
-    __extends(DayCareModel, Backbone.Model);
+    __extends(DayCareModel, Kin.UserModel);
     function DayCareModel() {
       DayCareModel.__super__.constructor.apply(this, arguments);
     }
     DayCareModel.prototype.defaults = {
-      user_id: null,
+      _id: null,
       name: '',
+      username: '',
       speaking_classes: [],
       address: '',
       location: {
@@ -33,7 +34,7 @@
       serving_disabilities: false,
       picture_sets: []
     };
-    DayCareModel.prototype.uri = "/day-cares/:dayCareId";
+    DayCareModel.prototype.uri = "/profiles/:dayCareId";
     DayCareModel.prototype.pictureSets = null;
     DayCareModel.prototype.initialize = function(attributes, uri) {
       this.id = attributes._id;

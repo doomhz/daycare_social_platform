@@ -1,3 +1,5 @@
+User = require("./user")
+
 NotificationSchema = new Schema
   user_id:
     type: String

@@ -180,6 +180,7 @@ header #header-wrapper #events-menu li ul.notification-list li a:hover {
 }
 header #header-wrapper #events-menu li ul.notification-list li .avatar {
   float: left;
+  margin: 0 5px 0 0;
 }
 header #header-wrapper #events-menu li ul.notification-list li .message-header {
   float: left;
@@ -385,6 +386,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #main-column #wall-comments-list li .avatar {
   float: left;
+  margin: 0 5px 0 0;
 }
 #page-wrapper #main-column #wall-comments-list li .comment-header .name {
   font-weight: bold;
@@ -410,6 +412,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #main-column #wall-comments-list ul.followups li.followup .avatar {
   float: left;
+  margin: 0 5px 0 0;
 }
 #page-wrapper #main-column #wall-comments-list ul.followups li.followup .comment-header .name {
   font-weight: bold;
@@ -465,6 +468,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #main-column #messages-list li .message-header-cnt .avatar {
   float: left;
+  margin: 0 5px 0 0;
 }
 #page-wrapper #main-column #messages-list li .message-header-cnt .message-header .name {
   font-weight: bold;
@@ -694,7 +698,7 @@ footer #footer-wrapper #copyright {
 }
 #picture-sets-list li {
   width: 120px;
-  height: 150px;
+  height: 140px;
   overflow: hidden;
   float: left;
   margin: 5px 5px 5px 5px;
@@ -711,7 +715,7 @@ footer #footer-wrapper #copyright {
 }
 #pictures-list li {
   width: 120px;
-  height: 150px;
+  height: 140px;
   overflow: hidden;
   float: left;
   margin: 5px 5px 5px 5px;

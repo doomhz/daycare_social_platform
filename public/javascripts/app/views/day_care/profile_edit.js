@@ -123,7 +123,7 @@
       that = this;
       this.model.save(hashedData, {
         success: function() {
-          return that.addFormMessage($(ev.target), 'success', 'Day care information is up to date.');
+          return that.addFormMessage($(ev.target), 'success', 'Day care information was saved.');
         },
         error: function() {
           return that.addFormMessage($(ev.target), 'error', 'Day care information could not be updated.');
@@ -132,14 +132,10 @@
       return false;
     };
     ProfileEditView.prototype.addFormMessage = function($form, type, message) {
-      var $formMessages;
       if (type == null) {
         type = 'info';
       }
-      $formMessages = $form.find('#form-messages');
-      $formMessages.removeClass('success error warning hidden');
-      $formMessages.addClass(type);
-      $formMessages.find('p').text(message);
+      $.jGrowl(message);
       return $(window).scrollTop(0);
     };
     ProfileEditView.prototype.toggleLicenseNumberField = function(ev) {

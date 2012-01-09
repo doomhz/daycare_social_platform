@@ -18,7 +18,7 @@ class window.Kin.DayCare.PictureSetView extends Backbone.View
       url: @tplUrl
       onLoad: (tpl)->
         $el = $(that.el)
-        canEdit = that.currentUser.canEditDayCare(that.model.get('daycare_id'))
+        canEdit = that.currentUser.canEditDayCare(that.model.get('user_id'))
         $el.html(tpl({pictureSet: that.model, canEdit: canEdit}))
         
         if not that.picturesListView
@@ -32,7 +32,7 @@ class window.Kin.DayCare.PictureSetView extends Backbone.View
         if canEdit
           that.uploader = new qq.FileUploader
             element: document.getElementById('picture-uploader')
-            action: 'day-cares/upload'
+            action: '/profiles/upload'
             debug: false
             uploadButtonText: if that.model.get('type') is 'profile' then 'add profile picture' else 'add photos'
             template: '<div class="qq-uploader">' + 

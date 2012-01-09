@@ -7,7 +7,7 @@ class window.Kin.PictureSetModel extends Backbone.Model
     pictures: []
     daycare_id: null
 
-  uri: '/day-cares/picture-set/:pictureSetId'
+  uri: '/profiles/picture-set/:pictureSetId'
 
   pictures: null
 

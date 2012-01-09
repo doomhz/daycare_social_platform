@@ -1,76 +1,64 @@
 (function() {
-  var Comment, DayCare, User, fs;
-  DayCare = require('../models/day_care');
+  var Comment, User, fs;
   User = require('../models/user');
   Comment = require('../models/comment');
   fs = require('fs');
   module.exports = function(app) {
-    app.get('/day-cares', function(req, res) {
-      return DayCare.find({}).desc('created_at').run(function(err, dayCares) {
-        return res.json(dayCares);
+    app.get('/profiles', function(req, res) {
+      return User.find({
+        type: 'daycare'
+      }).desc('created_at').run(function(err, users) {
+        return res.json(users);
       });
     });
-    app.get('/day-cares/:id', function(req, res) {
-      return DayCare.findOne({
+    app.get('/profiles/:id', function(req, res) {
+      return User.findOne({
         _id: req.params.id
-      }).run(function(err, dayCare) {
+      }).run(function(err, user) {
         var currentUser;
         currentUser = req.user ? req.user : {};
-        return res.json(dayCare.filterPrivateDataByUserId(currentUser._id));
+        return res.json(user.filterPrivateDataByUserId(currentUser._id));
       });
     });
-    app.put('/day-cares/:id', function(req, res) {
-      var data, user;
-      user = req.user ? req.user : {};
+    app.put('/profiles/:id', function(req, res) {
+      var currentUser, data;
+      currentUser = req.user ? req.user : {};
       data = req.body;
       delete data._id;
-      return DayCare.update({
+      return User.update({
         _id: req.params.id,
-        user_id: user._id
-      }, data, {}, function(err, dayCare) {
-        if (!err) {
-          return User.findOne({
-            _id: user._id
-          }).run(function(err, usr) {
-            usr.daycare_name = data.name;
-            req.user.daycare_name = data.name;
-            usr.save();
-            return res.json({
-              success: true
-            });
-          });
-        } else {
-          return res.json({
-            success: false
-          });
-        }
+        _id: currentUser._id
+      }, data, {}, function(err, user) {
+        return res.json({
+          success: true
+        });
       });
     });
-    app.get('/day-cares/picture-set/:id', function(req, res) {
+    app.get('/profiles/picture-set/:id', function(req, res) {
       var currentUser, pictureSetId;
       pictureSetId = req.params.id;
       currentUser = req.user ? req.user : {};
-      return DayCare.findOne({
+      return User.findOne({
         'picture_sets._id': pictureSetId
-      }).run(function(err, dayCare) {
+      }).run(function(err, user) {
         var pictureSet;
-        pictureSet = dayCare.picture_sets.id(pictureSetId);
-        pictureSet = DayCare.filterPrivatePictureSetsByUserId(currentUser._id, dayCare.user_id, [pictureSet])[0];
-        pictureSet.daycare_id = dayCare._id;
+        pictureSet = user.picture_sets.id(pictureSetId);
+        pictureSet = User.filterPrivatePictureSetsByUserId(currentUser._id, user.user_id, [pictureSet])[0];
+        pictureSet.user_id = user._id;
         return res.json(pictureSet);
       });
     });
-    app.put('/day-cares/picture-set/:id', function(req, res) {
+    app.put('/profiles/picture-set/:id', function(req, res) {
       var pictureSetId;
       pictureSetId = req.params.id;
-      return DayCare.findOne({
+      return User.findOne({
         'picture_sets._id': pictureSetId,
-        user_id: req.user._id
-      }).run(function(err, dayCare) {
+        _id: req.user._id
+      }).run(function(err, user) {
         var key, pictureSet, pictureSetIndexToEdit, value, _i, _len, _ref, _ref2;
-        if (dayCare) {
+        if (user) {
           pictureSetIndexToEdit = -1;
-          _ref = dayCare.picture_sets;
+          _ref = user.picture_sets;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             pictureSet = _ref[_i];
             pictureSetIndexToEdit++;
@@ -82,9 +70,9 @@
           _ref2 = req.body;
           for (key in _ref2) {
             value = _ref2[key];
-            dayCare.picture_sets[pictureSetIndexToEdit][key] = value;
+            user.picture_sets[pictureSetIndexToEdit][key] = value;
           }
-          dayCare.save();
+          user.save();
           return res.json({
             success: true
           });
@@ -95,18 +83,18 @@
         }
       });
     });
-    app.del('/day-cares/picture-set/:id', function(req, res) {
+    app.del('/profiles/picture-set/:id', function(req, res) {
       var pictureSetId;
       pictureSetId = req.params.id;
-      return DayCare.findOne({
+      return User.findOne({
         'picture_sets._id': pictureSetId,
-        user_id: req.user._id
-      }).run(function(err, dayCare) {
+        _id: req.user._id
+      }).run(function(err, user) {
         var filePath, picture, pictureSet, _i, _len, _ref;
-        if (dayCare) {
-          pictureSet = dayCare.picture_sets.id(pictureSetId);
+        if (user) {
+          pictureSet = user.picture_sets.id(pictureSetId);
           pictureSet.remove();
-          dayCare.save();
+          user.save();
           _ref = pictureSet.pictures;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             picture = _ref[_i];
@@ -117,7 +105,7 @@
               console.error(e);
             }
           }
-          filePath = './public/daycares/' + pictureSetId;
+          filePath = './public/users/' + pictureSetId;
           try {
             fs.rmdirSync(filePath);
           } catch (e) {
@@ -133,34 +121,34 @@
         }
       });
     });
-    app.get('/day-cares/pictures/:pictureSetId', function(req, res) {
+    app.get('/profiles/pictures/:pictureSetId', function(req, res) {
       var currentUser, pictureSetId;
       pictureSetId = req.params.pictureSetId;
       currentUser = req.user ? req.user : {};
-      return DayCare.findOne({
+      return User.findOne({
         'picture_sets._id': pictureSetId
-      }).run(function(err, dayCare) {
+      }).run(function(err, user) {
         var pictureSet, pictures;
-        pictureSet = dayCare.picture_sets.id(pictureSetId);
-        pictureSet = DayCare.filterPrivatePictureSetsByUserId(currentUser._id, dayCare.user_id, [pictureSet])[0] || {};
+        pictureSet = user.picture_sets.id(pictureSetId);
+        pictureSet = User.filterPrivatePictureSetsByUserId(currentUser._id, user.user_id, [pictureSet])[0] || {};
         pictures = pictureSet.pictures;
         return res.json(pictures);
       });
     });
-    app.del('/day-cares/picture/:pictureId', function(req, res) {
+    app.del('/profiles/picture/:pictureId', function(req, res) {
       var pictureId;
       pictureId = req.params.pictureId;
-      return DayCare.findOne({
+      return User.findOne({
         'picture_sets.pictures._id': pictureId,
-        user_id: req.user._id
-      }).run(function(err, dayCare) {
+        _id: req.user._id
+      }).run(function(err, user) {
         var bigFilePath, filePath, mediumFilePath, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, pictureToRemove, thumbFilePath, _i, _j, _len, _len2, _ref, _ref2;
-        if (dayCare) {
+        if (user) {
           pictureSetIndex = -1;
           pictureIndex = -1;
           pictureSetIndexToGo = -1;
           pictureIndexToGo = -1;
-          _ref = dayCare.picture_sets;
+          _ref = user.picture_sets;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             pictureSet = _ref[_i];
             pictureSetIndex++;
@@ -176,7 +164,7 @@
               }
             }
           }
-          pictureToRemove = dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo];
+          pictureToRemove = user.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo];
           filePath = './public/' + pictureToRemove.url;
           try {
             fs.unlinkSync(filePath);
@@ -201,8 +189,8 @@
           } catch (e) {
             console.error(e);
           }
-          dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove();
-          dayCare.save();
+          user.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove();
+          user.save();
           Comment.findOne({
             "content.picture._id": pictureToRemove._id
           }).run(function(err, comment) {
@@ -218,20 +206,20 @@
         }
       });
     });
-    app.put('/day-cares/picture/:pictureId', function(req, res) {
+    app.put('/profiles/picture/:pictureId', function(req, res) {
       var pictureId;
       pictureId = req.params.pictureId;
-      return DayCare.findOne({
+      return User.findOne({
         'picture_sets.pictures._id': pictureId,
-        user_id: req.user._id
-      }).run(function(err, dayCare) {
+        _id: req.user._id
+      }).run(function(err, user) {
         var key, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, value, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3, _ref4;
-        if (dayCare) {
+        if (user) {
           pictureSetIndex = -1;
           pictureIndex = -1;
           pictureSetIndexToGo = -1;
           pictureIndexToGo = -1;
-          _ref = dayCare.picture_sets;
+          _ref = user.picture_sets;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             pictureSet = _ref[_i];
             pictureSetIndex++;
@@ -247,7 +235,7 @@
               }
             }
           }
-          _ref3 = dayCare.picture_sets[pictureSetIndexToGo].pictures;
+          _ref3 = user.picture_sets[pictureSetIndexToGo].pictures;
           for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
             picture = _ref3[_k];
             picture.primary = false;
@@ -256,9 +244,9 @@
           _ref4 = req.body;
           for (key in _ref4) {
             value = _ref4[key];
-            dayCare.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo][key] = value;
+            user.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo][key] = value;
           }
-          dayCare.save();
+          user.save();
           return res.json({
             success: true
           });
@@ -269,16 +257,16 @@
         }
       });
     });
-    return app.post('/day-cares/upload', function(req, res) {
-      var bigFilePath, bigRelativeFilePath, description, dirPath, fileExtension, fileName, filePath, mediumFilePath, mediumRelativeFilePath, newPicture, newPictureData, pictureSetId, relativeDirPath, relativeFilePath, thumbFilePath, thumbRelativeFilePath, user, ws;
-      user = req.user ? req.user : {};
+    return app.post('/profiles/upload', function(req, res) {
+      var bigFilePath, bigRelativeFilePath, currentUser, description, dirPath, fileExtension, fileName, filePath, mediumFilePath, mediumRelativeFilePath, newPicture, newPictureData, pictureSetId, relativeDirPath, relativeFilePath, thumbFilePath, thumbRelativeFilePath, ws;
+      currentUser = req.user ? req.user : {};
       pictureSetId = req.query.setId;
       fileName = req.query.qqfile;
       description = req.query.description;
       fileExtension = fileName.substring(fileName.length - 3).toLowerCase();
       fileName = new Date().getTime();
-      dirPath = './public/daycares/' + pictureSetId + '/';
-      relativeDirPath = '/daycares/' + pictureSetId + '/';
+      dirPath = './public/users/' + pictureSetId + '/';
+      relativeDirPath = '/users/' + pictureSetId + '/';
       filePath = dirPath + fileName + '.' + fileExtension;
       thumbFilePath = dirPath + fileName + '_thumb.' + fileExtension;
       mediumFilePath = dirPath + fileName + '_medium.' + fileExtension;
@@ -311,13 +299,13 @@
           return ws.write(data);
         });
         return req.on('end', function() {
-          return DayCare.findOne({
+          return User.findOne({
             'picture_sets._id': pictureSetId,
-            user_id: req.user._id
-          }).run(function(err, dayCare) {
+            _id: req.user._id
+          }).run(function(err, user) {
             var im, newPicturePosition, pictureSet, pictureSetIndex, pictureSets, _i, _len;
-            if (dayCare) {
-              pictureSets = dayCare.picture_sets;
+            if (user) {
+              pictureSets = user.picture_sets;
               newPicturePosition = null;
               pictureSetIndex = -1;
               for (_i = 0, _len = pictureSets.length; _i < _len; _i++) {
@@ -331,9 +319,9 @@
                   break;
                 }
               }
-              dayCare.picture_sets = pictureSets;
-              dayCare.save();
-              newPicture = dayCare.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1];
+              user.picture_sets = pictureSets;
+              user.save();
+              newPicture = user.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1];
               newPicture.success = true;
               im = require('imagemagick');
               return im.crop({
@@ -377,14 +365,14 @@
                       console.log(stderr);
                     }
                     comment = new Comment({
-                      from_id: user._id,
-                      to_id: dayCare._id,
-                      wall_id: dayCare._id,
+                      from_id: currentUser._id,
+                      to_id: user._id,
+                      wall_id: user._id,
                       type: "status",
                       content: {
                         type: "new_picture",
-                        picture_set_id: dayCare.picture_sets[pictureSetIndex]._id,
-                        picture_set_name: dayCare.picture_sets[pictureSetIndex].name,
+                        picture_set_id: user.picture_sets[pictureSetIndex]._id,
+                        picture_set_name: user.picture_sets[pictureSetIndex].name,
                         picture: newPicture
                       }
                     });

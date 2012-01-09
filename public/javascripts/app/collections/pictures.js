@@ -13,7 +13,7 @@
       PicturesCollection.__super__.constructor.apply(this, arguments);
     }
     PicturesCollection.prototype.model = window.Kin.PictureModel;
-    PicturesCollection.prototype.uri = '/day-cares/pictures/:pictureSetId';
+    PicturesCollection.prototype.uri = '/profiles/pictures/:pictureSetId';
     PicturesCollection.prototype.pictureSetId = null;
     PicturesCollection.prototype.initialize = function(models, _arg) {
       this.pictureSetId = _arg.pictureSetId;

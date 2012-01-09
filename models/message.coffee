@@ -1,4 +1,3 @@
-mongooseAuth = require('mongoose-auth')
 User         = require("./user")
 
 MessageSchema = new Schema

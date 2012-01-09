@@ -97,18 +97,13 @@ class window.Kin.DayCare.ProfileEditView extends Backbone.View
     that = @
     @model.save hashedData,
       success: ()->
-        that.addFormMessage($(ev.target), 'success', 'Day care information is up to date.')
+        that.addFormMessage($(ev.target), 'success', 'Day care information was saved.')
       error: ()->
         that.addFormMessage($(ev.target), 'error', 'Day care information could not be updated.')
-
-
     false
 
   addFormMessage: ($form, type = 'info', message)->
-    $formMessages = $form.find('#form-messages')
-    $formMessages.removeClass('success error warning hidden')
-    $formMessages.addClass(type)
-    $formMessages.find('p').text(message)
+    $.jGrowl(message)
     $(window).scrollTop(0)
   
   toggleLicenseNumberField: (ev)->

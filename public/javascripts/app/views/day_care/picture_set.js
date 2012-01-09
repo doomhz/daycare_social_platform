@@ -29,7 +29,7 @@
         onLoad: function(tpl) {
           var $el, canEdit;
           $el = $(that.el);
-          canEdit = that.currentUser.canEditDayCare(that.model.get('daycare_id'));
+          canEdit = that.currentUser.canEditDayCare(that.model.get('user_id'));
           $el.html(tpl({
             pictureSet: that.model,
             canEdit: canEdit
@@ -46,7 +46,7 @@
           if (canEdit) {
             that.uploader = new qq.FileUploader({
               element: document.getElementById('picture-uploader'),
-              action: 'day-cares/upload',
+              action: '/profiles/upload',
               debug: false,
               uploadButtonText: that.model.get('type') === 'profile' ? 'add profile picture' : 'add photos',
               template: '<div class="qq-uploader">' + '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' + '<div class="qq-upload-button primary btn">{uploadButtonText}</div>' + '<ul class="qq-upload-list"></ul>' + '</div>',

@@ -1,12 +1,11 @@
 (function() {
-  var Message, MessageSchema, User, exports, mongooseAuth;
+  var Message, MessageSchema, User, exports;
   var __indexOf = Array.prototype.indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {
       if (this[i] === item) return i;
     }
     return -1;
   };
-  mongooseAuth = require('mongoose-auth');
   User = require("./user");
   MessageSchema = new Schema({
     from_id: {

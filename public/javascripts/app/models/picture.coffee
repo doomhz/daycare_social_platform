@@ -8,7 +8,7 @@ class window.Kin.PictureModel extends Backbone.Model
     medium_url: null
     big_url: null
 
-  uri: '/day-cares/picture/:pictureId'
+  uri: '/profiles/picture/:pictureId'
 
   initialize: (attributes)->
     @id = attributes._id

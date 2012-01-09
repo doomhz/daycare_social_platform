@@ -86,7 +86,7 @@ class Kin.AppView extends Backbone.View
     @clearColumns()
     
     @mainColumnView = new Kin.DayCare.ListView
-      collection: new Kin.DayCareCollection([], {url: '/day-cares'})
+      collection: new Kin.DayCareCollection([], {url: '/profiles'})
       el: @mainColumnSelector
     @mainColumnView.render()
   
@@ -174,12 +174,13 @@ class Kin.AppView extends Backbone.View
           el: that.mainColumnSelector
           currentUser: that.currentUser
         that.mainColumnView.render()
-
+        
         that.side1ColumnView = new Kin.DayCare.PictureSetSide1View
           model: model
           el: that.side1ColumnSelector
           currentUser: that.currentUser
         that.side1ColumnView.render()
+
 
   renderWriteMessage: (id)->
     @clearColumns()

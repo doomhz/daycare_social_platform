@@ -57,8 +57,7 @@
       delete data.updated_at;
       comment = new Comment(data);
       return comment.save(function(err) {
-        var triggerNewFollowups, triggerNewWallPosts, userName;
-        userName = user.type === "daycare" ? user.daycare_name : "" + user.name + " " + user.surname;
+        var triggerNewFollowups, triggerNewWallPosts;
         triggerNewWallPosts = function(userId, notif) {
           return notif.save(function() {
             return Notification.triggerNewWallPosts(userId);
@@ -80,7 +79,7 @@
                 from_id: user._id,
                 wall_id: data.wall_id,
                 type: "status",
-                content: "" + userName + " wrote on wall."
+                content: "wrote on wall."
               }, notification = new Notification(notificationData), triggerNewWallPosts(usr._id, notification)) : void 0);
             }
             return _results;
@@ -107,7 +106,7 @@
                 from_id: user._id,
                 wall_id: data.wall_id,
                 type: "followup",
-                content: "" + userName + " commented on a post."
+                content: "commented on a post."
               }, notification = new Notification(notificationData), triggerNewFollowups(comment.from_id, notification), sentUserIds.push(comment.from_id)) : void 0);
             }
             return _results;

@@ -20,7 +20,7 @@
       medium_url: null,
       big_url: null
     };
-    PictureModel.prototype.uri = '/day-cares/picture/:pictureId';
+    PictureModel.prototype.uri = '/profiles/picture/:pictureId';
     PictureModel.prototype.initialize = function(attributes) {
       return this.id = attributes._id;
     };
