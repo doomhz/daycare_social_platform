@@ -187,7 +187,11 @@ header #header-wrapper #events-menu li ul.notification-list li .message-header {
 }
 header #header-wrapper #events-menu li ul.notification-list li .message-header .name {
   font-weight: bold;
+  text-decoration: none;
   color: #7e962d;
+}
+header #header-wrapper #events-menu li ul.notification-list li .message-header .name:hover {
+  text-decoration: underline;
 }
 header #header-wrapper #events-menu li ul.notification-list li .message-body {
   float: left;
@@ -390,6 +394,10 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #main-column #wall-comments-list li .comment-header .name {
   font-weight: bold;
+  text-decoration: none;
+}
+#page-wrapper #main-column #wall-comments-list li .comment-header .name:hover {
+  text-decoration: underline;
 }
 #page-wrapper #main-column #wall-comments-list li .status-cnt {
   background: #f2f2f2;
@@ -416,7 +424,11 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #main-column #wall-comments-list ul.followups li.followup .comment-header .name {
   font-weight: bold;
+  text-decoration: none;
   color: #7e962d;
+}
+#page-wrapper #main-column #wall-comments-list ul.followups li.followup .comment-header .name:hover {
+  text-decoration: underline;
 }
 #page-wrapper #main-column #wall-comments-list div.add-followup-box {
   margin: 0 0 0 0;
@@ -472,7 +484,11 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #main-column #messages-list li .message-header-cnt .message-header .name {
   font-weight: bold;
+  text-decoration: none;
   color: #7e962d;
+}
+#page-wrapper #main-column #messages-list li .message-header-cnt .message-header .name:hover {
+  text-decoration: underline;
 }
 #page-wrapper #main-column #messages-list li .message-body-cnt {
   width: 89%;

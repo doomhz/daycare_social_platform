@@ -56,7 +56,8 @@
           var $el;
           $el = that.$("#" + that.listId);
           return $el.html(tpl({
-            listItems: that.listItems
+            listItems: that.listItems,
+            listId: that.listId
           }));
         }
       });

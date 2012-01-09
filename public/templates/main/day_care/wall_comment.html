@@ -1,4 +1,11 @@
 <%
+  var pictureSets = new Kin.PictureSetsCollection();
+  var avatar = pictureSets.getPrimaryPicture(comment.get("from_user").picture_sets);
+  var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
+  var commentTime = _.escape(comment.get("updated_at"));
+  var name = comment.get("from_user").name + " " + comment.get("from_user").surname;
+  var content = comment.get("content");
+  
   if (comment.get("type") === "status") {
 %>
 <div class="status-cnt">
@@ -6,23 +13,15 @@
   }
 %>
 <p class="avatar">
-  <%
-    var pictureSets = new Kin.PictureSetsCollection();
-    var avatar = pictureSets.getPrimaryPicture(comment.get("from_user").picture_sets);
-    var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
-  %>
-  <img src="<%= avatarUrl %>" width="60" height="60" />
+  <a href="#day-cares/view/<%= comment.get("from_user")._id %>">
+    <img src="<%= avatarUrl %>" width="60" height="60" />
+  </a>
 </p>
 <p class="comment-header">
-  <%
-    var commentTime = _.escape(comment.get("updated_at"));
-    var name = comment.get("from_user").name + " " + comment.get("from_user").surname;
-  %>
   <a href="#day-cares/view/<%= comment.get("from_user")._id %>" class="name"><%= _.escape(name) %></a>: <span class="time" title="<%= commentTime %>"><%= commentTime %></span>
 </p>
 <p>
   <%
-    var content = comment.get("content");
     if (typeof content === "object") {
       if (content.type === "new_picture") {
         %>

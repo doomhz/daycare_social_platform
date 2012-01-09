@@ -1,5 +1,9 @@
 <%
   _.each(listItems, function (item) {
+    var pictureSets = new Kin.PictureSetsCollection();
+    var avatar = pictureSets.getPrimaryPicture(item.from_user.picture_sets);
+    var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
+
 %>
 <li class="<%= item.unread ? 'unread' : '' %>">
   
@@ -8,11 +12,6 @@
   %>
   <a href="#messages/inbox">
     <p class="avatar">
-      <%
-        var pictureSets = new Kin.PictureSetsCollection();
-        var avatar = pictureSets.getPrimaryPicture(item.from_user.picture_sets);
-        var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
-      %>
       <img src="<%= avatarUrl %>" width="30" height="30" />
     </p>
     <p class="message-header">
@@ -40,11 +39,6 @@
   %>
   <a href="#day-cares/view/<%= item.wall_id %>">
     <p class="avatar">
-      <%
-        var pictureSets = new Kin.PictureSetsCollection();
-        var avatar = pictureSets.getPrimaryPicture(item.from_user.picture_sets);
-        var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
-      %>
       <img src="<%= avatarUrl %>" width="30" height="30" />
     </p>
     <p class="message-header">
@@ -71,11 +65,6 @@
   %>
   <a href="#day-cares/view/<%= item.wall_id %>">
     <p class="avatar">
-      <%
-        var pictureSets = new Kin.PictureSetsCollection();
-        var avatar = pictureSets.getPrimaryPicture(item.from_user.picture_sets);
-        var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
-      %>
       <img src="<%= avatarUrl %>" width="30" height="30" />
     </p>
     <p class="message-header">
@@ -103,7 +92,7 @@
 %>
 
 <%
-  if (listItems[0] && listItems[0].type === "default") {
+  if (listId === "last-messages") {
 %>
 <li class="view-all-list-items-bt">
   <a href="#messages/inbox">

@@ -43,4 +43,4 @@ class window.Kin.Header.NotificationView extends Kin.Header.SubmenuView
       url: @tplUrl
       onLoad: (tpl)->
         $el = that.$("##{that.listId}")
-        $el.html(tpl(listItems: that.listItems))
+        $el.html(tpl(listItems: that.listItems, listId: that.listId))
