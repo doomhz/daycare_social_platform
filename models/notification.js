@@ -23,7 +23,7 @@
     },
     type: {
       type: String,
-      "enum": ["status", "followup"],
+      "enum": ["followup", "status"],
       "default": "status"
     },
     content: {
@@ -48,6 +48,151 @@
   };
   NotificationSchema.statics.getNotificationsSocket = function() {
     return notificationsSocket;
+  };
+  NotificationSchema.methods.saveAndTriggerNewComments = function() {
+    var Notification;
+    Notification = require("./notification");
+    return this.save(function(err, data) {
+      if (data.type === "status") {
+        Notification.triggerNewWallPosts(data.user_id);
+      }
+      if (data.type === "followup") {
+        return Notification.triggerNewFollowups(data.user_id);
+      }
+    });
+  };
+  NotificationSchema.statics.addForStatus = function(newComment, sender) {
+    var Notification, senderId, wallOwnerId;
+    Notification = require("./notification");
+    wallOwnerId = "" + newComment.wall_id;
+    senderId = "" + sender._id;
+    return User.findOne({
+      _id: wallOwnerId
+    }).run(function(err, wallOwner) {
+      var notification, notificationData;
+      if (wallOwnerId !== senderId) {
+        notificationData = {
+          user_id: wallOwnerId,
+          from_id: senderId,
+          wall_id: newComment.wall_id,
+          type: "followup",
+          content: "posted on your wall."
+        };
+        notification = new Notification(notificationData);
+        notification.saveAndTriggerNewComments(wallOwnerId);
+      }
+      return User.find().run(function(err, users) {
+        var content, unread, usr, _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = users.length; _i < _len; _i++) {
+          usr = users[_i];
+          content = wallOwnerId === senderId ? "posted on his wall." : "posted on " + wallOwner.name + " " + wallOwner.surname + "'s wall.";
+          unread = senderId === ("" + usr._id) ? false : true;
+          notificationData = {
+            user_id: usr._id,
+            from_id: senderId,
+            wall_id: newComment.wall_id,
+            type: "status",
+            content: content,
+            unread: unread
+          };
+          notification = new Notification(notificationData);
+          _results.push(notification.saveAndTriggerNewComments(usr._id));
+        }
+        return _results;
+      });
+    });
+  };
+  NotificationSchema.statics.addForFollowup = function(newComment, sender) {
+    var Comment, Notification, originalStatusId, senderId, wallOwnerId;
+    Notification = require("./notification");
+    Comment = require("./comment");
+    wallOwnerId = "" + newComment.wall_id;
+    senderId = "" + sender._id;
+    originalStatusId = "" + newComment.to_id;
+    return User.findOne({
+      _id: wallOwnerId
+    }).run(function(err, wallOwner) {
+      return Comment.findOne({
+        _id: originalStatusId
+      }).run(function(err, originalComment) {
+        var statusOwnerId;
+        statusOwnerId = "" + originalComment.from_id;
+        return User.findOne({
+          _id: statusOwnerId
+        }).run(function(err, statusOwner) {
+          var content, notification, notificationData;
+          if (statusOwnerId !== senderId) {
+            content = wallOwnerId === statusOwnerId ? "commented on your post on your wall." : "commented on your post on " + wallOwner.name + " " + wallOwner.surname + "'s wall.";
+            notificationData = {
+              user_id: statusOwnerId,
+              from_id: senderId,
+              wall_id: newComment.wall_id,
+              type: "followup",
+              content: content
+            };
+            notification = new Notification(notificationData);
+            notification.saveAndTriggerNewComments(statusOwnerId);
+          }
+          if (wallOwnerId !== senderId && wallOwnerId !== statusOwnerId) {
+            content = "commented on " + statusOwner.name + " " + statusOwner.surname + "'s post on your wall.";
+            notificationData = {
+              user_id: wallOwnerId,
+              from_id: senderId,
+              wall_id: newComment.wall_id,
+              type: "followup",
+              content: content
+            };
+            notification = new Notification(notificationData);
+            notification.saveAndTriggerNewComments(wallOwnerId);
+          }
+          Comment.find([
+            {
+              type: "followup",
+              wall_id: newComment.wall_id,
+              to_id: statusOwnerId
+            }
+          ]).where("from_id").nin([senderId, wallOwnerId, statusOwnerId]).run(function(err, comments) {
+            var comment, sentUserIds, _i, _len, _ref, _results;
+            sentUserIds = [];
+            _results = [];
+            for (_i = 0, _len = comments.length; _i < _len; _i++) {
+              comment = comments[_i];
+              _results.push((_ref = comment.from_id, __indexOf.call(sentUserIds, _ref) < 0) ? (content = "commented on " + statusOwner.name + " " + statusOwner.surname + "'s post on " + wallOwner.name + " " + wallOwner.surname + "'s wall.", notificationData = {
+                user_id: comment.from_id,
+                from_id: sender._id,
+                wall_id: newComment.wall_id,
+                type: "followup",
+                content: content
+              }, notification = new Notification(notificationData), notification.saveAndTriggerNewComments(comment.from_id), sentUserIds.push(comment.from_id)) : void 0);
+            }
+            return _results;
+          });
+          return User.find().run(function(err, users) {
+            var statusOwnerName, unread, usr, wallOwnerName, _i, _len, _results;
+            _results = [];
+            for (_i = 0, _len = users.length; _i < _len; _i++) {
+              usr = users[_i];
+              statusOwnerName = statusOwnerId === senderId ? "his" : "" + statusOwner.name + " " + statusOwner.surname + "'s";
+              wallOwnerName = wallOwnerId === senderId ? "his" : "" + wallOwner.name + " " + wallOwner.surname + "'s";
+              content = "commented on " + statusOwnerName + " post on " + wallOwnerName + " wall.";
+              unread = senderId === ("" + usr._id) ? false : true;
+              notificationData = {
+                user_id: usr._id,
+                from_id: senderId,
+                wall_id: newComment.wall_id,
+                type: "status",
+                content: content,
+                unread: unread
+              };
+              notification = new Notification(notificationData);
+              _results.push(notification.saveAndTriggerNewComments(usr._id));
+            }
+            return _results;
+          });
+        });
+      });
+    });
   };
   NotificationSchema.statics.triggerNewMessages = function(userId) {
     var Message, sessionId, userSocket;

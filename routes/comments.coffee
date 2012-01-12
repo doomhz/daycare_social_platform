@@ -28,48 +28,19 @@ module.exports = (app)->
         res.json []
 
   app.post '/comments', (req, res)->
-    user = if req.user then req.user else {}
+    currentUser = if req.user then req.user else {}
     data = req.body
-    data.from_id = user._id
+    data.from_id = currentUser._id
     delete data.created_at
     delete data.updated_at
     
-    comment = new Comment(data)
-    comment.save (err)->
-    
-      triggerNewWallPosts = (userId, notif)->
-        notif.save ()->
-          Notification.triggerNewWallPosts(userId)
-      triggerNewFollowups = (userId, notif)->
-        notif.save ()->
-          Notification.triggerNewFollowups(userId)
-    
+    currentComment = new Comment(data)
+    currentComment.save (err, savedComment)->
+
       if data.type is "status"
-        User.find().run (err, users)->
-          for usr in users
-            if "#{usr._id}" isnt "#{user._id}"
-              notificationData =
-                user_id: usr._id
-                from_id: user._id
-                wall_id: data.wall_id
-                type: "status"
-                content: "wrote on wall."
-              notification = new Notification(notificationData)
-              triggerNewWallPosts(usr._id, notification)
+        Notification.addForStatus(savedComment, currentUser)
 
       if data.type is "followup"
-        Comment.find([{type: "followup", wall_id: data.wall_id, to_id: data.to_id}, {type: "status", wall_id: data.wall_id}]).run (err, comments)->
-          sentUserIds = []
-          for comment in comments
-            if "#{comment.from_id}" isnt "#{user._id}" and comment.from_id not in sentUserIds
-              notificationData =
-                user_id: comment.from_id
-                from_id: user._id
-                wall_id: data.wall_id
-                type: "followup"
-                content: "commented on a post."
-              notification = new Notification(notificationData)
-              triggerNewFollowups(comment.from_id, notification)
-              sentUserIds.push(comment.from_id)
+        Notification.addForFollowup(savedComment, currentUser)
     
       res.json {success: true}

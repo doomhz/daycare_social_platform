@@ -1,11 +1,5 @@
 (function() {
   var Comment, Notification, User;
-  var __indexOf = Array.prototype.indexOf || function(item) {
-    for (var i = 0, l = this.length; i < l; i++) {
-      if (this[i] === item) return i;
-    }
-    return -1;
-  };
   User = require('../models/user');
   Comment = require('../models/comment');
   Notification = require('../models/notification');
@@ -49,68 +43,19 @@
       });
     });
     return app.post('/comments', function(req, res) {
-      var comment, data, user;
-      user = req.user ? req.user : {};
+      var currentComment, currentUser, data;
+      currentUser = req.user ? req.user : {};
       data = req.body;
-      data.from_id = user._id;
+      data.from_id = currentUser._id;
       delete data.created_at;
       delete data.updated_at;
-      comment = new Comment(data);
-      return comment.save(function(err) {
-        var triggerNewFollowups, triggerNewWallPosts;
-        triggerNewWallPosts = function(userId, notif) {
-          return notif.save(function() {
-            return Notification.triggerNewWallPosts(userId);
-          });
-        };
-        triggerNewFollowups = function(userId, notif) {
-          return notif.save(function() {
-            return Notification.triggerNewFollowups(userId);
-          });
-        };
+      currentComment = new Comment(data);
+      return currentComment.save(function(err, savedComment) {
         if (data.type === "status") {
-          User.find().run(function(err, users) {
-            var notification, notificationData, usr, _i, _len, _results;
-            _results = [];
-            for (_i = 0, _len = users.length; _i < _len; _i++) {
-              usr = users[_i];
-              _results.push(("" + usr._id) !== ("" + user._id) ? (notificationData = {
-                user_id: usr._id,
-                from_id: user._id,
-                wall_id: data.wall_id,
-                type: "status",
-                content: "wrote on wall."
-              }, notification = new Notification(notificationData), triggerNewWallPosts(usr._id, notification)) : void 0);
-            }
-            return _results;
-          });
+          Notification.addForStatus(savedComment, currentUser);
         }
         if (data.type === "followup") {
-          Comment.find([
-            {
-              type: "followup",
-              wall_id: data.wall_id,
-              to_id: data.to_id
-            }, {
-              type: "status",
-              wall_id: data.wall_id
-            }
-          ]).run(function(err, comments) {
-            var comment, notification, notificationData, sentUserIds, _i, _len, _ref, _results;
-            sentUserIds = [];
-            _results = [];
-            for (_i = 0, _len = comments.length; _i < _len; _i++) {
-              comment = comments[_i];
-              _results.push(("" + comment.from_id) !== ("" + user._id) && (_ref = comment.from_id, __indexOf.call(sentUserIds, _ref) < 0) ? (notificationData = {
-                user_id: comment.from_id,
-                from_id: user._id,
-                wall_id: data.wall_id,
-                type: "followup",
-                content: "commented on a post."
-              }, notification = new Notification(notificationData), triggerNewFollowups(comment.from_id, notification), sentUserIds.push(comment.from_id)) : void 0);
-            }
-            return _results;
-          });
+          Notification.addForFollowup(savedComment, currentUser);
         }
         return res.json({
           success: true
