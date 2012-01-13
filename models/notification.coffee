@@ -12,8 +12,8 @@ NotificationSchema = new Schema
     type: String
   type:
     type: String
-    enum: ["followup", "status"]
-    default: "status"
+    enum: ["alert", "feed"]
+    default: "feed"
   content:
     type: {}
     default: ""
@@ -37,9 +37,9 @@ NotificationSchema.statics.getNotificationsSocket = ()->
 NotificationSchema.methods.saveAndTriggerNewComments = ()->
   Notification = require("./notification")
   @save (err, data)->
-    if data.type is "status"
+    if data.type is "feed"
       Notification.triggerNewWallPosts(data.user_id)
-    if data.type is "followup"
+    if data.type is "alert"
       Notification.triggerNewFollowups(data.user_id)
 
 NotificationSchema.statics.addForStatus = (newComment, sender)->
@@ -54,7 +54,7 @@ NotificationSchema.statics.addForStatus = (newComment, sender)->
         user_id: wallOwnerId
         from_id: senderId
         wall_id: newComment.wall_id
-        type: "followup"
+        type: "alert"
         content: "posted on your wall."
       notification = new Notification(notificationData)
       notification.saveAndTriggerNewComments(wallOwnerId)
@@ -67,7 +67,7 @@ NotificationSchema.statics.addForStatus = (newComment, sender)->
           user_id: usr._id
           from_id: senderId
           wall_id: newComment.wall_id
-          type: "status"
+          type: "feed"
           content: content
           unread: unread
         notification = new Notification(notificationData)
@@ -92,7 +92,7 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
             user_id: statusOwnerId
             from_id: senderId
             wall_id: newComment.wall_id
-            type: "followup"
+            type: "alert"
             content: content
           notification = new Notification(notificationData)
           notification.saveAndTriggerNewComments(statusOwnerId)
@@ -103,7 +103,7 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
             user_id: wallOwnerId
             from_id: senderId
             wall_id: newComment.wall_id
-            type: "followup"
+            type: "alert"
             content: content
           notification = new Notification(notificationData)
           notification.saveAndTriggerNewComments(wallOwnerId)
@@ -117,7 +117,7 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
                 user_id: comment.from_id
                 from_id: sender._id
                 wall_id: newComment.wall_id
-                type: "followup"
+                type: "alert"
                 content: content
               notification = new Notification(notificationData)
               notification.saveAndTriggerNewComments(comment.from_id)
@@ -133,7 +133,7 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
               user_id: usr._id
               from_id: senderId
               wall_id: newComment.wall_id
-              type: "status"
+              type: "feed"
               content: content
               unread: unread
             notification = new Notification(notificationData)
@@ -150,7 +150,7 @@ NotificationSchema.statics.triggerNewMessages = (userId)->
       userSocket.emit("last-messages", {messages: messages})
 
 NotificationSchema.statics.findLastWallPosts = (userId, limit, onFind)->
-  @find({user_id: userId, type: "status"}).desc('created_at').limit(limit).run (err, posts)->
+  @find({user_id: userId, type: "feed"}).desc('created_at').limit(limit).run (err, posts)->
     usersToFind = []
     if posts
       for post in posts
@@ -169,13 +169,13 @@ NotificationSchema.statics.triggerNewWallPosts = (userId)->
   sessionId = notificationsSocket.userSessions[userId]
   userSocket = notificationsSocket.socket(sessionId)
   if userSocket
-    @find({user_id: userId, type: "status", unread: true}).count (err, newWallPostsTotal)->
+    @find({user_id: userId, type: "feed", unread: true}).count (err, newWallPostsTotal)->
       userSocket.emit("new-wall-posts-total", {total: newWallPostsTotal})
     @findLastWallPosts userId, 5, (err, wallPosts)->
       userSocket.emit("last-wall-posts", {wall_posts: wallPosts})
 
 NotificationSchema.statics.findLastFollowups = (userId, limit, onFind)->
-  @find({user_id: userId, type: "followup"}).desc('created_at').limit(limit).run (err, followups)->
+  @find({user_id: userId, type: "alert"}).desc('created_at').limit(limit).run (err, followups)->
     usersToFind = []
     if followups
       for followup in followups
@@ -194,7 +194,7 @@ NotificationSchema.statics.triggerNewFollowups = (userId)->
   sessionId = notificationsSocket.userSessions[userId]
   userSocket = notificationsSocket.socket(sessionId)
   if userSocket
-    @find({user_id: userId, type: "followup", unread: true}).count (err, newFollowupsTotal)->
+    @find({user_id: userId, type: "alert", unread: true}).count (err, newFollowupsTotal)->
       userSocket.emit("new-followups-total", {total: newFollowupsTotal})
     @findLastFollowups userId, 5, (err, followups)->
       userSocket.emit("last-followups", {followups: followups})

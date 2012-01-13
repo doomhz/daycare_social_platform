@@ -25,13 +25,13 @@ module.exports = (app)->
       userNotifications.userSessions[userId] = sessionId
       Message.findLastMessages userId, 5, (err, messages)->
         userSocket.emit("last-messages", {messages: messages})
-    
+
     socket.on "get-new-wall-posts-total", (data)->
       userId = data.user_id
       sessionId = data.session_id
       userSocket = userNotifications.socket(sessionId)
       userNotifications.userSessions[userId] = sessionId
-      Notification.find({user_id: userId, type: "status", unread: true}).count (err, wallPostsTotal)->
+      Notification.find({user_id: userId, type: "feed", unread: true}).count (err, wallPostsTotal)->
         userSocket.emit("new-wall-posts-total", {total: wallPostsTotal})
     socket.on "get-last-wall-posts", (data)->
       userId = data.user_id
@@ -46,7 +46,7 @@ module.exports = (app)->
       sessionId = data.session_id
       userSocket = userNotifications.socket(sessionId)
       userNotifications.userSessions[userId] = sessionId
-      Notification.find({user_id: userId, type: "followup", unread: true}).count (err, followupsTotal)->
+      Notification.find({user_id: userId, type: "alert", unread: true}).count (err, followupsTotal)->
         userSocket.emit("new-followups-total", {total: followupsTotal})
     socket.on "get-last-followups", (data)->
       userId = data.user_id

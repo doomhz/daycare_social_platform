@@ -1,29 +1,29 @@
 class Kin.AppView extends Backbone.View
-    
+
   mainColumnView: null
 
   side1ColumnView: null
-  
+
   mainColumnSelector: "#main-column"
-  
+
   side1ColumnSelector: "#side-column1"
-  
+
   router: null
-  
+
   currentUser: null
-  
+
   window: null
-  
+
   initialize: ()->
     @initCurrentUser(@onUserLoad)
-  
+
   onUserLoad: ()=>
     @initWindow()
     @initHeaderMenu()
     @initHeaderSearch()
     @initHeaderNotification()
     @initRouter()
-  
+
   initRouter: ()->
     @router = new Kin.MainRouter
       app: @
@@ -50,12 +50,12 @@ class Kin.AppView extends Backbone.View
   initHeaderSearch: ()->
     headerSearch = new Kin.Header.SearchView
       el: "header #search-cnt"
-  
+
   initHeaderNotification: ()->
     headerNotificationBoard = new Kin.Header.NotificationBoardView
       el: "header #notification-board"
       currentUser: @currentUser
-    
+
     messagesNotification = new Kin.Header.NotificationView
       el: headerNotificationBoard.$(".messages")
       indicatorId: "new-messages-total"
@@ -63,12 +63,12 @@ class Kin.AppView extends Backbone.View
       onShowUrl: null
     headerNotificationBoard.addDelegate(messagesNotification)
     @window.addDelegate(messagesNotification)
-    
+
     wallPostsNotification = new Kin.Header.NotificationView
       el: headerNotificationBoard.$(".ccn")
       indicatorId: "new-wall-posts-total"
       listId: "last-wall-posts"
-      onShowUrl: "/notifications/wall-posts"
+      onShowUrl: "/notifications/feeds"
     headerNotificationBoard.addDelegate(wallPostsNotification)
     @window.addDelegate(wallPostsNotification)
 
@@ -76,20 +76,20 @@ class Kin.AppView extends Backbone.View
       el: headerNotificationBoard.$(".notifications")
       indicatorId: "new-followups-total"
       listId: "last-followups"
-      onShowUrl: "/notifications/followups"
+      onShowUrl: "/notifications/alerts"
     headerNotificationBoard.addDelegate(followupsNotification)
     @window.addDelegate(followupsNotification)
-    
+
     headerNotificationBoard.watch()
-  
+
   renderDaycares: ()->
     @clearColumns()
-    
+
     @mainColumnView = new Kin.DayCare.ListView
       collection: new Kin.DayCareCollection([], {url: '/profiles'})
       el: @mainColumnSelector
     @mainColumnView.render()
-  
+
   renderViewDaycare: (id)->
     that = @
     @clearColumns()
@@ -112,7 +112,7 @@ class Kin.AppView extends Backbone.View
           currentUser: that.currentUser
           selectedMenuItem: "wall-menu-item"
         that.side1ColumnView.render()
-  
+
   renderViewDayCareGallery: (id)->
     that = @
     @clearColumns()
@@ -174,7 +174,7 @@ class Kin.AppView extends Backbone.View
           el: that.mainColumnSelector
           currentUser: that.currentUser
         that.mainColumnView.render()
-        
+
         that.side1ColumnView = new Kin.DayCare.PictureSetSide1View
           model: model
           el: that.side1ColumnSelector
@@ -184,9 +184,9 @@ class Kin.AppView extends Backbone.View
 
   renderWriteMessage: (id)->
     @clearColumns()
-    
+
     usersCollection = new Kin.UsersCollection
-    
+
     if id
       draftMessage = new Kin.MessageModel
         _id: id
@@ -252,7 +252,7 @@ class Kin.AppView extends Backbone.View
 
   renderViewTrashMessages: ()->
     @clearColumns()
-    
+
     messagesCollection = new Kin.MessagesCollection [],
       url: "/messages/deleted"
 

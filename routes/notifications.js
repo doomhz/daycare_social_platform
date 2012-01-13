@@ -2,12 +2,12 @@
   var Notification;
   Notification = require('../models/notification');
   module.exports = function(app) {
-    app.put('/notifications/wall-posts', function(req, res) {
+    app.put('/notifications/feeds', function(req, res) {
       var user;
       user = req.user ? req.user : {};
       Notification.update({
         user_id: user._id,
-        type: "status",
+        type: "feed",
         unread: true
       }, {
         unread: false
@@ -20,12 +20,12 @@
         success: true
       });
     });
-    return app.put('/notifications/followups', function(req, res) {
+    return app.put('/notifications/alerts', function(req, res) {
       var user;
       user = req.user ? req.user : {};
       Notification.update({
         user_id: user._id,
-        type: "followup",
+        type: "alert",
         unread: true
       }, {
         unread: false

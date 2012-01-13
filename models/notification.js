@@ -23,8 +23,8 @@
     },
     type: {
       type: String,
-      "enum": ["followup", "status"],
-      "default": "status"
+      "enum": ["alert", "feed"],
+      "default": "feed"
     },
     content: {
       type: {},
@@ -53,10 +53,10 @@
     var Notification;
     Notification = require("./notification");
     return this.save(function(err, data) {
-      if (data.type === "status") {
+      if (data.type === "feed") {
         Notification.triggerNewWallPosts(data.user_id);
       }
-      if (data.type === "followup") {
+      if (data.type === "alert") {
         return Notification.triggerNewFollowups(data.user_id);
       }
     });
@@ -75,7 +75,7 @@
           user_id: wallOwnerId,
           from_id: senderId,
           wall_id: newComment.wall_id,
-          type: "followup",
+          type: "alert",
           content: "posted on your wall."
         };
         notification = new Notification(notificationData);
@@ -92,7 +92,7 @@
             user_id: usr._id,
             from_id: senderId,
             wall_id: newComment.wall_id,
-            type: "status",
+            type: "feed",
             content: content,
             unread: unread
           };
@@ -128,7 +128,7 @@
               user_id: statusOwnerId,
               from_id: senderId,
               wall_id: newComment.wall_id,
-              type: "followup",
+              type: "alert",
               content: content
             };
             notification = new Notification(notificationData);
@@ -140,7 +140,7 @@
               user_id: wallOwnerId,
               from_id: senderId,
               wall_id: newComment.wall_id,
-              type: "followup",
+              type: "alert",
               content: content
             };
             notification = new Notification(notificationData);
@@ -162,7 +162,7 @@
                 user_id: comment.from_id,
                 from_id: sender._id,
                 wall_id: newComment.wall_id,
-                type: "followup",
+                type: "alert",
                 content: content
               }, notification = new Notification(notificationData), notification.saveAndTriggerNewComments(comment.from_id), sentUserIds.push(comment.from_id)) : void 0);
             }
@@ -181,7 +181,7 @@
                 user_id: usr._id,
                 from_id: senderId,
                 wall_id: newComment.wall_id,
-                type: "status",
+                type: "feed",
                 content: content,
                 unread: unread
               };
@@ -219,7 +219,7 @@
   NotificationSchema.statics.findLastWallPosts = function(userId, limit, onFind) {
     return this.find({
       user_id: userId,
-      type: "status"
+      type: "feed"
     }).desc('created_at').limit(limit).run(function(err, posts) {
       var post, usersToFind, _i, _len, _ref;
       usersToFind = [];
@@ -257,7 +257,7 @@
     if (userSocket) {
       this.find({
         user_id: userId,
-        type: "status",
+        type: "feed",
         unread: true
       }).count(function(err, newWallPostsTotal) {
         return userSocket.emit("new-wall-posts-total", {
@@ -274,7 +274,7 @@
   NotificationSchema.statics.findLastFollowups = function(userId, limit, onFind) {
     return this.find({
       user_id: userId,
-      type: "followup"
+      type: "alert"
     }).desc('created_at').limit(limit).run(function(err, followups) {
       var followup, usersToFind, _i, _len, _ref;
       usersToFind = [];
@@ -312,7 +312,7 @@
     if (userSocket) {
       this.find({
         user_id: userId,
-        type: "followup",
+        type: "alert",
         unread: true
       }).count(function(err, newFollowupsTotal) {
         return userSocket.emit("new-followups-total", {

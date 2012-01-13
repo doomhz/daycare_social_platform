@@ -46,7 +46,7 @@
         userNotifications.userSessions[userId] = sessionId;
         return Notification.find({
           user_id: userId,
-          type: "status",
+          type: "feed",
           unread: true
         }).count(function(err, wallPostsTotal) {
           return userSocket.emit("new-wall-posts-total", {
@@ -74,7 +74,7 @@
         userNotifications.userSessions[userId] = sessionId;
         return Notification.find({
           user_id: userId,
-          type: "followup",
+          type: "alert",
           unread: true
         }).count(function(err, followupsTotal) {
           return userSocket.emit("new-followups-total", {

@@ -6,7 +6,7 @@
 
 %>
 <li class="<%= item.unread ? 'unread' : '' %>">
-  
+
   <%
     if (item.type === 'default') {
   %>
@@ -33,9 +33,9 @@
   <%
     }
   %>
-  
+
   <%
-    if (item.type === 'status') {
+    if (item.type === 'feed') {
   %>
   <a href="#day-cares/view/<%= item.wall_id %>">
     <p class="avatar">
@@ -61,7 +61,7 @@
   %>
 
   <%
-    if (item.type === 'followup') {
+    if (item.type === 'alert') {
   %>
   <a href="#day-cares/view/<%= item.wall_id %>">
     <p class="avatar">
@@ -85,9 +85,9 @@
   <%
     }
   %>
-  
+
 </li>
-<%  
+<%
   });
 %>
 

@@ -84,7 +84,7 @@
         el: headerNotificationBoard.$(".ccn"),
         indicatorId: "new-wall-posts-total",
         listId: "last-wall-posts",
-        onShowUrl: "/notifications/wall-posts"
+        onShowUrl: "/notifications/feeds"
       });
       headerNotificationBoard.addDelegate(wallPostsNotification);
       this.window.addDelegate(wallPostsNotification);
@@ -92,7 +92,7 @@
         el: headerNotificationBoard.$(".notifications"),
         indicatorId: "new-followups-total",
         listId: "last-followups",
-        onShowUrl: "/notifications/followups"
+        onShowUrl: "/notifications/alerts"
       });
       headerNotificationBoard.addDelegate(followupsNotification);
       this.window.addDelegate(followupsNotification);
