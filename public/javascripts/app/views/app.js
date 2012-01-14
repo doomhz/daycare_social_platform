@@ -100,32 +100,32 @@
     };
     AppView.prototype.renderDaycares = function() {
       this.clearColumns();
-      this.mainColumnView = new Kin.DayCare.ListView({
-        collection: new Kin.DayCareCollection([], {
-          url: '/profiles'
+      this.mainColumnView = new Kin.Profile.ListView({
+        collection: new Kin.ProfileCollection([], {
+          url: '/daycares'
         }),
         el: this.mainColumnSelector
       });
       return this.mainColumnView.render();
     };
-    AppView.prototype.renderViewDaycare = function(id) {
-      var dayCare, that;
+    AppView.prototype.renderViewProfile = function(id) {
+      var profile, that;
       that = this;
       this.clearColumns();
-      dayCare = new Kin.DayCareModel({
+      profile = new Kin.ProfileModel({
         _id: id
       });
-      return dayCare.fetch({
+      return profile.fetch({
         success: function(model, response) {
           model.setPictureSets();
-          that.mainColumnView = new Kin.DayCare.ProfileView({
+          that.mainColumnView = new Kin.Profile.ProfileView({
             model: model,
             el: that.mainColumnSelector,
             router: that.router,
             currentUser: that.currentUser
           });
           that.mainColumnView.render();
-          that.side1ColumnView = new Kin.DayCare.ProfileSide1View({
+          that.side1ColumnView = new Kin.Profile.ProfileSide1View({
             model: model,
             el: that.side1ColumnSelector,
             currentUser: that.currentUser,
@@ -135,24 +135,24 @@
         }
       });
     };
-    AppView.prototype.renderViewDayCareGallery = function(id) {
-      var dayCare, that;
+    AppView.prototype.renderViewProfileGallery = function(id) {
+      var profile, that;
       that = this;
       this.clearColumns();
-      dayCare = new Kin.DayCareModel({
+      profile = new Kin.ProfileModel({
         _id: id
       });
-      return dayCare.fetch({
+      return profile.fetch({
         success: function(model, response) {
           model.setPictureSets();
-          that.mainColumnView = new Kin.DayCare.ProfileGalleryView({
+          that.mainColumnView = new Kin.Profile.ProfileGalleryView({
             model: model,
             el: that.mainColumnSelector,
             router: that.router,
             currentUser: that.currentUser
           });
           that.mainColumnView.render();
-          that.side1ColumnView = new Kin.DayCare.ProfileSide1View({
+          that.side1ColumnView = new Kin.Profile.ProfileSide1View({
             model: model,
             el: that.side1ColumnSelector,
             selectedMenuItem: 'gallery-menu-item',
@@ -162,19 +162,19 @@
         }
       });
     };
-    AppView.prototype.renderEditDayCare = function(id) {
-      var dayCare, that;
+    AppView.prototype.renderEditProfile = function(id) {
+      var profile, that;
       that = this;
       this.clearColumns();
-      dayCare = new Kin.DayCareModel({
+      profile = new Kin.ProfileModel({
         _id: id
       });
-      return dayCare.fetch({
+      return profile.fetch({
         success: function(model, response) {
           var mapCenterLat, mapCenterLng;
           mapCenterLat = model.get('location').lat;
           mapCenterLng = model.get('location').lng;
-          that.mainColumnView = new Kin.DayCare.ProfileEditView({
+          that.mainColumnView = new Kin.Profile.ProfileEditView({
             model: model,
             el: that.mainColumnSelector,
             maps: new Kin.GoogleMapsView({
@@ -187,7 +187,7 @@
             })
           });
           that.mainColumnView.render();
-          that.side1ColumnView = new Kin.DayCare.ProfileEditSide1View({
+          that.side1ColumnView = new Kin.Profile.ProfileEditSide1View({
             model: model,
             el: that.side1ColumnSelector
           });
@@ -195,7 +195,7 @@
         }
       });
     };
-    AppView.prototype.renderViewDayCarePictureSet = function(id) {
+    AppView.prototype.renderViewProfilePictureSet = function(id) {
       var pictureSet, that;
       that = this;
       this.clearColumns();
@@ -204,13 +204,13 @@
       });
       return pictureSet.fetch({
         success: function(model, response) {
-          that.mainColumnView = new Kin.DayCare.PictureSetView({
+          that.mainColumnView = new Kin.Profile.PictureSetView({
             model: model,
             el: that.mainColumnSelector,
             currentUser: that.currentUser
           });
           that.mainColumnView.render();
-          that.side1ColumnView = new Kin.DayCare.PictureSetSide1View({
+          that.side1ColumnView = new Kin.Profile.PictureSetSide1View({
             model: model,
             el: that.side1ColumnSelector,
             currentUser: that.currentUser

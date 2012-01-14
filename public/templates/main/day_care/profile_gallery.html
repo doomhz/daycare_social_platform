@@ -2,7 +2,7 @@
   <a href="#day-cares" title="Go back to search results" class="back-to-results-bt"><span>Back to results</span></a>
 </p>
 
-<h1 id="daycare-profile-title"><%=dayCare.get('name') %></h1>
+<h1 id="profile-title"><%=profile.get('name') %></h1>
 
 <div id="profile-main-tabs">
     <ul id="profile-tab-menu">
@@ -17,37 +17,44 @@
     </div>
 </div>
 
+<%
+  var publicSets = profile.getPublicSets();
+%>
+
+<%
+  if (publicSets.length) {
+%>
+
 <h2>Photo gallery - photos of the child care center</h2>
 
-<div id="daycare-gallery-tabs">
+<div id="profile-gallery-tabs">
     <h3 id="choose-places-title">Choose places</h3>
-    <ul id="daycare-gallery-tab-menu">
+    <ul id="profile-gallery-tab-menu">
     <%
-        var daycareSets = dayCare.getDaycareSets();
         var i = 0;
-        _.each(daycareSets, function (daycare) {
+        _.each(publicSets, function (set) {
             i++;
     %>
-        <li><a href="#daycare-gallery-tab-<%=i %>"><%=daycare.name %></a></li>
+        <li><a href="#profile-gallery-tab-<%=i %>"><%=set.name %></a></li>
     <%
         });
     %>
     </ul>
     <%
         var i = 0;
-        _.each(daycareSets, function (daycareSet) {
+        _.each(publicSets, function (publicSet) {
             i++;
     %>
-    <div id="daycare-gallery-tab-<%=i %>">
+    <div id="profile-gallery-tab-<%=i %>">
         <div class="doom-carousel">
             <div class="doom-carousel-cnt">
                 <ul class="doom-carousel-list">
                     <%
-                        _.each(daycareSet.pictures, function (picture) {
+                        _.each(publicSet.pictures, function (picture) {
                             var mediumPictureUrl = picture.medium_url || picture.url;
                     %>
                     <li>
-                        <a href="<%=picture.big_url %>" title="<%=picture.description %>" rel="prettyPhoto[album-<%=daycareSet._id %>]" class="photo-frame">
+                        <a href="<%=picture.big_url %>" title="<%=picture.description %>" rel="prettyPhoto[album-<%=publicSet._id %>]" class="photo-frame">
                             <img src="<%=mediumPictureUrl %>" alt="<%=picture.description %>" class="doom-carousel-pic" width="420" height="290" />
                         </a>
                     </li>
@@ -56,13 +63,18 @@
                     %>
                 </ul>
             </div>
-            <a href="#left" title="Left" class="doom-carousel-left-btn"><span>Prev</span></a><span class="pic-counter pic-nr">1</span><span class="pic-nr-separator pic-nr">/</span><span class="pic-total pic-nr"><%=daycareSet.pictures.length %></span><a href="#right" title="Right" class="doom-carousel-right-btn"><span>Next</span></a>
+            <a href="#left" title="Left" class="doom-carousel-left-btn"><span>Prev</span></a><span class="pic-counter pic-nr">1</span><span class="pic-nr-separator pic-nr">/</span><span class="pic-total pic-nr"><%=publicSet.pictures.length %></span><a href="#right" title="Right" class="doom-carousel-right-btn"><span>Next</span></a>
         </div>
     </div>
     <%
         });
     %>
 </div>
+
+<%
+  }
+%>
+
 
 <h2>Albums</h2>
 
@@ -85,7 +97,7 @@
 			<div class="input">
 	        	<select name="new-pic-set-type">
 		        <%
-		            var typeOptions = {'daycare': 'Public', 'default': 'Private'};
+		            var typeOptions = {'public': 'Public', 'default': 'Private'};
 		            _.each(typeOptions, function (val, key) {
 		        %>
 		            <option value="<%=key %>"><%=val %></option>
@@ -106,7 +118,7 @@
 
 <ul id="picture-sets-list">
 <%
-    var allPictureSets = dayCare.pictureSets.models;
+    var allPictureSets = profile.pictureSets.models;
     _.each(allPictureSets, function (pictureSet) {
         var primaryPicture = pictureSet.pictures.getPrimary();
         var primaryPictureUrl = primaryPicture ? primaryPicture.get('url') : '/';
@@ -114,11 +126,11 @@
 %>
     <li>
         <h3>
-            <a href="#day-cares/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>">
+            <a href="#profiles/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>">
               <%=pictureSet.get('name') %> (<%=pictureSet.get('pictures').length %>)
             </a>
         </h3>
-        <a href="#day-cares/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>" class="photo-frame">
+        <a href="#profiles/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>" class="photo-frame">
             <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="110" height="85" />
         </a>
         <%

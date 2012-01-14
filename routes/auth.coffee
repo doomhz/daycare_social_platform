@@ -6,15 +6,15 @@ module.exports = (app)->
     if User.checkPermissions(req.user, null, null, res)
       next()
 
-  app.put '/day-care*', (req, res, next)->
+  app.put '/profile*', (req, res, next)->
     if User.checkPermissions(req.user, null, null, res)
       next()
-  
-  app.post '/day-care*', (req, res, next)->
+
+  app.post '/profile*', (req, res, next)->
     if User.checkPermissions(req.user, null, null, res)
       next()
-  
-  app.del '/day-care*', (req, res, next)->
+
+  app.del '/profile*', (req, res, next)->
     if User.checkPermissions(req.user, null, null, res)
       next()
 
@@ -25,7 +25,7 @@ module.exports = (app)->
   app.get '/comment*', (req, res, next)->
     if User.checkPermissions(req.user, null, null, res)
       next()
-  
+
   app.post '/comment*', (req, res, next)->
     if User.checkPermissions(req.user, null, null, res)
       next()
@@ -49,7 +49,7 @@ module.exports = (app)->
   app.post '/user*', (req, res, next)->
     if User.checkPermissions(req.user, null, null, res)
       next()
-  
+
   app.put '/notification*', (req, res, next)->
     if User.checkPermissions(req.user, null, null, res)
       next()

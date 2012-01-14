@@ -26,7 +26,7 @@
     CommentModel.prototype.initialize = function() {
       if (this.collection) {
         return this.set({
-          wall_id: this.collection.dayCareId
+          wall_id: this.collection.profileId
         });
       }
     };

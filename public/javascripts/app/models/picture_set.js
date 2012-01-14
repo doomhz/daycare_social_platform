@@ -17,7 +17,7 @@
       description: null,
       type: 'default',
       pictures: [],
-      daycare_id: null
+      profile_id: null
     };
     PictureSetModel.prototype.uri = '/profiles/picture-set/:pictureSetId';
     PictureSetModel.prototype.pictures = null;

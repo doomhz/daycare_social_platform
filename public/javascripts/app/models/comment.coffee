@@ -1,5 +1,5 @@
 class Kin.CommentModel extends Backbone.Model
-  
+
   defaults:
     from_id:    null
     to_id:      null
@@ -11,7 +11,7 @@ class Kin.CommentModel extends Backbone.Model
     from_user:  {}
 
   urlRoot: "/comments"
-  
+
   initialize: ()->
     if @collection
-      @set({wall_id: @collection.dayCareId})
+      @set({wall_id: @collection.profileId})

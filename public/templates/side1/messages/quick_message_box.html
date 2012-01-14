@@ -1,9 +1,9 @@
 <div id="quick-message-box-content">
-  <p>To: <span id="message-to-name"><%= dayCare.get("name") %></span></p>
+  <p>To: <span id="message-to-name"><%= profile.get("name") %></span></p>
   <form>
     <fieldset>
       <input type="hidden" name="from_id" value="<%= Kin.app.currentUser.get("_id") %>" />
-      <input type="hidden" name="to_id" value="<%= dayCare.get("_id") %>" />
+      <input type="hidden" name="to_id" value="<%= profile.get("_id") %>" />
       <input type="hidden" name="type" value="default" />
         <textarea name="content"></textarea>
     </fieldset>

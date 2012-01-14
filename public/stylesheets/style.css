@@ -294,7 +294,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 #page-wrapper #main-column .back-to-results-bt span {
   display: none;
 }
-#page-wrapper #main-column #daycare-profile-title {
+#page-wrapper #main-column #profile-title {
   width: 350px;
 }
 #page-wrapper #main-column .qq-upload-button {
@@ -662,12 +662,12 @@ footer #footer-wrapper #copyright {
   font-size: 10px;
   color: #474747;
 }
-#daycare-gallery-tabs {
+#profile-gallery-tabs {
   width: 100%;
   height: 300px;
   overflow: hidden;
 }
-#daycare-gallery-tabs #daycare-gallery-tab-menu {
+#profile-gallery-tabs #profile-gallery-tab-menu {
   float: right;
   clear: right;
   overflow: hidden;
@@ -675,16 +675,16 @@ footer #footer-wrapper #copyright {
   text-align: right;
   position: relative;
 }
-#daycare-gallery-tabs #daycare-gallery-tab-menu li {
+#profile-gallery-tabs #profile-gallery-tab-menu li {
   display: inline-block;
   overflow: hidden;
   width: 95px;
 }
-#daycare-gallery-tabs #daycare-gallery-tab-menu li.tab-active {
+#profile-gallery-tabs #profile-gallery-tab-menu li.tab-active {
   background: transparent url("/images/gallery_arrow.png") no-repeat left center;
   padding: 0 0 0 6px;
 }
-#daycare-gallery-tabs #daycare-gallery-tab-menu li.tab-active a {
+#profile-gallery-tabs #profile-gallery-tab-menu li.tab-active a {
   color: #fff;
   border-bottom: solid 1px #d0dbaf;
   border-top: solid 1px #d0dbaf;
@@ -693,7 +693,7 @@ footer #footer-wrapper #copyright {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
-#daycare-gallery-tabs #daycare-gallery-tab-menu a {
+#profile-gallery-tabs #profile-gallery-tab-menu a {
   text-decoration: none;
   text-transform: uppercase;
   text-align: left;
@@ -703,10 +703,10 @@ footer #footer-wrapper #copyright {
   width: 74px;
   display: inline-block;
 }
-#daycare-gallery-tabs .tab-selected {
+#profile-gallery-tabs .tab-selected {
   width: 430px;
 }
-#daycare-gallery-tabs .doom-carousel {
+#profile-gallery-tabs .doom-carousel {
   width: 430px;
 }
 #picture-sets-list {

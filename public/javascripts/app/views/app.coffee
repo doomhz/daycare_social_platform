@@ -85,68 +85,68 @@ class Kin.AppView extends Backbone.View
   renderDaycares: ()->
     @clearColumns()
 
-    @mainColumnView = new Kin.DayCare.ListView
-      collection: new Kin.DayCareCollection([], {url: '/profiles'})
+    @mainColumnView = new Kin.Profile.ListView
+      collection: new Kin.ProfileCollection([], {url: '/daycares'})
       el: @mainColumnSelector
     @mainColumnView.render()
 
-  renderViewDaycare: (id)->
+  renderViewProfile: (id)->
     that = @
     @clearColumns()
-    dayCare = new Kin.DayCareModel({_id: id})
-    dayCare.fetch
+    profile = new Kin.ProfileModel({_id: id})
+    profile.fetch
       success: (model, response)->
 
         model.setPictureSets()
 
-        that.mainColumnView = new Kin.DayCare.ProfileView
+        that.mainColumnView = new Kin.Profile.ProfileView
           model: model
           el: that.mainColumnSelector
           router: that.router
           currentUser: that.currentUser
         that.mainColumnView.render()
 
-        that.side1ColumnView = new Kin.DayCare.ProfileSide1View
+        that.side1ColumnView = new Kin.Profile.ProfileSide1View
           model: model
           el: that.side1ColumnSelector
           currentUser: that.currentUser
           selectedMenuItem: "wall-menu-item"
         that.side1ColumnView.render()
 
-  renderViewDayCareGallery: (id)->
+  renderViewProfileGallery: (id)->
     that = @
     @clearColumns()
-    dayCare = new Kin.DayCareModel({_id: id})
-    dayCare.fetch
+    profile = new Kin.ProfileModel({_id: id})
+    profile.fetch
       success: (model, response)->
 
         model.setPictureSets()
 
-        that.mainColumnView = new Kin.DayCare.ProfileGalleryView
+        that.mainColumnView = new Kin.Profile.ProfileGalleryView
           model: model
           el: that.mainColumnSelector
           router: that.router
           currentUser: that.currentUser
         that.mainColumnView.render()
 
-        that.side1ColumnView = new Kin.DayCare.ProfileSide1View
+        that.side1ColumnView = new Kin.Profile.ProfileSide1View
           model: model
           el: that.side1ColumnSelector
           selectedMenuItem: 'gallery-menu-item'
           currentUser: that.currentUser
         that.side1ColumnView.render()
 
-  renderEditDayCare: (id)->
+  renderEditProfile: (id)->
     that = @
     @clearColumns()
-    dayCare = new Kin.DayCareModel({_id: id})
-    dayCare.fetch
+    profile = new Kin.ProfileModel({_id: id})
+    profile.fetch
       success: (model, response)->
 
         mapCenterLat = model.get('location').lat
         mapCenterLng = model.get('location').lng
 
-        that.mainColumnView = new Kin.DayCare.ProfileEditView
+        that.mainColumnView = new Kin.Profile.ProfileEditView
           model: model
           el: that.mainColumnSelector
           maps: new Kin.GoogleMapsView
@@ -157,25 +157,25 @@ class Kin.AppView extends Backbone.View
               center: "new google.maps.LatLng(#{mapCenterLat}, #{mapCenterLng})"
         that.mainColumnView.render()
 
-        that.side1ColumnView = new Kin.DayCare.ProfileEditSide1View
+        that.side1ColumnView = new Kin.Profile.ProfileEditSide1View
           model: model
           el: that.side1ColumnSelector
         that.side1ColumnView.render()
 
-  renderViewDayCarePictureSet: (id)->
+  renderViewProfilePictureSet: (id)->
     that = @
     @clearColumns()
     pictureSet = new Kin.PictureSetModel({_id: id})
     pictureSet.fetch
       success: (model, response)->
 
-        that.mainColumnView = new Kin.DayCare.PictureSetView
+        that.mainColumnView = new Kin.Profile.PictureSetView
           model: model
           el: that.mainColumnSelector
           currentUser: that.currentUser
         that.mainColumnView.render()
 
-        that.side1ColumnView = new Kin.DayCare.PictureSetSide1View
+        that.side1ColumnView = new Kin.Profile.PictureSetSide1View
           model: model
           el: that.side1ColumnSelector
           currentUser: that.currentUser

@@ -42,7 +42,7 @@
     },
     type: {
       type: String,
-      "enum": ['default', 'daycare', 'profile'],
+      "enum": ['default', 'public', 'profile'],
       "default": 'default'
     },
     pictures: [Picture]
@@ -114,7 +114,7 @@
     if (("" + user_id) === ("" + guestUserId)) {
       return pictureSets;
     } else {
-      publicPictureSetTypes = ["profile", "daycare"];
+      publicPictureSetTypes = ["profile", "public"];
       publicPictureSets = [];
       for (_i = 0, _len = pictureSets.length; _i < _len; _i++) {
         pictureSet = pictureSets[_i];
@@ -153,7 +153,7 @@
       }
     }
     data.picture_sets = [];
-    publicPictureSetTypes = ["profile", "daycare"];
+    publicPictureSetTypes = ["profile", "public"];
     _ref = user.picture_sets;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       pictureSet = _ref[_i];
@@ -235,7 +235,7 @@
             _id: user._id
           }, userInfo, {}, function(err, updatedUser) {
             if (user.type === 'daycare') {
-              redirectTo = "/#day-cares/edit/" + user._id;
+              redirectTo = "/#profiles/edit/" + user._id;
             }
             res.writeHead(303, {
               'Location': redirectTo

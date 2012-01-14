@@ -1,38 +1,38 @@
 <h1>Edit day care</h1>
-<form id="day-care-edit-form">
+<form id="profile-edit-form">
 	<fieldset>
-	    <input type="hidden" name="_id" value="<%=dayCare.get('_id') %>" />
+	    <input type="hidden" name="_id" value="<%=profile.get('_id') %>" />
 	    <div class="clearfix">
 	        <label for="name">Name</label>
 			<div class="input">
-	        	<input type="text" name="name" value="<%=dayCare.get('name') %>" />
+	        	<input type="text" name="name" value="<%=profile.get('name') %>" />
 			</div>
 	    </div>
 	    <div class="clearfix">
 	        <label for="address">Address</label>
 			<div class="input">
-	        	<input type="text" name="address" value="<%=dayCare.get('address') %>" id="address-autocomplete" />
-		        <input type="hidden" name="location[lat]" value="<%=dayCare.get('location').lat %>" id="location-lat" />
-		        <input type="hidden" name="location[lng]" value="<%=dayCare.get('location').lng %>" id="location-lng" />
+	        	<input type="text" name="address" value="<%=profile.get('address') %>" id="address-autocomplete" />
+		        <input type="hidden" name="location[lat]" value="<%=profile.get('location').lat %>" id="location-lat" />
+		        <input type="hidden" name="location[lng]" value="<%=profile.get('location').lng %>" id="location-lng" />
 			</div>
 	        <div id="profile-address-maps"></div>
 	    </div>
 	    <div class="clearfix">
 	        <label for="phone">Phone</label>
 			<div class="input">
-	        	<input type="text" name="phone" value="<%=dayCare.get('phone') %>" />
+	        	<input type="text" name="phone" value="<%=profile.get('phone') %>" />
 			</div>
 	    </div>
 	    <div class="clearfix">
 	        <label for="fax">Fax</label>
 			<div class="input">
-	        	<input type="text" name="fax" value="<%=dayCare.get('fax') %>" />
+	        	<input type="text" name="fax" value="<%=profile.get('fax') %>" />
 			</div>
 	    </div>
 	    <div class="clearfix">
 	        <label for="contact_person">Contact person</label>
 			<div class="input">
-	        	<input type="text" name="contact_person" value="<%=dayCare.get('contact_person') %>" />
+	        	<input type="text" name="contact_person" value="<%=profile.get('contact_person') %>" />
 			</div>
 	    </div>
 	    <div class="clearfix">
@@ -40,7 +40,7 @@
 			<div class="input">
 	        	<select multiple="multiple" name="speaking_classes" class="chzn-select" data-placeholder="Add a language...">
 		        <%
-		            var speakingClasses = dayCare.get('speaking_classes');
+		            var speakingClasses = profile.get('speaking_classes');
 		            _.each(Kin.CONFIG.languages, function (val, key) {
 		        %>
 		            <option value="<%=key %>"<% if (_.include(speakingClasses, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
@@ -56,28 +56,28 @@
 	        	<ul class="inputs-list" id="licensed-options">
 		            <li>
 						<label>
-		                	<input type="radio" name="licensed" value="1" <% if (dayCare.get('licensed')) { %>checked="checked"<% } %> />
+		                	<input type="radio" name="licensed" value="1" <% if (profile.get('licensed')) { %>checked="checked"<% } %> />
 		                	<span>Yes</span>
 						</label>
 		            </li>
 		            <li>
 						<label>
-		                	<input type="radio" name="licensed" value="0"  <% if (!dayCare.get('licensed')) { %>checked="checked"<% } %> />
+		                	<input type="radio" name="licensed" value="0"  <% if (!profile.get('licensed')) { %>checked="checked"<% } %> />
 		                	<span>No</span>
 						</label>
 		            </li>
 		        </ul>
 			</div>
 	    </div>
-	    <div class="clearfix <%= dayCare.get('licensed') ? '' : 'hidden' %>" id="license-number-cnt">
+	    <div class="clearfix <%= profile.get('licensed') ? '' : 'hidden' %>" id="license-number-cnt">
 	        <label for="license_number">License number</label>
 			<div class="input">
-	        	<input type="text" name="license_number" value="<%=dayCare.get('license_number') %>" />
+	        	<input type="text" name="license_number" value="<%=profile.get('license_number') %>" />
 			</div>
 	    </div>
 	    <div class="clearfix">
 	        <%
-	            var openedSince = dayCare.get('opened_since').split("-");
+	            var openedSince = profile.get('opened_since').split("-");
 	            var openedSinceDay = openedSince[2];
 	            var openedSinceMonth = openedSince[1];
 	            var openedSinceYear = openedSince[0];
@@ -112,13 +112,13 @@
 	        	<ul class="inputs-list">
 		            <li>
 						<label>
-		                	<input type="radio" name="open_door_policy" value="1" <% if (dayCare.get('open_door_policy')) { %>checked="checked"<% } %> />
+		                	<input type="radio" name="open_door_policy" value="1" <% if (profile.get('open_door_policy')) { %>checked="checked"<% } %> />
 			                <span>Yes</span>
 						</label>
 		            </li>
 		            <li>
 						<label>
-		                	<input type="radio" name="open_door_policy" value="0"  <% if (!dayCare.get('open_door_policy')) { %>checked="checked"<% } %> />
+		                	<input type="radio" name="open_door_policy" value="0"  <% if (!profile.get('open_door_policy')) { %>checked="checked"<% } %> />
 			                <span>No</span>
 						</label>
 		            </li>
@@ -131,13 +131,13 @@
 	        	<ul class="inputs-list">
 		            <li>
 						<label>
-		                	<input type="radio" name="serving_disabilities" value="1" <% if (dayCare.get('serving_disabilities')) { %>checked="checked"<% } %> />
+		                	<input type="radio" name="serving_disabilities" value="1" <% if (profile.get('serving_disabilities')) { %>checked="checked"<% } %> />
 			                <span>Yes</span>
 						</label>
 		            </li>
 		            <li>
 						<label>
-		                	<input type="radio" name="serving_disabilities" value="0"  <% if (!dayCare.get('serving_disabilities')) { %>checked="checked"<% } %> />
+		                	<input type="radio" name="serving_disabilities" value="0"  <% if (!profile.get('serving_disabilities')) { %>checked="checked"<% } %> />
 			                <span>No</span>
 						</label>
 		            </li>
@@ -145,7 +145,7 @@
 			</div>
 	    </div>
 	    <div class="actions">
-	        <input type="submit" id="save-day-care-bt" class="btn primary" value="Save" />
+	        <input type="submit" id="save-profile-bt" class="btn primary" value="Save" />
 	    </div>
 	</fieldset>
 </form>

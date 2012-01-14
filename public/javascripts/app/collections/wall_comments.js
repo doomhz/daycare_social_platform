@@ -14,13 +14,13 @@
       WallCommentsCollection.__super__.constructor.apply(this, arguments);
     }
     WallCommentsCollection.prototype.model = Kin.CommentModel;
-    WallCommentsCollection.prototype.dayCareId = null;
+    WallCommentsCollection.prototype.profileId = null;
     WallCommentsCollection.prototype.intervalId = null;
     WallCommentsCollection.prototype.loadCommentsTime = 3000;
     WallCommentsCollection.prototype.lastQueryTime = 0;
     WallCommentsCollection.prototype.uri = "/comments/:wall_id/:last_query_time";
     WallCommentsCollection.prototype.initialize = function(models, _arg) {
-      this.dayCareId = _arg.dayCareId;
+      this.profileId = _arg.profileId;
       return this.startAutoUpdateComments();
     };
     WallCommentsCollection.prototype.startAutoUpdateComments = function() {
@@ -52,7 +52,7 @@
       });
     };
     WallCommentsCollection.prototype.url = function() {
-      return this.uri.replace(":wall_id", this.dayCareId).replace(":last_query_time", this.lastQueryTime);
+      return this.uri.replace(":wall_id", this.profileId).replace(":last_query_time", this.lastQueryTime);
     };
     return WallCommentsCollection;
   })();

@@ -4,7 +4,7 @@ fs      = require('fs')
 
 module.exports = (app)->
 
-  app.get '/profiles', (req, res)->
+  app.get '/daycares', (req, res)->
     User.find({type: 'daycare'}).desc('created_at').run (err, users) ->
       res.json users
 
@@ -28,7 +28,7 @@ module.exports = (app)->
       pictureSet = user.picture_sets.id(pictureSetId)
       pictureSet = User.filterPrivatePictureSetsByUserId(currentUser._id, user.user_id, [pictureSet])[0]
       pictureSet.user_id = user._id
-      
+
       res.json pictureSet
 
   app.put '/profiles/picture-set/:id', (req, res)->
@@ -36,7 +36,7 @@ module.exports = (app)->
     User.findOne({'picture_sets._id': pictureSetId, _id: req.user._id}).run (err, user) ->
       if user
         pictureSetIndexToEdit = -1
-      
+
         for pictureSet in user.picture_sets
           pictureSetIndexToEdit++
           if pictureSet._id + "" is pictureSetId + ""
@@ -65,7 +65,7 @@ module.exports = (app)->
             fs.unlinkSync(filePath)
           catch e
             console.error e
-      
+
         filePath = './public/users/' + pictureSetId
         try
           fs.rmdirSync(filePath)
@@ -105,7 +105,7 @@ module.exports = (app)->
               pictureSetIndexToGo = pictureSetIndex
               pictureIndexToGo = pictureIndex
               break
-        
+
         pictureToRemove = user.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo]
 
         filePath = './public/' + pictureToRemove.url
@@ -125,16 +125,16 @@ module.exports = (app)->
           fs.unlinkSync(mediumFilePath)
         catch e
           console.error e
-      
+
         bigFilePath = './public/' + pictureToRemove.big_url
         try
           fs.unlinkSync(bigFilePath)
         catch e
           console.error e
-      
+
         user.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove()
         user.save()
-        
+
         Comment.findOne({"content.picture._id": pictureToRemove._id}).run (err, comment)->
           comment.remove()
 
@@ -168,7 +168,7 @@ module.exports = (app)->
         delete req.body._id
         for key, value of req.body
           user.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo][key] = value
-      
+
         user.save()
 
         res.json {success: true}
@@ -193,7 +193,7 @@ module.exports = (app)->
     thumbRelativeFilePath = relativeDirPath + fileName + '_thumb.' + fileExtension
     mediumRelativeFilePath = relativeDirPath + fileName + '_medium.' + fileExtension
     bigRelativeFilePath = relativeDirPath + fileName + '_big.' + fileExtension
-    
+
     newPictureData =
       url: relativeFilePath
       thumb_url: thumbRelativeFilePath
@@ -254,7 +254,7 @@ module.exports = (app)->
                   console.log err
                 if err
                   console.log stderr
-              
+
                 im.crop(
                     srcPath: filePath
                     dstPath: mediumFilePath
@@ -266,7 +266,7 @@ module.exports = (app)->
                       console.log err
                     if err
                       console.log stderr
-                  
+
                     im.resize(
                         srcPath: filePath
                         dstPath: bigFilePath
@@ -278,7 +278,7 @@ module.exports = (app)->
                           console.log err
                         if err
                           console.log stderr
-                      
+
                         comment = new Comment
                           from_id: currentUser._id
                           to_id: user._id
@@ -289,9 +289,9 @@ module.exports = (app)->
                             picture_set_id: user.picture_sets[pictureSetIndex]._id
                             picture_set_name: user.picture_sets[pictureSetIndex].name
                             picture: newPicture
-                        
+
                         comment.save()
-                      
+
                         res.json newPicture
                     )
                 )
@@ -302,4 +302,4 @@ module.exports = (app)->
     else
       res.json {success: false}
 
-        
+

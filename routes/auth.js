@@ -7,17 +7,17 @@
         return next();
       }
     });
-    app.put('/day-care*', function(req, res, next) {
+    app.put('/profile*', function(req, res, next) {
       if (User.checkPermissions(req.user, null, null, res)) {
         return next();
       }
     });
-    app.post('/day-care*', function(req, res, next) {
+    app.post('/profile*', function(req, res, next) {
       if (User.checkPermissions(req.user, null, null, res)) {
         return next();
       }
     });
-    app.del('/day-care*', function(req, res, next) {
+    app.del('/profile*', function(req, res, next) {
       if (User.checkPermissions(req.user, null, null, res)) {
         return next();
       }

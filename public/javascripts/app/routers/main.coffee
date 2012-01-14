@@ -3,18 +3,18 @@ class window.Kin.MainRouter extends Backbone.Router
   app: null
 
   routes:
-    ''                               : 'root'
-    'day-cares'                      : 'dayCares'
-    'day-cares/view/:id'             : 'viewDayCare'
-    'day-cares/view/gallery/:id'     : 'viewDayCareGallery'
-    'day-cares/edit/:id'             : 'editDayCare'
-    'day-cares/view/picture-set/:id' : 'viewDayCarePictureSet'
-    'messages/write'                 : 'writeMessage'
-    'messages/write/:id'             : 'writeMessage'
-    'messages/inbox'                 : 'viewInboxMessages'
-    'messages/draft'                 : 'viewDraftMessages'
-    'messages/sent'                  : 'viewSentMessages'
-    'messages/trash'                 : 'viewTrashMessages'
+    ''                              : 'root'
+    'day-cares'                     : 'dayCares'
+    'profiles/view/:id'             : 'viewProfile'
+    'profiles/view/gallery/:id'     : 'viewProfileGallery'
+    'profiles/edit/:id'             : 'editProfile'
+    'profiles/view/picture-set/:id' : 'viewProfilePictureSet'
+    'messages/write'                : 'writeMessage'
+    'messages/write/:id'            : 'writeMessage'
+    'messages/inbox'                : 'viewInboxMessages'
+    'messages/draft'                : 'viewDraftMessages'
+    'messages/sent'                 : 'viewSentMessages'
+    'messages/trash'                : 'viewTrashMessages'
 
   initialize: ({@app})->
 
@@ -24,17 +24,17 @@ class window.Kin.MainRouter extends Backbone.Router
   dayCares: ()->
     @app.renderDaycares()
 
-  viewDayCare: (id)->
-    @app.renderViewDaycare(id)
+  viewProfile: (id)->
+    @app.renderViewProfile(id)
 
-  viewDayCareGallery: (id)->
-    @app.renderViewDayCareGallery(id)
+  viewProfileGallery: (id)->
+    @app.renderViewProfileGallery(id)
 
-  editDayCare: (id)->
-    @app.renderEditDayCare(id)
+  editProfile: (id)->
+    @app.renderEditProfile(id)
 
-  viewDayCarePictureSet: (id)->
-    @app.renderViewDayCarePictureSet(id)
+  viewProfilePictureSet: (id)->
+    @app.renderViewProfilePictureSet(id)
 
   writeMessage: (id)->
     @app.renderWriteMessage(id)

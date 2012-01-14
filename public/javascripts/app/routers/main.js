@@ -16,10 +16,10 @@
     MainRouter.prototype.routes = {
       '': 'root',
       'day-cares': 'dayCares',
-      'day-cares/view/:id': 'viewDayCare',
-      'day-cares/view/gallery/:id': 'viewDayCareGallery',
-      'day-cares/edit/:id': 'editDayCare',
-      'day-cares/view/picture-set/:id': 'viewDayCarePictureSet',
+      'profiles/view/:id': 'viewProfile',
+      'profiles/view/gallery/:id': 'viewProfileGallery',
+      'profiles/edit/:id': 'editProfile',
+      'profiles/view/picture-set/:id': 'viewProfilePictureSet',
       'messages/write': 'writeMessage',
       'messages/write/:id': 'writeMessage',
       'messages/inbox': 'viewInboxMessages',
@@ -36,17 +36,17 @@
     MainRouter.prototype.dayCares = function() {
       return this.app.renderDaycares();
     };
-    MainRouter.prototype.viewDayCare = function(id) {
-      return this.app.renderViewDaycare(id);
+    MainRouter.prototype.viewProfile = function(id) {
+      return this.app.renderViewProfile(id);
     };
-    MainRouter.prototype.viewDayCareGallery = function(id) {
-      return this.app.renderViewDayCareGallery(id);
+    MainRouter.prototype.viewProfileGallery = function(id) {
+      return this.app.renderViewProfileGallery(id);
     };
-    MainRouter.prototype.editDayCare = function(id) {
-      return this.app.renderEditDayCare(id);
+    MainRouter.prototype.editProfile = function(id) {
+      return this.app.renderEditProfile(id);
     };
-    MainRouter.prototype.viewDayCarePictureSet = function(id) {
-      return this.app.renderViewDayCarePictureSet(id);
+    MainRouter.prototype.viewProfilePictureSet = function(id) {
+      return this.app.renderViewProfilePictureSet(id);
     };
     MainRouter.prototype.writeMessage = function(id) {
       return this.app.renderWriteMessage(id);

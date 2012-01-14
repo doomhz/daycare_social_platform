@@ -1,5 +1,5 @@
 window.Kin or= {
-  DayCare: {}
+  Profile: {}
   Header:  {}
   Messages: {}
   CONFIG:

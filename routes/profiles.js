@@ -4,7 +4,7 @@
   Comment = require('../models/comment');
   fs = require('fs');
   module.exports = function(app) {
-    app.get('/profiles', function(req, res) {
+    app.get('/daycares', function(req, res) {
       return User.find({
         type: 'daycare'
       }).desc('created_at').run(function(err, users) {

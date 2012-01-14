@@ -35,8 +35,8 @@
       picture_sets: []
     };
     UserModel.prototype.url = '/current-user';
-    UserModel.prototype.canEditDayCare = function(dayCareId) {
-      return dayCareId === this.get('_id');
+    UserModel.prototype.canEditProfile = function(profileId) {
+      return profileId === this.get('_id');
     };
     return UserModel;
   })();

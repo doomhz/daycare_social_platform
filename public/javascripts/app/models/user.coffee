@@ -24,5 +24,5 @@ class Kin.UserModel extends Backbone.Model
 
   url: '/current-user'
 
-  canEditDayCare: (dayCareId)->
-    dayCareId is @get('_id')
+  canEditProfile: (profileId)->
+    profileId is @get('_id')

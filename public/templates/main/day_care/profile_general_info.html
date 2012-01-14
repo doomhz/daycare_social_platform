@@ -1,40 +1,30 @@
-<ul id="profile-general-info" data-edit-url="#day-cares/edit/<%=dayCare.get('_id') %>" class="<%= (canEdit) ? "dedit" : "" %>">
-    <% if (dayCare.get('address')) { %>
-    <li><span>Address:</span> <span class="value"><%=dayCare.get('address') %></span></li>
+<ul id="profile-general-info" data-edit-url="#profiles/edit/<%=profile.get('_id') %>" class="<%= (canEdit) ? "dedit" : "" %>">
+    <% if (profile.get('address')) { %>
+    <li><span>Address:</span> <span class="value"><%=profile.get('address') %></span></li>
     <% } %>
-    <% if (dayCare.get('phone')) { %>
-    <li><span>Phone:</span> <span class="value"><%=dayCare.get('phone') %></span></li>
+    <% if (profile.get('phone')) { %>
+    <li><span>Phone:</span> <span class="value"><%=profile.get('phone') %></span></li>
     <% } %>
-    <% if (dayCare.get('fax')) { %>
-    <li><span>Fax:</span> <span class="value"><%=dayCare.get('fax') %></span></li>
+    <% if (profile.get('fax')) { %>
+    <li><span>Fax:</span> <span class="value"><%=profile.get('fax') %></span></li>
     <% } %>
-    <% if (dayCare.get('contact_person')) { %>
-    <li><span>Contact person:</span> <span class="value"><%=dayCare.get('contact_person') %></span></li>
+    <% if (profile.get('contact_person')) { %>
+    <li><span>Contact person:</span> <span class="value"><%=profile.get('contact_person') %></span></li>
     <% } %>
-    <% if (dayCare.get('speaking_classes')) { %>
+    <% if (profile.get('speaking_classes')) { %>
     <li><span>Speaking classes:</span> <span class="value"><%
-        var speakingClasses = dayCare.get('speaking_classes');
+        var speakingClasses = profile.get('speaking_classes');
         _.each(speakingClasses, function (key) {
             print(Kin.CONFIG.languages[parseInt(key)], key === speakingClasses.length - 1 ? '' : ', ');
         });
     %></span>
     </li>
     <% } %>
-    <% if (dayCare.get('licensed')) { %>
-    <li><span>Licensed:</span> <span class="value"><% if (dayCare.get('licensed')) {print('Yes');} else {print('No');} %></span></li>
-    <% } %>
-    <% if (dayCare.get('type')) { %>
-    <li><span>Type:</span> <span class="value"><%
-        var type = dayCare.get('type');
-        var typeOptions = {'daycare': 'Day Care', 'kindergarten': 'Kindergarten', 'afterschool': 'Afterschool'};
-        _.each(typeOptions, function (val, key) {
-            if (key === type) {print(typeOptions[key]);}
-        });
-    %></span>
-    </li>
+    <% if (profile.get('licensed')) { %>
+    <li><span>Licensed:</span> <span class="value"><% if (profile.get('licensed')) {print('Yes');} else {print('No');} %></span></li>
     <% } %>
     <%
-        var openedSince = dayCare.get('opened_since').split("-");
+        var openedSince = profile.get('opened_since').split("-");
         var openedSinceDay = openedSince[2];
         var openedSinceMonth = openedSince[1];
         var openedSinceYear = openedSince[0];
@@ -44,10 +34,10 @@
     <% if (openedSinceDate) { %>
     <li><span>Opened since:</span> <span class="value"><%=openedSinceDate %></span></li>
     <% } %>
-    <% if (dayCare.get('open_door_policy')) { %>
-    <li><span>Open door policy:</span> <span class="value"><% if (dayCare.get('open_door_policy')) {print('Yes');} else {print('No');} %></span></li>
+    <% if (profile.get('open_door_policy')) { %>
+    <li><span>Open door policy:</span> <span class="value"><% if (profile.get('open_door_policy')) {print('Yes');} else {print('No');} %></span></li>
     <% } %>
-    <% if (dayCare.get('serving_disabilities')) { %>
-    <li><span>Serving people with disabilities:</span> <span class="value"><% if (dayCare.get('serving_disabilities')) {print('Yes');} else {print('No');} %></span></li>
+    <% if (profile.get('serving_disabilities')) { %>
+    <li><span>Serving people with disabilities:</span> <span class="value"><% if (profile.get('serving_disabilities')) {print('Yes');} else {print('No');} %></span></li>
     <% } %>
 </ul>

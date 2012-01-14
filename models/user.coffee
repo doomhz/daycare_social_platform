@@ -27,7 +27,7 @@ PictureSet = new Schema
     type: String
   type:
     type: String
-    enum: ['default', 'daycare', 'profile']
+    enum: ['default', 'public', 'profile']
     default: 'default'
   pictures: [Picture]
 
@@ -82,7 +82,7 @@ UserSchema.statics.filterPrivatePictureSetsByUserId = (user_id, guestUserId, pic
   if "#{user_id}" is "#{guestUserId}"
     return pictureSets
   else
-    publicPictureSetTypes = ["profile", "daycare"]
+    publicPictureSetTypes = ["profile", "public"]
     publicPictureSets = []
 
     for pictureSet in pictureSets
@@ -110,14 +110,14 @@ UserSchema.statics.getPublicData = (user)->
     "opened_since": true
     "open_door_policy": true
     "serving_disabilities": true
-    
+
   for key, val of user
     if publicRows[key]
       data[key] = val
 
   data.picture_sets = []
-  publicPictureSetTypes = ["profile", "daycare"]
-  
+  publicPictureSetTypes = ["profile", "public"]
+
   for pictureSet in user.picture_sets
     if pictureSet.type in publicPictureSetTypes
       data.picture_sets.push(pictureSet)
@@ -167,7 +167,7 @@ UserSchema.plugin(
         registerSuccessRedirect: '/'
         respondToRegistrationSucceed: (res, user, data)->
           redirectTo = '/'
-  
+
           userInfo =
             picture_sets: [
               {
@@ -177,12 +177,12 @@ UserSchema.plugin(
                 pictures: []
               }
             ]
-          
+
           User = require('./user')
           User.update {_id: user._id}, userInfo, {}, (err, updatedUser)->
             if user.type is 'daycare'
-              redirectTo = "/#day-cares/edit/#{user._id}"
-  
+              redirectTo = "/#profiles/edit/#{user._id}"
+
             res.writeHead(303, {'Location': redirectTo})
             res.end()
   }

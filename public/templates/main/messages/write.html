@@ -9,7 +9,7 @@
           <select multiple="multiple" name="to_id" class="chzn-select" data-placeholder="Add recipients...">
     		  <%
               _.each(users.models, function (user) {
-                var name = user.get("type") === "daycare" ? user.get("daycare_name") : user.get("name") + " " + user.get("surname");
+                var name = user.get("name") + " " + user.get("surname");
           %>
               <option value="<%=user.get("_id") %>"><%=name %></option>
           <%
@@ -21,7 +21,7 @@
       <div class="clear">
         <label>Message</label>
         <div class="input">
-          <textarea name="content"><%= message ? message.get("content") : "" %></textarea>        
+          <textarea name="content"><%= message ? message.get("content") : "" %></textarea>
         </div>
       </div>
       <div class="actions">

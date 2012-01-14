@@ -9,12 +9,12 @@
 %>
 <div class="message-header-cnt">
   <p class="avatar">
-    <a href="#day-cares/view/<%= message.get("from_user")._id %>">
+    <a href="#profiles/view/<%= message.get("from_user")._id %>">
       <img src="<%= avatarUrl %>" width="60" height="60" />
     </a>
   </p>
   <p class="message-header">
-    <a href="#day-cares/view/<%= message.get("from_user")._id %>" class="name" id="message-to-name"><%= _.escape(name) %></a> <span class="time" title="<%= messageTime %>"><%= messageTime %></span>
+    <a href="#profiles/view/<%= message.get("from_user")._id %>" class="name" id="message-to-name"><%= _.escape(name) %></a> <span class="time" title="<%= messageTime %>"><%= messageTime %></span>
   </p>
   <% if (message.get("type") === "default") { %><a href="#" class="delete-message-bt"><span>delete</span></a><% } %>
   <% if (message.get("type") === "draft") { %><a href="#messages/write/<%= message.get("_id") %>" class="edit-draft-message-bt"><span>edit</span></a><% } %>

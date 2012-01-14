@@ -1,27 +1,27 @@
 class Kin.WallCommentsCollection extends Backbone.Collection
 
   model: Kin.CommentModel
-  
-  dayCareId: null
-  
+
+  profileId: null
+
   intervalId: null
-  
+
   loadCommentsTime: 3000
-  
+
   lastQueryTime: 0
-  
+
   uri: "/comments/:wall_id/:last_query_time"
 
-  initialize: (models, {@dayCareId})->
+  initialize: (models, {@profileId})->
     @startAutoUpdateComments()
-  
+
   startAutoUpdateComments: ()->
-    that = @    
+    that = @
     @intervalId = window.setInterval(@loadComments, @loadCommentsTime)
 
   stopAutoUpdateComments: ()->
     window.clearInterval(@intervalId)
-  
+
   loadComments: ()=>
     @fetch
       add: true
@@ -35,4 +35,4 @@ class Kin.WallCommentsCollection extends Backbone.Collection
           @lastQueryTime = lastCommentTime
 
   url: ()->
-    @uri.replace(":wall_id", @dayCareId).replace(":last_query_time", @lastQueryTime)
+    @uri.replace(":wall_id", @profileId).replace(":last_query_time", @lastQueryTime)

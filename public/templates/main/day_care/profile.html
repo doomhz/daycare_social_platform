@@ -2,7 +2,7 @@
   <a href="#day-cares" title="Go back to search results" class="back-to-results-bt"><span>Back to results</span></a>
 </p>
 
-<h1 id="daycare-profile-title"><%=dayCare.get('name') %></h1>
+<h1 id="profile-title"><%=profile.get('name') %></h1>
 
 <div id="profile-main-tabs">
     <ul id="profile-tab-menu">
@@ -19,8 +19,8 @@
 
 <div id="add-comment-box">
   <form id="add-comment-form" method="post" action="/comments">
-    <input name="to_id" type="hidden" value="<%= dayCare.get('_id') %>" />
-    <input name="wall_id" type="hidden" value="<%= dayCare.get('_id') %>" />
+    <input name="to_id" type="hidden" value="<%= profile.get('_id') %>" />
+    <input name="wall_id" type="hidden" value="<%= profile.get('_id') %>" />
     <input name="type" type="hidden" value="status" />
     <div>
       <textarea name="content" resize="none" placeholder="add a comment ..." rows="1" cols="40"></textarea>
