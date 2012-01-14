@@ -12,6 +12,10 @@ CommentSchema = new Schema
   content:
     type: {}
     default: ""
+  added_at:
+    type: Number
+    default: ()->
+      new Date().getTime()
   created_at:
     type: Date
     default: Date.now

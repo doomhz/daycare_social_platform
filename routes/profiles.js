@@ -4,12 +4,21 @@
   Comment = require('../models/comment');
   fs = require('fs');
   module.exports = function(app) {
+    app.get('/profiles', function(req, res) {
+      return User.find().asc('name', 'surname').run(function(err, users) {
+        return res.render('profiles/profiles', {
+          profiles: users,
+          show_private: false,
+          layout: false
+        });
+      });
+    });
     app.get('/daycares', function(req, res) {
       return User.find({
         type: 'daycare'
       }).desc('created_at').run(function(err, daycares) {
-        return res.render('profiles/daycares', {
-          daycares: daycares,
+        return res.render('profiles/profiles', {
+          profiles: daycares,
           show_private: false,
           layout: false
         });

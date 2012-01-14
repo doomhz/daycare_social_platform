@@ -29,7 +29,7 @@ class Kin.WallCommentsCollection extends Backbone.Collection
         if comments.length
           lastCommentTime = 0
           for comment in comments.models
-            createdAt = new Date(comment.get("created_at")).getTime()
+            createdAt = comment.get("added_at")
             if createdAt > lastCommentTime
               lastCommentTime = createdAt
           @lastQueryTime = lastCommentTime

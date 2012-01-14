@@ -1,5 +1,6 @@
 {
 "_id": "#{profile._id}",
+"type": "#{profile.type}",
 "name": "#{profile.name}",
 "surname": "#{profile.surname}",
 "speaking_classes": [
@@ -10,8 +11,8 @@ each sp_class, i in profile.speaking_classes
 ],
 "address": "#{profile.address}",
 "location": {
-"lat": #{profile.location.lat},
-"lng": #{profile.location.lng}
+"lat": #{profile.location.lat || false},
+"lng": #{profile.location.lng || false}
 },
 "email": "#{profile.email}",
 "phone": "#{profile.phone}",
@@ -19,9 +20,8 @@ each sp_class, i in profile.speaking_classes
 "contact_person": "#{profile.contact_person}",
 "licenced": #{profile.licenced || false},
 "opened_since": "#{profile.opened_since}",
-"open_door_policy": #{profile.open_door_policy},
-"serving_disabilities": #{profile.serving_disabilities},
-"serving_disabilities": #{profile.serving_disabilities},
+"open_door_policy": #{profile.open_door_policy || false},
+"serving_disabilities": #{profile.serving_disabilities || false},
 "picture_sets": [
 - var picture_sets = []
 each picture_set, i in profile.picture_sets
@@ -30,6 +30,12 @@ each picture_set, i in profile.picture_sets
 each picture_set, i in picture_sets
   include _picture_set
   - if (i != picture_sets.length-1)
+    ,
+],
+"friends": [
+each friend, i in profile.friends
+  #{friend}
+  - if (i != profile.friend.length-1)
     ,
 ]
 }

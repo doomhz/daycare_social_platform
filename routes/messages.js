@@ -66,28 +66,44 @@
       var user;
       user = req.user ? req.user : {};
       return Message.findDefault(user._id, function(err, messages) {
-        return res.json(messages);
+        return res.render('messages/messages', {
+          messages: messages,
+          show_private: false,
+          layout: false
+        });
       });
     });
     app.get('/messages/sent', function(req, res) {
       var user;
       user = req.user ? req.user : {};
       return Message.findSent(user._id, function(err, messages) {
-        return res.json(messages);
+        return res.render('messages/messages', {
+          messages: messages,
+          show_private: false,
+          layout: false
+        });
       });
     });
     app.get('/messages/draft', function(req, res) {
       var user;
       user = req.user ? req.user : {};
       return Message.findDraft(user._id, function(err, messages) {
-        return res.json(messages);
+        return res.render('messages/messages', {
+          messages: messages,
+          show_private: false,
+          layout: false
+        });
       });
     });
     app.get('/messages/deleted', function(req, res) {
       var user;
       user = req.user ? req.user : {};
       return Message.findDeleted(user._id, function(err, messages) {
-        return res.json(messages);
+        return res.render('messages/messages', {
+          messages: messages,
+          show_private: false,
+          layout: false
+        });
       });
     });
     return app.get('/messages/:id', function(req, res) {
@@ -97,7 +113,11 @@
       return Message.findOne({
         _id: messageId
       }).run(function(err, message) {
-        return res.json(message);
+        return res.render('messages/_message', {
+          message: message,
+          show_private: false,
+          layout: false
+        });
       });
     });
   };

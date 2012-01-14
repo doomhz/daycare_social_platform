@@ -1,0 +1,30 @@
+{
+- var content = (comment.content + "").replace(/"/g, '').replace(/'/g, '').replace(/\\/g, '')
+"_id": "#{comment._id}",
+"from_id": "#{comment.from_id}",
+"to_id": "#{comment.to_id}",
+"wall_id": "#{comment.wall_id}",
+"type": "#{comment.type}",
+"content":
+- if (typeof comment.content === "object")
+  {
+  "type": "#{comment.content.type}",
+  "picture_set_id": "#{comment.content.picture_set_id}",
+  "picture_set_name": "#{comment.content.picture_set_name}",
+  "picture":
+  - var picture = comment.content.picture
+  include ../profiles/_picture
+  }
+-else
+  "#{content}"
+,
+"added_at": #{comment.added_at || 0},
+"created_at": "#{comment.created_at}",
+"updated_at": "#{comment.updated_at}",
+"from_user":
+- var profile = comment.from_user
+- if (comment.from_user)
+  include ../profiles/_user
+- else
+  {}
+}

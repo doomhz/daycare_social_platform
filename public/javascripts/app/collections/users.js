@@ -13,7 +13,7 @@
       UsersCollection.__super__.constructor.apply(this, arguments);
     }
     UsersCollection.prototype.model = window.Kin.UserModel;
-    UsersCollection.prototype.url = "/users";
+    UsersCollection.prototype.url = "/profiles";
     UsersCollection.prototype.initialize = function(models, options) {};
     return UsersCollection;
   })();

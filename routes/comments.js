@@ -10,7 +10,7 @@
       lastQueryTime = req.params.last_query_time;
       return Comment.find({
         wall_id: wallId
-      }).where('created_at').gt(lastQueryTime).desc("type").asc("updated_at").run(function(err, comments) {
+      }).where('added_at').gt(lastQueryTime).desc("type").asc("added_at").run(function(err, comments) {
         var comment, usersToFind, _i, _len;
         if (comments) {
           usersToFind = [];
@@ -32,10 +32,18 @@
                   }
                 }
               }
-              return res.json(comments);
+              return res.render('comments/comments', {
+                comments: comments,
+                show_private: false,
+                layout: false
+              });
             });
           } else {
-            return res.json(comments);
+            return res.render('comments/comments', {
+              comments: comments,
+              show_private: false,
+              layout: false
+            });
           }
         } else {
           return res.json([]);
@@ -47,8 +55,7 @@
       currentUser = req.user ? req.user : {};
       data = req.body;
       data.from_id = currentUser._id;
-      delete data.created_at;
-      delete data.updated_at;
+      data.added_at = new Date().getTime();
       currentComment = new Comment(data);
       return currentComment.save(function(err, savedComment) {
         if (data.type === "status") {

@@ -6,7 +6,7 @@ var RedisStore = require('connect-redis')(express);
 
 require('./models/db_connect');
 
-// TODO Figure out how to include the mongooseAuth.middleware() without instatiating a User before 
+// TODO Figure out how to include the mongooseAuth.middleware() without instatiating a User before
 User = require('./models/user');
 
 var app = module.exports = express.createServer(
@@ -27,17 +27,16 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function(){
-  app.use(express.errorHandler()); 
+  app.use(express.errorHandler());
 });
 
 // Routes
 
 require('./routes/auth')(app);
-require('./routes/users')(app);
 require('./routes/site')(app);
 require('./routes/sockets')(app);
 require('./routes/notifications')(app);

@@ -74,7 +74,11 @@
       return User.findOne({
         _id: req.user._id
       }).run(function(err, updatedUser) {
-        return res.json(req.user);
+        return res.render('profiles/_user', {
+          profile: updatedUser,
+          show_private: true,
+          layout: false
+        });
       });
     });
   };

@@ -1,0 +1,6 @@
+[
+each profile in profiles
+  include _user
+  - if (profile != profiles[profiles.length-1])
+    ,
+]

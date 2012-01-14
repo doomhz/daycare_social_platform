@@ -1,13 +1,13 @@
 class Kin.Messages.WriteView extends Backbone.View
-  
+
   el: null
 
   tplUrl: '/templates/main/messages/write.html'
-  
+
   tpl: null
-  
+
   collection: null
-  
+
   events:
     "submit #write-message-form"   : "sendMessage"
     "click #save-draft-message-bt" : "saveDraftMessage"
@@ -48,7 +48,7 @@ class Kin.Messages.WriteView extends Backbone.View
         $.jGrowl("Message sent")
       error: ()->
         $.jGrowl("Message could not be sent :( Please try again.")
-  
+
   saveDraftMessage: (ev)->
     ev.preventDefault()
     that = @

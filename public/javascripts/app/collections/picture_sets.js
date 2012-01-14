@@ -19,10 +19,13 @@
       profileSet = _.filter(pictureSets, function(pictureSet) {
         return pictureSet.type === "profile";
       });
-      primarys = _.filter(profileSet[0].pictures, function(picture) {
-        return picture.primary;
-      });
-      primarys = primarys.length ? primarys : profileSet[0].pictures;
+      primarys = false;
+      if (profileSet.length) {
+        primarys = _.filter(profileSet[0].pictures, function(picture) {
+          return picture.primary;
+        });
+        primarys = primarys.length ? primarys : profileSet[0].pictures;
+      }
       return primarys[0];
     };
     return PictureSetsCollection;

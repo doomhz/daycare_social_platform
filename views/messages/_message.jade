@@ -1,0 +1,24 @@
+{
+- var content = (message.content + "").replace(/"/g, '').replace(/'/g, '').replace(/\\/g, '')
+"_id": "#{message._id}",
+"from_id": "#{message.from_id}",
+"to_id": "#{message.to_id}",
+"type": "#{message.type}",
+"content": "#{content}",
+"unread": #{message.unread || false},
+"created_at": "#{message.created_at}",
+"updated_at": "#{message.updated_at}",
+"from_user":
+- var profile = message.from_user
+- if (message.from_user)
+  include ../profiles/_user
+- else
+  {}
+,
+"to_user":
+- var profile = message.to_user
+- if (message.to_user)
+  include ../profiles/_user
+- else
+  {}
+}

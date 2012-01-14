@@ -4,9 +4,14 @@ fs      = require('fs')
 
 module.exports = (app)->
 
+  app.get '/profiles', (req, res)->
+    User.find().asc('name', 'surname').run (err, users)->
+      # TODO Filter public data
+      res.render 'profiles/profiles', {profiles: users, show_private: false, layout: false}
+
   app.get '/daycares', (req, res)->
     User.find({type: 'daycare'}).desc('created_at').run (err, daycares) ->
-      res.render 'profiles/daycares', {daycares: daycares, show_private: false, layout: false}
+      res.render 'profiles/profiles', {profiles: daycares, show_private: false, layout: false}
 
   app.get '/profiles/:id', (req, res)->
     User.findOne({_id: req.params.id}).run (err, user) ->

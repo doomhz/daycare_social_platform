@@ -8,7 +8,7 @@ module.exports = (app)->
     wallId = req.params.wall_id
     lastQueryTime = req.params.last_query_time
 
-    Comment.find({wall_id: wallId}).where('created_at').gt(lastQueryTime).desc("type").asc("updated_at").run (err, comments)->
+    Comment.find({wall_id: wallId}).where('added_at').gt(lastQueryTime).desc("type").asc("added_at").run (err, comments)->
       if comments
         usersToFind = []
         for comment in comments
@@ -18,12 +18,11 @@ module.exports = (app)->
             if users
               for comment in comments
                 for user in users
-                  # TODO Filter public data
                   if "#{user._id}" is "#{comment.from_id}"
                     comment.from_user = user
-            res.json comments
+            res.render 'comments/comments', {comments: comments, show_private: false, layout: false}
         else
-          res.json comments
+          res.render 'comments/comments', {comments: comments, show_private: false, layout: false}
       else
         res.json []
 
@@ -31,9 +30,8 @@ module.exports = (app)->
     currentUser = if req.user then req.user else {}
     data = req.body
     data.from_id = currentUser._id
-    delete data.created_at
-    delete data.updated_at
-    
+    data.added_at = new Date().getTime()
+
     currentComment = new Comment(data)
     currentComment.save (err, savedComment)->
 
@@ -42,5 +40,5 @@ module.exports = (app)->
 
       if data.type is "followup"
         Notification.addForFollowup(savedComment, currentUser)
-    
+
       res.json {success: true}

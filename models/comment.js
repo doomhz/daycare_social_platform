@@ -19,6 +19,12 @@
       type: {},
       "default": ""
     },
+    added_at: {
+      type: Number,
+      "default": function() {
+        return new Date().getTime();
+      }
+    },
     created_at: {
       type: Date,
       "default": Date.now

@@ -41,7 +41,7 @@
             _ref = comments.models;
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               comment = _ref[_i];
-              createdAt = new Date(comment.get("created_at")).getTime();
+              createdAt = comment.get("added_at");
               if (createdAt > lastCommentTime) {
                 lastCommentTime = createdAt;
               }
