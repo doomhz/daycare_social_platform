@@ -9,6 +9,9 @@
     </div>
 </div>
 
+<%
+  if (profile.get("_id") == Kin.app.currentUser.get("_id") || $.inArray(profile.get("_id"), Kin.app.currentUser.friends) > -1) {
+%>
 <div id="add-comment-box">
   <form id="add-comment-form" method="post" action="/comments">
     <input name="to_id" type="hidden" value="<%= profile.get('_id') %>" />
@@ -23,3 +26,6 @@
 
 <ul id="wall-comments-list">
 </ul>
+<%
+  }
+%>
