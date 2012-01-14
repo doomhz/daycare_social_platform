@@ -1,0 +1,35 @@
+{
+"_id": "#{profile._id}",
+"name": "#{profile.name}",
+"surname": "#{profile.surname}",
+"speaking_classes": [
+each sp_class, i in profile.speaking_classes
+  #{sp_class}
+  - if (i != profile.speaking_classes.length-1)
+    ,
+],
+"address": "#{profile.address}",
+"location": {
+"lat": #{profile.location.lat},
+"lng": #{profile.location.lng}
+},
+"email": "#{profile.email}",
+"phone": "#{profile.phone}",
+"fax": "#{profile.fax}",
+"contact_person": "#{profile.contact_person}",
+"licenced": #{profile.licenced || false},
+"opened_since": "#{profile.opened_since}",
+"open_door_policy": #{profile.open_door_policy},
+"serving_disabilities": #{profile.serving_disabilities},
+"serving_disabilities": #{profile.serving_disabilities},
+"picture_sets": [
+- var picture_sets = []
+each picture_set, i in profile.picture_sets
+  - if (picture_set.type === "public" || picture_set.type === "profile" || show_private)
+    - picture_sets.push(picture_set)
+each picture_set, i in picture_sets
+  include _picture_set
+  - if (i != picture_sets.length-1)
+    ,
+]
+}

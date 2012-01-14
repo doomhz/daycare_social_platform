@@ -62,6 +62,8 @@ UserSchema = new Schema
     type: Boolean
   picture_sets:
     type: [PictureSet]
+  friends:
+    type: [String]
 
 UserSchema.methods.filterPrivateDataByUserId = (user_id)->
   if @constructor is Array

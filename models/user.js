@@ -86,6 +86,9 @@
     },
     picture_sets: {
       type: [PictureSet]
+    },
+    friends: {
+      type: [String]
     }
   });
   UserSchema.methods.filterPrivateDataByUserId = function(user_id) {

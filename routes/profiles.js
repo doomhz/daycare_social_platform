@@ -7,17 +7,26 @@
     app.get('/daycares', function(req, res) {
       return User.find({
         type: 'daycare'
-      }).desc('created_at').run(function(err, users) {
-        return res.json(users);
+      }).desc('created_at').run(function(err, daycares) {
+        return res.render('profiles/daycares', {
+          daycares: daycares,
+          show_private: false,
+          layout: false
+        });
       });
     });
     app.get('/profiles/:id', function(req, res) {
       return User.findOne({
         _id: req.params.id
       }).run(function(err, user) {
-        var currentUser;
+        var currentUser, showPrivate;
         currentUser = req.user ? req.user : {};
-        return res.json(user.filterPrivateDataByUserId(currentUser._id));
+        showPrivate = currentUser._id === user._id;
+        return res.render('profiles/profile', {
+          profile: user,
+          show_private: showPrivate,
+          layout: false
+        });
       });
     });
     app.put('/profiles/:id', function(req, res) {
@@ -41,11 +50,15 @@
       return User.findOne({
         'picture_sets._id': pictureSetId
       }).run(function(err, user) {
-        var pictureSet;
+        var pictureSet, showPrivate;
         pictureSet = user.picture_sets.id(pictureSetId);
-        pictureSet = User.filterPrivatePictureSetsByUserId(currentUser._id, user.user_id, [pictureSet])[0];
         pictureSet.user_id = user._id;
-        return res.json(pictureSet);
+        showPrivate = currentUser._id === user._id;
+        return res.render('profiles/_picture_set', {
+          picture_set: pictureSet,
+          show_private: showPrivate,
+          layout: false
+        });
       });
     });
     app.put('/profiles/picture-set/:id', function(req, res) {
@@ -128,11 +141,15 @@
       return User.findOne({
         'picture_sets._id': pictureSetId
       }).run(function(err, user) {
-        var pictureSet, pictures;
+        var pictureSet, pictures, showPrivate;
         pictureSet = user.picture_sets.id(pictureSetId);
-        pictureSet = User.filterPrivatePictureSetsByUserId(currentUser._id, user.user_id, [pictureSet])[0] || {};
         pictures = pictureSet.pictures;
-        return res.json(pictures);
+        showPrivate = currentUser._id === user._id;
+        return res.render('profiles/pictures', {
+          pictures: pictures,
+          show_private: showPrivate,
+          layout: false
+        });
       });
     });
     app.del('/profiles/picture/:pictureId', function(req, res) {

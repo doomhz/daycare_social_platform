@@ -5,13 +5,14 @@ fs      = require('fs')
 module.exports = (app)->
 
   app.get '/daycares', (req, res)->
-    User.find({type: 'daycare'}).desc('created_at').run (err, users) ->
-      res.json users
+    User.find({type: 'daycare'}).desc('created_at').run (err, daycares) ->
+      res.render 'profiles/daycares', {daycares: daycares, show_private: false, layout: false}
 
   app.get '/profiles/:id', (req, res)->
     User.findOne({_id: req.params.id}).run (err, user) ->
       currentUser = if req.user then req.user else {}
-      res.json user.filterPrivateDataByUserId(currentUser._id)
+      showPrivate = currentUser._id is user._id
+      res.render 'profiles/profile', {profile: user, show_private: showPrivate, layout: false}
 
   app.put '/profiles/:id', (req, res)->
     currentUser = if req.user then req.user else {}
@@ -26,10 +27,9 @@ module.exports = (app)->
     currentUser = if req.user then req.user else {}
     User.findOne({'picture_sets._id': pictureSetId}).run (err, user) ->
       pictureSet = user.picture_sets.id(pictureSetId)
-      pictureSet = User.filterPrivatePictureSetsByUserId(currentUser._id, user.user_id, [pictureSet])[0]
       pictureSet.user_id = user._id
-
-      res.json pictureSet
+      showPrivate = currentUser._id is user._id
+      res.render 'profiles/_picture_set', {picture_set: pictureSet, show_private: showPrivate, layout: false}
 
   app.put '/profiles/picture-set/:id', (req, res)->
     pictureSetId = req.params.id
@@ -81,10 +81,9 @@ module.exports = (app)->
     currentUser = if req.user then req.user else {}
     User.findOne({'picture_sets._id': pictureSetId}).run (err, user) ->
       pictureSet = user.picture_sets.id(pictureSetId)
-      pictureSet = User.filterPrivatePictureSetsByUserId(currentUser._id, user.user_id, [pictureSet])[0] or {}
       pictures = pictureSet.pictures
-
-      res.json pictures
+      showPrivate = currentUser._id is user._id
+      res.render 'profiles/pictures', {pictures: pictures, show_private: showPrivate, layout: false}
 
   app.del '/profiles/picture/:pictureId', (req, res)->
     pictureId = req.params.pictureId

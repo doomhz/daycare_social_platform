@@ -1,0 +1,14 @@
+- if (picture_set.type === "public" || picture_set.type === "profile" || show_private)
+  {
+  "_id": "#{picture_set._id}",
+  "user_id": "#{picture_set.user_id}",
+  "name": "#{picture_set.name}",
+  "description": "#{picture_set.description}",
+  "type": "#{picture_set.type}",
+  "pictures": [
+  each picture, index in picture_set.pictures
+    include _picture
+    - if (index != picture_set.pictures.length-1)
+      ,
+  ]
+  }
