@@ -3,7 +3,7 @@ class window.Kin.Messages.ListItemView extends Backbone.View
   tagName: 'li'
 
   tplUrl: '/templates/main/messages/list_item.html'
-  
+
   events:
     "click .message-header-cnt" : "toggleMessageBody"
     "click .delete-message-bt"  : "deleteMessage"
@@ -17,17 +17,17 @@ class window.Kin.Messages.ListItemView extends Backbone.View
       url: @tplUrl
       onLoad: (tpl)->
         $(that.el).html(tpl({message: that.model}))
-        
+
         that.$(".time").timeago()
-        
+
         if that.model.get("unread")
           $(that.el).addClass("unread")
-          
+
         if that.model.get("type") is "default"
           that.$(".add-reply-message-form:first textarea").autoResize
             extraSpace: -2
           that.$(".add-reply-message-form:first").bind("submit", that.sendReply)
-  
+
   toggleMessageBody: ()->
     that = @
     $messageBodyCnt = @$(".message-body-cnt:first")
@@ -37,8 +37,8 @@ class window.Kin.Messages.ListItemView extends Backbone.View
       @model.save null,
         success: ()->
           $(that.el).removeClass("unread")
-          
-  
+
+
   sendReply: (ev)=>
     ev.preventDefault()
     that = @
@@ -53,7 +53,7 @@ class window.Kin.Messages.ListItemView extends Backbone.View
         $.jGrowl("Reply message sent to #{toName}")
       error: ()->
         $.jGrowl("Message could not be sent :( Please try again.")
-  
+
   deleteMessage: (ev)->
     ev.preventDefault()
     @model.destroy()

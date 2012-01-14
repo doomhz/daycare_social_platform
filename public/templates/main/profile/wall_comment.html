@@ -2,7 +2,7 @@
   var pictureSets = new Kin.PictureSetsCollection();
   var avatar = pictureSets.getPrimaryPicture(comment.get("from_user").picture_sets);
   var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
-  var commentTime = _.escape(comment.get("updated_at"));
+  var commentTime = new Date(comment.get("updated_at")).format("UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
   var name = comment.get("from_user").name + " " + comment.get("from_user").surname;
   var content = comment.get("content");
 
