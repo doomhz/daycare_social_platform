@@ -12,6 +12,15 @@
     <li>
         <a href="#quick-message" id="quick-message-bt">Send a message</a>
     </li>
+    <%
+      if (Kin.app.currentUser.get("_id") === profile.get("_id")) {
+    %>
+    <li>
+        <a href="#invite-parents" id="invite-parent-bt">Invite parents</a>
+    </li>
+    <%
+      }
+    %>
 </ul>
 <ul id="profile-left-menu">
     <li id="wall-menu-item" class="<%=(selectedMenuItem === 'wall-menu-item' ? 'selected' : '') %>">

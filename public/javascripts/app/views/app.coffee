@@ -266,5 +266,22 @@ class Kin.AppView extends Backbone.View
       selectedMenuItem: "trash-menu-item"
     @side1ColumnView.render()
 
+  renderInviteParents: ()->
+    that = @
+    @clearColumns()
+
+    friendRequests = new Kin.FriendRequestsCollection [], {url: "/friend-requests"}
+
+    that.mainColumnView = new Kin.DayCare.InvitesView
+      el: that.mainColumnSelector
+      collection: friendRequests
+    that.mainColumnView.render()
+
+    that.side1ColumnView = new Kin.DayCare.InvitesSide1View
+      model: @currentUser
+      el: that.side1ColumnSelector
+    that.side1ColumnView.render()
+
+
   clearColumns: (columns = ['main', 'side1'])->
     (@["#{column}ColumnView"] and @["#{column}ColumnView"].remove()) for column in columns

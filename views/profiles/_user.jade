@@ -1,41 +1,42 @@
-{
-"_id": "#{profile._id}",
-"type": "#{profile.type}",
-"name": "#{profile.name}",
-"surname": "#{profile.surname}",
-"speaking_classes": [
-each sp_class, i in profile.speaking_classes
-  #{sp_class}
-  - if (i != profile.speaking_classes.length-1)
-    ,
-],
-"address": "#{profile.address}",
-"location": {
-"lat": #{profile.location.lat || false},
-"lng": #{profile.location.lng || false}
-},
-"email": "#{profile.email}",
-"phone": "#{profile.phone}",
-"fax": "#{profile.fax}",
-"contact_person": "#{profile.contact_person}",
-"licenced": #{profile.licenced || false},
-"opened_since": "#{profile.opened_since}",
-"open_door_policy": #{profile.open_door_policy || false},
-"serving_disabilities": #{profile.serving_disabilities || false},
-"picture_sets": [
-- var picture_sets = []
-each picture_set, i in profile.picture_sets
-  - if (picture_set.type === "public" || picture_set.type === "profile" || show_private)
-    - picture_sets.push(picture_set)
-each picture_set, i in picture_sets
-  include _picture_set
-  - if (i != picture_sets.length-1)
-    ,
-],
-"friends": [
-each friend, i in profile.friends
-  #{friend}
-  - if (i != profile.friend.length-1)
-    ,
-]
-}
+- if (profile)
+  {
+  "_id": "#{profile._id}",
+  "type": "#{profile.type}",
+  "name": "#{profile.name}",
+  "surname": "#{profile.surname}",
+  "speaking_classes": [
+  each sp_class, i in profile.speaking_classes
+    #{sp_class}
+    - if (i != profile.speaking_classes.length-1)
+      ,
+  ],
+  "address": "#{profile.address}",
+  "location": {
+  "lat": #{profile.location.lat || false},
+  "lng": #{profile.location.lng || false}
+  },
+  "email": "#{profile.email}",
+  "phone": "#{profile.phone}",
+  "fax": "#{profile.fax}",
+  "contact_person": "#{profile.contact_person}",
+  "licenced": #{profile.licenced || false},
+  "opened_since": "#{profile.opened_since}",
+  "open_door_policy": #{profile.open_door_policy || false},
+  "serving_disabilities": #{profile.serving_disabilities || false},
+  "picture_sets": [
+  - var picture_sets = []
+  each picture_set, i in profile.picture_sets
+    - if (picture_set.type === "public" || picture_set.type === "profile" || show_private)
+      - picture_sets.push(picture_set)
+  each picture_set, i in picture_sets
+    include _picture_set
+    - if (i != picture_sets.length-1)
+      ,
+  ],
+  "friends": [
+  each friend, i in profile.friends
+    #{friend}
+    - if (i != profile.friend.length-1)
+      ,
+  ]
+  }

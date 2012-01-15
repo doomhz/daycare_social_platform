@@ -1,5 +1,6 @@
 (function() {
   window.Kin || (window.Kin = {
+    DayCare: {},
     Profile: {},
     Header: {},
     Messages: {},

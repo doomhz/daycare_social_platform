@@ -1,0 +1,6 @@
+[
+each friend_request in friend_requests
+  include _friend_request
+  - if (friend_request != friend_requests[friend_requests.length-1])
+    ,
+]

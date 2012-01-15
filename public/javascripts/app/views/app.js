@@ -308,6 +308,24 @@
       });
       return this.side1ColumnView.render();
     };
+    AppView.prototype.renderInviteParents = function() {
+      var friendRequests, that;
+      that = this;
+      this.clearColumns();
+      friendRequests = new Kin.FriendRequestsCollection([], {
+        url: "/friend-requests"
+      });
+      that.mainColumnView = new Kin.DayCare.InvitesView({
+        el: that.mainColumnSelector,
+        collection: friendRequests
+      });
+      that.mainColumnView.render();
+      that.side1ColumnView = new Kin.DayCare.InvitesSide1View({
+        model: this.currentUser,
+        el: that.side1ColumnSelector
+      });
+      return that.side1ColumnView.render();
+    };
     AppView.prototype.clearColumns = function(columns) {
       var column, _i, _len, _results;
       if (columns == null) {

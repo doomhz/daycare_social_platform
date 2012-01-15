@@ -1,0 +1,13 @@
+<%
+  _.each(friendRequests.models, function (friendRequest) {
+%>
+<li>
+    <span><%= friendRequest.get("name") %></span>
+    <span><%= friendRequest.get("surname") %></span>
+    <span><%= friendRequest.get("email") %></span>
+    <span><%= new Date(friendRequest.get("created_at")).format("mmm d, yyyy HH:MM") %></span>
+    <span><%= friendRequest.get("status") %></span>
+</li>
+<%
+  });
+%>

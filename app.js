@@ -43,6 +43,7 @@ require('./routes/notifications')(app);
 require('./routes/comments')(app);
 require('./routes/messages')(app);
 require('./routes/profiles')(app);
+require('./routes/friend_requests')(app);
 
 mongooseAuth.helpExpress(app);
 

@@ -25,7 +25,8 @@
       'messages/inbox': 'viewInboxMessages',
       'messages/draft': 'viewDraftMessages',
       'messages/sent': 'viewSentMessages',
-      'messages/trash': 'viewTrashMessages'
+      'messages/trash': 'viewTrashMessages',
+      'invite-parents': 'inviteParents'
     };
     MainRouter.prototype.initialize = function(_arg) {
       this.app = _arg.app;
@@ -62,6 +63,9 @@
     };
     MainRouter.prototype.viewTrashMessages = function() {
       return this.app.renderViewTrashMessages();
+    };
+    MainRouter.prototype.inviteParents = function() {
+      return this.app.renderInviteParents();
     };
     return MainRouter;
   })();
