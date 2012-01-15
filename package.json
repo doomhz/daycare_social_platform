@@ -3,9 +3,9 @@
   , "version": "0.0.1"
   , "private": true
   , "dependencies": {
-      "express": "2.4.3"
-    , "stylus": ">= 0.0.1"
-    , "jade": ">= 0.0.1"
+      "express": "latest"
+    , "stylus": "latest"
+    , "jade": "latest"
     , "mongoose": "latest"
     , "mongoose-auth": "latest"
     , "connect-redis": "latest"
@@ -13,11 +13,12 @@
     , "expresso": "latest"
     , "coffee-script": "latest"
     , "socket.io": "latest"
+    , "mailer": "latest"
     , "jake": "latest"
-    , "jasmine-node":   "1.0.11"
-    , "jasmine-jquery": "1.3.3"
-    , "jsdom":          "0.2.7"
-    , "sinon":          "1.2.0"
+    , "jasmine-node":   "latest"
+    , "jasmine-jquery": "latest"
+    , "jsdom":          "latest"
+    , "sinon":          "latest"
   },
   "scripts": {
     "test": "expresso ./test/app/routes/*"

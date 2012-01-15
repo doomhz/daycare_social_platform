@@ -12,6 +12,7 @@ module.exports = (app)->
       if not friendRequest
         friendRequest = new FriendRequest(data)
         friendRequest.save()
+        FriendRequest.sendMail(friendRequest, {host: req.headers.host})
       res.json {success: true}
 
   app.get '/friend-requests', (req, res)->

@@ -15,6 +15,9 @@
         if (!friendRequest) {
           friendRequest = new FriendRequest(data);
           friendRequest.save();
+          FriendRequest.sendMail(friendRequest, {
+            host: req.headers.host
+          });
         }
         return res.json({
           success: true

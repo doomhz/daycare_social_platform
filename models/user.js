@@ -246,9 +246,8 @@
               res.writeHead(303, {
                 'Location': redirectTo
               });
-              res.end();
-            }
-            if (user.type === "parent" && user.friend_request_id) {
+              return res.end();
+            } else if (user.type === "parent" && user.friend_request_id) {
               friendRequestId = user.friend_request_id;
               FriendRequest = require("./friend_request");
               return FriendRequest.findOne({

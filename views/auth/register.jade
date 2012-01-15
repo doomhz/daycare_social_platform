@@ -6,7 +6,7 @@ h2 Register
         li.error= error
 form(action='/register', method='POST')
   fieldset
-    input(type='hidden', name="friend_request_id", value="")
+    input(type='hidden', name="friend_request_id", value=userParams["friend_request_id"])
     #register-as.clearfix
       label(for='type') I am a
       .input
@@ -60,8 +60,9 @@ script(type='text/javascript')
       $pwdEl.text($pwdEl.data("show"));
     }
   });
-  if (searchStart = document.location.search.search(/friend_request=.*/) > -1) {
-    var friendRequestId = document.location.search.substring(searchStart).replace("friend_request=", "");
+  var friendRequestId = $("input[name='friend_request_id']").val();
+  if (friendRequestId || (searchStart = document.location.search.search(/friend_request=.*/) > -1)) {
+    var friendRequestId = friendRequestId || document.location.search.substring(searchStart).replace("friend_request=", "");
     $.getJSON("/friend-requests/" + friendRequestId, function (response) {
       if (response._id === friendRequestId && response.status === "sent") {
         $("input[type='radio'][value='parent']").attr("checked", true);

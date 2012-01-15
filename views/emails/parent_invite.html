@@ -1,16 +1,23 @@
 <html>
 <head>
-  <title>Friend request from [daycare_name] on Kindzy.com</title>
+  <title>Friend request from {{daycare_name}} on Kindzy.com</title>
 </head>
 <body>
-<p>Hi [parent_name] [parent_surname],</p>
-
-<p>[daycare_name] would like to join it's network on <a href="[site_url]">Kindzy.com</a>.</p>
-<p>Please press on the link bellow to join the network:</p>
-
-<p><a href="[invite_url]">[invite_url]</a></p>
-
-<p>Thank you,</p>
-<p>[daycare_name]</p>
+  <p>
+    Hi {{parent_name}} {{parent_surname}},
+  </p>
+  <p>
+    {{daycare_name}} would like you to join it's network on <a href="{{site_url}}">Kindzy.com</a>.
+    <br />
+    Please follow the link bellow to register:
+  </p>
+  <p>
+    <a href="{{invite_url}}">{{invite_url}}</a>
+  </p>
+  <p>
+    Thank you,
+    <br />
+    {{daycare_name}}
+  </p>
 </body>
 </html>

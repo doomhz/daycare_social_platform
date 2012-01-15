@@ -191,7 +191,7 @@ UserSchema.plugin(
               res.writeHead(303, {'Location': redirectTo})
               res.end()
 
-            if user.type is "parent" and user.friend_request_id
+            else if user.type is "parent" and user.friend_request_id
               friendRequestId = user.friend_request_id
               FriendRequest = require("./friend_request")
 
@@ -209,6 +209,7 @@ UserSchema.plugin(
                 User.update {_id: userId}, {friends: [dayCareId]}, {}, (err)->
                   res.writeHead(303, {'Location': redirectTo})
                   res.end()
+
             else
               res.writeHead(303, {'Location': redirectTo})
               res.end()
