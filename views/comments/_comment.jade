@@ -1,5 +1,5 @@
 {
-- var content = (comment.content + "").replace(/"/g, '').replace(/'/g, '').replace(/\\/g, '')
+- var content = (comment.content + "").replace(/"/g, '').replace(/'/g, '').replace(/\\/g, '').replace(/\n/, '').replace(/\r\n/, '')
 "_id": "#{comment._id}",
 "from_id": "#{comment.from_id}",
 "to_id": "#{comment.to_id}",
