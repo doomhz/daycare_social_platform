@@ -10,7 +10,7 @@
 </div>
 
 <%
-  if (profile.get("_id") == Kin.app.currentUser.get("_id") || $.inArray(profile.get("_id"), Kin.app.currentUser.friends) > -1) {
+  if (profile.get("_id") == Kin.app.currentUser.get("_id") || $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends")) > -1) {
 %>
 <div id="add-comment-box">
   <form id="add-comment-form" method="post" action="/comments">

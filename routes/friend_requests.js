@@ -21,7 +21,7 @@
         });
       });
     });
-    return app.get('/friend-requests', function(req, res) {
+    app.get('/friend-requests', function(req, res) {
       var currentUser;
       currentUser = req.user ? req.user : {};
       return FriendRequest.find({
@@ -29,6 +29,19 @@
       }).run(function(err, friendRequests) {
         return res.render('friend_requests/friend_requests', {
           friend_requests: friendRequests,
+          show_private: false,
+          layout: false
+        });
+      });
+    });
+    return app.get('/friend-requests/:id', function(req, res) {
+      var friendRequestId;
+      friendRequestId = req.params.id;
+      return FriendRequest.findOne({
+        _id: friendRequestId
+      }).run(function(err, friendRequest) {
+        return res.render('friend_requests/_friend_request', {
+          friend_request: friendRequest,
           show_private: false,
           layout: false
         });

@@ -64,6 +64,7 @@ UserSchema = new Schema
     type: [PictureSet]
   friends:
     type: [String]
+    default: []
 
 UserSchema.methods.filterPrivateDataByUserId = (user_id)->
   if @constructor is Array
@@ -152,9 +153,10 @@ UserSchema.plugin(
     password:
       loginWith: 'email'
       extraParams:
-        type:         String
-        name:         String
-        surname:      String
+        type:              String
+        name:              String
+        surname:           String
+        friend_request_id: String
       everyauth:
         loginFormFieldName: 'email'
         getLoginPath: '/login'
@@ -181,12 +183,35 @@ UserSchema.plugin(
             ]
 
           User = require('./user')
-          User.update {_id: user._id}, userInfo, {}, (err, updatedUser)->
-            if user.type is 'daycare'
-              redirectTo = "/#profiles/edit/#{user._id}"
+          User.update {_id: user._id}, userInfo, {}, (err)->
+            userId = user._id
 
-            res.writeHead(303, {'Location': redirectTo})
-            res.end()
+            if user.type is 'daycare'
+              redirectTo = "/#profiles/edit/#{userId}"
+              res.writeHead(303, {'Location': redirectTo})
+              res.end()
+
+            if user.type is "parent" and user.friend_request_id
+              friendRequestId = user.friend_request_id
+              FriendRequest = require("./friend_request")
+
+              FriendRequest.findOne({_id: friendRequestId}).run (err, friendRequest)->
+                friendRequest.status = "accepted"
+                friendRequest.save()
+
+                dayCareId = friendRequest.from_id
+                redirectTo = "/#profiles/view/#{dayCareId}"
+
+                User.findOne({_id: dayCareId}).run (err, dayCare)->
+                  dayCare.friends.push(userId)
+                  dayCare.save()
+
+                User.update {_id: userId}, {friends: [dayCareId]}, {}, (err)->
+                  res.writeHead(303, {'Location': redirectTo})
+                  res.end()
+            else
+              res.writeHead(303, {'Location': redirectTo})
+              res.end()
   }
 )
 

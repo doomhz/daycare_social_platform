@@ -35,8 +35,8 @@
   ],
   "friends": [
   each friend, i in profile.friends
-    #{friend}
-    - if (i != profile.friend.length-1)
+    "#{friend}"
+    - if (i != profile.friends.length-1)
       ,
   ]
   }

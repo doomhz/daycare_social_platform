@@ -6,6 +6,7 @@ h2 Register
         li.error= error
 form(action='/register', method='POST')
   fieldset
+    input(type='hidden', name="friend_request_id", value="")
     #register-as.clearfix
       label(for='type') I am a
       .input
@@ -38,9 +39,9 @@ form(action='/register', method='POST')
     #submit.actions
       input.btn.primary(type='submit', value='Register')
 
-    p Already a member? 
+    p Already a member?
       a(href='/login') Click here to login.
-  
+
 script(type='text/javascript')
   $("#show-password").click(function (ev) {
     ev.preventDefault();
@@ -59,3 +60,15 @@ script(type='text/javascript')
       $pwdEl.text($pwdEl.data("show"));
     }
   });
+  if (searchStart = document.location.search.search(/friend_request=.*/) > -1) {
+    var friendRequestId = document.location.search.substring(searchStart).replace("friend_request=", "");
+    $.getJSON("/friend-requests/" + friendRequestId, function (response) {
+      if (response._id === friendRequestId && response.status === "sent") {
+        $("input[type='radio'][value='parent']").attr("checked", true);
+        $("input[name='name']").val(response.name);
+        $("input[name='surname']").val(response.surname);
+        $("input[name='email']").val(response.email);
+        $("input[name='friend_request_id']").val(response._id);
+      }
+    });
+  }

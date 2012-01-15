@@ -19,3 +19,8 @@ module.exports = (app)->
 
     FriendRequest.find({from_id: currentUser._id}).run (err, friendRequests)->
       res.render 'friend_requests/friend_requests', {friend_requests: friendRequests, show_private: false, layout: false}
+
+  app.get '/friend-requests/:id', (req, res)->
+    friendRequestId = req.params.id
+    FriendRequest.findOne({_id: friendRequestId}).run (err, friendRequest)->
+      res.render 'friend_requests/_friend_request', {friend_request: friendRequest, show_private: false, layout: false}

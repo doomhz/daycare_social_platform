@@ -88,7 +88,8 @@
       type: [PictureSet]
     },
     friends: {
-      type: [String]
+      type: [String],
+      "default": []
     }
   });
   UserSchema.methods.filterPrivateDataByUserId = function(user_id) {
@@ -206,7 +207,8 @@
       extraParams: {
         type: String,
         name: String,
-        surname: String
+        surname: String,
+        friend_request_id: String
       },
       everyauth: {
         loginFormFieldName: 'email',
@@ -236,14 +238,50 @@
           User = require('./user');
           return User.update({
             _id: user._id
-          }, userInfo, {}, function(err, updatedUser) {
+          }, userInfo, {}, function(err) {
+            var FriendRequest, friendRequestId, userId;
+            userId = user._id;
             if (user.type === 'daycare') {
-              redirectTo = "/#profiles/edit/" + user._id;
+              redirectTo = "/#profiles/edit/" + userId;
+              res.writeHead(303, {
+                'Location': redirectTo
+              });
+              res.end();
             }
-            res.writeHead(303, {
-              'Location': redirectTo
-            });
-            return res.end();
+            if (user.type === "parent" && user.friend_request_id) {
+              friendRequestId = user.friend_request_id;
+              FriendRequest = require("./friend_request");
+              return FriendRequest.findOne({
+                _id: friendRequestId
+              }).run(function(err, friendRequest) {
+                var dayCareId;
+                friendRequest.status = "accepted";
+                friendRequest.save();
+                dayCareId = friendRequest.from_id;
+                redirectTo = "/#profiles/view/" + dayCareId;
+                User.findOne({
+                  _id: dayCareId
+                }).run(function(err, dayCare) {
+                  dayCare.friends.push(userId);
+                  return dayCare.save();
+                });
+                return User.update({
+                  _id: userId
+                }, {
+                  friends: [dayCareId]
+                }, {}, function(err) {
+                  res.writeHead(303, {
+                    'Location': redirectTo
+                  });
+                  return res.end();
+                });
+              });
+            } else {
+              res.writeHead(303, {
+                'Location': redirectTo
+              });
+              return res.end();
+            }
           });
         }
       }
