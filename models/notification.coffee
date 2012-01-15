@@ -59,7 +59,7 @@ NotificationSchema.statics.addForStatus = (newComment, sender)->
       notification = new Notification(notificationData)
       notification.saveAndTriggerNewComments(wallOwnerId)
 
-    User.find().run (err, users)->
+    User.find().where("_id").in(wallOwner.friends).run (err, users)->
       for usr in users
         content = if wallOwnerId is senderId then "posted on his wall." else "posted on #{wallOwner.name} #{wallOwner.surname}'s wall."
         unread  = if senderId is "#{usr._id}" then false else true
@@ -123,7 +123,7 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
               notification.saveAndTriggerNewComments(comment.from_id)
               sentUserIds.push(comment.from_id)
 
-        User.find().run (err, users)->
+        User.find().where("_id").in(wallOwner.friends).run (err, users)->
           for usr in users
             statusOwnerName = if statusOwnerId is senderId then "his" else "#{statusOwner.name} #{statusOwner.surname}'s"
             wallOwnerName   = if wallOwnerId is senderId then "his" else "#{wallOwner.name} #{wallOwner.surname}'s"

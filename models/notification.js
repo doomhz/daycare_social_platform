@@ -81,7 +81,7 @@
         notification = new Notification(notificationData);
         notification.saveAndTriggerNewComments(wallOwnerId);
       }
-      return User.find().run(function(err, users) {
+      return User.find().where("_id")["in"](wallOwner.friends).run(function(err, users) {
         var content, unread, usr, _i, _len, _results;
         _results = [];
         for (_i = 0, _len = users.length; _i < _len; _i++) {
@@ -168,7 +168,7 @@
             }
             return _results;
           });
-          return User.find().run(function(err, users) {
+          return User.find().where("_id")["in"](wallOwner.friends).run(function(err, users) {
             var statusOwnerName, unread, usr, wallOwnerName, _i, _len, _results;
             _results = [];
             for (_i = 0, _len = users.length; _i < _len; _i++) {
