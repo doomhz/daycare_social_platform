@@ -12,14 +12,15 @@
   ],
   "address": "#{profile.address}",
   "location": {
-  "lat": #{profile.location.lat || false},
-  "lng": #{profile.location.lng || false}
+  "lat": #{profile.location.lat || 0},
+  "lng": #{profile.location.lng || 0}
   },
   "email": "#{profile.email}",
   "phone": "#{profile.phone}",
   "fax": "#{profile.fax}",
   "contact_person": "#{profile.contact_person}",
-  "licenced": #{profile.licenced || false},
+  "licensed": #{profile.licensed || false},
+  "license_number": "#{profile.license_number}",
   "opened_since": "#{profile.opened_since}",
   "open_door_policy": #{profile.open_door_policy || false},
   "serving_disabilities": #{profile.serving_disabilities || false},

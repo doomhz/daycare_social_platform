@@ -23,7 +23,7 @@ module.exports = (app)->
     currentUser = if req.user then req.user else {}
     data = req.body
     delete data._id
-    User.update {_id: req.params.id, _id: currentUser._id}, data, {}, (err, user) ->
+    User.update {_id: currentUser._id}, data, {}, (err, user) ->
       # TODO Delete pictures here
       res.json {success: true}
 

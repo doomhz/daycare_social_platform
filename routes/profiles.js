@@ -44,7 +44,6 @@
       data = req.body;
       delete data._id;
       return User.update({
-        _id: req.params.id,
         _id: currentUser._id
       }, data, {}, function(err, user) {
         return res.json({
