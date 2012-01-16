@@ -1,5 +1,5 @@
 {
-- var content = (comment.content + "").replace(/"/g, '').replace(/'/g, '').replace(/\\/g, '').replace(/\n/g, '<br />')
+- var content = (comment.content + "").replace(/"/g, '').replace(/'/g, '').replace(/\r\n/g, '<br />').replace(/\n/g, '<br />')
 "_id": "#{comment._id}",
 "from_id": "#{comment.from_id}",
 "to_id": "#{comment.to_id}",
@@ -16,7 +16,7 @@
   include ../profiles/_picture
   }
 -else
-  "#{content}"
+  "!{content}"
 ,
 "added_at": #{comment.added_at || 0},
 "created_at": "#{comment.created_at}",
