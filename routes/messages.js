@@ -1,8 +1,12 @@
 (function() {
   var Message, Notification, User;
+
   User = require('../models/user');
+
   Message = require('../models/message');
+
   Notification = require('../models/notification');
+
   module.exports = function(app) {
     app.post('/messages', function(req, res) {
       var data, id, messageData, to_id, user, _i, _len;
@@ -121,4 +125,5 @@
       });
     });
   };
+
 }).call(this);

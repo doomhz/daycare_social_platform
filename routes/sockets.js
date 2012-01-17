@@ -1,10 +1,16 @@
 (function() {
   var Comment, Message, Notification, User, io;
+
   User = require('../models/user');
+
   Comment = require('../models/comment');
+
   Message = require('../models/message');
+
   Notification = require('../models/notification');
+
   io = require('socket.io');
+
   module.exports = function(app) {
     var sio, userNotifications;
     sio = io.listen(app);
@@ -98,4 +104,5 @@
     });
     return Notification.setNotificationsSocket(userNotifications);
   };
+
 }).call(this);

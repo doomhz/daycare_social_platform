@@ -47,9 +47,3 @@ module.exports = (app)->
       console.log("Got error: " + e.message)
       res.render 'site/geolocation', {layout: false, error: true}
     )
-
-  app.get '/current-user', (req, res)->
-    req.user ?= {}
-    User = require('../models/user')
-    User.findOne({_id: req.user._id}).run (err, updatedUser)->
-      res.render 'profiles/_user', {profile: updatedUser, show_private: true, layout: false}

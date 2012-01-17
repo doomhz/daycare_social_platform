@@ -13,6 +13,11 @@ module.exports = (app)->
     User.find({type: 'daycare'}).desc('created_at').run (err, daycares) ->
       res.render 'profiles/profiles', {profiles: daycares, show_private: false, layout: false}
 
+  app.get '/profiles/me', (req, res)->
+    currentUser = if req.user then req.user else {}
+    User.findOne({_id: currentUser._id}).run (err, user)->
+      res.render 'profiles/_user', {profile: user, show_private: true, layout: false}
+
   app.get '/profiles/:id', (req, res)->
     User.findOne({_id: req.params.id}).run (err, user) ->
       currentUser = if req.user then req.user else {}

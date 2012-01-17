@@ -1,23 +1,25 @@
 (function() {
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  Kin.DayCare.InvitesView = (function() {
-    __extends(InvitesView, Backbone.View);
+  var __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  Kin.DayCare.InvitesView = (function(_super) {
+
+    __extends(InvitesView, _super);
+
     function InvitesView() {
       InvitesView.__super__.constructor.apply(this, arguments);
     }
+
     InvitesView.prototype.el = null;
+
     InvitesView.prototype.tplUrl = '/templates/main/day_care/invites.html';
+
     InvitesView.prototype.events = {
       "submit #send-invite-form": "sendInvite"
     };
+
     InvitesView.prototype.initialize = function() {};
+
     InvitesView.prototype.render = function() {
       var that;
       that = this;
@@ -33,6 +35,7 @@
         }
       });
     };
+
     InvitesView.prototype.renderFriendRequestsList = function() {
       var that;
       that = this;
@@ -42,6 +45,7 @@
         }
       });
     };
+
     InvitesView.prototype.sendInvite = function(ev) {
       var $form, formData, friendRequestModel, that;
       ev.preventDefault();
@@ -64,10 +68,14 @@
         }
       });
     };
+
     InvitesView.prototype.remove = function() {
       this.unbind();
       return $(this.el).unbind().empty();
     };
+
     return InvitesView;
-  })();
+
+  })(Backbone.View);
+
 }).call(this);

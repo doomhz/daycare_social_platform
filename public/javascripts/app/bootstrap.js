@@ -1,4 +1,5 @@
 (function() {
+
   window.Kin || (window.Kin = {
     DayCare: {},
     Profile: {},
@@ -9,5 +10,7 @@
       noPicture: '/images/no_picture.png'
     }
   });
+
   $.tmpload.defaults.tplWrapper = _.template;
+
 }).call(this);

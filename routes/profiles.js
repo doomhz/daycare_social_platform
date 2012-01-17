@@ -1,8 +1,12 @@
 (function() {
   var Comment, User, fs;
+
   User = require('../models/user');
+
   Comment = require('../models/comment');
+
   fs = require('fs');
+
   module.exports = function(app) {
     app.get('/profiles', function(req, res) {
       return User.find().asc('name', 'surname').run(function(err, users) {
@@ -20,6 +24,19 @@
         return res.render('profiles/profiles', {
           profiles: daycares,
           show_private: false,
+          layout: false
+        });
+      });
+    });
+    app.get('/profiles/me', function(req, res) {
+      var currentUser;
+      currentUser = req.user ? req.user : {};
+      return User.findOne({
+        _id: currentUser._id
+      }).run(function(err, user) {
+        return res.render('profiles/_user', {
+          profile: user,
+          show_private: true,
           layout: false
         });
       });
@@ -83,9 +100,7 @@
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             pictureSet = _ref[_i];
             pictureSetIndexToEdit++;
-            if (pictureSet._id + "" === pictureSetId + "") {
-              break;
-            }
+            if (pictureSet._id + "" === pictureSetId + "") break;
           }
           delete req.body._id;
           _ref2 = req.body;
@@ -337,9 +352,7 @@
                 pictureSet = pictureSets[_i];
                 pictureSetIndex++;
                 if ("" + pictureSet._id === "" + pictureSetId) {
-                  if (!pictureSet.pictures.length) {
-                    newPictureData.primary = true;
-                  }
+                  if (!pictureSet.pictures.length) newPictureData.primary = true;
                   newPicturePosition = pictureSet.pictures.push(newPictureData);
                   break;
                 }
@@ -356,12 +369,8 @@
                 height: 85,
                 quality: 1
               }, function(err, stdout, stderr) {
-                if (err) {
-                  console.log(err);
-                }
-                if (err) {
-                  console.log(stderr);
-                }
+                if (err) console.log(err);
+                if (err) console.log(stderr);
                 return im.crop({
                   srcPath: filePath,
                   dstPath: mediumFilePath,
@@ -369,12 +378,8 @@
                   height: 290,
                   quality: 1
                 }, function(err, stdout, stderr) {
-                  if (err) {
-                    console.log(err);
-                  }
-                  if (err) {
-                    console.log(stderr);
-                  }
+                  if (err) console.log(err);
+                  if (err) console.log(stderr);
                   return im.resize({
                     srcPath: filePath,
                     dstPath: bigFilePath,
@@ -383,12 +388,8 @@
                     quality: 1
                   }, function(err, stdout, stderr) {
                     var comment;
-                    if (err) {
-                      console.log(err);
-                    }
-                    if (err) {
-                      console.log(stderr);
-                    }
+                    if (err) console.log(err);
+                    if (err) console.log(stderr);
                     comment = new Comment({
                       from_id: currentUser._id,
                       to_id: user._id,
@@ -420,4 +421,5 @@
       }
     });
   };
+
 }).call(this);

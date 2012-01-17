@@ -1,12 +1,9 @@
 (function() {
-  var NotificationSchema, User, exports, notificationsSocket;
-  var __indexOf = Array.prototype.indexOf || function(item) {
-    for (var i = 0, l = this.length; i < l; i++) {
-      if (this[i] === item) return i;
-    }
-    return -1;
-  };
+  var NotificationSchema, User, exports, notificationsSocket,
+    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
   User = require("./user");
+
   NotificationSchema = new Schema({
     user_id: {
       type: String
@@ -42,25 +39,28 @@
       type: {}
     }
   });
+
   notificationsSocket = null;
+
   NotificationSchema.statics.setNotificationsSocket = function(socket) {
     return notificationsSocket = socket;
   };
+
   NotificationSchema.statics.getNotificationsSocket = function() {
     return notificationsSocket;
   };
+
   NotificationSchema.methods.saveAndTriggerNewComments = function() {
     var Notification;
     Notification = require("./notification");
     return this.save(function(err, data) {
-      if (data.type === "feed") {
-        Notification.triggerNewWallPosts(data.user_id);
-      }
+      if (data.type === "feed") Notification.triggerNewWallPosts(data.user_id);
       if (data.type === "alert") {
         return Notification.triggerNewFollowups(data.user_id);
       }
     });
   };
+
   NotificationSchema.statics.addForStatus = function(newComment, sender) {
     var Notification, senderId, wallOwnerId;
     Notification = require("./notification");
@@ -103,6 +103,7 @@
       });
     });
   };
+
   NotificationSchema.statics.addForFollowup = function(newComment, sender) {
     var Comment, Notification, originalStatusId, senderId, wallOwnerId;
     Notification = require("./notification");
@@ -158,13 +159,21 @@
             _results = [];
             for (_i = 0, _len = comments.length; _i < _len; _i++) {
               comment = comments[_i];
-              _results.push((_ref = comment.from_id, __indexOf.call(sentUserIds, _ref) < 0) ? (content = "commented on " + statusOwner.name + " " + statusOwner.surname + "'s post on " + wallOwner.name + " " + wallOwner.surname + "'s wall.", notificationData = {
-                user_id: comment.from_id,
-                from_id: sender._id,
-                wall_id: newComment.wall_id,
-                type: "alert",
-                content: content
-              }, notification = new Notification(notificationData), notification.saveAndTriggerNewComments(comment.from_id), sentUserIds.push(comment.from_id)) : void 0);
+              if (_ref = comment.from_id, __indexOf.call(sentUserIds, _ref) < 0) {
+                content = "commented on " + statusOwner.name + " " + statusOwner.surname + "'s post on " + wallOwner.name + " " + wallOwner.surname + "'s wall.";
+                notificationData = {
+                  user_id: comment.from_id,
+                  from_id: sender._id,
+                  wall_id: newComment.wall_id,
+                  type: "alert",
+                  content: content
+                };
+                notification = new Notification(notificationData);
+                notification.saveAndTriggerNewComments(comment.from_id);
+                _results.push(sentUserIds.push(comment.from_id));
+              } else {
+                _results.push(void 0);
+              }
             }
             return _results;
           });
@@ -194,6 +203,7 @@
       });
     });
   };
+
   NotificationSchema.statics.triggerNewMessages = function(userId) {
     var Message, sessionId, userSocket;
     sessionId = notificationsSocket.userSessions[userId];
@@ -216,6 +226,7 @@
       });
     }
   };
+
   NotificationSchema.statics.findLastWallPosts = function(userId, limit, onFind) {
     return this.find({
       user_id: userId,
@@ -237,9 +248,7 @@
               post = posts[_j];
               for (_k = 0, _len3 = users.length; _k < _len3; _k++) {
                 user = users[_k];
-                if (("" + user._id) === ("" + post.from_id)) {
-                  post.from_user = user;
-                }
+                if (("" + user._id) === ("" + post.from_id)) post.from_user = user;
               }
             }
           }
@@ -250,6 +259,7 @@
       }
     });
   };
+
   NotificationSchema.statics.triggerNewWallPosts = function(userId) {
     var sessionId, userSocket;
     sessionId = notificationsSocket.userSessions[userId];
@@ -271,6 +281,7 @@
       });
     }
   };
+
   NotificationSchema.statics.findLastFollowups = function(userId, limit, onFind) {
     return this.find({
       user_id: userId,
@@ -305,6 +316,7 @@
       }
     });
   };
+
   NotificationSchema.statics.triggerNewFollowups = function(userId) {
     var sessionId, userSocket;
     sessionId = notificationsSocket.userSessions[userId];
@@ -326,5 +338,7 @@
       });
     }
   };
+
   exports = module.exports = mongoose.model("Notification", NotificationSchema);
+
 }).call(this);

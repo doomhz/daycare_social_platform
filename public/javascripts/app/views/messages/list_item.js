@@ -1,27 +1,30 @@
 (function() {
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  window.Kin.Messages.ListItemView = (function() {
-    __extends(ListItemView, Backbone.View);
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  window.Kin.Messages.ListItemView = (function(_super) {
+
+    __extends(ListItemView, _super);
+
     function ListItemView() {
       this.sendReply = __bind(this.sendReply, this);
       ListItemView.__super__.constructor.apply(this, arguments);
     }
+
     ListItemView.prototype.tagName = 'li';
+
     ListItemView.prototype.tplUrl = '/templates/main/messages/list_item.html';
+
     ListItemView.prototype.events = {
       "click .message-header-cnt": "toggleMessageBody",
       "click .delete-message-bt": "deleteMessage"
     };
+
     ListItemView.prototype.initialize = function() {
       return this.model && (this.model.view = this);
     };
+
     ListItemView.prototype.render = function() {
       var that;
       that = this;
@@ -32,9 +35,7 @@
             message: that.model
           }));
           that.$(".time").timeago();
-          if (that.model.get("unread")) {
-            $(that.el).addClass("unread");
-          }
+          if (that.model.get("unread")) $(that.el).addClass("unread");
           if (that.model.get("type") === "default") {
             that.$(".add-reply-message-form:first textarea").autoResize({
               extraSpace: -2
@@ -44,6 +45,7 @@
         }
       });
     };
+
     ListItemView.prototype.toggleMessageBody = function() {
       var $messageBodyCnt, that;
       that = this;
@@ -60,6 +62,7 @@
         });
       }
     };
+
     ListItemView.prototype.sendReply = function(ev) {
       var $form, formData, messageModel, that;
       ev.preventDefault();
@@ -80,11 +83,15 @@
         }
       });
     };
+
     ListItemView.prototype.deleteMessage = function(ev) {
       ev.preventDefault();
       this.model.destroy();
       return this.remove();
     };
+
     return ListItemView;
-  })();
+
+  })(Backbone.View);
+
 }).call(this);

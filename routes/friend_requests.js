@@ -1,7 +1,10 @@
 (function() {
   var FriendRequest, User;
+
   User = require('../models/user');
+
   FriendRequest = require('../models/friend_request');
+
   module.exports = function(app) {
     app.post('/friend-requests', function(req, res) {
       var currentUser, data;
@@ -51,4 +54,5 @@
       });
     });
   };
+
 }).call(this);

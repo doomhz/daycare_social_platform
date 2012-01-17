@@ -1,6 +1,8 @@
 (function() {
   var Notification;
+
   Notification = require('../models/notification');
+
   module.exports = function(app) {
     app.put('/notifications/feeds', function(req, res) {
       var user;
@@ -39,4 +41,5 @@
       });
     });
   };
+
 }).call(this);

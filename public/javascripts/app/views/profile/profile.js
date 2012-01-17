@@ -1,35 +1,42 @@
 (function() {
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  window.Kin.Profile.ProfileView = (function() {
-    __extends(ProfileView, Backbone.View);
+  var __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  window.Kin.Profile.ProfileView = (function(_super) {
+
+    __extends(ProfileView, _super);
+
     function ProfileView() {
       ProfileView.__super__.constructor.apply(this, arguments);
     }
+
     ProfileView.prototype.el = null;
+
     ProfileView.prototype.tplUrl = {
       daycare: "/templates/main/day_care/profile.html",
       parent: "/templates/main/parent/profile.html"
     };
+
     ProfileView.prototype.events = {
       "submit #add-comment-form": "addCommentHandler",
       "submit .add-followup-form": "addFollowupHandler"
     };
+
     ProfileView.prototype.maps = null;
+
     ProfileView.prototype.router = null;
+
     ProfileView.prototype.currentUser = null;
+
     ProfileView.prototype.profileGeneralInfo = null;
+
     ProfileView.prototype.renderProfileWall = true;
+
     ProfileView.prototype.initialize = function(_arg) {
       this.router = _arg.router, this.currentUser = _arg.currentUser;
       return this;
     };
+
     ProfileView.prototype.render = function() {
       var that;
       that = this;
@@ -106,23 +113,20 @@
       });
       return this;
     };
+
     ProfileView.prototype.remove = function() {
-      if (this.maps) {
-        this.maps.remove();
-      }
+      if (this.maps) this.maps.remove();
       this.unbind();
       $(this.el).unbind().empty();
-      if (this.profileGeneralInfo) {
-        this.profileGeneralInfo.remove();
-      }
-      if (this.profileWall) {
-        this.profileWall.remove();
-      }
+      if (this.profileGeneralInfo) this.profileGeneralInfo.remove();
+      if (this.profileWall) this.profileWall.remove();
       return this;
     };
+
     ProfileView.prototype.addAddressMarker = function(lat, lng, name) {
       return this.addressMarker = this.maps.addMarker(lat, lng, name, false);
     };
+
     ProfileView.prototype.addCommentHandler = function(ev) {
       var $form;
       ev.preventDefault();
@@ -130,6 +134,7 @@
       this.sendCommentFromForm($form);
       return $form.find("textarea").val("").keyup();
     };
+
     ProfileView.prototype.addFollowupHandler = function(ev) {
       var $form;
       ev.preventDefault();
@@ -137,6 +142,7 @@
       this.sendCommentFromForm($form);
       return $form.find("textarea").val("").keyup();
     };
+
     ProfileView.prototype.sendCommentFromForm = function($form) {
       var comment, commentData, that;
       that = this;
@@ -151,6 +157,9 @@
         }
       });
     };
+
     return ProfileView;
-  })();
+
+  })(Backbone.View);
+
 }).call(this);

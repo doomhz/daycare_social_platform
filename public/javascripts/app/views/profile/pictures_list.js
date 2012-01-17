@@ -1,24 +1,26 @@
 (function() {
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  window.Kin.Profile.PicturesListView = (function() {
-    __extends(PicturesListView, Backbone.View);
+  var __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  window.Kin.Profile.PicturesListView = (function(_super) {
+
+    __extends(PicturesListView, _super);
+
     function PicturesListView() {
       PicturesListView.__super__.constructor.apply(this, arguments);
     }
+
     PicturesListView.prototype.el = null;
+
     PicturesListView.prototype.tplUrl = '/templates/main/profile/pictures_list.html';
+
     PicturesListView.prototype.events = {
       'click .delete-pic-bt': 'deletePicture',
       'click .primary-pic-bt': 'setAsPrimaryPicture'
     };
+
     PicturesListView.prototype.canEdit = null;
+
     PicturesListView.prototype.initialize = function(_arg) {
       this.canEdit = _arg.canEdit;
       _.bindAll(this, 'render');
@@ -26,6 +28,7 @@
       this.collection.bind('remove', this.render);
       return this;
     };
+
     PicturesListView.prototype.render = function() {
       var that;
       that = this;
@@ -69,6 +72,7 @@
       });
       return this;
     };
+
     PicturesListView.prototype.remove = function() {
       var $el;
       $el = $(this.el);
@@ -76,6 +80,7 @@
       $el.unbind().empty();
       return this;
     };
+
     PicturesListView.prototype.deletePicture = function(ev) {
       var $delBt, picCid, pictureModel;
       ev.preventDefault();
@@ -84,6 +89,7 @@
       pictureModel = this.collection.getByCid(picCid);
       return pictureModel.destroy();
     };
+
     PicturesListView.prototype.setAsPrimaryPicture = function(ev) {
       var $primaryBt, picCid, pictureModel;
       ev.preventDefault();
@@ -96,6 +102,9 @@
       });
       return this.render();
     };
+
     return PicturesListView;
-  })();
+
+  })(Backbone.View);
+
 }).call(this);

@@ -1,12 +1,9 @@
 (function() {
-  var Picture, PictureSet, UserSchema, exports, mongooseAuth;
-  var __indexOf = Array.prototype.indexOf || function(item) {
-    for (var i = 0, l = this.length; i < l; i++) {
-      if (this[i] === item) return i;
-    }
-    return -1;
-  };
+  var Picture, PictureSet, UserSchema, exports, mongooseAuth,
+    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
   mongooseAuth = require('mongoose-auth');
+
   Picture = new Schema({
     primary: {
       type: Boolean,
@@ -29,6 +26,7 @@
     },
     success: Boolean
   });
+
   PictureSet = new Schema({
     user_id: {
       type: String
@@ -47,6 +45,7 @@
     },
     pictures: [Picture]
   });
+
   UserSchema = new Schema({
     name: {
       type: String,
@@ -92,6 +91,7 @@
       "default": []
     }
   });
+
   UserSchema.methods.filterPrivateDataByUserId = function(user_id) {
     var user, users, _i, _len;
     if (this.constructor === Array) {
@@ -113,6 +113,7 @@
       }
     }
   };
+
   UserSchema.statics.filterPrivatePictureSetsByUserId = function(user_id, guestUserId, pictureSets) {
     var pictureSet, publicPictureSetTypes, publicPictureSets, _i, _len, _ref;
     if (("" + user_id) === ("" + guestUserId)) {
@@ -129,6 +130,7 @@
       return publicPictureSets;
     }
   };
+
   UserSchema.statics.getPublicData = function(user) {
     var data, key, pictureSet, publicPictureSetTypes, publicRows, val, _i, _len, _ref, _ref2;
     data = {};
@@ -152,9 +154,7 @@
     };
     for (key in user) {
       val = user[key];
-      if (publicRows[key]) {
-        data[key] = val;
-      }
+      if (publicRows[key]) data[key] = val;
     }
     data.picture_sets = [];
     publicPictureSetTypes = ["profile", "public"];
@@ -167,16 +167,11 @@
     }
     return data;
   };
+
   UserSchema.statics.checkPermissions = function(object, requiredKey, requiredValue, resForAutoRedirect) {
-    if (object == null) {
-      object = {};
-    }
-    if (object && (!requiredKey || !requiredValue)) {
-      return true;
-    }
-    if (object[requiredKey] === requiredValue) {
-      return true;
-    }
+    if (object == null) object = {};
+    if (object && (!requiredKey || !requiredValue)) return true;
+    if (object[requiredKey] === requiredValue) return true;
     if (resForAutoRedirect) {
       resForAutoRedirect.writeHead(303, {
         'Location': '/login'
@@ -185,6 +180,7 @@
     }
     return false;
   };
+
   UserSchema.plugin(mongooseAuth, {
     everymodule: {
       everyauth: {
@@ -258,21 +254,35 @@
                 friendRequest.save();
                 dayCareId = friendRequest.from_id;
                 redirectTo = "/#profiles/view/" + dayCareId;
-                User.findOne({
+                return User.findOne({
                   _id: dayCareId
                 }).run(function(err, dayCare) {
+                  var dayCareFriends;
+                  dayCareFriends = dayCare.friends;
                   dayCare.friends.push(userId);
-                  return dayCare.save();
-                });
-                return User.update({
-                  _id: userId
-                }, {
-                  friends: [dayCareId]
-                }, {}, function(err) {
-                  res.writeHead(303, {
-                    'Location': redirectTo
+                  dayCare.save();
+                  return User.find({
+                    type: "parent"
+                  }).where("_id")["in"](dayCareFriends).run(function(err, dayCareFriends) {
+                    var friendsIds, userFriend, _i, _len;
+                    friendsIds = [dayCareId];
+                    for (_i = 0, _len = dayCareFriends.length; _i < _len; _i++) {
+                      userFriend = dayCareFriends[_i];
+                      friendsIds.push(userFriend._id);
+                      userFriend.friends.push(userId);
+                      userFriend.save();
+                    }
+                    return User.update({
+                      _id: userId
+                    }, {
+                      friends: friendsIds
+                    }, {}, function(err) {
+                      res.writeHead(303, {
+                        'Location': redirectTo
+                      });
+                      return res.end();
+                    });
                   });
-                  return res.end();
                 });
               });
             } else {
@@ -286,5 +296,7 @@
       }
     }
   });
+
   exports = module.exports = mongoose.model('User', UserSchema);
+
 }).call(this);

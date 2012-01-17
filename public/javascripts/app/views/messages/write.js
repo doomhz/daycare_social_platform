@@ -1,27 +1,32 @@
 (function() {
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  Kin.Messages.WriteView = (function() {
-    __extends(WriteView, Backbone.View);
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  Kin.Messages.WriteView = (function(_super) {
+
+    __extends(WriteView, _super);
+
     function WriteView() {
       this.renderWhenCollectionLoaded = __bind(this.renderWhenCollectionLoaded, this);
       WriteView.__super__.constructor.apply(this, arguments);
     }
+
     WriteView.prototype.el = null;
+
     WriteView.prototype.tplUrl = '/templates/main/messages/write.html';
+
     WriteView.prototype.tpl = null;
+
     WriteView.prototype.collection = null;
+
     WriteView.prototype.events = {
       "submit #write-message-form": "sendMessage",
       "click #save-draft-message-bt": "saveDraftMessage"
     };
+
     WriteView.prototype.initialize = function() {};
+
     WriteView.prototype.render = function() {
       var that;
       that = this;
@@ -39,6 +44,7 @@
         }
       });
     };
+
     WriteView.prototype.renderWhenCollectionLoaded = function() {
       var that;
       that = this;
@@ -55,6 +61,7 @@
         }
       });
     };
+
     WriteView.prototype.sendMessage = function(ev) {
       var $form, formData, messageModel, that;
       ev.preventDefault();
@@ -73,6 +80,7 @@
         }
       });
     };
+
     WriteView.prototype.saveDraftMessage = function(ev) {
       var $form, formData, messageModel, that;
       ev.preventDefault();
@@ -91,10 +99,14 @@
         }
       });
     };
+
     WriteView.prototype.remove = function() {
       this.unbind();
       return $(this.el).unbind().empty();
     };
+
     return WriteView;
-  })();
+
+  })(Backbone.View);
+
 }).call(this);

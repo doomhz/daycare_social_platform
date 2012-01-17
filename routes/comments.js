@@ -1,14 +1,13 @@
 (function() {
-  var Comment, Notification, User;
-  var __indexOf = Array.prototype.indexOf || function(item) {
-    for (var i = 0, l = this.length; i < l; i++) {
-      if (this[i] === item) return i;
-    }
-    return -1;
-  };
+  var Comment, Notification, User,
+    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
   User = require('../models/user');
+
   Comment = require('../models/comment');
+
   Notification = require('../models/notification');
+
   module.exports = function(app) {
     app.get('/comments/:wall_id/:last_query_time', function(req, res) {
       var currentUser, currentUserId, lastQueryTime, wallId;
@@ -86,4 +85,5 @@
       }
     });
   };
+
 }).call(this);

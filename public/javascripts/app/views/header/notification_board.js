@@ -1,33 +1,39 @@
 (function() {
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  Kin.Header.NotificationBoardView = (function() {
-    __extends(NotificationBoardView, Backbone.View);
+  var __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  Kin.Header.NotificationBoardView = (function(_super) {
+
+    __extends(NotificationBoardView, _super);
+
     function NotificationBoardView() {
       NotificationBoardView.__super__.constructor.apply(this, arguments);
     }
+
     NotificationBoardView.prototype.el = null;
+
     NotificationBoardView.prototype.currentUser = null;
+
     NotificationBoardView.prototype.socket = null;
+
     NotificationBoardView.prototype.socketUrl = "http://" + window.location.hostname + "/user-notifications";
+
     NotificationBoardView.prototype.delegates = [];
+
     NotificationBoardView.prototype.initialize = function(_arg) {
       this.currentUser = _arg.currentUser;
     };
+
     NotificationBoardView.prototype.addDelegate = function(delegate) {
       return this.delegates.push(delegate);
     };
+
     NotificationBoardView.prototype.removeDelegate = function(delegate) {
       return this.delegates = _.filter(this.delegates, function(obj) {
         return obj === delegate;
       });
     };
+
     NotificationBoardView.prototype.watch = function() {
       var that;
       that = this;
@@ -79,6 +85,7 @@
         });
       });
     };
+
     NotificationBoardView.prototype.triggerChangeOnDelegates = function(attribute, value) {
       var delegate, _i, _len, _ref, _results;
       _ref = this.delegates;
@@ -89,6 +96,9 @@
       }
       return _results;
     };
+
     return NotificationBoardView;
-  })();
+
+  })(Backbone.View);
+
 }).call(this);

@@ -203,12 +203,20 @@ UserSchema.plugin(
                 redirectTo = "/#profiles/view/#{dayCareId}"
 
                 User.findOne({_id: dayCareId}).run (err, dayCare)->
+                  dayCareFriends = dayCare.friends
                   dayCare.friends.push(userId)
                   dayCare.save()
 
-                User.update {_id: userId}, {friends: [dayCareId]}, {}, (err)->
-                  res.writeHead(303, {'Location': redirectTo})
-                  res.end()
+                  User.find({type: "parent"}).where("_id").in(dayCareFriends).run (err, dayCareFriends)->
+                    friendsIds = [dayCareId]
+                    for userFriend in dayCareFriends
+                      friendsIds.push(userFriend._id)
+                      userFriend.friends.push(userId)
+                      userFriend.save()
+
+                    User.update {_id: userId}, {friends: friendsIds}, {}, (err)->
+                      res.writeHead(303, {'Location': redirectTo})
+                      res.end()
 
             else
               res.writeHead(303, {'Location': redirectTo})

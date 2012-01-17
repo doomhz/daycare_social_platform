@@ -1,22 +1,23 @@
 (function() {
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  Kin.Profile.WallCommentView = (function() {
-    __extends(WallCommentView, Backbone.View);
+  var __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  Kin.Profile.WallCommentView = (function(_super) {
+
+    __extends(WallCommentView, _super);
+
     function WallCommentView() {
       WallCommentView.__super__.constructor.apply(this, arguments);
     }
+
     WallCommentView.prototype.tagName = 'li';
+
     WallCommentView.prototype.tplUrl = '/templates/main/profile/wall_comment.html';
+
     WallCommentView.prototype.initialize = function() {
       return this.model && (this.model.view = this);
     };
+
     WallCommentView.prototype.render = function() {
       var that;
       that = this;
@@ -42,6 +43,9 @@
         }
       });
     };
+
     return WallCommentView;
-  })();
+
+  })(Backbone.View);
+
 }).call(this);

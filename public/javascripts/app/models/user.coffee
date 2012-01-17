@@ -21,8 +21,21 @@ class Kin.UserModel extends Backbone.Model
     serving_disabilities: false
     picture_sets: []
 
+  url: '/profiles'
 
-  url: '/current-user'
+  autoUpdate: false
+
+  autoUpdateTime: 15000
+
+  initialize: (options = {})->
+    @url = options.url || @url
+    @autoUpdate = options.autoUpdate || @autoUpdate
+    @autoUpdateTime = options.autoUpdateTime || @autoUpdateTime
+    if @autoUpdate
+      window.setInterval(@autoUpdateHandler, @autoUpdateTime)
+
+  autoUpdateHandler: ()=>
+    @fetch()
 
   canEditProfile: (profileId)->
     profileId is @get('_id')

@@ -1,28 +1,35 @@
 (function() {
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  Kin.AppView = (function() {
-    __extends(AppView, Backbone.View);
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  Kin.AppView = (function(_super) {
+
+    __extends(AppView, _super);
+
     function AppView() {
       this.onUserLoad = __bind(this.onUserLoad, this);
       AppView.__super__.constructor.apply(this, arguments);
     }
+
     AppView.prototype.mainColumnView = null;
+
     AppView.prototype.side1ColumnView = null;
+
     AppView.prototype.mainColumnSelector = "#main-column";
+
     AppView.prototype.side1ColumnSelector = "#side-column1";
+
     AppView.prototype.router = null;
+
     AppView.prototype.currentUser = null;
+
     AppView.prototype.window = null;
+
     AppView.prototype.initialize = function() {
       return this.initCurrentUser(this.onUserLoad);
     };
+
     AppView.prototype.onUserLoad = function() {
       this.initWindow();
       this.initHeaderMenu();
@@ -30,6 +37,7 @@
       this.initHeaderNotification();
       return this.initRouter();
     };
+
     AppView.prototype.initRouter = function() {
       this.router = new Kin.MainRouter({
         app: this
@@ -38,8 +46,12 @@
         pushState: false
       });
     };
+
     AppView.prototype.initCurrentUser = function(onLoad) {
-      this.currentUser = new Kin.UserModel();
+      this.currentUser = new Kin.UserModel({
+        url: "/profiles/me",
+        autoUpdate: true
+      });
       return this.currentUser.fetch({
         success: function(model) {
           if (!model.get('_id')) {
@@ -50,9 +62,11 @@
         }
       });
     };
+
     AppView.prototype.initWindow = function() {
       return this.window = new Kin.WindowView();
     };
+
     AppView.prototype.initHeaderMenu = function() {
       var headerSettingsSubmenu;
       headerSettingsSubmenu = new Kin.Header.SubmenuView({
@@ -60,12 +74,14 @@
       });
       return this.window.addDelegate(headerSettingsSubmenu);
     };
+
     AppView.prototype.initHeaderSearch = function() {
       var headerSearch;
       return headerSearch = new Kin.Header.SearchView({
         el: "header #search-cnt"
       });
     };
+
     AppView.prototype.initHeaderNotification = function() {
       var followupsNotification, headerNotificationBoard, messagesNotification, wallPostsNotification;
       headerNotificationBoard = new Kin.Header.NotificationBoardView({
@@ -98,6 +114,7 @@
       this.window.addDelegate(followupsNotification);
       return headerNotificationBoard.watch();
     };
+
     AppView.prototype.renderDaycares = function() {
       this.clearColumns();
       this.mainColumnView = new Kin.Profile.ListView({
@@ -108,6 +125,7 @@
       });
       return this.mainColumnView.render();
     };
+
     AppView.prototype.renderViewProfile = function(id) {
       var profile, that;
       that = this;
@@ -135,6 +153,7 @@
         }
       });
     };
+
     AppView.prototype.renderViewProfileGallery = function(id) {
       var profile, that;
       that = this;
@@ -162,6 +181,7 @@
         }
       });
     };
+
     AppView.prototype.renderEditProfile = function(id) {
       var profile, that;
       that = this;
@@ -195,6 +215,7 @@
         }
       });
     };
+
     AppView.prototype.renderViewProfilePictureSet = function(id) {
       var pictureSet, that;
       that = this;
@@ -219,6 +240,7 @@
         }
       });
     };
+
     AppView.prototype.renderWriteMessage = function(id) {
       var draftMessage, usersCollection;
       this.clearColumns();
@@ -240,6 +262,7 @@
       });
       return this.side1ColumnView.render();
     };
+
     AppView.prototype.renderViewInboxMessages = function() {
       var messagesCollection;
       this.clearColumns();
@@ -257,6 +280,7 @@
       });
       return this.side1ColumnView.render();
     };
+
     AppView.prototype.renderViewDraftMessages = function() {
       var messagesCollection;
       this.clearColumns();
@@ -274,6 +298,7 @@
       });
       return this.side1ColumnView.render();
     };
+
     AppView.prototype.renderViewSentMessages = function() {
       var messagesCollection;
       this.clearColumns();
@@ -291,6 +316,7 @@
       });
       return this.side1ColumnView.render();
     };
+
     AppView.prototype.renderViewTrashMessages = function() {
       var messagesCollection;
       this.clearColumns();
@@ -308,6 +334,7 @@
       });
       return this.side1ColumnView.render();
     };
+
     AppView.prototype.renderInviteParents = function() {
       var friendRequests, that;
       that = this;
@@ -326,11 +353,10 @@
       });
       return that.side1ColumnView.render();
     };
+
     AppView.prototype.clearColumns = function(columns) {
       var column, _i, _len, _results;
-      if (columns == null) {
-        columns = ['main', 'side1'];
-      }
+      if (columns == null) columns = ['main', 'side1'];
       _results = [];
       for (_i = 0, _len = columns.length; _i < _len; _i++) {
         column = columns[_i];
@@ -338,6 +364,9 @@
       }
       return _results;
     };
+
     return AppView;
-  })();
+
+  })(Backbone.View);
+
 }).call(this);

@@ -1,26 +1,29 @@
 (function() {
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  window.Kin.Profile.PictureSetView = (function() {
-    __extends(PictureSetView, Backbone.View);
+  var __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  window.Kin.Profile.PictureSetView = (function(_super) {
+
+    __extends(PictureSetView, _super);
+
     function PictureSetView() {
       PictureSetView.__super__.constructor.apply(this, arguments);
     }
+
     PictureSetView.prototype.el = null;
+
     PictureSetView.prototype.tplUrl = '/templates/main/profile/picture_set.html';
+
     PictureSetView.prototype.uploader = null;
+
     PictureSetView.prototype.currentUser = null;
+
     PictureSetView.prototype.initialize = function(_arg) {
       this.currentUser = _arg.currentUser;
       this.model && (this.model.view = this);
       return this;
     };
+
     PictureSetView.prototype.render = function() {
       var that;
       that = this;
@@ -98,6 +101,7 @@
       });
       return this;
     };
+
     PictureSetView.prototype.remove = function() {
       var $el;
       $el = $(this.el);
@@ -106,6 +110,9 @@
       this.picturesListView.remove();
       return this;
     };
+
     return PictureSetView;
-  })();
+
+  })(Backbone.View);
+
 }).call(this);

@@ -1,6 +1,8 @@
 (function() {
   var FriendRequest, FriendRequestSchema, User, exports;
+
   User = require("./user");
+
   FriendRequestSchema = new Schema({
     from_id: {
       type: String
@@ -24,6 +26,7 @@
       "default": Date.now
     }
   });
+
   FriendRequestSchema.statics.sendMail = function(friendRequest, options) {
     return User.findOne({
       _id: friendRequest.from_id
@@ -53,12 +56,13 @@
         username: "no-reply@kindzy.com",
         password: "greatreply#69"
       }, function(err, result) {
-        if (err) {
-          return console.log(err);
-        }
+        if (err) return console.log(err);
       });
     });
   };
+
   FriendRequest = mongoose.model("FriendRequest", FriendRequestSchema);
+
   exports = module.exports = FriendRequest;
+
 }).call(this);

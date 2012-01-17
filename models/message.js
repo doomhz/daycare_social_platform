@@ -1,12 +1,9 @@
 (function() {
-  var Message, MessageSchema, User, exports;
-  var __indexOf = Array.prototype.indexOf || function(item) {
-    for (var i = 0, l = this.length; i < l; i++) {
-      if (this[i] === item) return i;
-    }
-    return -1;
-  };
+  var Message, MessageSchema, User, exports,
+    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
   User = require("./user");
+
   MessageSchema = new Schema({
     from_id: {
       type: String
@@ -41,6 +38,7 @@
       type: {}
     }
   });
+
   MessageSchema.statics.send = function(userId, data) {
     var message;
     data.from_id = userId;
@@ -60,6 +58,7 @@
     message.type = "sent";
     return message.save();
   };
+
   MessageSchema.statics.saveDraft = function(userId, data) {
     var message;
     data.from_id = userId;
@@ -72,40 +71,44 @@
     message.type = "draft";
     return message.save();
   };
+
   MessageSchema.statics.findDefault = function(toUserId, onFind) {
     return this.findMessages({
       to_id: toUserId,
       type: "default"
     }, onFind);
   };
+
   MessageSchema.statics.findSent = function(fromUserId, onFind) {
     return this.findMessages({
       from_id: fromUserId,
       type: "sent"
     }, onFind);
   };
+
   MessageSchema.statics.findDraft = function(fromUserId, onFind) {
     return this.findMessages({
       from_id: fromUserId,
       type: "draft"
     }, onFind);
   };
+
   MessageSchema.statics.findDeleted = function(toUserId, onFind) {
     return this.findMessages({
       to_id: toUserId,
       type: "deleted"
     }, onFind);
   };
+
   MessageSchema.statics.findLastMessages = function(toUserId, limit, onFind) {
     return this.findMessages({
       to_id: toUserId,
       type: "default"
     }, onFind, limit);
   };
+
   MessageSchema.statics.findMessages = function(findOptions, onFind, limit) {
-    if (limit == null) {
-      limit = false;
-    }
+    if (limit == null) limit = false;
     return this.find(findOptions).desc('created_at').limit(limit).run(function(err, messages) {
       var message, usersToFind, _i, _len, _ref, _ref2;
       usersToFind = [];
@@ -142,6 +145,9 @@
       }
     });
   };
+
   Message = mongoose.model("Message", MessageSchema);
+
   exports = module.exports = Message;
+
 }).call(this);

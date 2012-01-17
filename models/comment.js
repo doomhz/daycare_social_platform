@@ -1,5 +1,6 @@
 (function() {
   var CommentSchema, exports;
+
   CommentSchema = new Schema({
     from_id: {
       type: String
@@ -37,5 +38,7 @@
       type: {}
     }
   });
+
   exports = module.exports = mongoose.model("Comment", CommentSchema);
+
 }).call(this);

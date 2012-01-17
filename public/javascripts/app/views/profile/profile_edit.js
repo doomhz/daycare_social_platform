@@ -1,38 +1,42 @@
 (function() {
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  window.Kin.Profile.ProfileEditView = (function() {
-    __extends(ProfileEditView, Backbone.View);
+  var __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  window.Kin.Profile.ProfileEditView = (function(_super) {
+
+    __extends(ProfileEditView, _super);
+
     function ProfileEditView() {
       ProfileEditView.__super__.constructor.apply(this, arguments);
     }
+
     ProfileEditView.prototype.el = null;
+
     ProfileEditView.prototype.tplUrl = {
       daycare: '/templates/main/day_care/edit.html',
       parent: '/templates/main/parent/edit.html'
     };
+
     ProfileEditView.prototype.events = {
       'submit #profile-edit-form': 'saveProfile',
       'change #licensed-options': 'toggleLicenseNumberField'
     };
+
     ProfileEditView.prototype.addressAutocompleteEl = '#address-autocomplete';
+
     ProfileEditView.prototype.locationAutocompleteUrl = '/geolocation';
+
     ProfileEditView.prototype.maps = null;
+
     ProfileEditView.prototype.addressMarker = null;
+
     ProfileEditView.prototype.initialize = function(options) {
-      if (options == null) {
-        options = {};
-      }
+      if (options == null) options = {};
       this.model && (this.model.view = this);
       this.maps = options.maps;
       return this;
     };
+
     ProfileEditView.prototype.render = function() {
       var that;
       that = this;
@@ -51,6 +55,7 @@
       });
       return this;
     };
+
     ProfileEditView.prototype.createAddressMarker = function() {
       var markerData, that;
       markerData = this.getProfileDataForMarker();
@@ -62,11 +67,13 @@
         return that.updateLocationCoordsFields(coords.lat(), coords.lng());
       });
     };
+
     ProfileEditView.prototype.updateAddressMarker = function(lat, lng, title) {
       var markerData;
       markerData = this.getProfileDataForMarker(lat, lng, title);
       return this.maps.updateMarker(this.addressMarker, markerData.lat, markerData.lng, markerData.title);
     };
+
     ProfileEditView.prototype.getProfileDataForMarker = function(lat, lng, title) {
       var markerData;
       return markerData = {
@@ -75,9 +82,11 @@
         name: name || this.model.get('name')
       };
     };
+
     ProfileEditView.prototype.centerMap = function(lat, lng) {
       return this.maps.centerToCoords(lat, lng);
     };
+
     ProfileEditView.prototype.setupLocationAutocompleteForAddress = function($addressEl) {
       var that;
       that = this;
@@ -100,10 +109,12 @@
         });
       }
     };
+
     ProfileEditView.prototype.updateLocationCoordsFields = function(lat, lng) {
       this.$('#location-lat').val(lat);
       return this.$('#location-lng').val(lng);
     };
+
     ProfileEditView.prototype.loadGoogleMaps = function() {
       if (this.$(this.maps.id).length && this.maps.isMapsAvailable()) {
         this.maps.render();
@@ -111,6 +122,7 @@
         return this.updateAddressMarker();
       }
     };
+
     ProfileEditView.prototype.remove = function() {
       var $el;
       $el = $(this.el);
@@ -120,6 +132,7 @@
       $el.unbind().empty();
       return this;
     };
+
     ProfileEditView.prototype.saveProfile = function(ev) {
       var hashedData, that;
       ev.preventDefault();
@@ -138,13 +151,13 @@
       });
       return false;
     };
+
     ProfileEditView.prototype.addFormMessage = function($form, type, message) {
-      if (type == null) {
-        type = 'info';
-      }
+      if (type == null) type = 'info';
       $.jGrowl(message);
       return $(window).scrollTop(0);
     };
+
     ProfileEditView.prototype.toggleLicenseNumberField = function(ev) {
       if ($(ev.target).val() === "1") {
         return this.$('#license-number-cnt').removeClass('hidden');
@@ -152,6 +165,9 @@
         return this.$('#license-number-cnt').addClass('hidden');
       }
     };
+
     return ProfileEditView;
-  })();
+
+  })(Backbone.View);
+
 }).call(this);

@@ -31,7 +31,9 @@ class Kin.AppView extends Backbone.View
       pushState: false
 
   initCurrentUser: (onLoad)->
-    @currentUser = new Kin.UserModel()
+    @currentUser = new Kin.UserModel
+      url: "/profiles/me"
+      autoUpdate: true
     @currentUser.fetch
       success: (model)->
         if not model.get('_id')

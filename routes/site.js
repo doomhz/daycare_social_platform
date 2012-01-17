@@ -1,14 +1,17 @@
 (function() {
   var http, querystring;
+
   http = require('http');
+
   querystring = require('querystring');
+
   module.exports = function(app) {
     app.get('/', function(req, res) {
       return res.render('site/index', {
         title: "Kindzy.com"
       });
     });
-    app.get('/geolocation', function(req, res) {
+    return app.get('/geolocation', function(req, res) {
       var options, q;
       q = req.query.q;
       options = {
@@ -63,23 +66,6 @@
         });
       });
     });
-    return app.get('/current-user', function(req, res) {
-      var User, _ref;
-            if ((_ref = req.user) != null) {
-        _ref;
-      } else {
-        req.user = {};
-      };
-      User = require('../models/user');
-      return User.findOne({
-        _id: req.user._id
-      }).run(function(err, updatedUser) {
-        return res.render('profiles/_user', {
-          profile: updatedUser,
-          show_private: true,
-          layout: false
-        });
-      });
-    });
   };
+
 }).call(this);

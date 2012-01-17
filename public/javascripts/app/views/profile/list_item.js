@@ -1,23 +1,24 @@
 (function() {
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  window.Kin.Profile.ListItemView = (function() {
-    __extends(ListItemView, Backbone.View);
+  var __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  window.Kin.Profile.ListItemView = (function(_super) {
+
+    __extends(ListItemView, _super);
+
     function ListItemView() {
       ListItemView.__super__.constructor.apply(this, arguments);
     }
+
     ListItemView.prototype.tagName = 'li';
+
     ListItemView.prototype.tplUrl = '/templates/main/day_care/list_item.html';
+
     ListItemView.prototype.initialize = function() {
       this.model && (this.model.view = this);
       return this;
     };
+
     ListItemView.prototype.render = function() {
       var that;
       that = this;
@@ -31,6 +32,9 @@
       });
       return this;
     };
+
     return ListItemView;
-  })();
+
+  })(Backbone.View);
+
 }).call(this);
