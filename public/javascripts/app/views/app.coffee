@@ -22,6 +22,7 @@ class Kin.AppView extends Backbone.View
     @initHeaderMenu()
     @initHeaderSearch()
     @initHeaderNotification()
+    @initTopLink()
     @initRouter()
 
   initRouter: ()->
@@ -284,6 +285,9 @@ class Kin.AppView extends Backbone.View
       el: that.side1ColumnSelector
     that.side1ColumnView.render()
 
+
+  initTopLink: ()->
+    $('#top-link').topLink()
 
   clearColumns: (columns = ['main', 'side1'])->
     (@["#{column}ColumnView"] and @["#{column}ColumnView"].remove()) for column in columns

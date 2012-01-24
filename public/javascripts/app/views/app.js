@@ -35,6 +35,7 @@
       this.initHeaderMenu();
       this.initHeaderSearch();
       this.initHeaderNotification();
+      this.initTopLink();
       return this.initRouter();
     };
 
@@ -352,6 +353,10 @@
         el: that.side1ColumnSelector
       });
       return that.side1ColumnView.render();
+    };
+
+    AppView.prototype.initTopLink = function() {
+      return $('#top-link').topLink();
     };
 
     AppView.prototype.clearColumns = function(columns) {
