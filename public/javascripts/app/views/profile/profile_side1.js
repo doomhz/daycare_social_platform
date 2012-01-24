@@ -14,7 +14,8 @@
 
     ProfileSide1View.prototype.tplUrl = {
       daycare: '/templates/side1/day_care/profile.html',
-      parent: '/templates/side1/parent/profile.html'
+      parent: '/templates/side1/parent/profile.html',
+      "class": '/templates/side1/class/profile.html'
     };
 
     ProfileSide1View.prototype.quickMessageTplUrl = '/templates/side1/messages/quick_message_box.html';

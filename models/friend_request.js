@@ -1,9 +1,14 @@
 (function() {
-  var FriendRequest, FriendRequestSchema, User, exports;
+  var FriendRequest, FriendRequestSchema, User, exports, _;
 
   User = require("./user");
 
+  _ = require('underscore');
+
   FriendRequestSchema = new Schema({
+    user_id: {
+      type: String
+    },
     from_id: {
       type: String
     },
@@ -15,6 +20,9 @@
     },
     surname: {
       type: String
+    },
+    class_ids: {
+      type: [String]
     },
     status: {
       type: String,
@@ -57,6 +65,41 @@
         password: "greatreply#69"
       }, function(err, result) {
         if (err) return console.log(err);
+      });
+    });
+  };
+
+  FriendRequestSchema.methods.updateFriendship = function(userId, onFriendshipUpdate) {
+    var daycareAndClassesToFind;
+    daycareAndClassesToFind = this.class_ids;
+    daycareAndClassesToFind.push(this.from_id);
+    return User.find().where("_id")["in"](daycareAndClassesToFind).run(function(err, dayCares) {
+      var dayCare, friendsToAdd, _i, _len;
+      friendsToAdd = [];
+      for (_i = 0, _len = dayCares.length; _i < _len; _i++) {
+        dayCare = dayCares[_i];
+        friendsToAdd = _.union(friendsToAdd, dayCare.friends);
+        dayCare.friends.push(userId);
+        dayCare.save();
+      }
+      return User.find({
+        type: "parent"
+      }).where("_id")["in"](friendsToAdd).run(function(err, dayCareFriends) {
+        var myFriendsIds, userFriend, _j, _len2;
+        myFriendsIds = daycareAndClassesToFind;
+        for (_j = 0, _len2 = dayCareFriends.length; _j < _len2; _j++) {
+          userFriend = dayCareFriends[_j];
+          myFriendsIds.push(userFriend._id);
+          userFriend.friends.push(userId);
+          userFriend.save();
+        }
+        return User.update({
+          _id: userId
+        }, {
+          friends: myFriendsIds
+        }, {}, function(err) {
+          if (onFriendshipUpdate) return onFriendshipUpdate(err);
+        });
       });
     });
   };

@@ -23,46 +23,9 @@
     };
 
     ProfileModel.prototype.url = function() {
-      return this.uri.replace(/:profileId/g, this.get('_id'));
-    };
-
-    ProfileModel.prototype.getProfilePicture = function() {
-      var profilePicture, profilePictureSet;
-      profilePictureSet = this.getProfilePictureSet(this.get('picture_sets'));
-      return profilePicture = this.getPrimaryPictureFromSet(profilePictureSet);
-    };
-
-    ProfileModel.prototype.getProfilePictureSet = function(pictureSets) {
-      if (pictureSets == null) pictureSets = this.get('picture_sets');
-      return this.getSetsByType(pictureSets, 'profile')[0];
-    };
-
-    ProfileModel.prototype.getPrimaryPictureFromSet = function(set) {
-      if (set == null) {
-        set = {
-          pictures: []
-        };
-      }
-      return $.grep(set.pictures, function(picture) {
-        return picture.primary === true;
-      })[0];
-    };
-
-    ProfileModel.prototype.getPublicSets = function() {
-      var sets;
-      return sets = this.getSetsByType(this.get('picture_sets'), 'public');
-    };
-
-    ProfileModel.prototype.getDefaultSets = function() {
-      var sets;
-      return sets = this.getSetsByType(this.get('picture_sets'), 'default');
-    };
-
-    ProfileModel.prototype.getSetsByType = function(pictureSets, type) {
-      if (type == null) type = 'default';
-      return $.grep(pictureSets, function(set) {
-        return set.type === type;
-      });
+      var id;
+      id = this.get('_id') || "";
+      return this.uri.replace(/:profileId/g, id);
     };
 
     ProfileModel.prototype.setPictureSets = function() {

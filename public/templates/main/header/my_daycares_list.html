@@ -1,0 +1,8 @@
+<%
+  _.each(daycares, function (daycare) {
+%>
+<a href="#profiles/view/<%= daycare._id %>"><%= daycare.name %></a>
+<br />
+<%
+  });
+%>

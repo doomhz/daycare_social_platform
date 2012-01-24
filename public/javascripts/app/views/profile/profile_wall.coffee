@@ -13,7 +13,7 @@ class Kin.Profile.ProfileWallView extends Backbone.View
     $.tmpload
       url: @commentTplUrl
       onLoad: ()->
-        that.collection.loadComments()
+        that.collection.loadComments(true)
 
   addWallComment: (model)->
     that = @
@@ -21,9 +21,16 @@ class Kin.Profile.ProfileWallView extends Backbone.View
       model: model
 
     if model.get("type") is "followup"
-      $(@el).find("[data-id='#{model.get("to_id")}'] ul.followups:first").append(wallComment.el)
+      $followupsCnt = $(@el).find("[data-id='#{model.get("to_id")}'] ul.followups:first")
+      if model.get("timeline") is "future"
+        $followupsCnt.append(wallComment.el)
+      else
+        $followupsCnt.prepend(wallComment.el)
     else
-      $(@el).prepend(wallComment.el)
+      if model.get("timeline") is "future"
+        $(@el).prepend(wallComment.el)
+      else
+        $(@el).append(wallComment.el)
 
     wallComment.render()
 

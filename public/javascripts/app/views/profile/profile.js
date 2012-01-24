@@ -14,12 +14,14 @@
 
     ProfileView.prototype.tplUrl = {
       daycare: "/templates/main/day_care/profile.html",
-      parent: "/templates/main/parent/profile.html"
+      parent: "/templates/main/parent/profile.html",
+      "class": "/templates/main/class/profile.html"
     };
 
     ProfileView.prototype.events = {
       "submit #add-comment-form": "addCommentHandler",
-      "submit .add-followup-form": "addFollowupHandler"
+      "submit .add-followup-form": "addFollowupHandler",
+      "click #load-more-comments-cnt": "loadMoreCommentsHandler"
     };
 
     ProfileView.prototype.maps = null;
@@ -156,6 +158,11 @@
           return that.profileWall.collection.loadComments();
         }
       });
+    };
+
+    ProfileView.prototype.loadMoreCommentsHandler = function(ev) {
+      ev.preventDefault();
+      return this.profileWall.collection.loadComments(true);
     };
 
     return ProfileView;

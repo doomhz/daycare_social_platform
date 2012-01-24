@@ -1,9 +1,11 @@
 (function() {
-  var FriendRequest, User;
+  var FriendRequest, User, _;
 
   User = require('../models/user');
 
   FriendRequest = require('../models/friend_request');
+
+  _ = require('underscore');
 
   module.exports = function(app) {
     app.post('/friend-requests', function(req, res) {
@@ -20,6 +22,45 @@
           friendRequest.save();
           FriendRequest.sendMail(friendRequest, {
             host: req.headers.host
+          });
+        }
+        return res.json({
+          success: true
+        });
+      });
+    });
+    app.put('/friend-requests/:id', function(req, res) {
+      var currentUser, data, friendRequestId;
+      friendRequestId = req.params.id;
+      currentUser = req.user ? req.user : {};
+      data = req.body;
+      delete data._id;
+      data.from_id = currentUser._id;
+      return FriendRequest.findOne({
+        _id: friendRequestId
+      }).run(function(err, friendRequest) {
+        if (friendRequest) {
+          friendRequest.set(data);
+          friendRequest.save(function() {
+            if (friendRequest.status === "accepted" && friendRequest.user_id) {
+              return User.findOne({
+                _id: friendRequest.user_id
+              }).run(function(err, requestUser) {
+                return User.find().where("_id")["in"](requestUser.friends).run(function(err, userFriends) {
+                  var userFriend, _i, _len;
+                  for (_i = 0, _len = userFriends.length; _i < _len; _i++) {
+                    userFriend = userFriends[_i];
+                    userFriend.friends = _.filter(userFriend.friends, function(friendId) {
+                      return friendId !== ("" + requestUser._id);
+                    });
+                    userFriend.save();
+                  }
+                  requestUser.friends = [];
+                  requestUser.save();
+                  return friendRequest.updateFriendship(requestUser._id);
+                });
+              });
+            }
           });
         }
         return res.json({

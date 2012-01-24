@@ -3,6 +3,7 @@ class Kin.Profile.ProfileGeneralInfoView extends Backbone.View
   tplUrl:
     daycare: '/templates/main/day_care/profile_general_info.html'
     parent:  '/templates/main/parent/profile_general_info.html'
+    class:  '/templates/main/class/profile_general_info.html'
 
   router: null
 

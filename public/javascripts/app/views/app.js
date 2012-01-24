@@ -33,6 +33,7 @@
     AppView.prototype.onUserLoad = function() {
       this.initWindow();
       this.initHeaderMenu();
+      this.initHeaderProfileInfo();
       this.initHeaderSearch();
       this.initHeaderNotification();
       this.initTopLink();
@@ -74,6 +75,16 @@
         el: "header #account-bt"
       });
       return this.window.addDelegate(headerSettingsSubmenu);
+    };
+
+    AppView.prototype.initHeaderProfileInfo = function() {
+      var headerProfileInfo;
+      headerProfileInfo = new Kin.Header.ProfileInfoView({
+        el: "header #my-profile-bt",
+        model: this.currentUser
+      });
+      this.window.addDelegate(headerProfileInfo);
+      return this.currentUser.addDelegate(headerProfileInfo);
     };
 
     AppView.prototype.initHeaderSearch = function() {
@@ -345,10 +356,27 @@
       });
       that.mainColumnView = new Kin.DayCare.InvitesView({
         el: that.mainColumnSelector,
-        collection: friendRequests
+        collection: friendRequests,
+        model: this.currentUser
       });
       that.mainColumnView.render();
       that.side1ColumnView = new Kin.DayCare.InvitesSide1View({
+        model: this.currentUser,
+        el: that.side1ColumnSelector
+      });
+      return that.side1ColumnView.render();
+    };
+
+    AppView.prototype.renderAddClass = function() {
+      var that;
+      that = this;
+      this.clearColumns();
+      that.mainColumnView = new Kin.DayCare.AddClassView({
+        el: that.mainColumnSelector,
+        currentUser: this.currentUser
+      });
+      that.mainColumnView.render();
+      that.side1ColumnView = new Kin.DayCare.AddClassSide1View({
         model: this.currentUser,
         el: that.side1ColumnSelector
       });

@@ -1,0 +1,15 @@
+<h1>Edit profile</h1>
+<form id="profile-edit-form">
+	<fieldset>
+	    <input type="hidden" name="_id" value="<%=profile.get('_id') %>" />
+	    <div class="clearfix">
+	        <label for="name">Name</label>
+			<div class="input">
+	        	<input type="text" name="name" value="<%=profile.get('name') %>" />
+			</div>
+	    </div>
+	    <div class="actions">
+	        <input type="submit" id="save-profile-bt" class="btn primary" value="Save" />
+	    </div>
+	</fieldset>
+</form>

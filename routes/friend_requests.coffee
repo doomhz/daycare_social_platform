@@ -1,5 +1,6 @@
-User = require('../models/user')
+User          = require('../models/user')
 FriendRequest = require('../models/friend_request')
+_             = require('underscore')
 
 module.exports = (app)->
 
@@ -13,6 +14,30 @@ module.exports = (app)->
         friendRequest = new FriendRequest(data)
         friendRequest.save()
         FriendRequest.sendMail(friendRequest, {host: req.headers.host})
+      res.json {success: true}
+
+  app.put '/friend-requests/:id', (req, res)->
+    friendRequestId = req.params.id
+    currentUser = if req.user then req.user else {}
+    data = req.body
+    delete data._id
+    data.from_id = currentUser._id
+
+    FriendRequest.findOne({_id: friendRequestId}).run (err, friendRequest)->
+      if friendRequest
+        friendRequest.set(data)
+        friendRequest.save ()->
+          if friendRequest.status is "accepted" and friendRequest.user_id
+            User.findOne({_id: friendRequest.user_id}).run (err, requestUser)->
+              User.find().where("_id").in(requestUser.friends).run (err, userFriends)->
+                for userFriend in userFriends
+                  userFriend.friends = _.filter userFriend.friends, (friendId)->
+                    friendId isnt "#{requestUser._id}"
+                  userFriend.save()
+                requestUser.friends = []
+                requestUser.save()
+                friendRequest.updateFriendship(requestUser._id)
+
       res.json {success: true}
 
   app.get '/friend-requests', (req, res)->

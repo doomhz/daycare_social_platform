@@ -20,9 +20,9 @@
 
     WallCommentsCollection.prototype.loadCommentsTime = 3000;
 
-    WallCommentsCollection.prototype.lastQueryTime = 0;
+    WallCommentsCollection.prototype.isLoadHistory = false;
 
-    WallCommentsCollection.prototype.uri = "/comments/:wall_id/:last_query_time";
+    WallCommentsCollection.prototype.uri = "/comments/:wall_id/:comment_time/:timeline";
 
     WallCommentsCollection.prototype.initialize = function(models, _arg) {
       this.profileId = _arg.profileId;
@@ -39,28 +39,51 @@
       return window.clearInterval(this.intervalId);
     };
 
-    WallCommentsCollection.prototype.loadComments = function() {
-      var _this = this;
-      return this.fetch({
-        add: true,
-        success: function(comments) {
-          var comment, createdAt, lastCommentTime, _i, _len, _ref;
-          if (comments.length) {
-            lastCommentTime = 0;
-            _ref = comments.models;
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              comment = _ref[_i];
-              createdAt = comment.get("added_at");
-              if (createdAt > lastCommentTime) lastCommentTime = createdAt;
-            }
-            return _this.lastQueryTime = lastCommentTime;
-          }
-        }
+    WallCommentsCollection.prototype.loadComments = function(isHistory) {
+      if (isHistory == null) isHistory = false;
+      this.isLoadHistory = isHistory;
+      this.fetch({
+        add: true
       });
+      return this.isLoadHistory = false;
+    };
+
+    WallCommentsCollection.prototype.getMaxCommentTime = function() {
+      var comment, createdAt, lastCommentTime, _i, _len, _ref;
+      lastCommentTime = 0;
+      if (this.length) {
+        _ref = this.models;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          comment = _ref[_i];
+          createdAt = comment.get("added_at");
+          if (createdAt > lastCommentTime) lastCommentTime = createdAt;
+        }
+        return lastCommentTime;
+      }
+    };
+
+    WallCommentsCollection.prototype.getMinCommentTime = function() {
+      var comment, createdAt, firstCommentTime, _i, _len, _ref;
+      firstCommentTime = new Date().getTime();
+      _ref = this.models;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        comment = _ref[_i];
+        createdAt = comment.get("added_at");
+        if (createdAt < firstCommentTime) firstCommentTime = createdAt;
+      }
+      return firstCommentTime;
     };
 
     WallCommentsCollection.prototype.url = function() {
-      return this.uri.replace(":wall_id", this.profileId).replace(":last_query_time", this.lastQueryTime);
+      if (!this.isLoadHistory) {
+        return this.uri.replace(":wall_id", this.profileId).replace(":comment_time", this.getMaxCommentTime()).replace(":timeline", "future");
+      } else {
+        return this.historyUrl();
+      }
+    };
+
+    WallCommentsCollection.prototype.historyUrl = function() {
+      return this.uri.replace(":wall_id", this.profileId).replace(":comment_time", this.getMinCommentTime()).replace(":timeline", "past");
     };
 
     return WallCommentsCollection;

@@ -12,7 +12,8 @@
 
     ProfileGalleryView.prototype.tplUrl = {
       daycare: '/templates/main/day_care/profile_gallery.html',
-      parent: '/templates/main/parent/profile_gallery.html'
+      parent: '/templates/main/parent/profile_gallery.html',
+      "class": '/templates/main/class/profile_gallery.html'
     };
 
     ProfileGalleryView.prototype.events = {

@@ -1,6 +1,7 @@
 - if (profile)
   {
   "_id": "#{profile._id}",
+  "master_id": "#{profile.master_id}",
   "type": "#{profile.type}",
   "name": "#{profile.name}",
   "surname": "#{profile.surname}",
@@ -12,8 +13,8 @@
   ],
   "address": "#{profile.address}",
   "location": {
-  "lat": #{profile.location.lat || 0},
-  "lng": #{profile.location.lng || 0}
+  "lat": #{profile.location.lat || 10},
+  "lng": #{profile.location.lng || 40}
   },
   "email": "#{profile.email}",
   "phone": "#{profile.phone}",
@@ -38,6 +39,15 @@
   each friend, i in profile.friends
     "#{friend}"
     - if (i != profile.friends.length-1)
+      ,
+  ],
+  "daycare_friends": [
+  each daycareFriend, i in profile.daycare_friends
+    {
+    "_id": "#{daycareFriend._id}",
+    "name": "#{daycareFriend.name}"
+    }
+    - if (i != profile.daycare_friends.length-1)
       ,
   ]
   }

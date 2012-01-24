@@ -34,6 +34,9 @@
       type: Date,
       "default": Date.now
     },
+    timeline: {
+      type: String
+    },
     from_user: {
       type: {}
     }

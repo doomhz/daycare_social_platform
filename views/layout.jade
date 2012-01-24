@@ -57,6 +57,7 @@ html
     script(src='/javascripts/app/views/header/submenu.js')
     script(src='/javascripts/app/views/header/notification_board.js')
     script(src='/javascripts/app/views/header/notification.js')
+    script(src='/javascripts/app/views/header/profile_info.js')
     script(src='/javascripts/app/views/profile/profile.js')
     script(src='/javascripts/app/views/profile/profile_gallery.js')
     script(src='/javascripts/app/views/profile/profile_general_info.js')
@@ -70,9 +71,11 @@ html
     script(src='/javascripts/app/views/profile/picture_set.js')
     script(src='/javascripts/app/views/profile/picture_set_side1.js')
     script(src='/javascripts/app/views/profile/pictures_list.js')
-    script(src='/javascripts/app/views/profile/friend_requests_list.js')
+    script(src='/javascripts/app/views/day_care/friend_requests_list.js')
     script(src='/javascripts/app/views/day_care/invites.js')
     script(src='/javascripts/app/views/day_care/invites_side1.js')
+    script(src='/javascripts/app/views/day_care/add_class.js')
+    script(src='/javascripts/app/views/day_care/add_class_side1.js')
     script(src='/javascripts/app/views/messages/list_item.js')
     script(src='/javascripts/app/views/messages/inbox.js')
     script(src='/javascripts/app/views/messages/inbox_side1.js')
@@ -95,10 +98,17 @@ html
             a(href='#') Kindzy
           li
             a(href='#') Home
-          li
-            a(href='#') Profile
-          li#account-bt
+          li#my-profile-bt
             a(href='#')
+              img(src='/images/no_picture.png', alt='My profile', height='32', width='32', id="my-profile-thumb")
+            ul.submenu.hidden
+              li
+                a(href="#profiles/view/:id", id="my-profile-view-url") My profile
+              li
+                a(href="#profiles/edit/:id", id="my-profile-edit-url") Edit profile
+              li#my-daycares-list
+          li#account-bt
+            a(href='#', id="my-settings-bt")
               span Account
             ul.submenu.hidden
               li

@@ -8,9 +8,9 @@ class Kin.WallCommentsCollection extends Backbone.Collection
 
   loadCommentsTime: 3000
 
-  lastQueryTime: 0
+  isLoadHistory: false
 
-  uri: "/comments/:wall_id/:last_query_time"
+  uri: "/comments/:wall_id/:comment_time/:timeline"
 
   initialize: (models, {@profileId})->
     @startAutoUpdateComments()
@@ -22,17 +22,34 @@ class Kin.WallCommentsCollection extends Backbone.Collection
   stopAutoUpdateComments: ()->
     window.clearInterval(@intervalId)
 
-  loadComments: ()=>
+  loadComments: (isHistory = false)=>
+    @isLoadHistory = isHistory
     @fetch
       add: true
-      success: (comments)=>
-        if comments.length
-          lastCommentTime = 0
-          for comment in comments.models
-            createdAt = comment.get("added_at")
-            if createdAt > lastCommentTime
-              lastCommentTime = createdAt
-          @lastQueryTime = lastCommentTime
+    @isLoadHistory = false
+
+  getMaxCommentTime: ()->
+    lastCommentTime = 0
+    if @length
+      for comment in @models
+        createdAt = comment.get("added_at")
+        if createdAt > lastCommentTime
+          lastCommentTime = createdAt
+      lastCommentTime
+
+  getMinCommentTime: ()->
+    firstCommentTime = new Date().getTime()
+    for comment in @models
+      createdAt = comment.get("added_at")
+      if createdAt < firstCommentTime
+        firstCommentTime = createdAt
+    firstCommentTime
 
   url: ()->
-    @uri.replace(":wall_id", @profileId).replace(":last_query_time", @lastQueryTime)
+    if not @isLoadHistory
+      @uri.replace(":wall_id", @profileId).replace(":comment_time", @getMaxCommentTime()).replace(":timeline", "future")
+    else
+      @historyUrl()
+
+  historyUrl: ()->
+    @uri.replace(":wall_id", @profileId).replace(":comment_time", @getMinCommentTime()).replace(":timeline", "past")

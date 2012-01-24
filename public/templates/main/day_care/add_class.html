@@ -1,0 +1,16 @@
+<h1>Add class</h1>
+<form id="add-class-form">
+	<fieldset>
+	    <input type="hidden" name="type" value="class" />
+	    <input type="hidden" name="email" value="<%= new Date().getTime() %>" />
+	    <div class="clearfix">
+	        <label for="name">Name</label>
+			<div class="input">
+	        	<input type="text" name="name" value="<%=profile.get('name') %>" />
+			</div>
+	    </div>
+	    <div class="actions">
+	        <input type="submit" id="add-class-bt" class="btn primary" value="Save" />
+	    </div>
+	</fieldset>
+</form>

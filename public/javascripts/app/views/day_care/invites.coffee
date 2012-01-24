@@ -2,6 +2,8 @@ class Kin.DayCare.InvitesView extends Backbone.View
 
   el: null
 
+  model: null
+
   tplUrl: '/templates/main/day_care/invites.html'
 
   events:
@@ -14,10 +16,13 @@ class Kin.DayCare.InvitesView extends Backbone.View
     $.tmpload
       url: @tplUrl
       onLoad: (tpl)->
-        $(that.el).html(tpl())
-        that.friendRequestsList = new Kin.Profile.FriendRequestsListView
+        $(that.el).html(tpl({profile: that.model}))
+        that.$(".chzn-select").chosen()
+
+        that.friendRequestsList = new Kin.DayCare.FriendRequestsListView
           el: that.$("#friend-requests-list")
           collection: that.collection
+          model: that.model
         that.renderFriendRequestsList()
 
   renderFriendRequestsList: ()->
@@ -37,9 +42,8 @@ class Kin.DayCare.InvitesView extends Backbone.View
       success: ()->
         parentName = $form.find("input[name='name']").val()
         parentSurname = $form.find("input[name='surname']").val()
-        $form.find("input[type='text']").val("")
         $.jGrowl("Invite successfully sent to #{parentName} #{parentSurname}")
-        that.renderFriendRequestsList()
+        that.render()
       error: ()->
         $.jGrowl("Invite could not be sent :( Please try again.")
 

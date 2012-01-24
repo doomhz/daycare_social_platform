@@ -12,30 +12,8 @@ class window.Kin.ProfileModel extends Kin.UserModel
     @
 
   url: ()->
-    @uri.replace(/:profileId/g, @get('_id'))
-
-  getProfilePicture: ()->
-    profilePictureSet = @getProfilePictureSet(@get('picture_sets'))
-    profilePicture = @getPrimaryPictureFromSet(profilePictureSet)
-
-  getProfilePictureSet: (pictureSets = @get('picture_sets'))->
-    @getSetsByType(pictureSets, 'profile')[0]
-
-  getPrimaryPictureFromSet: (set = {pictures: []})->
-    $.grep(set.pictures, (picture)->
-      return picture.primary is true
-    )[0]
-
-  getPublicSets: ()->
-    sets = @getSetsByType(@get('picture_sets'), 'public')
-
-  getDefaultSets: ()->
-    sets = @getSetsByType(@get('picture_sets'), 'default')
-
-  getSetsByType: (pictureSets, type = 'default')->
-    $.grep(pictureSets, (set)->
-      return set.type is type
-    )
+    id = @get('_id') or ""
+    @uri.replace(/:profileId/g, id)
 
   setPictureSets: ()->
     if not @pictureSets

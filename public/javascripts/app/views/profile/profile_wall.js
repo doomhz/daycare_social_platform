@@ -24,21 +24,30 @@
       return $.tmpload({
         url: this.commentTplUrl,
         onLoad: function() {
-          return that.collection.loadComments();
+          return that.collection.loadComments(true);
         }
       });
     };
 
     ProfileWallView.prototype.addWallComment = function(model) {
-      var that, wallComment;
+      var $followupsCnt, that, wallComment;
       that = this;
       wallComment = new Kin.Profile.WallCommentView({
         model: model
       });
       if (model.get("type") === "followup") {
-        $(this.el).find("[data-id='" + (model.get("to_id")) + "'] ul.followups:first").append(wallComment.el);
+        $followupsCnt = $(this.el).find("[data-id='" + (model.get("to_id")) + "'] ul.followups:first");
+        if (model.get("timeline") === "future") {
+          $followupsCnt.append(wallComment.el);
+        } else {
+          $followupsCnt.prepend(wallComment.el);
+        }
       } else {
-        $(this.el).prepend(wallComment.el);
+        if (model.get("timeline") === "future") {
+          $(this.el).prepend(wallComment.el);
+        } else {
+          $(this.el).append(wallComment.el);
+        }
       }
       return wallComment.render();
     };

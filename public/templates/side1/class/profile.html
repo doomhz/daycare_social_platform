@@ -1,0 +1,20 @@
+<%
+    var profilePicture = profile.getProfilePicture();
+    var profilePictureSet = profile.getProfilePictureSet();
+    var profilePictureSrc = profilePicture ? profilePicture.thumb_url : Kin.CONFIG.noPicture;
+%>
+<div id="profile-pic-cnt">
+    <a href="#profiles/view/picture-set/<%= profilePictureSet ? profilePictureSet._id : "" %>" title="View Day Care" class="photo-frame">
+        <img src="<%=profilePictureSrc %>" alt="<%=profilePicture && profilePicture.description %>" width="150" id="profile-pic" />
+    </a>
+</div>
+<ul id="profile-bt-menu">
+</ul>
+<ul id="profile-left-menu">
+    <li id="wall-menu-item" class="<%=(selectedMenuItem === 'wall-menu-item' ? 'selected' : '') %>">
+        <a href="#profiles/view/<%=profile.get('_id') %>"><span>Wall</span></a>
+    </li>
+    <li id="gallery-menu-item" class="<%=(selectedMenuItem === 'gallery-menu-item' ? 'selected' : '') %>">
+        <a href="#profiles/view/gallery/<%=profile.get('_id') %>"><span>Gallery</span></a>
+    </li>
+</ul>

@@ -1,6 +1,5 @@
 (function() {
-  var Picture, PictureSet, UserSchema, exports, mongooseAuth,
-    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  var Picture, PictureSet, UserSchema, exports, mongooseAuth;
 
   mongooseAuth = require('mongoose-auth');
 
@@ -47,6 +46,9 @@
   });
 
   UserSchema = new Schema({
+    master_id: {
+      type: String
+    },
     name: {
       type: String,
       index: true
@@ -71,7 +73,7 @@
     license_number: String,
     type: {
       type: String,
-      "enum": ['daycare', 'parent'],
+      "enum": ['daycare', 'parent', 'class'],
       "default": 'daycare'
     },
     opened_since: {
@@ -89,83 +91,29 @@
     friends: {
       type: [String],
       "default": []
+    },
+    daycare_friends: {
+      type: [{}],
+      "default": []
     }
   });
 
-  UserSchema.methods.filterPrivateDataByUserId = function(user_id) {
-    var user, users, _i, _len;
-    if (this.constructor === Array) {
-      users = [];
-      for (_i = 0, _len = this.length; _i < _len; _i++) {
-        user = this[_i];
-        if (("" + user_id) === ("" + user._id)) {
-          users.push(user);
-        } else {
-          users.push(UserSchema.statics.getPublicData(user));
-        }
+  UserSchema.methods.findDaycareFriends = function(onFind) {
+    var User, that;
+    that = this;
+    User = mongoose.model('User');
+    return User.find().where("type")["in"](["daycare", "class"]).where("_id")["in"](this.friends).run(function(err, daycareFriends) {
+      var daycareFriend, daycareFriendData, _i, _len;
+      for (_i = 0, _len = daycareFriends.length; _i < _len; _i++) {
+        daycareFriend = daycareFriends[_i];
+        daycareFriendData = {
+          _id: daycareFriend._id,
+          name: daycareFriend.name
+        };
+        that.daycare_friends.push(daycareFriendData);
       }
-      return users;
-    } else {
-      if (("" + user_id) === ("" + this._id)) {
-        return this;
-      } else {
-        return UserSchema.statics.getPublicData(this);
-      }
-    }
-  };
-
-  UserSchema.statics.filterPrivatePictureSetsByUserId = function(user_id, guestUserId, pictureSets) {
-    var pictureSet, publicPictureSetTypes, publicPictureSets, _i, _len, _ref;
-    if (("" + user_id) === ("" + guestUserId)) {
-      return pictureSets;
-    } else {
-      publicPictureSetTypes = ["profile", "public"];
-      publicPictureSets = [];
-      for (_i = 0, _len = pictureSets.length; _i < _len; _i++) {
-        pictureSet = pictureSets[_i];
-        if (_ref = pictureSet.type, __indexOf.call(publicPictureSetTypes, _ref) >= 0) {
-          publicPictureSets.push(pictureSet);
-        }
-      }
-      return publicPictureSets;
-    }
-  };
-
-  UserSchema.statics.getPublicData = function(user) {
-    var data, key, pictureSet, publicPictureSetTypes, publicRows, val, _i, _len, _ref, _ref2;
-    data = {};
-    publicRows = {
-      "_id": true,
-      "name": true,
-      "surname": true,
-      "speaking_classes": true,
-      "address": true,
-      "location": true,
-      "email": true,
-      "phone": true,
-      "fax": true,
-      "contact_person": true,
-      "licensed": true,
-      "license_number": true,
-      "type": true,
-      "opened_since": true,
-      "open_door_policy": true,
-      "serving_disabilities": true
-    };
-    for (key in user) {
-      val = user[key];
-      if (publicRows[key]) data[key] = val;
-    }
-    data.picture_sets = [];
-    publicPictureSetTypes = ["profile", "public"];
-    _ref = user.picture_sets;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      pictureSet = _ref[_i];
-      if (_ref2 = pictureSet.type, __indexOf.call(publicPictureSetTypes, _ref2) >= 0) {
-        data.picture_sets.push(pictureSet);
-      }
-    }
-    return data;
+      return onFind(err, daycareFriends);
+    });
   };
 
   UserSchema.statics.checkPermissions = function(object, requiredKey, requiredValue, resForAutoRedirect) {
@@ -231,7 +179,7 @@
               }
             ]
           };
-          User = require('./user');
+          User = mongoose.model('User');
           return User.update({
             _id: user._id
           }, userInfo, {}, function(err) {
@@ -251,38 +199,15 @@
               }).run(function(err, friendRequest) {
                 var dayCareId;
                 friendRequest.status = "accepted";
+                friendRequest.user_id = userId;
                 friendRequest.save();
                 dayCareId = friendRequest.from_id;
                 redirectTo = "/#profiles/view/" + dayCareId;
-                return User.findOne({
-                  _id: dayCareId
-                }).run(function(err, dayCare) {
-                  var dayCareFriends;
-                  dayCareFriends = dayCare.friends;
-                  dayCare.friends.push(userId);
-                  dayCare.save();
-                  return User.find({
-                    type: "parent"
-                  }).where("_id")["in"](dayCareFriends).run(function(err, dayCareFriends) {
-                    var friendsIds, userFriend, _i, _len;
-                    friendsIds = [dayCareId];
-                    for (_i = 0, _len = dayCareFriends.length; _i < _len; _i++) {
-                      userFriend = dayCareFriends[_i];
-                      friendsIds.push(userFriend._id);
-                      userFriend.friends.push(userId);
-                      userFriend.save();
-                    }
-                    return User.update({
-                      _id: userId
-                    }, {
-                      friends: friendsIds
-                    }, {}, function(err) {
-                      res.writeHead(303, {
-                        'Location': redirectTo
-                      });
-                      return res.end();
-                    });
+                return friendRequest.updateFriendship(userId, function(err) {
+                  res.writeHead(303, {
+                    'Location': redirectTo
                   });
+                  return res.end();
                 });
               });
             } else {

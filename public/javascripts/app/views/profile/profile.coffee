@@ -5,10 +5,12 @@ class window.Kin.Profile.ProfileView extends Backbone.View
   tplUrl:
     daycare: "/templates/main/day_care/profile.html"
     parent:  "/templates/main/parent/profile.html"
+    class:  "/templates/main/class/profile.html"
 
   events:
     "submit #add-comment-form": "addCommentHandler"
     "submit .add-followup-form": "addFollowupHandler"
+    "click #load-more-comments-cnt": "loadMoreCommentsHandler"
 
   maps: null
 
@@ -114,3 +116,7 @@ class window.Kin.Profile.ProfileView extends Backbone.View
       data: commentData
       success: ()->
         that.profileWall.collection.loadComments()
+
+  loadMoreCommentsHandler: (ev)->
+    ev.preventDefault()
+    @profileWall.collection.loadComments(true)

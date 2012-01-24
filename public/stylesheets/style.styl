@@ -63,7 +63,7 @@ header
       margin 8px 0 0 0
     #main-menu
       float right
-      margin 24px 0 0 0
+      margin 12px 0 0 0
       li
         display inline-block
         vertical-align middle
@@ -73,24 +73,14 @@ header
           text-decoration none
           font-size 11px
           font-weight bold
-      #account-bt
-        height 16px
-        overflow hidden
-        a
-          display inline-block
-          background url(/images/settings.png) no-repeat
-          width 16px
-          height 16px
-          span
-            display none
         ul.submenu
           float right
           position absolute
-          right 226px
           background #e1f5fc
           margin -3px 0 0 0
           li
             margin 0
+            display block
             a
               display inline-block
               width 90px
@@ -99,7 +89,26 @@ header
               color #000
             a:hover
               background #c8e9fa
+      #account-bt
+        height 16px
+        overflow hidden
+        #my-settings-bt
+          display inline-block
+          background url(/images/settings.png) no-repeat
+          width 16px
+          height 16px
+          span
+            display none
+        ul.submenu
+          right 226px
       #account-bt.selected
+        background-color #e1f5fc
+        a
+          color #000
+      #my-profile-bt
+        ul.submenu
+          right 263px
+      #my-profile-bt.selected
         background-color #e1f5fc
         a
           color #000
@@ -166,7 +175,9 @@ header
               .name:hover
                 text-decoration underline
             .message-body
-              float left
+              float right
+              width: 215px
+              text-align left
           li.view-all-list-items-bt
             a
               text-align center
@@ -382,7 +393,16 @@ header
               box-shadow none
             input
               padding 3px 14px 3px 14px
-
+    #load-more-comments-cnt
+      background: #F2F2F2
+      margin: 5px 0 5px 0
+      padding 10px
+      cursor pointer
+      a
+        text-decoration none
+    #load-more-comments-cnt:hover
+      a
+        text-decoration underline
     #messages-list
       margin 10px 0 0 0
       li

@@ -32,6 +32,8 @@ PictureSet = new Schema
   pictures: [Picture]
 
 UserSchema = new Schema
+  master_id:
+    type: String
   name:
     type: String
     index: true
@@ -52,7 +54,7 @@ UserSchema = new Schema
   license_number: String
   type:
     type: String
-    enum: ['daycare', 'parent']
+    enum: ['daycare', 'parent', 'class']
     default: 'daycare'
   opened_since:
     type: String
@@ -65,67 +67,20 @@ UserSchema = new Schema
   friends:
     type: [String]
     default: []
+  daycare_friends:
+    type: [{}]
+    default: []
 
-UserSchema.methods.filterPrivateDataByUserId = (user_id)->
-  if @constructor is Array
-    users = []
-    for user in @
-      if "#{user_id}" is "#{user._id}"
-        users.push(user)
-      else
-        users.push(UserSchema.statics.getPublicData(user))
-    return users
-  else
-    if "#{user_id}" is "#{@_id}"
-      return @
-    else
-      return UserSchema.statics.getPublicData(@)
-
-UserSchema.statics.filterPrivatePictureSetsByUserId = (user_id, guestUserId, pictureSets)->
-  if "#{user_id}" is "#{guestUserId}"
-    return pictureSets
-  else
-    publicPictureSetTypes = ["profile", "public"]
-    publicPictureSets = []
-
-    for pictureSet in pictureSets
-      if pictureSet.type in publicPictureSetTypes
-        publicPictureSets.push(pictureSet)
-
-    return publicPictureSets
-
-UserSchema.statics.getPublicData = (user)->
-  data = {}
-  publicRows =
-    "_id": true
-    "name": true
-    "surname": true
-    "speaking_classes": true
-    "address": true
-    "location": true
-    "email": true
-    "phone": true
-    "fax": true
-    "contact_person": true
-    "licensed": true
-    "license_number": true
-    "type": true
-    "opened_since": true
-    "open_door_policy": true
-    "serving_disabilities": true
-
-  for key, val of user
-    if publicRows[key]
-      data[key] = val
-
-  data.picture_sets = []
-  publicPictureSetTypes = ["profile", "public"]
-
-  for pictureSet in user.picture_sets
-    if pictureSet.type in publicPictureSetTypes
-      data.picture_sets.push(pictureSet)
-
-  data
+UserSchema.methods.findDaycareFriends = (onFind)->
+  that = @
+  User = mongoose.model('User')
+  User.find().where("type").in(["daycare", "class"]).where("_id").in(@friends).run (err, daycareFriends)->
+    for daycareFriend in daycareFriends
+      daycareFriendData =
+        _id: daycareFriend._id
+        name: daycareFriend.name
+      that.daycare_friends.push(daycareFriendData)
+    onFind(err, daycareFriends)
 
 UserSchema.statics.checkPermissions = (object = {}, requiredKey, requiredValue, resForAutoRedirect)->
   if object and (not requiredKey or not requiredValue)
@@ -182,7 +137,7 @@ UserSchema.plugin(
               }
             ]
 
-          User = require('./user')
+          User = mongoose.model('User')
           User.update {_id: user._id}, userInfo, {}, (err)->
             userId = user._id
 
@@ -197,26 +152,15 @@ UserSchema.plugin(
 
               FriendRequest.findOne({_id: friendRequestId}).run (err, friendRequest)->
                 friendRequest.status = "accepted"
+                friendRequest.user_id = userId
                 friendRequest.save()
 
                 dayCareId = friendRequest.from_id
                 redirectTo = "/#profiles/view/#{dayCareId}"
 
-                User.findOne({_id: dayCareId}).run (err, dayCare)->
-                  dayCareFriends = dayCare.friends
-                  dayCare.friends.push(userId)
-                  dayCare.save()
-
-                  User.find({type: "parent"}).where("_id").in(dayCareFriends).run (err, dayCareFriends)->
-                    friendsIds = [dayCareId]
-                    for userFriend in dayCareFriends
-                      friendsIds.push(userFriend._id)
-                      userFriend.friends.push(userId)
-                      userFriend.save()
-
-                    User.update {_id: userId}, {friends: friendsIds}, {}, (err)->
-                      res.writeHead(303, {'Location': redirectTo})
-                      res.end()
+                friendRequest.updateFriendship userId, (err)->
+                  res.writeHead(303, {'Location': redirectTo})
+                  res.end()
 
             else
               res.writeHead(303, {'Location': redirectTo})

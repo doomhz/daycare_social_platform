@@ -5,6 +5,7 @@ class window.Kin.Profile.ProfileEditSide1View extends Kin.Profile.ProfileSide1Vi
   tplUrl:
     daycare: '/templates/side1/day_care/edit.html'
     parent:  '/templates/side1/parent/edit.html'
+    class:  '/templates/side1/class/edit.html'
 
   initialize: ()->
     @model and @model.view = @

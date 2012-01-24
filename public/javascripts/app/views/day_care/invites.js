@@ -12,6 +12,8 @@
 
     InvitesView.prototype.el = null;
 
+    InvitesView.prototype.model = null;
+
     InvitesView.prototype.tplUrl = '/templates/main/day_care/invites.html';
 
     InvitesView.prototype.events = {
@@ -26,10 +28,14 @@
       return $.tmpload({
         url: this.tplUrl,
         onLoad: function(tpl) {
-          $(that.el).html(tpl());
-          that.friendRequestsList = new Kin.Profile.FriendRequestsListView({
+          $(that.el).html(tpl({
+            profile: that.model
+          }));
+          that.$(".chzn-select").chosen();
+          that.friendRequestsList = new Kin.DayCare.FriendRequestsListView({
             el: that.$("#friend-requests-list"),
-            collection: that.collection
+            collection: that.collection,
+            model: that.model
           });
           return that.renderFriendRequestsList();
         }
@@ -59,9 +65,8 @@
           var parentName, parentSurname;
           parentName = $form.find("input[name='name']").val();
           parentSurname = $form.find("input[name='surname']").val();
-          $form.find("input[type='text']").val("");
           $.jGrowl("Invite successfully sent to " + parentName + " " + parentSurname);
-          return that.renderFriendRequestsList();
+          return that.render();
         },
         error: function() {
           return $.jGrowl("Invite could not be sent :( Please try again.");

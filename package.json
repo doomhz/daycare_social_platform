@@ -14,6 +14,7 @@
     , "coffee-script": "latest"
     , "socket.io": "latest"
     , "mailer": "latest"
+    , "underscore": "latest"
     , "jake": "latest"
     , "jasmine-node":   "latest"
     , "jasmine-jquery": "latest"

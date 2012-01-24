@@ -34,10 +34,44 @@
       return User.findOne({
         _id: currentUser._id
       }).run(function(err, user) {
-        return res.render('profiles/_user', {
-          profile: user,
-          show_private: true,
-          layout: false
+        if (user) {
+          return user.findDaycareFriends(function() {
+            return res.render('profiles/_user', {
+              profile: user,
+              show_private: true,
+              layout: false
+            });
+          });
+        } else {
+          return res.render('profiles/_user', {
+            profile: user,
+            show_private: true,
+            layout: false
+          });
+        }
+      });
+    });
+    app.post('/profiles', function(req, res) {
+      var currentUser, data, profilePicturesSet, user;
+      currentUser = req.user ? req.user : {};
+      data = req.body;
+      user = new User(data);
+      user.master_id = currentUser._id;
+      user.friends.push(currentUser._id);
+      if (!user.picture_sets.length) {
+        profilePicturesSet = {
+          type: 'profile',
+          name: 'Profile pictures',
+          description: 'Your profile pictures.',
+          pictures: []
+        };
+        user.picture_sets.push(profilePicturesSet);
+      }
+      return user.save(function(err, savedUser) {
+        currentUser.friends.push(savedUser._id);
+        currentUser.save();
+        return res.json({
+          success: true
         });
       });
     });

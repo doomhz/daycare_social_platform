@@ -16,7 +16,29 @@ module.exports = (app)->
   app.get '/profiles/me', (req, res)->
     currentUser = if req.user then req.user else {}
     User.findOne({_id: currentUser._id}).run (err, user)->
-      res.render 'profiles/_user', {profile: user, show_private: true, layout: false}
+      if user
+        user.findDaycareFriends ()->
+          res.render 'profiles/_user', {profile: user, show_private: true, layout: false}
+      else
+        res.render 'profiles/_user', {profile: user, show_private: true, layout: false}
+
+  app.post '/profiles', (req, res)->
+    currentUser = if req.user then req.user else {}
+    data = req.body
+    user = new User(data)
+    user.master_id = currentUser._id
+    user.friends.push(currentUser._id)
+    if not user.picture_sets.length
+      profilePicturesSet =
+        type: 'profile'
+        name: 'Profile pictures'
+        description: 'Your profile pictures.'
+        pictures: []
+      user.picture_sets.push(profilePicturesSet)
+    user.save (err, savedUser)->
+      currentUser.friends.push(savedUser._id)
+      currentUser.save()
+      res.json({success: true})
 
   app.get '/profiles/:id', (req, res)->
     User.findOne({_id: req.params.id}).run (err, user) ->

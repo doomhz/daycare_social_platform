@@ -20,6 +20,7 @@ class Kin.AppView extends Backbone.View
   onUserLoad: ()=>
     @initWindow()
     @initHeaderMenu()
+    @initHeaderProfileInfo()
     @initHeaderSearch()
     @initHeaderNotification()
     @initTopLink()
@@ -49,6 +50,13 @@ class Kin.AppView extends Backbone.View
     headerSettingsSubmenu = new Kin.Header.SubmenuView
       el: "header #account-bt"
     @window.addDelegate(headerSettingsSubmenu)
+
+  initHeaderProfileInfo: ()->
+    headerProfileInfo = new Kin.Header.ProfileInfoView
+      el: "header #my-profile-bt"
+      model: @currentUser
+    @window.addDelegate(headerProfileInfo)
+    @currentUser.addDelegate(headerProfileInfo)
 
   initHeaderSearch: ()->
     headerSearch = new Kin.Header.SearchView
@@ -278,6 +286,7 @@ class Kin.AppView extends Backbone.View
     that.mainColumnView = new Kin.DayCare.InvitesView
       el: that.mainColumnSelector
       collection: friendRequests
+      model: @currentUser
     that.mainColumnView.render()
 
     that.side1ColumnView = new Kin.DayCare.InvitesSide1View
@@ -285,6 +294,19 @@ class Kin.AppView extends Backbone.View
       el: that.side1ColumnSelector
     that.side1ColumnView.render()
 
+  renderAddClass: ()->
+    that = @
+    @clearColumns()
+
+    that.mainColumnView = new Kin.DayCare.AddClassView
+      el: that.mainColumnSelector
+      currentUser: @currentUser
+    that.mainColumnView.render()
+
+    that.side1ColumnView = new Kin.DayCare.AddClassSide1View
+      model: @currentUser
+      el: that.side1ColumnSelector
+    that.side1ColumnView.render()
 
   initTopLink: ()->
     $('#top-link').topLink()

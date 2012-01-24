@@ -67,7 +67,7 @@ header #header-wrapper #logo {
 }
 header #header-wrapper #main-menu {
   float: right;
-  margin: 24px 0 0 0;
+  margin: 12px 0 0 0;
 }
 header #header-wrapper #main-menu li {
   display: inline-block;
@@ -80,43 +80,55 @@ header #header-wrapper #main-menu li a {
   font-size: 11px;
   font-weight: bold;
 }
-header #header-wrapper #main-menu #account-bt {
-  height: 16px;
-  overflow: hidden;
-}
-header #header-wrapper #main-menu #account-bt a {
-  display: inline-block;
-  background: url("/images/settings.png") no-repeat;
-  width: 16px;
-  height: 16px;
-}
-header #header-wrapper #main-menu #account-bt a span {
-  display: none;
-}
-header #header-wrapper #main-menu #account-bt ul.submenu {
+header #header-wrapper #main-menu li ul.submenu {
   float: right;
   position: absolute;
-  right: 226px;
   background: #e1f5fc;
   margin: -3px 0 0 0;
 }
-header #header-wrapper #main-menu #account-bt ul.submenu li {
+header #header-wrapper #main-menu li ul.submenu li {
   margin: 0;
+  display: block;
 }
-header #header-wrapper #main-menu #account-bt ul.submenu li a {
+header #header-wrapper #main-menu li ul.submenu li a {
   display: inline-block;
   width: 90px;
   padding: 5px;
   background: none;
   color: #000;
 }
-header #header-wrapper #main-menu #account-bt ul.submenu li a:hover {
+header #header-wrapper #main-menu li ul.submenu li a:hover {
   background: #c8e9fa;
+}
+header #header-wrapper #main-menu #account-bt {
+  height: 16px;
+  overflow: hidden;
+}
+header #header-wrapper #main-menu #account-bt #my-settings-bt {
+  display: inline-block;
+  background: url("/images/settings.png") no-repeat;
+  width: 16px;
+  height: 16px;
+}
+header #header-wrapper #main-menu #account-bt #my-settings-bt span {
+  display: none;
+}
+header #header-wrapper #main-menu #account-bt ul.submenu {
+  right: 226px;
 }
 header #header-wrapper #main-menu #account-bt.selected {
   background-color: #e1f5fc;
 }
 header #header-wrapper #main-menu #account-bt.selected a {
+  color: #000;
+}
+header #header-wrapper #main-menu #my-profile-bt ul.submenu {
+  right: 263px;
+}
+header #header-wrapper #main-menu #my-profile-bt.selected {
+  background-color: #e1f5fc;
+}
+header #header-wrapper #main-menu #my-profile-bt.selected a {
   color: #000;
 }
 header #header-wrapper #events-menu {
@@ -194,7 +206,9 @@ header #header-wrapper #events-menu li ul.notification-list li .message-header .
   text-decoration: underline;
 }
 header #header-wrapper #events-menu li ul.notification-list li .message-body {
-  float: left;
+  float: right;
+  width: 215px;
+  text-align: left;
 }
 header #header-wrapper #events-menu li ul.notification-list li.view-all-list-items-bt a {
   text-align: center;
@@ -455,6 +469,18 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #main-column #wall-comments-list div.add-followup-box form div input {
   padding: 3px 14px 3px 14px;
+}
+#page-wrapper #main-column #load-more-comments-cnt {
+  background: #f2f2f2;
+  margin: 5px 0 5px 0;
+  padding: 10px;
+  cursor: pointer;
+}
+#page-wrapper #main-column #load-more-comments-cnt a {
+  text-decoration: none;
+}
+#page-wrapper #main-column #load-more-comments-cnt:hover a {
+  text-decoration: underline;
 }
 #page-wrapper #main-column #messages-list {
   margin: 10px 0 0 0;

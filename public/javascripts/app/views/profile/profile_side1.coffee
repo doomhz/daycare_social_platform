@@ -5,6 +5,7 @@ class window.Kin.Profile.ProfileSide1View extends Backbone.View
   tplUrl:
     daycare: '/templates/side1/day_care/profile.html'
     parent:  '/templates/side1/parent/profile.html'
+    class:  '/templates/side1/class/profile.html'
 
   quickMessageTplUrl: '/templates/side1/messages/quick_message_box.html'
 

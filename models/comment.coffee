@@ -22,6 +22,8 @@ CommentSchema = new Schema
   updated_at:
     type: Date
     default: Date.now
+  timeline:
+    type: String
   from_user:
     type: {}
 

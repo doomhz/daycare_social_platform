@@ -1,6 +1,9 @@
-User         = require("./user")
+User = require("./user")
+_    = require('underscore')
 
 FriendRequestSchema = new Schema
+  user_id:
+    type: String
   from_id:
     type: String
   email:
@@ -9,6 +12,8 @@ FriendRequestSchema = new Schema
     type: String
   surname:
     type: String
+  class_ids:
+    type: [String]
   status:
     type: String
     enum: ["sent", "accepted"]
@@ -46,6 +51,28 @@ FriendRequestSchema.statics.sendMail = (friendRequest, options)->
       if err
         console.log err
     )
+
+FriendRequestSchema.methods.updateFriendship = (userId, onFriendshipUpdate)->
+  daycareAndClassesToFind = @class_ids
+  daycareAndClassesToFind.push(@from_id)
+
+  User.find().where("_id").in(daycareAndClassesToFind).run (err, dayCares)->
+    friendsToAdd = []
+    for dayCare in dayCares
+      friendsToAdd = _.union(friendsToAdd, dayCare.friends)
+      dayCare.friends.push(userId)
+      dayCare.save()
+
+    User.find({type: "parent"}).where("_id").in(friendsToAdd).run (err, dayCareFriends)->
+      myFriendsIds = daycareAndClassesToFind
+      for userFriend in dayCareFriends
+        myFriendsIds.push(userFriend._id)
+        userFriend.friends.push(userId)
+        userFriend.save()
+
+      User.update {_id: userId}, {friends: myFriendsIds}, {}, (err)->
+        if onFriendshipUpdate
+          onFriendshipUpdate(err)
 
 FriendRequest = mongoose.model("FriendRequest", FriendRequestSchema)
 
