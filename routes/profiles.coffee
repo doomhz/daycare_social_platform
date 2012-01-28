@@ -1,5 +1,6 @@
 User    = require('../models/user')
 Comment = require('../models/comment')
+Child   = require('../models/child')
 fs      = require('fs')
 
 module.exports = (app)->
@@ -37,8 +38,8 @@ module.exports = (app)->
       user.picture_sets.push(profilePicturesSet)
     user.save (err, savedUser)->
       currentUser.friends.push(savedUser._id)
-      currentUser.save()
-      res.json({success: true})
+      currentUser.save ()->
+        res.json({success: true, _id: savedUser._id})
 
   app.get '/profiles/:id', (req, res)->
     User.findOne({_id: req.params.id}).run (err, user) ->
@@ -333,4 +334,30 @@ module.exports = (app)->
     else
       res.json {success: false}
 
+  app.get '/children/:user_id', (req, res)->
+    Child.find({user_id: req.params.user_id}).run (err, children) ->
+      res.render 'children/children', {children: children, layout: false}
 
+  app.post '/child', (req, res)->
+    currentUser = if req.user then req.user else {}
+    data = req.body
+
+    child = new Child(data)
+    child.save ()->
+      res.json {success: true}
+
+  app.put '/child/:id', (req, res)->
+    childId = req.params.id
+    currentUser = if req.user then req.user else {}
+    data = req.body
+    delete data._id
+
+    Child.update {_id: childId}, data, {}, (err, child) ->
+      res.json {success: true}
+
+  app.del '/child/:id', (req, res)->
+    childId = req.params.id
+    currentUser = if req.user then req.user else {}
+
+    Child.remove {_id: childId}, (err)->
+      res.json {success: true}

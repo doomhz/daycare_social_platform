@@ -13,7 +13,7 @@ module.exports = (app)->
     comparison = if req.params.timeline is "future" then "gt" else "lt"
 
     if wallId is currentUserId or wallId in currentUser.friends
-      Comment.find({wall_id: wallId, type: "status"}).where('added_at')[comparison](lastCommentTime).desc("added_at").limit(5).run (err, statuses)->
+      Comment.find({wall_id: wallId, type: "status"}).where('added_at')[comparison](lastCommentTime).desc("added_at").limit(5).run (err, statuses = [])->
         statusIds = []
         for status in statuses
           statusIds.push(status._id)
@@ -25,7 +25,7 @@ module.exports = (app)->
         else
           followupsQuery.where('added_at')[comparison](lastCommentTime)
 
-        followupsQuery.run (err, followups)->
+        followupsQuery.run (err, followups = [])->
           usersToFind = []
           comments = statuses.concat(followups)
           for comment in comments

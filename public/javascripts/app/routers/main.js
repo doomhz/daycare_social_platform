@@ -26,7 +26,8 @@
       'messages/sent': 'viewSentMessages',
       'messages/trash': 'viewTrashMessages',
       'invite-parents': 'inviteParents',
-      'add-class': 'addClass'
+      'add-class': 'addClass',
+      'manage-children/:id': 'manageChildren'
     };
 
     MainRouter.prototype.initialize = function(_arg) {
@@ -83,6 +84,10 @@
 
     MainRouter.prototype.addClass = function() {
       return this.app.renderAddClass();
+    };
+
+    MainRouter.prototype.manageChildren = function(id) {
+      return this.app.renderManageChildren(id);
     };
 
     return MainRouter;

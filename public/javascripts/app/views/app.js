@@ -375,12 +375,41 @@
         el: that.mainColumnSelector,
         currentUser: this.currentUser
       });
+      that.mainColumnView.router = this.router;
       that.mainColumnView.render();
       that.side1ColumnView = new Kin.DayCare.AddClassSide1View({
         model: this.currentUser,
         el: that.side1ColumnSelector
       });
       return that.side1ColumnView.render();
+    };
+
+    AppView.prototype.renderManageChildren = function(id) {
+      var profile, that;
+      that = this;
+      this.clearColumns();
+      profile = new Kin.ProfileModel({
+        _id: id
+      });
+      return profile.fetch({
+        success: function(model, response) {
+          var childrenList;
+          childrenList = new Kin.ChildrenCollection([], {
+            url: "/children/" + id
+          });
+          that.mainColumnView = new Kin.Class.ManageChildrenView({
+            el: that.mainColumnSelector,
+            model: model,
+            collection: childrenList
+          });
+          that.mainColumnView.render();
+          that.side1ColumnView = new Kin.Class.ManageChildrenSide1View({
+            model: model,
+            el: that.side1ColumnSelector
+          });
+          return that.side1ColumnView.render();
+        }
+      });
     };
 
     AppView.prototype.initTopLink = function() {

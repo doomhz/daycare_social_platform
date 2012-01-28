@@ -301,12 +301,34 @@ class Kin.AppView extends Backbone.View
     that.mainColumnView = new Kin.DayCare.AddClassView
       el: that.mainColumnSelector
       currentUser: @currentUser
+    that.mainColumnView.router = @router
     that.mainColumnView.render()
 
     that.side1ColumnView = new Kin.DayCare.AddClassSide1View
       model: @currentUser
       el: that.side1ColumnSelector
     that.side1ColumnView.render()
+
+  renderManageChildren: (id)->
+    that = @
+    @clearColumns()
+
+    profile = new Kin.ProfileModel({_id: id})
+    profile.fetch
+      success: (model, response)->
+
+        childrenList = new Kin.ChildrenCollection [], {url: "/children/#{id}"}
+
+        that.mainColumnView = new Kin.Class.ManageChildrenView
+          el: that.mainColumnSelector
+          model: model
+          collection: childrenList
+        that.mainColumnView.render()
+
+        that.side1ColumnView = new Kin.Class.ManageChildrenSide1View
+          model: model
+          el: that.side1ColumnSelector
+        that.side1ColumnView.render()
 
   initTopLink: ()->
     $('#top-link').topLink()

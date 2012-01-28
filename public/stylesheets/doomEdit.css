@@ -1,8 +1,13 @@
-.dedit-input, .dedit-select {
+.dedit-input, .dedit-input-link, .dedit-select {
   cursor:pointer;
 }
 
-.dedit-input:hover, .dedit-select:hover, #profile-general-info.dedit:hover {
+.dedit-input-link {
+  padding: 0 25px 0 0;
+  text-decoration: underline;
+}
+
+.dedit-input:hover, .dedit-input-link:hover, .dedit-select:hover, #profile-general-info.dedit:hover {
 	background: transparent url(/images/doom_edit/edit.png) no-repeat bottom right;
   cursor:pointer;
 }

@@ -23,6 +23,7 @@
           type: "status"
         }).where('added_at')[comparison](lastCommentTime).desc("added_at").limit(5).run(function(err, statuses) {
           var followupsQuery, status, statusIds, _i, _len;
+          if (statuses == null) statuses = [];
           statusIds = [];
           for (_i = 0, _len = statuses.length; _i < _len; _i++) {
             status = statuses[_i];
@@ -39,6 +40,7 @@
           }
           return followupsQuery.run(function(err, followups) {
             var comment, comments, usersToFind, _j, _len2;
+            if (followups == null) followups = [];
             usersToFind = [];
             comments = statuses.concat(followups);
             for (_j = 0, _len2 = comments.length; _j < _len2; _j++) {

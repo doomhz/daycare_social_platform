@@ -2,6 +2,7 @@
 
   window.Kin || (window.Kin = {
     DayCare: {},
+    Class: {},
     Profile: {},
     Header: {},
     Messages: {},

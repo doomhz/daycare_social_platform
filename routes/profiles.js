@@ -1,9 +1,11 @@
 (function() {
-  var Comment, User, fs;
+  var Child, Comment, User, fs;
 
   User = require('../models/user');
 
   Comment = require('../models/comment');
+
+  Child = require('../models/child');
 
   fs = require('fs');
 
@@ -69,9 +71,11 @@
       }
       return user.save(function(err, savedUser) {
         currentUser.friends.push(savedUser._id);
-        currentUser.save();
-        return res.json({
-          success: true
+        return currentUser.save(function() {
+          return res.json({
+            success: true,
+            _id: savedUser._id
+          });
         });
       });
     });
@@ -331,7 +335,7 @@
         }
       });
     });
-    return app.post('/profiles/upload', function(req, res) {
+    app.post('/profiles/upload', function(req, res) {
       var bigFilePath, bigRelativeFilePath, currentUser, description, dirPath, fileExtension, fileName, filePath, mediumFilePath, mediumRelativeFilePath, newPicture, newPictureData, pictureSetId, relativeDirPath, relativeFilePath, thumbFilePath, thumbRelativeFilePath, ws;
       currentUser = req.user ? req.user : {};
       pictureSetId = req.query.setId;
@@ -453,6 +457,53 @@
           success: false
         });
       }
+    });
+    app.get('/children/:user_id', function(req, res) {
+      return Child.find({
+        user_id: req.params.user_id
+      }).run(function(err, children) {
+        return res.render('children/children', {
+          children: children,
+          layout: false
+        });
+      });
+    });
+    app.post('/child', function(req, res) {
+      var child, currentUser, data;
+      currentUser = req.user ? req.user : {};
+      data = req.body;
+      child = new Child(data);
+      return child.save(function() {
+        return res.json({
+          success: true
+        });
+      });
+    });
+    app.put('/child/:id', function(req, res) {
+      var childId, currentUser, data;
+      childId = req.params.id;
+      currentUser = req.user ? req.user : {};
+      data = req.body;
+      delete data._id;
+      return Child.update({
+        _id: childId
+      }, data, {}, function(err, child) {
+        return res.json({
+          success: true
+        });
+      });
+    });
+    return app.del('/child/:id', function(req, res) {
+      var childId, currentUser;
+      childId = req.params.id;
+      currentUser = req.user ? req.user : {};
+      return Child.remove({
+        _id: childId
+      }, function(err) {
+        return res.json({
+          success: true
+        });
+      });
     });
   };
 

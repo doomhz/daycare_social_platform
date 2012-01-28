@@ -1,0 +1,39 @@
+<h1>Manage children for <%= profile.get("name") %> class</h1>
+
+<div id="add-child-cnt">
+  <form id="add-child-form">
+    <fieldset>
+      <input type="hidden" name="user_id" value="<%= profile.get("_id") %>" />
+      <div class="clear">
+        <label>Name</label>
+        <div class="input">
+          <input type="text" name="name" value="" />
+        </div>
+      </div>
+      <div class="clear">
+        <label>Surname</label>
+        <div class="input">
+          <input type="text" name="surname" value="" />
+        </div>
+      </div>
+      <div class="actions">
+	        <input type="submit" id="add-child-bt" class="btn primary" value="Add" />
+	    </div>
+    </fieldset>
+  </form>
+</div>
+
+<h2>Children in this class</h2>
+
+<table class="bordered-table zebra-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="children-list">
+  </tbody>
+</table>

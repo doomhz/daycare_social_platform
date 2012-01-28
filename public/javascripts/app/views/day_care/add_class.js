@@ -49,12 +49,12 @@
       profileModel = new Kin.ProfileModel();
       return profileModel.save(null, {
         data: formData,
-        success: function() {
+        success: function(model, response) {
           var name;
           name = $form.find("input[name='name']").val();
           $.jGrowl("" + name + " class was successfully created");
-          that.render();
-          return that.currentUser.fetch();
+          that.currentUser.fetch();
+          return that.router.navigate("manage-children/" + response._id, true);
         },
         error: function() {
           return $.jGrowl("The class could not be created :( Please try again.");

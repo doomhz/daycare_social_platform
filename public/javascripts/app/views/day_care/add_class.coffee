@@ -28,11 +28,11 @@ class Kin.DayCare.AddClassView extends Backbone.View
     profileModel = new Kin.ProfileModel()
     profileModel.save null,
       data: formData
-      success: ()->
+      success: (model, response)->
         name = $form.find("input[name='name']").val()
         $.jGrowl("#{name} class was successfully created")
-        that.render()
         that.currentUser.fetch()
+        that.router.navigate("manage-children/#{response._id}", true)
       error: ()->
         $.jGrowl("The class could not be created :( Please try again.")
 

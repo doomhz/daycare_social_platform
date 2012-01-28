@@ -17,6 +17,7 @@ class window.Kin.MainRouter extends Backbone.Router
     'messages/trash'                : 'viewTrashMessages'
     'invite-parents'                : 'inviteParents'
     'add-class'                     : 'addClass'
+    'manage-children/:id'           : 'manageChildren'
 
   initialize: ({@app})->
 
@@ -58,3 +59,6 @@ class window.Kin.MainRouter extends Backbone.Router
 
   addClass: ()->
     @app.renderAddClass()
+
+  manageChildren: (id)->
+    @app.renderManageChildren(id)
