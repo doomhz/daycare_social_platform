@@ -12,7 +12,7 @@ FriendRequestSchema = new Schema
     type: String
   surname:
     type: String
-  class_ids:
+  children_ids:
     type: [String]
   status:
     type: String
@@ -53,26 +53,33 @@ FriendRequestSchema.statics.sendMail = (friendRequest, options)->
     )
 
 FriendRequestSchema.methods.updateFriendship = (userId, onFriendshipUpdate)->
-  daycareAndClassesToFind = @class_ids
+  Child = require("./child")
+
+  daycareAndClassesToFind = []
   daycareAndClassesToFind.push(@from_id)
+  childrenIds = @children_ids
 
-  User.find().where("_id").in(daycareAndClassesToFind).run (err, dayCares)->
-    friendsToAdd = []
-    for dayCare in dayCares
-      friendsToAdd = _.union(friendsToAdd, dayCare.friends)
-      dayCare.friends.push(userId)
-      dayCare.save()
+  Child.find().where("_id").in(@children_ids).run (err, children)->
+    for child in children
+      daycareAndClassesToFind.push(child.user_id)
 
-    User.find({type: "parent"}).where("_id").in(friendsToAdd).run (err, dayCareFriends)->
-      myFriendsIds = daycareAndClassesToFind
-      for userFriend in dayCareFriends
-        myFriendsIds.push(userFriend._id)
-        userFriend.friends.push(userId)
-        userFriend.save()
+    User.find().where("_id").in(daycareAndClassesToFind).run (err, dayCares)->
+      friendsToAdd = []
+      for dayCare in dayCares
+        friendsToAdd = _.union(friendsToAdd, dayCare.friends)
+        dayCare.friends.push(userId)
+        dayCare.save()
 
-      User.update {_id: userId}, {friends: myFriendsIds}, {}, (err)->
-        if onFriendshipUpdate
-          onFriendshipUpdate(err)
+      User.find({type: "parent"}).where("_id").in(friendsToAdd).run (err, dayCareFriends)->
+        myFriendsIds = daycareAndClassesToFind
+        for userFriend in dayCareFriends
+          myFriendsIds.push(userFriend._id)
+          userFriend.friends.push(userId)
+          userFriend.save()
+
+        User.update {_id: userId}, {friends: myFriendsIds, children_ids: childrenIds}, {}, (err)->
+          if onFriendshipUpdate
+            onFriendshipUpdate(err)
 
 FriendRequest = mongoose.model("FriendRequest", FriendRequestSchema)
 

@@ -2,6 +2,14 @@ class window.Kin.ChildrenCollection extends Backbone.Collection
 
   model: window.Kin.ChildModel
 
-  initialize: (models, options)->
-    @url = options and options.url
+  uri: "/children/:userId"
+
+  @userId: null
+
+  initialize: (models, options = {})->
+    @url = options.url or @url
+    @userId = options.userId or @userId
     @
+
+  url: ()->
+    @uri.replace(/:userId/g, @userId)

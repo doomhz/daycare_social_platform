@@ -335,8 +335,18 @@ module.exports = (app)->
       res.json {success: false}
 
   app.get '/children/:user_id', (req, res)->
-    Child.find({user_id: req.params.user_id}).run (err, children) ->
-      res.render 'children/children', {children: children, layout: false}
+    userId = req.params.user_id
+    User.findOne({_id: userId}).run (err, user)->
+      if user.type is "class"
+        Child.find({user_id: userId}).run (err, children)->
+          res.render 'children/children', {children: children, layout: false}
+      else
+        User.find({master_id: userId}).run (err, classes)->
+          classesIds = []
+          for daycareClass in classes
+            classesIds.push(daycareClass._id)
+          Child.find().where("user_id").in(classesIds).run (err, children)->
+            res.render 'children/children', {children: children, layout: false}
 
   app.post '/child', (req, res)->
     currentUser = if req.user then req.user else {}

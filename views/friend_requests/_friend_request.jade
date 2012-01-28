@@ -4,10 +4,10 @@
 "email": "#{friend_request.email}",
 "name": "#{friend_request.name}",
 "surname": "#{friend_request.surname}",
-"class_ids": [
-each classId, i in friend_request.class_ids
-  "#{classId}"
-  - if (i != friend_request.class_ids.length-1)
+"children_ids": [
+each childId, i in friend_request.children_ids
+  "#{childId}"
+  - if (i != friend_request.children_ids.length-1)
     ,
 ],
 "status": "#{friend_request.status}",

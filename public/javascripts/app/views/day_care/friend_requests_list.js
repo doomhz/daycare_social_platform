@@ -29,13 +29,23 @@
       return $.tmpload({
         url: this.tplUrl,
         onLoad: function(tpl) {
-          var $el;
-          $el = $(that.el);
-          $el.html(tpl({
-            friendRequests: that.collection,
-            profile: that.model
-          }));
-          return that.$(".chzn-select").chosen();
+          var children;
+          children = new Kin.ChildrenCollection([], {
+            userId: that.model.get("_id")
+          });
+          return children.fetch({
+            success: function() {
+              var $el;
+              $el = $(that.el);
+              $el.html(tpl({
+                friendRequests: that.collection,
+                profile: that.model,
+                classes: that.model.get("daycare_friends"),
+                children: children.models
+              }));
+              return that.$(".chzn-select").chosen();
+            }
+          });
         }
       });
     };

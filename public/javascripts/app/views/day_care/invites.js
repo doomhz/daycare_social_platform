@@ -28,16 +28,26 @@
       return $.tmpload({
         url: this.tplUrl,
         onLoad: function(tpl) {
-          $(that.el).html(tpl({
-            profile: that.model
-          }));
-          that.$(".chzn-select").chosen();
-          that.friendRequestsList = new Kin.DayCare.FriendRequestsListView({
-            el: that.$("#friend-requests-list"),
-            collection: that.collection,
-            model: that.model
+          var children;
+          children = new Kin.ChildrenCollection([], {
+            userId: that.model.get("_id")
           });
-          return that.renderFriendRequestsList();
+          return children.fetch({
+            success: function() {
+              $(that.el).html(tpl({
+                profile: that.model,
+                classes: that.model.get("daycare_friends"),
+                children: children.models
+              }));
+              that.$(".chzn-select").chosen();
+              that.friendRequestsList = new Kin.DayCare.FriendRequestsListView({
+                el: that.$("#friend-requests-list"),
+                collection: that.collection,
+                model: that.model
+              });
+              return that.renderFriendRequestsList();
+            }
+          });
         }
       });
     };

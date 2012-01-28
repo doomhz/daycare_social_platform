@@ -15,7 +15,7 @@
       from_id: null,
       email: null,
       name: null,
-      class_ids: [],
+      children_ids: [],
       surname: null,
       status: null,
       created_at: null

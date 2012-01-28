@@ -7,7 +7,7 @@ class Kin.DayCare.FriendRequestsListView extends Backbone.View
   tplUrl: '/templates/main/day_care/friend_requests_list.html'
 
   events:
-    "click .parent-name"                  : "parentNameClickHandler"
+    "click .parent-name"                : "parentNameClickHandler"
     "submit .friend-request-class-form" : "editClassesSubmitHandler"
 
   initialize: ()->
@@ -17,9 +17,12 @@ class Kin.DayCare.FriendRequestsListView extends Backbone.View
     $.tmpload
       url: @tplUrl
       onLoad: (tpl)->
-        $el = $(that.el)
-        $el.html(tpl({friendRequests: that.collection, profile: that.model}))
-        that.$(".chzn-select").chosen()
+        children = new Kin.ChildrenCollection([], {userId: that.model.get("_id")})
+        children.fetch
+          success: ()->
+            $el = $(that.el)
+            $el.html(tpl({friendRequests: that.collection, profile: that.model, classes: that.model.get("daycare_friends"), children: children.models}))
+            that.$(".chzn-select").chosen()
 
   parentNameClickHandler: (ev)->
     ev.preventDefault()

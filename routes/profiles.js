@@ -459,13 +459,38 @@
       }
     });
     app.get('/children/:user_id', function(req, res) {
-      return Child.find({
-        user_id: req.params.user_id
-      }).run(function(err, children) {
-        return res.render('children/children', {
-          children: children,
-          layout: false
-        });
+      var userId;
+      userId = req.params.user_id;
+      return User.findOne({
+        _id: userId
+      }).run(function(err, user) {
+        if (user.type === "class") {
+          return Child.find({
+            user_id: userId
+          }).run(function(err, children) {
+            return res.render('children/children', {
+              children: children,
+              layout: false
+            });
+          });
+        } else {
+          return User.find({
+            master_id: userId
+          }).run(function(err, classes) {
+            var classesIds, daycareClass, _i, _len;
+            classesIds = [];
+            for (_i = 0, _len = classes.length; _i < _len; _i++) {
+              daycareClass = classes[_i];
+              classesIds.push(daycareClass._id);
+            }
+            return Child.find().where("user_id")["in"](classesIds).run(function(err, children) {
+              return res.render('children/children', {
+                children: children,
+                layout: false
+              });
+            });
+          });
+        }
       });
     });
     app.post('/child', function(req, res) {

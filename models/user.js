@@ -92,6 +92,10 @@
       type: [String],
       "default": []
     },
+    children_ids: {
+      type: [String],
+      "default": []
+    },
     daycare_friends: {
       type: [{}],
       "default": []

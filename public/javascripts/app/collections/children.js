@@ -12,9 +12,19 @@
 
     ChildrenCollection.prototype.model = window.Kin.ChildModel;
 
+    ChildrenCollection.prototype.uri = "/children/:userId";
+
+    ChildrenCollection.userId = null;
+
     ChildrenCollection.prototype.initialize = function(models, options) {
-      this.url = options && options.url;
+      if (options == null) options = {};
+      this.url = options.url || this.url;
+      this.userId = options.userId || this.userId;
       return this;
+    };
+
+    ChildrenCollection.prototype.url = function() {
+      return this.uri.replace(/:userId/g, this.userId);
     };
 
     return ChildrenCollection;

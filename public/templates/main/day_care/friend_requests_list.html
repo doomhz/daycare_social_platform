@@ -19,17 +19,26 @@
         <div class="clearfix">
     	    <label>Classes</label>
       	  <div class="input">
-            <select multiple="multiple" name="class_ids" class="chzn-select" data-placeholder="Add a class...">
-          	<%
-                var daycareFriends = profile.get('daycare_friends');
-                _.each(daycareFriends, function (daycareClass) {
-                  var isSelected = $.inArray(daycareClass._id, friendRequest.get("class_ids")) > -1 ? true : false;
-            %>
-                <option value="<%= daycareClass._id %>" <% if (isSelected) { %>selected="selected"<% } %>><%= daycareClass.name %></option>
-            <%
-                });
-            %>
-            </select>
+      	    <select multiple="multiple" name="children_ids" class="chzn-select" data-placeholder="Add a child...">
+  	        <%
+  	            _.each(classes, function (daycareClass) {
+  	        %>
+  	          <optgroup label="<%= daycareClass.name %>">
+  	            <%
+  	              _.each(children, function (child) {
+  	                if (child.get("user_id") === daycareClass._id) {
+  	                  var isSelected = $.inArray(child.get("_id"), friendRequest.get("children_ids")) > -1 ? true : false;
+  	            %>
+  	              <option value="<%= child.get("_id") %>" <% if (isSelected) { %>selected="selected"<% } %>><%= child.get("name") %> <%= child.get("surname") %></option>
+  	            <%
+                    }
+                  });
+  	            %>
+  	          </optgroup>
+  	        <%
+  	            });
+  	        %>
+  	        </select>
           </div>
         </div>
         <div class="actions">

@@ -317,7 +317,7 @@ class Kin.AppView extends Backbone.View
     profile.fetch
       success: (model, response)->
 
-        childrenList = new Kin.ChildrenCollection [], {url: "/children/#{id}"}
+        childrenList = new Kin.ChildrenCollection [], {userId: id}
 
         that.mainColumnView = new Kin.Class.ManageChildrenView
           el: that.mainColumnSelector

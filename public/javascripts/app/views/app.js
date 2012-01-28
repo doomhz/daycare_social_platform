@@ -395,7 +395,7 @@
         success: function(model, response) {
           var childrenList;
           childrenList = new Kin.ChildrenCollection([], {
-            url: "/children/" + id
+            userId: id
           });
           that.mainColumnView = new Kin.Class.ManageChildrenView({
             el: that.mainColumnSelector,
