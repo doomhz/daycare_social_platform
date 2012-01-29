@@ -1,14 +1,14 @@
 class Kin.FriendRequestModel extends Backbone.Model
 
   defaults:
-    user_id:      null
-    from_id:      null
-    email:        null
-    name:         null
+    user_id:      undefined
+    from_id:      undefined
+    email:        undefined
+    name:         undefined
     children_ids: []
-    surname:      null
-    status:       null
-    created_at:   null
+    surname:      undefined
+    status:       undefined
+    created_at:   undefined
 
   urlRoot: "/friend-requests"
 

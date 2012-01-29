@@ -38,17 +38,38 @@ class Kin.DayCare.InvitesView extends Backbone.View
     ev.preventDefault()
     that = @
     $form = $(ev.target)
-    formData = $form.serialize()
-    friendRequestModel = new Kin.FriendRequestModel
+
+    mothersData = @getFormData($form, "mothers")
+    fathersData = @getFormData($form, "fathers")
+
+    if mothersData
+      @saveFriendRequest(mothersData)
+    if fathersData
+      @saveFriendRequest(fathersData)
+
+  saveFriendRequest: (data)->
+    friendRequestModel = new Kin.FriendRequestModel(data)
     friendRequestModel.save null,
-      data: formData
-      success: ()->
-        parentName = $form.find("input[name='name']").val()
-        parentSurname = $form.find("input[name='surname']").val()
-        $.jGrowl("Invite successfully sent to #{parentName} #{parentSurname}")
-        that.render()
-      error: ()->
-        $.jGrowl("Invite could not be sent :( Please try again.")
+      success: @onFormSaveSuccess
+      error: @onFormSaveError
+
+  onFormSaveSuccess: ()=>
+    $.jGrowl("Invite successfully sent")
+    @render()
+
+  onFormSaveError: ()=>
+    $.jGrowl("Invite could not be sent :( Please try again.")
+
+  getFormData: ($form, fieldPrefix)->
+    data =
+      name: $form.find("input[name='#{fieldPrefix}-name']").val()
+      surname: $form.find("input[name='#{fieldPrefix}-surname']").val()
+      email: $form.find("input[name='#{fieldPrefix}-email']").val()
+      children_ids: $form.find("select[name='children_ids']").val()
+    if data.name and data.surname and data.email
+      return data
+    else
+      false
 
   remove: ()->
     @unbind()

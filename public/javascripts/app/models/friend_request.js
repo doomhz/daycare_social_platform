@@ -11,14 +11,14 @@
     }
 
     FriendRequestModel.prototype.defaults = {
-      user_id: null,
-      from_id: null,
-      email: null,
-      name: null,
+      user_id: void 0,
+      from_id: void 0,
+      email: void 0,
+      name: void 0,
       children_ids: [],
-      surname: null,
-      status: null,
-      created_at: null
+      surname: void 0,
+      status: void 0,
+      created_at: void 0
     };
 
     FriendRequestModel.prototype.urlRoot = "/friend-requests";
