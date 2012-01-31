@@ -52,10 +52,11 @@
       ,
   ],
   "children_ids": [
-  each childId, i in profile.children_ids
-    "#{childId}"
-    - if (i != profile.children_ids.length-1)
-      ,
+  - if (profile.children_ids)
+    each childId, i in profile.children_ids
+      "#{childId}"
+      - if (i != profile.children_ids.length-1)
+        ,
   ],
   - var children = profile.children;
   "children":

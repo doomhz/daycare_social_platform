@@ -44,10 +44,19 @@ class Kin.DayCare.InvitesView extends Backbone.View
     mothersData = @getFormData($form, "mother")
     fathersData = @getFormData($form, "father")
 
+    if mothersData and fathersData and mothersData.email is fathersData.email
+      dAlert("Please assign different e-mail addresses for both parents.")
+      return false
     if mothersData
-      @saveFriendRequest(mothersData)
+      if @isUniqueEmail(mothersData.email)
+        @saveFriendRequest(mothersData)
+      else
+        dAlert("An invite has already been sent to #{mothersData.email}.<br />Please choose another one.")
     if fathersData
-      @saveFriendRequest(fathersData)
+      if @isUniqueEmail(fathersData.email)
+        @saveFriendRequest(fathersData)
+      else
+        dAlert("An invite has already been sent to #{fathersData.email}.<br />Please choose another one.")
 
   saveFriendRequest: (data)->
     friendRequestModel = new Kin.FriendRequestModel(data)
@@ -73,6 +82,11 @@ class Kin.DayCare.InvitesView extends Backbone.View
       return data
     else
       false
+
+  isUniqueEmail: (email)->
+    sameEmailInvites = @collection.find (invite)->
+      invite.get("email") is email
+    not sameEmailInvites
 
   openAddChildBoxHandler: (ev)->
     ev.preventDefault()

@@ -1,6 +1,7 @@
 [
-each child in children
-  include _child
-  - if (child != children[children.length-1])
-    ,
+- if (children)
+  each child in children
+    include _child
+    - if (child != children[children.length-1])
+      ,
 ]

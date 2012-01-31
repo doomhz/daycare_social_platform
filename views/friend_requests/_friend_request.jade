@@ -6,10 +6,11 @@
 "surname": "#{friend_request.surname}",
 "parent_type": "#{friend_request.parent_type}",
 "children_ids": [
-each childId, i in friend_request.children_ids
-  "#{childId}"
-  - if (i != friend_request.children_ids.length-1)
-    ,
+- if (friend_request.children_ids)
+  each childId, i in friend_request.children_ids
+    "#{childId}"
+    - if (i != friend_request.children_ids.length-1)
+      ,
 ],
 "status": "#{friend_request.status}",
 "created_at": "#{friend_request.created_at}"

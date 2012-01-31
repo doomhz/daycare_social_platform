@@ -75,8 +75,24 @@
       $form = $(ev.target);
       mothersData = this.getFormData($form, "mother");
       fathersData = this.getFormData($form, "father");
-      if (mothersData) this.saveFriendRequest(mothersData);
-      if (fathersData) return this.saveFriendRequest(fathersData);
+      if (mothersData && fathersData && mothersData.email === fathersData.email) {
+        dAlert("Please assign different e-mail addresses for both parents.");
+        return false;
+      }
+      if (mothersData) {
+        if (this.isUniqueEmail(mothersData.email)) {
+          this.saveFriendRequest(mothersData);
+        } else {
+          dAlert("An invite has already been sent to " + mothersData.email + ".<br />Please choose another one.");
+        }
+      }
+      if (fathersData) {
+        if (this.isUniqueEmail(fathersData.email)) {
+          return this.saveFriendRequest(fathersData);
+        } else {
+          return dAlert("An invite has already been sent to " + fathersData.email + ".<br />Please choose another one.");
+        }
+      }
     };
 
     InvitesView.prototype.saveFriendRequest = function(data) {
@@ -111,6 +127,14 @@
       } else {
         return false;
       }
+    };
+
+    InvitesView.prototype.isUniqueEmail = function(email) {
+      var sameEmailInvites;
+      sameEmailInvites = this.collection.find(function(invite) {
+        return invite.get("email") === email;
+      });
+      return !sameEmailInvites;
     };
 
     InvitesView.prototype.openAddChildBoxHandler = function(ev) {
