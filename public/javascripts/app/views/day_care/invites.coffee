@@ -5,9 +5,11 @@ class Kin.DayCare.InvitesView extends Backbone.View
   model: null
 
   tplUrl: '/templates/main/day_care/invites.html'
+  quickAddChildTplUrl: "/templates/main/day_care/quick_add_child.html"
 
   events:
-    "submit #send-invite-form" : "sendInvite"
+    "submit #send-invite-form"    : "sendInvite"
+    "click #open-add-child-box-bt": "openAddChildBoxHandler"
 
   initialize: ()->
 
@@ -71,6 +73,37 @@ class Kin.DayCare.InvitesView extends Backbone.View
       return data
     else
       false
+
+  openAddChildBoxHandler: (ev)->
+    ev.preventDefault()
+    @showQuickAddChildWindow()
+
+  showQuickAddChildWindow: ()->
+    that = @
+    $.tmpload
+      url: @quickAddChildTplUrl
+      onLoad: (tpl)->
+        winContent = tpl({profile: that.model})
+        dWindow(winContent, {
+          wrapperId: "quick-add-child-win"
+          closeOnSideClick: false
+          buttons:
+            "add":   "add"
+            "cancel": "cancel"
+          buttonClick: (btType, $win)->
+            if btType is "add"
+              $form = $win.find("form:first")
+              formData = $form.serialize()
+              childModel = new Kin.ChildModel
+              childModel.save null,
+                data: formData
+                success: ()->
+                  that.render()
+                  $.jGrowl("Child added successfully")
+                error: ()->
+                  $.jGrowl("Child could not be added :( Please try again.")
+            $win.close()
+        })
 
   remove: ()->
     @unbind()

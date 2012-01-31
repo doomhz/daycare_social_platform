@@ -19,8 +19,11 @@
 
     InvitesView.prototype.tplUrl = '/templates/main/day_care/invites.html';
 
+    InvitesView.prototype.quickAddChildTplUrl = "/templates/main/day_care/quick_add_child.html";
+
     InvitesView.prototype.events = {
-      "submit #send-invite-form": "sendInvite"
+      "submit #send-invite-form": "sendInvite",
+      "click #open-add-child-box-bt": "openAddChildBoxHandler"
     };
 
     InvitesView.prototype.initialize = function() {};
@@ -108,6 +111,52 @@
       } else {
         return false;
       }
+    };
+
+    InvitesView.prototype.openAddChildBoxHandler = function(ev) {
+      ev.preventDefault();
+      return this.showQuickAddChildWindow();
+    };
+
+    InvitesView.prototype.showQuickAddChildWindow = function() {
+      var that;
+      that = this;
+      return $.tmpload({
+        url: this.quickAddChildTplUrl,
+        onLoad: function(tpl) {
+          var winContent;
+          winContent = tpl({
+            profile: that.model
+          });
+          return dWindow(winContent, {
+            wrapperId: "quick-add-child-win",
+            closeOnSideClick: false,
+            buttons: {
+              "add": "add",
+              "cancel": "cancel"
+            },
+            buttonClick: function(btType, $win) {
+              var $form, childModel, formData;
+              if (btType === "add") {
+                $form = $win.find("form:first");
+                formData = $form.serialize();
+                childModel = new Kin.ChildModel;
+                childModel.save(null, {
+                  data: formData,
+                  success: function() {
+                    that.render();
+                    return $.jGrowl("Child added successfully");
+                  },
+                  error: function() {
+                    return $.jGrowl("Child could not be added :( Please try again.");
+                  }
+                });
+              }
+              return $win.close();
+            }
+          });
+        }
+      });
     };
 
     InvitesView.prototype.remove = function() {

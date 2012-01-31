@@ -779,6 +779,26 @@ footer #footer-wrapper #copyright {
   padding: 5px;
   resize: none;
 }
+#missing-someone-cnt {
+  text-align: right;
+  padding-right: 150px;
+}
+#quick-add-child-win #quick-add-child-box-content {
+  padding: 40px 20px 0 20px;
+}
+#quick-add-child-win #quick-add-child-box-content form {
+  margin: 0;
+}
+#quick-add-child-win #quick-add-child-box-content label {
+  width: 60px;
+}
+#quick-add-child-win #quick-add-child-box-content .input {
+  margin-left: 70px;
+}
+#quick-add-child-win #quick-add-child-box-content select {
+  padding: 0 10px 0 10px;
+  width: 220px;
+}
 #write-message-cnt textarea {
   width: 364px;
 }

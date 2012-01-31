@@ -3,11 +3,6 @@
 	opacity: 0.6;
 }
 
-.doom-win * {
-    margin:0;
-    padding:0;
-}
-
 .doom-win {
 	background: #FFF;
 	padding: 2px;
@@ -51,7 +46,7 @@
 	margin-left: 10px;
 }
 
-.doom-win-bt-list li.doom-win-bt-send button {
+.doom-win-bt-list li.doom-win-bt-send button, .doom-win-bt-list li.doom-win-bt-add button {
 	-moz-border-bottom-colors: none;
   -moz-border-image: none;
   -moz-border-left-colors: none;
@@ -98,7 +93,7 @@
   line-height: normal;
   padding: 5px 14px 6px;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-  
+
 }
 
 .doom-win-bt-list .doom-win-bt-close button {
@@ -136,4 +131,3 @@
 	padding: 20px 10px 0 10px;
 }
 
-	
