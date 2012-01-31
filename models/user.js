@@ -76,6 +76,11 @@
       "enum": ['daycare', 'parent', 'class'],
       "default": 'daycare'
     },
+    parent_type: {
+      type: String,
+      "enum": ['mother', 'father'],
+      "default": 'mother'
+    },
     opened_since: {
       type: String
     },
@@ -97,6 +102,10 @@
       "default": []
     },
     daycare_friends: {
+      type: [{}],
+      "default": []
+    },
+    children: {
       type: [{}],
       "default": []
     }

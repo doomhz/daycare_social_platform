@@ -13,3 +13,7 @@ class window.Kin.ChildrenCollection extends Backbone.Collection
 
   url: ()->
     @uri.replace(/:userId/g, @userId)
+
+  filterByClassId: (classId)->
+    @filter (child)->
+      child.get("user_id") == classId

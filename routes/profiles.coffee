@@ -2,6 +2,7 @@ User    = require('../models/user')
 Comment = require('../models/comment')
 Child   = require('../models/child')
 fs      = require('fs')
+_       = require('underscore')
 
 module.exports = (app)->
 
@@ -371,3 +372,23 @@ module.exports = (app)->
 
     Child.remove {_id: childId}, (err)->
       res.json {success: true}
+
+  app.get '/classes/:master_id', (req, res)->
+    masterId = req.params.master_id
+    User.find({master_id: masterId}).run (err, classes = [])->
+      res.render 'profiles/profiles', {profiles: classes, layout: false}
+
+  app.get '/parents/:daycare_id', (req, res)->
+    daycareId = req.params.daycare_id
+    User.findOne({_id: daycareId}).run (err, dayCare)->
+      User.find({type: "parent"}).where("_id").in(dayCare.friends).run (err, parents)->
+        parentIds = []
+        for parent in parents
+          parentIds = _.union(parentIds, parent.children_ids)
+        Child.find().where("_id").in(parentIds).run (err, children)->
+          for parent in parents
+            for child in children
+              if child._id in parent.children_ids
+                parent.children.push(child)
+
+          res.render 'profiles/profiles', {profiles: parents, layout: false}

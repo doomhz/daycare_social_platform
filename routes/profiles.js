@@ -1,5 +1,6 @@
 (function() {
-  var Child, Comment, User, fs;
+  var Child, Comment, User, fs, _,
+    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   User = require('../models/user');
 
@@ -8,6 +9,8 @@
   Child = require('../models/child');
 
   fs = require('fs');
+
+  _ = require('underscore');
 
   module.exports = function(app) {
     app.get('/profiles', function(req, res) {
@@ -518,7 +521,7 @@
         });
       });
     });
-    return app.del('/child/:id', function(req, res) {
+    app.del('/child/:id', function(req, res) {
       var childId, currentUser;
       childId = req.params.id;
       currentUser = req.user ? req.user : {};
@@ -527,6 +530,53 @@
       }, function(err) {
         return res.json({
           success: true
+        });
+      });
+    });
+    app.get('/classes/:master_id', function(req, res) {
+      var masterId;
+      masterId = req.params.master_id;
+      return User.find({
+        master_id: masterId
+      }).run(function(err, classes) {
+        if (classes == null) classes = [];
+        return res.render('profiles/profiles', {
+          profiles: classes,
+          layout: false
+        });
+      });
+    });
+    return app.get('/parents/:daycare_id', function(req, res) {
+      var daycareId;
+      daycareId = req.params.daycare_id;
+      return User.findOne({
+        _id: daycareId
+      }).run(function(err, dayCare) {
+        return User.find({
+          type: "parent"
+        }).where("_id")["in"](dayCare.friends).run(function(err, parents) {
+          var parent, parentIds, _i, _len;
+          parentIds = [];
+          for (_i = 0, _len = parents.length; _i < _len; _i++) {
+            parent = parents[_i];
+            parentIds = _.union(parentIds, parent.children_ids);
+          }
+          return Child.find().where("_id")["in"](parentIds).run(function(err, children) {
+            var child, parent, _j, _k, _len2, _len3, _ref;
+            for (_j = 0, _len2 = parents.length; _j < _len2; _j++) {
+              parent = parents[_j];
+              for (_k = 0, _len3 = children.length; _k < _len3; _k++) {
+                child = children[_k];
+                if (_ref = child._id, __indexOf.call(parent.children_ids, _ref) >= 0) {
+                  parent.children.push(child);
+                }
+              }
+            }
+            return res.render('profiles/profiles', {
+              profiles: parents,
+              layout: false
+            });
+          });
         });
       });
     });

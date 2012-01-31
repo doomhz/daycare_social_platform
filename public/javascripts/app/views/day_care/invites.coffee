@@ -39,8 +39,8 @@ class Kin.DayCare.InvitesView extends Backbone.View
     that = @
     $form = $(ev.target)
 
-    mothersData = @getFormData($form, "mothers")
-    fathersData = @getFormData($form, "fathers")
+    mothersData = @getFormData($form, "mother")
+    fathersData = @getFormData($form, "father")
 
     if mothersData
       @saveFriendRequest(mothersData)
@@ -62,10 +62,11 @@ class Kin.DayCare.InvitesView extends Backbone.View
 
   getFormData: ($form, fieldPrefix)->
     data =
-      name: $form.find("input[name='#{fieldPrefix}-name']").val()
-      surname: $form.find("input[name='#{fieldPrefix}-surname']").val()
-      email: $form.find("input[name='#{fieldPrefix}-email']").val()
+      name: $form.find("input[name='#{fieldPrefix}s-name']").val()
+      surname: $form.find("input[name='#{fieldPrefix}s-surname']").val()
+      email: $form.find("input[name='#{fieldPrefix}s-email']").val()
       children_ids: $form.find("select[name='children_ids']").val()
+      parent_type: fieldPrefix
     if data.name and data.surname and data.email
       return data
     else

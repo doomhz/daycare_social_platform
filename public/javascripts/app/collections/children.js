@@ -27,6 +27,12 @@
       return this.uri.replace(/:userId/g, this.userId);
     };
 
+    ChildrenCollection.prototype.filterByClassId = function(classId) {
+      return this.filter(function(child) {
+        return child.get("user_id") === classId;
+      });
+    };
+
     return ChildrenCollection;
 
   })(Backbone.Collection);

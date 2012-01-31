@@ -1,3 +1,7 @@
+light-green = #7e962d
+light-gray  = #575757
+light-blue  = #5b8fa3
+
 *
   margin 0
   padding 0
@@ -19,19 +23,19 @@ body
   font-family "lucida grande",tahoma,verdana,arial,sans-serif
 
 a
-  color #5b8fa3
+  color light-blue
   outline none
 
 :-moz-any-link:focus
   outline none
 
 h1
-  color #575757
+  color light-gray
   font-size 15px
   margin 10px 0 10px 0
 
 h2
-  color #575757
+  color light-gray
   font-size 13px
   margin 10px 0 10px 0
   text-transform uppercase
@@ -171,7 +175,7 @@ header
               .name
                 font-weight bold
                 text-decoration none
-                color: #7e962d
+                color: light-green
               .name:hover
                 text-decoration underline
             .message-body
@@ -369,7 +373,7 @@ header
             .name
               font-weight bold
               text-decoration none
-              color: #7e962d
+              color: light-green
             .name:hover
               text-decoration underline
       div.add-followup-box
@@ -427,7 +431,7 @@ header
             .name
               font-weight bold
               text-decoration none
-              color: #7e962d
+              color: light-green
             .name:hover
               text-decoration underline
         .message-body-cnt
@@ -505,6 +509,9 @@ header
       #wall-menu-item
         a
           background-image url('/images/wall_menu_bt.png')
+      #our-family-menu-item
+        a
+          background-image url('/images/our_family_menu_bt.png')
       #write-menu-item
         a
           background-image url('/images/write_menu_bt.png')
@@ -625,7 +632,7 @@ footer
       padding 0 0 5px 0
       a
         text-decoration none
-        color #575757
+        color light-gray
     .photo-frame
       height 85px
 
@@ -654,3 +661,47 @@ footer
     width 364px
   .chzn-choices
     width 371px
+
+#parents-filter
+  margin 15px 0 0 0
+  border-radius 3px
+  padding 3px
+  background #e6f1f5
+  div
+    background #fff
+    border-top solid 1px #d9d9d9
+    border-left solid 1px #d9d9d9
+    margin 0
+    padding 3px
+    .input-text
+      resize none
+      height 10px
+      width 435px
+      border none
+      box-shadow none
+
+#parents-list-cnt
+  .total
+    color light-green
+  #parents-list-groups
+    li
+      overflow hidden
+      h3
+        margin 5px 0 5px 0
+      .parents-list
+        .parents-details
+          background #f2f2f2
+          border-radius 5px
+          overflow hidden
+          margin 10px 0 10px 0
+          padding 5px
+          .avatar
+            float left
+          .parents-name
+            float left
+            width 400px
+            margin 0 0 10px 10px
+          .childs-name
+            float left
+            width 400px
+            margin 0 0 10px 10px

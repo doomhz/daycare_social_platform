@@ -253,6 +253,34 @@
       });
     };
 
+    AppView.prototype.renderViewOurFamily = function(id) {
+      var profile, that;
+      that = this;
+      this.clearColumns();
+      profile = new Kin.ProfileModel({
+        _id: id
+      });
+      return profile.fetch({
+        success: function(model, response) {
+          model.setPictureSets();
+          that.mainColumnView = new Kin.Profile.OurFamilyView({
+            model: model,
+            el: that.mainColumnSelector,
+            currentUser: that.currentUser,
+            router: that.router
+          });
+          that.mainColumnView.render();
+          that.side1ColumnView = new Kin.Profile.ProfileSide1View({
+            model: model,
+            el: that.side1ColumnSelector,
+            selectedMenuItem: 'our-family-menu-item',
+            currentUser: that.currentUser
+          });
+          return that.side1ColumnView.render();
+        }
+      });
+    };
+
     AppView.prototype.renderWriteMessage = function(id) {
       var draftMessage, usersCollection;
       this.clearColumns();

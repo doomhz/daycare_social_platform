@@ -1,0 +1,75 @@
+<h2>Friends <span class="total">[<%= parents.length %>]</span></h2>
+<ul id="parents-list-groups">
+  <li>
+    <%
+      if (classes.length) {
+        classes.each(function (daycareClass) {
+    %>
+    <h2><%= daycareClass.get("name") %></h2>
+    <ul class="parents-list">
+      <%
+        var classChildren = children.filterByClassId(daycareClass.get("_id"));
+        _.each(classChildren, function (child) {
+          var childrenParents = parents.filterByChildId(child.get("_id"));
+          _.each(childrenParents, function (parent) {
+              var avatar = parent.getProfilePicture();
+              var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
+      %>
+            <li class="parents-details">
+              <p class="avatar">
+                <a href="#profiles/view/<%= parent.get("_id") %>">
+                  <img src="<%= avatarUrl %>" width="60" height="60" />
+                </a>
+              </p>
+              <p class="parents-name">
+                <a href="#profiles/view/<%= parent.get("_id") %>">
+                  <%= parent.get("name") %> <%= parent.get("surname") %>
+                </a>
+              </p>
+              <p class="childs-name">
+                <%= parent.get("parent_type") %> of <%= child.get("name") %> <%= child.get("surname") %>
+              </p>
+            </li>
+      <%
+          });
+        });
+      %>
+    </ul>
+    <%
+        });
+      } else {
+    %>
+    <ul class="parents-list">
+      <%
+        var classChildren = children.filterByClassId(profile.get("_id"));
+        _.each(classChildren, function (child) {
+          var childrenParents = parents.filterByChildId(child.get("_id"));
+          _.each(childrenParents, function (parent) {
+            var avatar = parent.getProfilePicture();
+            var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
+      %>
+            <li class="parents-details">
+              <p class="avatar">
+                <a href="#profiles/view/<%= parent.get("_id") %>">
+                  <img src="<%= avatarUrl %>" width="60" height="60" />
+                </a>
+              </p>
+              <p class="parents-name">
+                <a href="#profiles/view/<%= parent.get("_id") %>">
+                  <%= parent.get("name") %> <%= parent.get("surname") %>
+                </a>
+              </p>
+              <p class="childs-name">
+                <%= parent.get("parent_type") %> of <%= child.get("name") %> <%= child.get("surname") %>
+              </p>
+            </li>
+      <%
+          });
+        });
+      %>
+    </ul>
+    <%
+      }
+    %>
+  </li>
+</ul>

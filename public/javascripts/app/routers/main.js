@@ -19,6 +19,7 @@
       'profiles/view/gallery/:id': 'viewProfileGallery',
       'profiles/edit/:id': 'editProfile',
       'profiles/view/picture-set/:id': 'viewProfilePictureSet',
+      'profiles/view/our-family/:id': 'viewOurFamily',
       'messages/write': 'writeMessage',
       'messages/write/:id': 'writeMessage',
       'messages/inbox': 'viewInboxMessages',
@@ -56,6 +57,10 @@
 
     MainRouter.prototype.viewProfilePictureSet = function(id) {
       return this.app.renderViewProfilePictureSet(id);
+    };
+
+    MainRouter.prototype.viewOurFamily = function(id) {
+      return this.app.renderViewOurFamily(id);
     };
 
     MainRouter.prototype.writeMessage = function(id) {

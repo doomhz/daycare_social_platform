@@ -70,8 +70,8 @@
       ev.preventDefault();
       that = this;
       $form = $(ev.target);
-      mothersData = this.getFormData($form, "mothers");
-      fathersData = this.getFormData($form, "fathers");
+      mothersData = this.getFormData($form, "mother");
+      fathersData = this.getFormData($form, "father");
       if (mothersData) this.saveFriendRequest(mothersData);
       if (fathersData) return this.saveFriendRequest(fathersData);
     };
@@ -97,10 +97,11 @@
     InvitesView.prototype.getFormData = function($form, fieldPrefix) {
       var data;
       data = {
-        name: $form.find("input[name='" + fieldPrefix + "-name']").val(),
-        surname: $form.find("input[name='" + fieldPrefix + "-surname']").val(),
-        email: $form.find("input[name='" + fieldPrefix + "-email']").val(),
-        children_ids: $form.find("select[name='children_ids']").val()
+        name: $form.find("input[name='" + fieldPrefix + "s-name']").val(),
+        surname: $form.find("input[name='" + fieldPrefix + "s-surname']").val(),
+        email: $form.find("input[name='" + fieldPrefix + "s-email']").val(),
+        children_ids: $form.find("select[name='children_ids']").val(),
+        parent_type: fieldPrefix
       };
       if (data.name && data.surname && data.email) {
         return data;

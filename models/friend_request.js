@@ -24,6 +24,11 @@
     children_ids: {
       type: [String]
     },
+    parent_type: {
+      type: String,
+      "enum": ['mother', 'father'],
+      "default": 'mother'
+    },
     status: {
       type: String,
       "enum": ["sent", "accepted"],
@@ -70,11 +75,12 @@
   };
 
   FriendRequestSchema.methods.updateFriendship = function(userId, onFriendshipUpdate) {
-    var Child, childrenIds, daycareAndClassesToFind;
+    var Child, childrenIds, daycareAndClassesToFind, parentType;
     Child = require("./child");
     daycareAndClassesToFind = [];
     daycareAndClassesToFind.push(this.from_id);
     childrenIds = this.children_ids;
+    parentType = this.parent_type;
     return Child.find().where("_id")["in"](this.children_ids).run(function(err, children) {
       var child, _i, _len;
       for (_i = 0, _len = children.length; _i < _len; _i++) {
@@ -105,7 +111,8 @@
             _id: userId
           }, {
             friends: myFriendsIds,
-            children_ids: childrenIds
+            children_ids: childrenIds,
+            parent_type: parentType
           }, {}, function(err) {
             if (onFriendshipUpdate) return onFriendshipUpdate(err);
           });

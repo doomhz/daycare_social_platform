@@ -192,6 +192,28 @@ class Kin.AppView extends Backbone.View
           currentUser: that.currentUser
         that.side1ColumnView.render()
 
+  renderViewOurFamily: (id)->
+    that = @
+    @clearColumns()
+    profile = new Kin.ProfileModel({_id: id})
+    profile.fetch
+      success: (model, response)->
+
+        model.setPictureSets()
+
+        that.mainColumnView = new Kin.Profile.OurFamilyView
+          model: model
+          el: that.mainColumnSelector
+          currentUser: that.currentUser
+          router: that.router
+        that.mainColumnView.render()
+
+        that.side1ColumnView = new Kin.Profile.ProfileSide1View
+          model: model
+          el: that.side1ColumnSelector
+          selectedMenuItem: 'our-family-menu-item'
+          currentUser: that.currentUser
+        that.side1ColumnView.render()
 
   renderWriteMessage: (id)->
     @clearColumns()

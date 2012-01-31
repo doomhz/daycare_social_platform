@@ -3,6 +3,7 @@
   "_id": "#{profile._id}",
   "master_id": "#{profile.master_id}",
   "type": "#{profile.type}",
+  "parent_type": "#{profile.parent_type}",
   "name": "#{profile.name}",
   "surname": "#{profile.surname}",
   "speaking_classes": [
@@ -49,5 +50,14 @@
     }
     - if (i != profile.daycare_friends.length-1)
       ,
-  ]
+  ],
+  "children_ids": [
+  each childId, i in profile.children_ids
+    "#{childId}"
+    - if (i != profile.children_ids.length-1)
+      ,
+  ],
+  - var children = profile.children;
+  "children":
+  include ../children/children
   }

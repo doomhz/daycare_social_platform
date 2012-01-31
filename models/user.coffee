@@ -56,6 +56,10 @@ UserSchema = new Schema
     type: String
     enum: ['daycare', 'parent', 'class']
     default: 'daycare'
+  parent_type:
+    type: String
+    enum: ['mother', 'father']
+    default: 'mother'
   opened_since:
     type: String
   open_door_policy:
@@ -71,6 +75,9 @@ UserSchema = new Schema
     type: [String]
     default: []
   daycare_friends:
+    type: [{}]
+    default: []
+  children:
     type: [{}]
     default: []
 

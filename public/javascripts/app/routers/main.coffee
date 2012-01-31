@@ -9,6 +9,7 @@ class window.Kin.MainRouter extends Backbone.Router
     'profiles/view/gallery/:id'     : 'viewProfileGallery'
     'profiles/edit/:id'             : 'editProfile'
     'profiles/view/picture-set/:id' : 'viewProfilePictureSet'
+    'profiles/view/our-family/:id'  : 'viewOurFamily'
     'messages/write'                : 'writeMessage'
     'messages/write/:id'            : 'writeMessage'
     'messages/inbox'                : 'viewInboxMessages'
@@ -38,6 +39,9 @@ class window.Kin.MainRouter extends Backbone.Router
 
   viewProfilePictureSet: (id)->
     @app.renderViewProfilePictureSet(id)
+
+  viewOurFamily: (id)->
+    @app.renderViewOurFamily(id)
 
   writeMessage: (id)->
     @app.renderWriteMessage(id)
