@@ -23,9 +23,9 @@ form(action='/register', method='POST')
       label(for="name") Name
       .input
         .inline-inputs
-          input(type='text', name="name", value=userParams["name"], class="small", placeholder="Name")
+          input(type='text', name="name", value=userParams["name"], class="small large", placeholder="Name")
           span &nbsp;&nbsp;&nbsp;&nbsp;
-          input(type='text', name="surname", value=userParams["surname"], class="small", placeholder="Surname")
+          input(type='text', name="surname", value=userParams["surname"], class="small hidden", placeholder="Surname")
           input(type='hidden', name="daycare_name", value=userParams["daycare_name"])
     #email.clearfix
       label(for=everyauth.password.loginFormFieldName) E-mail
@@ -41,35 +41,3 @@ form(action='/register', method='POST')
 
     p Already a member?
       a(href='/login') Click here to login.
-
-script(type='text/javascript')
-  $("#show-password").click(function (ev) {
-    ev.preventDefault();
-    $(".password-fields").each(function (index, el) {
-      var $el = $(el);
-      var $clone = $el.clone();
-      var newType = $el.attr("type") === "text" ? "password" : "text";
-      $clone.attr("type", newType);
-      $el.replaceWith($clone);
-    });
-
-    var $pwdEl = $(ev.target);
-    if ($pwdEl.text() === $pwdEl.data("show")) {
-      $pwdEl.text($pwdEl.data("hide"));
-    } else {
-      $pwdEl.text($pwdEl.data("show"));
-    }
-  });
-  var friendRequestId = $("input[name='friend_request_id']").val();
-  if (friendRequestId || (searchStart = document.location.search.search(/friend_request=.*/) > -1)) {
-    var friendRequestId = friendRequestId || document.location.search.substring(searchStart).replace("friend_request=", "");
-    $.getJSON("/friend-requests/" + friendRequestId, function (response) {
-      if (response._id === friendRequestId && response.status === "sent") {
-        $("input[type='radio'][value='parent']").attr("checked", true);
-        $("input[name='name']").val(response.name);
-        $("input[name='surname']").val(response.surname);
-        $("input[name='email']").val(response.email);
-        $("input[name='friend_request_id']").val(response._id);
-      }
-    });
-  }
