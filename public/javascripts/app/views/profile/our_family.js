@@ -65,7 +65,7 @@
             }
           });
           $parentsListGroup = $el.find("#parents-list-cnt");
-          that.parentsList = new Kin.Profile.ParentsListView({
+          that.parentsList = new Kin.Profile.OurFamilyListView({
             el: $parentsListGroup,
             model: that.model
           });

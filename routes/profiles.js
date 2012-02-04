@@ -546,7 +546,7 @@
         });
       });
     });
-    return app.get('/parents/:daycare_id', function(req, res) {
+    app.get('/parents/:daycare_id', function(req, res) {
       var daycareId;
       daycareId = req.params.daycare_id;
       return User.findOne({
@@ -576,6 +576,22 @@
               profiles: parents,
               layout: false
             });
+          });
+        });
+      });
+    });
+    return app.get('/staff/:daycare_id', function(req, res) {
+      var daycareId;
+      daycareId = req.params.daycare_id;
+      return User.findOne({
+        _id: daycareId
+      }).run(function(err, dayCare) {
+        return User.find({
+          type: "staff"
+        }).where("_id")["in"](dayCare.friends).run(function(err, staff) {
+          return res.render('profiles/profiles', {
+            profiles: staff,
+            layout: false
           });
         });
       });

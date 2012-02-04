@@ -1,10 +1,10 @@
-class window.Kin.Profile.ParentsListView extends Backbone.View
+class window.Kin.Profile.OurFamilyListView extends Backbone.View
 
   model: null
 
   el: null
 
-  tplUrl: '/templates/main/profile/parents_list.html'
+  tplUrl: '/templates/main/profile/our_family_list.html'
 
   initialize: ()->
 
@@ -16,14 +16,17 @@ class window.Kin.Profile.ParentsListView extends Backbone.View
         classes = new Kin.ClassesCollection [], {masterId: that.model.get("_id")}
         classes.fetch
           success: ()->
-            parents = new Kin.ParentsCollection [], {userId: that.model.get("_id")}
-            parents.fetch
+            staff = new Kin.StaffCollection [], {userId: that.model.get("_id")}
+            staff.fetch
               success: ()->
-                children = new Kin.ChildrenCollection [], {userId: that.model.get("_id")}
-                children.fetch
+                parents = new Kin.ParentsCollection [], {userId: that.model.get("_id")}
+                parents.fetch
                   success: ()->
-                    $el = $(that.el)
-                    $el.html(tpl({profile: that.model, classes: classes, parents: parents, children: children}))
+                    children = new Kin.ChildrenCollection [], {userId: that.model.get("_id")}
+                    children.fetch
+                      success: ()->
+                        $el = $(that.el)
+                        $el.html(tpl({profile: that.model, classes: classes, staff: staff, parents: parents, children: children}))
 
   findByName: (nameToFind)->
     $parentsLists = @$(".parents-details")

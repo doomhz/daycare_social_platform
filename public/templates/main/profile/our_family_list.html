@@ -1,4 +1,4 @@
-<h2>Friends <span class="total">[<%= parents.length %>]</span></h2>
+<h2>Friends <span class="total">[<%= parents.length + staff.length %>]</span></h2>
 <ul id="parents-list-groups">
   <li>
     <%
@@ -7,6 +7,30 @@
     %>
     <h2><%= daycareClass.get("name") %></h2>
     <ul class="parents-list">
+      <%
+        var classStaff = staff.filterByClassId(daycareClass.get("_id"));
+        _.each(classStaff, function (st) {
+          var avatar = st.getProfilePicture();
+          var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
+      %>
+            <li class="parents-details staff-details">
+              <p class="avatar">
+                <a href="#profiles/view/<%= st.get("_id") %>">
+                  <img src="<%= avatarUrl %>" width="60" height="60" />
+                </a>
+              </p>
+              <p class="parents-name">
+                <a href="#profiles/view/<%= st.get("_id") %>">
+                  <%= st.get("name") %> <%= st.get("surname") %>
+                </a>
+              </p>
+              <p class="childs-name">
+                Our staff
+              </p>
+            </li>
+      <%
+        });
+      %>
       <%
         var classChildren = children.filterByClassId(daycareClass.get("_id"));
         _.each(classChildren, function (child) {
@@ -40,6 +64,30 @@
       } else {
     %>
     <ul class="parents-list">
+      <%
+        var classStaff = staff.filterByClassId(profile.get("_id"));
+        _.each(classStaff, function (st) {
+          var avatar = st.getProfilePicture();
+          var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
+      %>
+            <li class="parents-details staff-details">
+              <p class="avatar">
+                <a href="#profiles/view/<%= st.get("_id") %>">
+                  <img src="<%= avatarUrl %>" width="60" height="60" />
+                </a>
+              </p>
+              <p class="parents-name">
+                <a href="#profiles/view/<%= st.get("_id") %>">
+                  <%= st.get("name") %> <%= st.get("surname") %>
+                </a>
+              </p>
+              <p class="childs-name">
+                Our staff
+              </p>
+            </li>
+      <%
+        });
+      %>
       <%
         var classChildren = children.filterByClassId(profile.get("_id"));
         _.each(classChildren, function (child) {

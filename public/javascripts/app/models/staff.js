@@ -10,11 +10,6 @@
       StaffModel.__super__.constructor.apply(this, arguments);
     }
 
-    StaffModel.prototype.defaults = {
-      name: void 0,
-      surname: void 0
-    };
-
     StaffModel.prototype.urlRoot = "/staff";
 
     StaffModel.prototype.initialize = function(attributes, options) {
@@ -29,6 +24,6 @@
 
     return StaffModel;
 
-  })(Backbone.Model);
+  })(Kin.UserModel);
 
 }).call(this);

@@ -4,7 +4,7 @@ _             = require('underscore')
 
 module.exports = (app)->
 
-  app.post '/friend-requests', (req, res)->
+  app.post '/friend-request', (req, res)->
     currentUser = if req.user then req.user else {}
     data = req.body
     data.from_id = currentUser._id
@@ -16,7 +16,7 @@ module.exports = (app)->
         FriendRequest.sendMail(friendRequest, {host: req.headers.host})
       res.json {success: true}
 
-  app.put '/friend-requests/:id', (req, res)->
+  app.put '/friend-request/:id', (req, res)->
     friendRequestId = req.params.id
     currentUser = if req.user then req.user else {}
     data = req.body

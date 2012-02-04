@@ -8,7 +8,7 @@
   _ = require('underscore');
 
   module.exports = function(app) {
-    app.post('/friend-requests', function(req, res) {
+    app.post('/friend-request', function(req, res) {
       var currentUser, data;
       currentUser = req.user ? req.user : {};
       data = req.body;
@@ -29,7 +29,7 @@
         });
       });
     });
-    app.put('/friend-requests/:id', function(req, res) {
+    app.put('/friend-request/:id', function(req, res) {
       var currentUser, data, friendRequestId;
       friendRequestId = req.params.id;
       currentUser = req.user ? req.user : {};

@@ -1,8 +1,4 @@
-class Kin.StaffModel extends Backbone.Model
-
-  defaults:
-    name:    undefined
-    surname: undefined
+class Kin.StaffModel extends Kin.UserModel
 
   urlRoot: "/staff"
 

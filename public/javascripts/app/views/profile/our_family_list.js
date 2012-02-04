@@ -2,23 +2,23 @@
   var __hasProp = Object.prototype.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  window.Kin.Profile.ParentsListView = (function(_super) {
+  window.Kin.Profile.OurFamilyListView = (function(_super) {
 
-    __extends(ParentsListView, _super);
+    __extends(OurFamilyListView, _super);
 
-    function ParentsListView() {
-      ParentsListView.__super__.constructor.apply(this, arguments);
+    function OurFamilyListView() {
+      OurFamilyListView.__super__.constructor.apply(this, arguments);
     }
 
-    ParentsListView.prototype.model = null;
+    OurFamilyListView.prototype.model = null;
 
-    ParentsListView.prototype.el = null;
+    OurFamilyListView.prototype.el = null;
 
-    ParentsListView.prototype.tplUrl = '/templates/main/profile/parents_list.html';
+    OurFamilyListView.prototype.tplUrl = '/templates/main/profile/our_family_list.html';
 
-    ParentsListView.prototype.initialize = function() {};
+    OurFamilyListView.prototype.initialize = function() {};
 
-    ParentsListView.prototype.render = function() {
+    OurFamilyListView.prototype.render = function() {
       var that;
       that = this;
       return $.tmpload({
@@ -30,26 +30,35 @@
           });
           return classes.fetch({
             success: function() {
-              var parents;
-              parents = new Kin.ParentsCollection([], {
+              var staff;
+              staff = new Kin.StaffCollection([], {
                 userId: that.model.get("_id")
               });
-              return parents.fetch({
+              return staff.fetch({
                 success: function() {
-                  var children;
-                  children = new Kin.ChildrenCollection([], {
+                  var parents;
+                  parents = new Kin.ParentsCollection([], {
                     userId: that.model.get("_id")
                   });
-                  return children.fetch({
+                  return parents.fetch({
                     success: function() {
-                      var $el;
-                      $el = $(that.el);
-                      return $el.html(tpl({
-                        profile: that.model,
-                        classes: classes,
-                        parents: parents,
-                        children: children
-                      }));
+                      var children;
+                      children = new Kin.ChildrenCollection([], {
+                        userId: that.model.get("_id")
+                      });
+                      return children.fetch({
+                        success: function() {
+                          var $el;
+                          $el = $(that.el);
+                          return $el.html(tpl({
+                            profile: that.model,
+                            classes: classes,
+                            staff: staff,
+                            parents: parents,
+                            children: children
+                          }));
+                        }
+                      });
                     }
                   });
                 }
@@ -60,7 +69,7 @@
       });
     };
 
-    ParentsListView.prototype.findByName = function(nameToFind) {
+    OurFamilyListView.prototype.findByName = function(nameToFind) {
       var $list, $parentsLists, filteredText, list, _i, _len, _results;
       $parentsLists = this.$(".parents-details");
       _results = [];
@@ -77,7 +86,7 @@
       return _results;
     };
 
-    ParentsListView.prototype.remove = function() {
+    OurFamilyListView.prototype.remove = function() {
       var $el;
       $el = $(this.el);
       this.unbind();
@@ -85,7 +94,7 @@
       return this;
     };
 
-    return ParentsListView;
+    return OurFamilyListView;
 
   })(Backbone.View);
 

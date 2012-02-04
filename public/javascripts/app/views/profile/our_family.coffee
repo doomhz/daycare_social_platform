@@ -47,7 +47,7 @@ class window.Kin.Profile.OurFamilyView extends Kin.Profile.ProfileView
               that.addAddressMarker(mapCenterLat, mapCenterLng, that.model.get('name'))
 
         $parentsListGroup = $el.find("#parents-list-cnt")
-        that.parentsList = new Kin.Profile.ParentsListView
+        that.parentsList = new Kin.Profile.OurFamilyListView
           el: $parentsListGroup
           model: that.model
         that.parentsList.render()

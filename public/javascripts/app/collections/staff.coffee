@@ -13,3 +13,7 @@ class window.Kin.StaffCollection extends Backbone.Collection
 
   url: ()->
     @uri.replace(/:userId/g, @userId)
+
+  filterByClassId: (classId)->
+    @filter (staff)->
+      $.inArray(classId, staff.get("friends")) > -1

@@ -27,6 +27,12 @@
       return this.uri.replace(/:userId/g, this.userId);
     };
 
+    StaffCollection.prototype.filterByClassId = function(classId) {
+      return this.filter(function(staff) {
+        return $.inArray(classId, staff.get("friends")) > -1;
+      });
+    };
+
     return StaffCollection;
 
   })(Backbone.Collection);
