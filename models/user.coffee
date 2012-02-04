@@ -54,7 +54,7 @@ UserSchema = new Schema
   license_number: String
   type:
     type: String
-    enum: ['daycare', 'parent', 'class']
+    enum: ['daycare', 'parent', 'class', 'staff']
     default: 'daycare'
   parent_type:
     type: String
@@ -156,7 +156,7 @@ UserSchema.plugin(
               res.writeHead(303, {'Location': redirectTo})
               res.end()
 
-            else if user.type is "parent" and user.friend_request_id
+            else if user.type in ["parent", "staff"] and user.friend_request_id
               friendRequestId = user.friend_request_id
               FriendRequest = require("./friend_request")
 

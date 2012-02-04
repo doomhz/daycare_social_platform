@@ -16,12 +16,13 @@
       email: void 0,
       name: void 0,
       children_ids: [],
+      classes_ids: [],
       surname: void 0,
       status: void 0,
       created_at: void 0
     };
 
-    FriendRequestModel.prototype.urlRoot = "/friend-requests";
+    FriendRequestModel.prototype.urlRoot = "/friend-request";
 
     FriendRequestModel.prototype.initialize = function(attributes, options) {
       return this.id = this.get("_id");

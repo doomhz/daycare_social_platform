@@ -1,0 +1,35 @@
+<h1 id="profile-title"><%=profile.get('name') %> <%=profile.get('surname') %></h1>
+
+<div id="profile-main-tabs">
+    <ul id="profile-tab-menu">
+        <li class="view-info"><a href="#profile-info-tab"><span>info</span></a></li>
+    </ul>
+
+    <div id="profile-info-tab">
+    </div>
+</div>
+
+<%
+  if (profile.get("_id") == Kin.app.currentUser.get("_id") || $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends")) > -1) {
+%>
+<div id="add-comment-box">
+  <form id="add-comment-form" method="post" action="/comments">
+    <input name="to_id" type="hidden" value="<%= profile.get('_id') %>" />
+    <input name="wall_id" type="hidden" value="<%= profile.get('_id') %>" />
+    <input name="type" type="hidden" value="status" />
+    <div>
+      <textarea name="content" resize="none" placeholder="add a comment ..." rows="1" cols="40"></textarea>
+      <input type="submit" value="Post it" class="btn primary" />
+    </div>
+  </form>
+</div>
+
+<ul id="wall-comments-list">
+</ul>
+
+<p id="load-more-comments-cnt">
+  <a href="#" id="load-more-comments-bt">Older posts</a>
+</p>
+<%
+  }
+%>

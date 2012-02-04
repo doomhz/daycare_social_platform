@@ -303,15 +303,32 @@ class Kin.AppView extends Backbone.View
     that = @
     @clearColumns()
 
-    friendRequests = new Kin.FriendRequestsCollection [], {url: "/friend-requests"}
+    friendRequests = new Kin.FriendRequestsCollection [], {url: "/friend-requests/parent"}
 
-    that.mainColumnView = new Kin.DayCare.InvitesView
+    that.mainColumnView = new Kin.Parent.InvitesView
       el: that.mainColumnSelector
       collection: friendRequests
       model: @currentUser
     that.mainColumnView.render()
 
-    that.side1ColumnView = new Kin.DayCare.InvitesSide1View
+    that.side1ColumnView = new Kin.Parent.InvitesSide1View
+      model: @currentUser
+      el: that.side1ColumnSelector
+    that.side1ColumnView.render()
+
+  renderInviteStaff: ()->
+    that = @
+    @clearColumns()
+
+    friendRequests = new Kin.FriendRequestsCollection [], {url: "/friend-requests/staff"}
+
+    that.mainColumnView = new Kin.Staff.InvitesView
+      el: that.mainColumnSelector
+      collection: friendRequests
+      model: @currentUser
+    that.mainColumnView.render()
+
+    that.side1ColumnView = new Kin.Staff.InvitesSide1View
       model: @currentUser
       el: that.side1ColumnSelector
     that.side1ColumnView.render()

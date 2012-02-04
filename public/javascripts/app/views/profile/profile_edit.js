@@ -15,6 +15,7 @@
     ProfileEditView.prototype.tplUrl = {
       daycare: '/templates/main/day_care/edit.html',
       parent: '/templates/main/parent/edit.html',
+      staff: '/templates/main/staff/edit.html',
       "class": '/templates/main/class/edit.html'
     };
 

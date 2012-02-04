@@ -27,6 +27,7 @@
       'messages/sent': 'viewSentMessages',
       'messages/trash': 'viewTrashMessages',
       'invite-parents': 'inviteParents',
+      'invite-staff': 'inviteStaff',
       'add-class': 'addClass',
       'manage-children/:id': 'manageChildren'
     };
@@ -85,6 +86,10 @@
 
     MainRouter.prototype.inviteParents = function() {
       return this.app.renderInviteParents();
+    };
+
+    MainRouter.prototype.inviteStaff = function() {
+      return this.app.renderInviteStaff();
     };
 
     MainRouter.prototype.addClass = function() {

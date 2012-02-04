@@ -6,11 +6,12 @@ class Kin.FriendRequestModel extends Backbone.Model
     email:        undefined
     name:         undefined
     children_ids: []
+    classes_ids:  []
     surname:      undefined
     status:       undefined
     created_at:   undefined
 
-  urlRoot: "/friend-requests"
+  urlRoot: "/friend-request"
 
   initialize: (attributes, options)->
     @id = @get("_id")

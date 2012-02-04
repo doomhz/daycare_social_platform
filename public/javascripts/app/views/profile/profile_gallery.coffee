@@ -3,6 +3,7 @@ class Kin.Profile.ProfileGalleryView extends Kin.Profile.ProfileView
   tplUrl:
     daycare: '/templates/main/day_care/profile_gallery.html'
     parent:  '/templates/main/parent/profile_gallery.html'
+    staff:  '/templates/main/staff/profile_gallery.html'
     class:  '/templates/main/class/profile_gallery.html'
 
   events:

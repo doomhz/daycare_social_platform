@@ -19,8 +19,12 @@ form(action='/register', method='POST')
             label
               input(type='radio', name='type', value='parent')
               span Parent
+          li
+            label
+              input(type='radio', name='type', value='staff')
+              span Staff
     #name.clearfix
-      label(for="name") Name
+      label(for="name") Daycare name
       .input
         .inline-inputs
           input(type='text', name="name", value=userParams["name"], class="small large", placeholder="Name")

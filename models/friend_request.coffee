@@ -12,7 +12,13 @@ FriendRequestSchema = new Schema
     type: String
   surname:
     type: String
+  type:
+    type: String
+    enum: ['parent', 'staff']
+    default: 'parent'
   children_ids:
+    type: [String]
+  classes_ids:
     type: [String]
   parent_type:
     type: String
@@ -39,12 +45,12 @@ FriendRequestSchema.statics.sendMail = (friendRequest, options)->
       to : "'#{friendRequest.name} #{friendRequest.surname}' <#{friendRequest.email}>"
       from : "'Kindzy.com' <no-reply@kindzy.com>"
       subject : "Friend request from #{daycare.name} on Kindzy.com"
-      template : "./views/emails/parent_invite.html"
+      template : "./views/emails/#{friendRequest.type}_invite.html"
       body: "Please use a newer version of an e-mail manager to read this mail in HTML format."
       data :
         "daycare_name": daycare.name
-        "parent_name": friendRequest.name
-        "parent_surname": friendRequest.surname
+        "profile_name": friendRequest.name
+        "profile_surname": friendRequest.surname
         "site_url": siteUrl
         "invite_url": inviteUrl
       authentication : "login"
@@ -62,29 +68,34 @@ FriendRequestSchema.methods.updateFriendship = (userId, onFriendshipUpdate)->
   daycareAndClassesToFind = []
   daycareAndClassesToFind.push(@from_id)
   childrenIds = @children_ids
+  classesIds = @classes_ids
   parentType = @parent_type
 
-  Child.find().where("_id").in(@children_ids).run (err, children)->
-    for child in children
-      daycareAndClassesToFind.push(child.user_id)
+  User.find().where("_id").in(@classes_ids).run (err, classes = [])->
+    for daycareClass in classes
+      daycareAndClassesToFind.push(daycareClass._id)
 
-    User.find().where("_id").in(daycareAndClassesToFind).run (err, dayCares)->
-      friendsToAdd = []
-      for dayCare in dayCares
-        friendsToAdd = _.union(friendsToAdd, dayCare.friends)
-        dayCare.friends.push(userId)
-        dayCare.save()
+    Child.find().where("_id").in(childrenIds).run (err, children = [])->
+      for child in children
+        daycareAndClassesToFind.push(child.user_id)
 
-      User.find({type: "parent"}).where("_id").in(friendsToAdd).run (err, dayCareFriends)->
-        myFriendsIds = daycareAndClassesToFind
-        for userFriend in dayCareFriends
-          myFriendsIds.push(userFriend._id)
-          userFriend.friends.push(userId)
-          userFriend.save()
+      User.find().where("_id").in(daycareAndClassesToFind).run (err, dayCares)->
+        friendsToAdd = []
+        for dayCare in dayCares
+          friendsToAdd = _.union(friendsToAdd, dayCare.friends)
+          dayCare.friends.push(userId)
+          dayCare.save()
 
-        User.update {_id: userId}, {friends: myFriendsIds, children_ids: childrenIds, parent_type: parentType}, {}, (err)->
-          if onFriendshipUpdate
-            onFriendshipUpdate(err)
+        User.find().where("type").in(["parent", "staff"]).where("_id").in(friendsToAdd).run (err, dayCareFriends)->
+          myFriendsIds = daycareAndClassesToFind
+          for userFriend in dayCareFriends
+            myFriendsIds.push(userFriend._id)
+            userFriend.friends.push(userId)
+            userFriend.save()
+
+          User.update {_id: userId}, {friends: myFriendsIds, children_ids: childrenIds, classes_ids: classesIds, parent_type: parentType}, {}, (err)->
+            if onFriendshipUpdate
+              onFriendshipUpdate(err)
 
 FriendRequest = mongoose.model("FriendRequest", FriendRequestSchema)
 

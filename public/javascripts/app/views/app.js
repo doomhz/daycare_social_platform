@@ -380,15 +380,35 @@
       that = this;
       this.clearColumns();
       friendRequests = new Kin.FriendRequestsCollection([], {
-        url: "/friend-requests"
+        url: "/friend-requests/parent"
       });
-      that.mainColumnView = new Kin.DayCare.InvitesView({
+      that.mainColumnView = new Kin.Parent.InvitesView({
         el: that.mainColumnSelector,
         collection: friendRequests,
         model: this.currentUser
       });
       that.mainColumnView.render();
-      that.side1ColumnView = new Kin.DayCare.InvitesSide1View({
+      that.side1ColumnView = new Kin.Parent.InvitesSide1View({
+        model: this.currentUser,
+        el: that.side1ColumnSelector
+      });
+      return that.side1ColumnView.render();
+    };
+
+    AppView.prototype.renderInviteStaff = function() {
+      var friendRequests, that;
+      that = this;
+      this.clearColumns();
+      friendRequests = new Kin.FriendRequestsCollection([], {
+        url: "/friend-requests/staff"
+      });
+      that.mainColumnView = new Kin.Staff.InvitesView({
+        el: that.mainColumnSelector,
+        collection: friendRequests,
+        model: this.currentUser
+      });
+      that.mainColumnView.render();
+      that.side1ColumnView = new Kin.Staff.InvitesSide1View({
         model: this.currentUser,
         el: that.side1ColumnSelector
       });

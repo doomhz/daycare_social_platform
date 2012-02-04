@@ -1,0 +1,32 @@
+<div id="quick-add-child-box-content">
+  <form id="add-child-form">
+    <fieldset>
+      <div class="clearfix">
+        <label>Name</label>
+        <div class="input">
+          <input type="text" name="name" value="" />
+        </div>
+      </div>
+      <div class="clearfix">
+        <label>Surname</label>
+        <div class="input">
+          <input type="text" name="surname" value="" />
+        </div>
+      </div>
+      <div class="clearfix">
+        <label>Class</label>
+    		<div class="input">
+        	<select name="user_id" class="large">
+          <%
+              _.each(profile.get("daycare_friends"), function (daycareClass) {
+          %>
+            <option value="<%= daycareClass._id %>"><%= daycareClass.name %></option>
+          <%
+              });
+          %>
+          </select>
+    		</div>
+    	</div>
+    </fieldset>
+  </form>
+</div>

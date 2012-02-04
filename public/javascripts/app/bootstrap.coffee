@@ -1,6 +1,8 @@
 window.Kin or= {
   DayCare:  {}
   Class:    {}
+  Parent:   {}
+  Staff:    {}
   Profile:  {}
   Header:   {}
   Messages: {}

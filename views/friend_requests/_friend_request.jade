@@ -4,7 +4,15 @@
 "email": "#{friend_request.email}",
 "name": "#{friend_request.name}",
 "surname": "#{friend_request.surname}",
+"type": "#{friend_request.type}",
 "parent_type": "#{friend_request.parent_type}",
+"classes_ids": [
+- if (friend_request.classes_ids)
+  each classId, i in friend_request.classes_ids
+    "#{classId}"
+    - if (i != friend_request.classes_ids.length-1)
+      ,
+],
 "children_ids": [
 - if (friend_request.children_ids)
   each childId, i in friend_request.children_ids

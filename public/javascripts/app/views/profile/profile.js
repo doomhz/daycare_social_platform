@@ -15,6 +15,7 @@
     ProfileView.prototype.tplUrl = {
       daycare: "/templates/main/day_care/profile.html",
       parent: "/templates/main/parent/profile.html",
+      staff: "/templates/main/staff/profile.html",
       "class": "/templates/main/class/profile.html"
     };
 

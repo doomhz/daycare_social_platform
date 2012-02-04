@@ -25,6 +25,15 @@
       if (Kin.app.currentUser.get("_id") === profile.get("_id")) {
     %>
     <li>
+        <a href="#invite-staff" id="invite-staff-bt">Invite staff</a>
+    </li>
+    <%
+      }
+    %>
+    <%
+      if (Kin.app.currentUser.get("_id") === profile.get("_id")) {
+    %>
+    <li>
         <a href="#add-class" id="add-class-bt">Add class</a>
     </li>
     <%

@@ -21,7 +21,15 @@
     surname: {
       type: String
     },
+    type: {
+      type: String,
+      "enum": ['parent', 'staff'],
+      "default": 'parent'
+    },
     children_ids: {
+      type: [String]
+    },
+    classes_ids: {
       type: [String]
     },
     parent_type: {
@@ -56,12 +64,12 @@
         to: "'" + friendRequest.name + " " + friendRequest.surname + "' <" + friendRequest.email + ">",
         from: "'Kindzy.com' <no-reply@kindzy.com>",
         subject: "Friend request from " + daycare.name + " on Kindzy.com",
-        template: "./views/emails/parent_invite.html",
+        template: "./views/emails/" + friendRequest.type + "_invite.html",
         body: "Please use a newer version of an e-mail manager to read this mail in HTML format.",
         data: {
           "daycare_name": daycare.name,
-          "parent_name": friendRequest.name,
-          "parent_surname": friendRequest.surname,
+          "profile_name": friendRequest.name,
+          "profile_surname": friendRequest.surname,
           "site_url": siteUrl,
           "invite_url": inviteUrl
         },
@@ -75,46 +83,55 @@
   };
 
   FriendRequestSchema.methods.updateFriendship = function(userId, onFriendshipUpdate) {
-    var Child, childrenIds, daycareAndClassesToFind, parentType;
+    var Child, childrenIds, classesIds, daycareAndClassesToFind, parentType;
     Child = require("./child");
     daycareAndClassesToFind = [];
     daycareAndClassesToFind.push(this.from_id);
     childrenIds = this.children_ids;
+    classesIds = this.classes_ids;
     parentType = this.parent_type;
-    return Child.find().where("_id")["in"](this.children_ids).run(function(err, children) {
-      var child, _i, _len;
-      for (_i = 0, _len = children.length; _i < _len; _i++) {
-        child = children[_i];
-        daycareAndClassesToFind.push(child.user_id);
+    return User.find().where("_id")["in"](this.classes_ids).run(function(err, classes) {
+      var daycareClass, _i, _len;
+      if (classes == null) classes = [];
+      for (_i = 0, _len = classes.length; _i < _len; _i++) {
+        daycareClass = classes[_i];
+        daycareAndClassesToFind.push(daycareClass._id);
       }
-      return User.find().where("_id")["in"](daycareAndClassesToFind).run(function(err, dayCares) {
-        var dayCare, friendsToAdd, _j, _len2;
-        friendsToAdd = [];
-        for (_j = 0, _len2 = dayCares.length; _j < _len2; _j++) {
-          dayCare = dayCares[_j];
-          friendsToAdd = _.union(friendsToAdd, dayCare.friends);
-          dayCare.friends.push(userId);
-          dayCare.save();
+      return Child.find().where("_id")["in"](childrenIds).run(function(err, children) {
+        var child, _j, _len2;
+        if (children == null) children = [];
+        for (_j = 0, _len2 = children.length; _j < _len2; _j++) {
+          child = children[_j];
+          daycareAndClassesToFind.push(child.user_id);
         }
-        return User.find({
-          type: "parent"
-        }).where("_id")["in"](friendsToAdd).run(function(err, dayCareFriends) {
-          var myFriendsIds, userFriend, _k, _len3;
-          myFriendsIds = daycareAndClassesToFind;
-          for (_k = 0, _len3 = dayCareFriends.length; _k < _len3; _k++) {
-            userFriend = dayCareFriends[_k];
-            myFriendsIds.push(userFriend._id);
-            userFriend.friends.push(userId);
-            userFriend.save();
+        return User.find().where("_id")["in"](daycareAndClassesToFind).run(function(err, dayCares) {
+          var dayCare, friendsToAdd, _k, _len3;
+          friendsToAdd = [];
+          for (_k = 0, _len3 = dayCares.length; _k < _len3; _k++) {
+            dayCare = dayCares[_k];
+            friendsToAdd = _.union(friendsToAdd, dayCare.friends);
+            dayCare.friends.push(userId);
+            dayCare.save();
           }
-          return User.update({
-            _id: userId
-          }, {
-            friends: myFriendsIds,
-            children_ids: childrenIds,
-            parent_type: parentType
-          }, {}, function(err) {
-            if (onFriendshipUpdate) return onFriendshipUpdate(err);
+          return User.find().where("type")["in"](["parent", "staff"]).where("_id")["in"](friendsToAdd).run(function(err, dayCareFriends) {
+            var myFriendsIds, userFriend, _l, _len4;
+            myFriendsIds = daycareAndClassesToFind;
+            for (_l = 0, _len4 = dayCareFriends.length; _l < _len4; _l++) {
+              userFriend = dayCareFriends[_l];
+              myFriendsIds.push(userFriend._id);
+              userFriend.friends.push(userId);
+              userFriend.save();
+            }
+            return User.update({
+              _id: userId
+            }, {
+              friends: myFriendsIds,
+              children_ids: childrenIds,
+              classes_ids: classesIds,
+              parent_type: parentType
+            }, {}, function(err) {
+              if (onFriendshipUpdate) return onFriendshipUpdate(err);
+            });
           });
         });
       });

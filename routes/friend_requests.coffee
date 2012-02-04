@@ -40,13 +40,14 @@ module.exports = (app)->
 
       res.json {success: true}
 
-  app.get '/friend-requests', (req, res)->
+  app.get '/friend-requests/:type', (req, res)->
     currentUser = if req.user then req.user else {}
+    type = req.params.type or "parent"
 
-    FriendRequest.find({from_id: currentUser._id}).run (err, friendRequests)->
+    FriendRequest.find({from_id: currentUser._id, type: type}).run (err, friendRequests)->
       res.render 'friend_requests/friend_requests', {friend_requests: friendRequests, show_private: false, layout: false}
 
-  app.get '/friend-requests/:id', (req, res)->
+  app.get '/friend-request/:id', (req, res)->
     friendRequestId = req.params.id
     FriendRequest.findOne({_id: friendRequestId}).run (err, friendRequest)->
       res.render 'friend_requests/_friend_request', {friend_request: friendRequest, show_private: false, layout: false}

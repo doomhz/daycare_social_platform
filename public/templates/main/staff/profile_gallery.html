@@ -1,0 +1,82 @@
+<h1 id="profile-title"><%=profile.get('name') %> <%=profile.get('surname') %></h1>
+
+<div id="profile-main-tabs">
+    <ul id="profile-tab-menu">
+        <li class="view-info"><a href="#profile-info-tab"><span>info</span></a></li>
+    </ul>
+
+    <div id="profile-info-tab">
+    </div>
+</div>
+
+<h2>Albums</h2>
+
+<% if (canEdit) { %>
+
+<p>
+    <button id="show-new-pic-set-form-bt" class="btn primary">+ Add album</button>
+</p>
+
+<form id="create-new-pic-cnt" class="hidden">
+	<fieldset>
+    	<div class="clearfix">
+	        <label for="new-pic-set-name">Name</label>
+			<div class="input">
+	        	<input type="text" name="new-pic-set-name" />
+			</div>
+	    </div>
+	    <div class="clearfix">
+	        <label for="new-pic-set-type">Type</label>
+			<div class="input">
+	        	<select name="new-pic-set-type">
+		        <%
+		            var typeOptions = {'public': 'Public', 'default': 'Private'};
+		            _.each(typeOptions, function (val, key) {
+		        %>
+		            <option value="<%=key %>"><%=val %></option>
+		        <%
+		            });
+		        %>
+		        </select>
+			</div>
+	    </div>
+	    <div class="actions">
+	        <input id="create-new-pic-set-bt" class="btn primary" type="submit" value="Create picture set" />
+	        <input id="cancel-new-pic-set-bt" class="btn" type="button" value="Cancel" />
+	    </div>
+	</fieldset>
+</form>
+
+<% } %>
+
+<ul id="picture-sets-list">
+<%
+    var allPictureSets = profile.pictureSets.models;
+    _.each(allPictureSets, function (pictureSet) {
+        var primaryPicture = pictureSet.pictures.getPrimary();
+        var primaryPictureUrl = primaryPicture ? primaryPicture.get('url') : '/';
+        var primaryPictureThumbUrl = primaryPicture ? (primaryPicture.get('thumb_url') || primaryPicture.get('url')) : Kin.CONFIG.noPicture;
+%>
+    <li>
+        <h3>
+            <a href="#profiles/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>">
+              <%=pictureSet.get('name') %> (<%=pictureSet.get('pictures').length %>)
+            </a>
+        </h3>
+        <a href="#profiles/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>" class="photo-frame">
+            <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="110" height="85" />
+        </a>
+        <%
+            if (canEdit && pictureSet.get('type') !== 'profile') {
+        %>
+        <p>
+            <a href="#" title="Delete picture set" data-pic-set-id="<%=pictureSet.get('_id') %>" class="delete-pic-set-bt">Delete</a>
+        </p>
+        <%
+            }
+        %>
+    </li>
+<%
+    });
+%>
+</ul>

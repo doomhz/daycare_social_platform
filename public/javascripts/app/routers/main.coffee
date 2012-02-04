@@ -17,6 +17,7 @@ class window.Kin.MainRouter extends Backbone.Router
     'messages/sent'                 : 'viewSentMessages'
     'messages/trash'                : 'viewTrashMessages'
     'invite-parents'                : 'inviteParents'
+    'invite-staff'                  : 'inviteStaff'
     'add-class'                     : 'addClass'
     'manage-children/:id'           : 'manageChildren'
 
@@ -60,6 +61,9 @@ class window.Kin.MainRouter extends Backbone.Router
 
   inviteParents: ()->
     @app.renderInviteParents()
+
+  inviteStaff: ()->
+    @app.renderInviteStaff()
 
   addClass: ()->
     @app.renderAddClass()

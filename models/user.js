@@ -73,7 +73,7 @@
     license_number: String,
     type: {
       type: String,
-      "enum": ['daycare', 'parent', 'class'],
+      "enum": ['daycare', 'parent', 'class', 'staff'],
       "default": 'daycare'
     },
     parent_type: {
@@ -196,7 +196,7 @@
           return User.update({
             _id: user._id
           }, userInfo, {}, function(err) {
-            var FriendRequest, friendRequestId, userId;
+            var FriendRequest, friendRequestId, userId, _ref;
             userId = user._id;
             if (user.type === 'daycare') {
               redirectTo = "/#profiles/edit/" + userId;
@@ -204,7 +204,7 @@
                 'Location': redirectTo
               });
               return res.end();
-            } else if (user.type === "parent" && user.friend_request_id) {
+            } else if (((_ref = user.type) === "parent" || _ref === "staff") && user.friend_request_id) {
               friendRequestId = user.friend_request_id;
               FriendRequest = require("./friend_request");
               return FriendRequest.findOne({
