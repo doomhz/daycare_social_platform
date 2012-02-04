@@ -26,7 +26,8 @@
 
     OurFamilyView.prototype.events = {
       "keyup #our-family-name-filter": "filterNamesHandler",
-      "click #our-family-name-filter-bt": "filterNamesHandler"
+      "click #our-family-name-filter-bt": "filterNamesHandler",
+      "change #our-family-type-filter": "filterNamesHandler"
     };
 
     OurFamilyView.prototype.initialize = function(options) {
@@ -101,9 +102,10 @@
     };
 
     OurFamilyView.prototype.filterNamesHandler = function(ev) {
-      var textToFind;
+      var textToFind, typeToFind;
       textToFind = $("#our-family-name-filter").val().toLowerCase().trim();
-      return this.parentsList.findByName(textToFind);
+      typeToFind = $("#our-family-type-filter").val();
+      return this.parentsList.findByNameAndType(textToFind, typeToFind);
     };
 
     OurFamilyView.prototype.remove = function() {

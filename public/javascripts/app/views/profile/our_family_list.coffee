@@ -36,27 +36,36 @@ class window.Kin.Profile.OurFamilyListView extends Backbone.View
                         $el = $(that.el)
                         $el.html(tpl({profile: that.model, classes: classes, staff: that.staff, parents: that.parents, children: that.children}))
 
-  findByName: (nameToFind)->
+  findByNameAndType: (nameToFind, typeToFind)->
     @membersLists = @membersLists or @$(".our-family-member")
     @membersLists.addClass("hidden")
-    memberIds = @filterMembers(nameToFind)
+    memberIds = @filterMembers(nameToFind, typeToFind)
     for memberId in memberIds
       @membersLists.filter("#member-#{memberId}").removeClass("hidden")
 
-  filterMembers: (slug)->
+  filterMembers: (slug, type)->
+    types = if type is "all" then ["staff", "parents", "children"] else [type]
     memberIds = []
-    @staff.each (st)->
-      if st.get("name").toLowerCase().indexOf(slug) > -1 or st.get("surname").toLowerCase().indexOf(slug) > -1
-        memberIds.push(st.get("_id"))
-    children = @children.filter (child)->
-      child.get("name").toLowerCase().indexOf(slug) > -1 or child.get("surname").toLowerCase().indexOf(slug) > -1
-    childrenIds = _.map children, (child)->
-      child.get("_id")
-    @parents.each (parent)->
-      foundChildren = _.intersection(childrenIds, parent.children_ids).length
-      if parent.get("name").toLowerCase().indexOf(slug) > -1 or parent.get("surname").toLowerCase().indexOf(slug) > -1 or foundChildren
-        memberIds.push(parent.get("_id"))
-    memberIds
+    childrenIds = []
+    if "staff" in types
+      @staff.each (st)->
+        if "#{st.get('name')} #{st.get('surname')}".toLowerCase().indexOf(slug) > -1
+          memberIds.push(st.get("_id"))
+    if "children" in types
+      children = @children.filter (child)->
+        "#{child.get('name')} #{child.get('surname')}".toLowerCase().indexOf(slug) > -1
+      childrenIds = _.map children, (child)->
+        child.get("_id")
+      @parents.each (parent)->
+        foundChildren = _.intersection(childrenIds, parent.get("children_ids")).length
+        if foundChildren
+          memberIds.push(parent.get("_id"))
+    if "parents" in types
+      @parents.each (parent)->
+        foundChildren = _.intersection(childrenIds, parent.get("children_ids")).length
+        if "#{parent.get('name')} #{parent.get('surname')}".toLowerCase().indexOf(slug) > -1
+          memberIds.push(parent.get("_id"))
+    _.uniq(memberIds)
 
   remove: ()->
     $el = $(@el)

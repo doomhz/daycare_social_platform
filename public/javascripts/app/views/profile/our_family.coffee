@@ -17,6 +17,7 @@ class window.Kin.Profile.OurFamilyView extends Kin.Profile.ProfileView
   events:
     "keyup #our-family-name-filter": "filterNamesHandler"
     "click #our-family-name-filter-bt": "filterNamesHandler"
+    "change #our-family-type-filter": "filterNamesHandler"
 
   initialize: (options)->
     @currentUser = options.currentUser
@@ -77,7 +78,8 @@ class window.Kin.Profile.OurFamilyView extends Kin.Profile.ProfileView
 
   filterNamesHandler: (ev)->
     textToFind = $("#our-family-name-filter").val().toLowerCase().trim()
-    @parentsList.findByName(textToFind)
+    typeToFind = $("#our-family-type-filter").val()
+    @parentsList.findByNameAndType(textToFind, typeToFind)
 
   remove: ()->
     $el = $(@el)

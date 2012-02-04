@@ -1,6 +1,7 @@
 (function() {
   var __hasProp = Object.prototype.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; },
+    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   window.Kin.Profile.OurFamilyListView = (function(_super) {
 
@@ -74,11 +75,11 @@
       });
     };
 
-    OurFamilyListView.prototype.findByName = function(nameToFind) {
+    OurFamilyListView.prototype.findByNameAndType = function(nameToFind, typeToFind) {
       var memberId, memberIds, _i, _len, _results;
       this.membersLists = this.membersLists || this.$(".our-family-member");
       this.membersLists.addClass("hidden");
-      memberIds = this.filterMembers(nameToFind);
+      memberIds = this.filterMembers(nameToFind, typeToFind);
       _results = [];
       for (_i = 0, _len = memberIds.length; _i < _len; _i++) {
         memberId = memberIds[_i];
@@ -87,28 +88,41 @@
       return _results;
     };
 
-    OurFamilyListView.prototype.filterMembers = function(slug) {
-      var children, childrenIds, memberIds;
+    OurFamilyListView.prototype.filterMembers = function(slug, type) {
+      var children, childrenIds, memberIds, types;
+      types = type === "all" ? ["staff", "parents", "children"] : [type];
       memberIds = [];
-      this.staff.each(function(st) {
-        if (st.get("name").toLowerCase().indexOf(slug) > -1 || st.get("surname").toLowerCase().indexOf(slug) > -1) {
-          return memberIds.push(st.get("_id"));
-        }
-      });
-      children = this.children.filter(function(child) {
-        return child.get("name").toLowerCase().indexOf(slug) > -1 || child.get("surname").toLowerCase().indexOf(slug) > -1;
-      });
-      childrenIds = _.map(children, function(child) {
-        return child.get("_id");
-      });
-      this.parents.each(function(parent) {
-        var foundChildren;
-        foundChildren = _.intersection(childrenIds, parent.children_ids).length;
-        if (parent.get("name").toLowerCase().indexOf(slug) > -1 || parent.get("surname").toLowerCase().indexOf(slug) > -1 || foundChildren) {
-          return memberIds.push(parent.get("_id"));
-        }
-      });
-      return memberIds;
+      childrenIds = [];
+      if (__indexOf.call(types, "staff") >= 0) {
+        this.staff.each(function(st) {
+          if (("" + (st.get('name')) + " " + (st.get('surname'))).toLowerCase().indexOf(slug) > -1) {
+            return memberIds.push(st.get("_id"));
+          }
+        });
+      }
+      if (__indexOf.call(types, "children") >= 0) {
+        children = this.children.filter(function(child) {
+          return ("" + (child.get('name')) + " " + (child.get('surname'))).toLowerCase().indexOf(slug) > -1;
+        });
+        childrenIds = _.map(children, function(child) {
+          return child.get("_id");
+        });
+        this.parents.each(function(parent) {
+          var foundChildren;
+          foundChildren = _.intersection(childrenIds, parent.get("children_ids")).length;
+          if (foundChildren) return memberIds.push(parent.get("_id"));
+        });
+      }
+      if (__indexOf.call(types, "parents") >= 0) {
+        this.parents.each(function(parent) {
+          var foundChildren;
+          foundChildren = _.intersection(childrenIds, parent.get("children_ids")).length;
+          if (("" + (parent.get('name')) + " " + (parent.get('surname'))).toLowerCase().indexOf(slug) > -1) {
+            return memberIds.push(parent.get("_id"));
+          }
+        });
+      }
+      return _.uniq(memberIds);
     };
 
     OurFamilyListView.prototype.remove = function() {
