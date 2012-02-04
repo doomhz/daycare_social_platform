@@ -16,6 +16,14 @@
 
     OurFamilyListView.prototype.tplUrl = '/templates/main/profile/our_family_list.html';
 
+    OurFamilyListView.prototype.membersLists = null;
+
+    OurFamilyListView.prototype.staff = null;
+
+    OurFamilyListView.prototype.parents = null;
+
+    OurFamilyListView.prototype.children = null;
+
     OurFamilyListView.prototype.initialize = function() {};
 
     OurFamilyListView.prototype.render = function() {
@@ -30,32 +38,29 @@
           });
           return classes.fetch({
             success: function() {
-              var staff;
-              staff = new Kin.StaffCollection([], {
+              that.staff = new Kin.StaffCollection([], {
                 userId: that.model.get("_id")
               });
-              return staff.fetch({
+              return that.staff.fetch({
                 success: function() {
-                  var parents;
-                  parents = new Kin.ParentsCollection([], {
+                  that.parents = new Kin.ParentsCollection([], {
                     userId: that.model.get("_id")
                   });
-                  return parents.fetch({
+                  return that.parents.fetch({
                     success: function() {
-                      var children;
-                      children = new Kin.ChildrenCollection([], {
+                      that.children = new Kin.ChildrenCollection([], {
                         userId: that.model.get("_id")
                       });
-                      return children.fetch({
+                      return that.children.fetch({
                         success: function() {
                           var $el;
                           $el = $(that.el);
                           return $el.html(tpl({
                             profile: that.model,
                             classes: classes,
-                            staff: staff,
-                            parents: parents,
-                            children: children
+                            staff: that.staff,
+                            parents: that.parents,
+                            children: that.children
                           }));
                         }
                       });
@@ -70,20 +75,40 @@
     };
 
     OurFamilyListView.prototype.findByName = function(nameToFind) {
-      var $list, $parentsLists, filteredText, list, _i, _len, _results;
-      $parentsLists = this.$(".parents-details");
+      var memberId, memberIds, _i, _len, _results;
+      this.membersLists = this.membersLists || this.$(".our-family-member");
+      this.membersLists.addClass("hidden");
+      memberIds = this.filterMembers(nameToFind);
       _results = [];
-      for (_i = 0, _len = $parentsLists.length; _i < _len; _i++) {
-        list = $parentsLists[_i];
-        $list = $(list);
-        filteredText = $list.text().toLowerCase().replace(/\\n/g, " ").replace(/\s\s/g, "");
-        if (filteredText.indexOf(nameToFind) > -1) {
-          _results.push($list.removeClass("hidden"));
-        } else {
-          _results.push($list.addClass("hidden"));
-        }
+      for (_i = 0, _len = memberIds.length; _i < _len; _i++) {
+        memberId = memberIds[_i];
+        _results.push(this.membersLists.filter("#member-" + memberId).removeClass("hidden"));
       }
       return _results;
+    };
+
+    OurFamilyListView.prototype.filterMembers = function(slug) {
+      var children, childrenIds, memberIds;
+      memberIds = [];
+      this.staff.each(function(st) {
+        if (st.get("name").toLowerCase().indexOf(slug) > -1 || st.get("surname").toLowerCase().indexOf(slug) > -1) {
+          return memberIds.push(st.get("_id"));
+        }
+      });
+      children = this.children.filter(function(child) {
+        return child.get("name").toLowerCase().indexOf(slug) > -1 || child.get("surname").toLowerCase().indexOf(slug) > -1;
+      });
+      childrenIds = _.map(children, function(child) {
+        return child.get("_id");
+      });
+      this.parents.each(function(parent) {
+        var foundChildren;
+        foundChildren = _.intersection(childrenIds, parent.children_ids).length;
+        if (parent.get("name").toLowerCase().indexOf(slug) > -1 || parent.get("surname").toLowerCase().indexOf(slug) > -1 || foundChildren) {
+          return memberIds.push(parent.get("_id"));
+        }
+      });
+      return memberIds;
     };
 
     OurFamilyListView.prototype.remove = function() {

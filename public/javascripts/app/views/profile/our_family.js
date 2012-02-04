@@ -25,8 +25,8 @@
     OurFamilyView.prototype.router = null;
 
     OurFamilyView.prototype.events = {
-      "keydown #parents-name-filter": "filterNamesHandler",
-      "click #parents-name-filter-bt": "filterNamesHandler"
+      "keyup #our-family-name-filter": "filterNamesHandler",
+      "click #our-family-name-filter-bt": "filterNamesHandler"
     };
 
     OurFamilyView.prototype.initialize = function(options) {
@@ -64,7 +64,7 @@
               }
             }
           });
-          $parentsListGroup = $el.find("#parents-list-cnt");
+          $parentsListGroup = $el.find("#our-family-list-cnt");
           that.parentsList = new Kin.Profile.OurFamilyListView({
             el: $parentsListGroup,
             model: that.model
@@ -102,7 +102,7 @@
 
     OurFamilyView.prototype.filterNamesHandler = function(ev) {
       var textToFind;
-      textToFind = $("#parents-name-filter").val().toLowerCase().trim();
+      textToFind = $("#our-family-name-filter").val().toLowerCase().trim();
       return this.parentsList.findByName(textToFind);
     };
 

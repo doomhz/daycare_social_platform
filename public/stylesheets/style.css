@@ -805,51 +805,61 @@ footer #footer-wrapper #copyright {
 #write-message-cnt .chzn-choices {
   width: 371px;
 }
-#parents-filter {
+#our-family-filter {
   margin: 15px 0 0 0;
   border-radius: 3px;
   padding: 3px;
   background: #e6f1f5;
 }
-#parents-filter div {
+#our-family-filter div {
   background: #fff;
   border-top: solid 1px #d9d9d9;
   border-left: solid 1px #d9d9d9;
   margin: 0;
   padding: 3px;
 }
-#parents-filter div .input-text {
+#our-family-filter div .input-text {
   resize: none;
   height: 10px;
   width: 435px;
   border: none;
   box-shadow: none;
 }
-#parents-list-cnt .total {
+#our-family-list-cnt .total {
   color: #7e962d;
 }
-#parents-list-cnt #parents-list-groups li {
+#our-family-list-cnt #our-family-list-groups li {
   overflow: hidden;
 }
-#parents-list-cnt #parents-list-groups li h3 {
+#our-family-list-cnt #our-family-list-groups li h3 {
   margin: 5px 0 5px 0;
 }
-#parents-list-cnt #parents-list-groups li .parents-list .parents-details {
+#our-family-list-cnt #our-family-list-groups li .our-family-list .our-family-member {
   background: #f2f2f2;
   border-radius: 5px;
   overflow: hidden;
   margin: 10px 0 10px 0;
   padding: 5px;
 }
-#parents-list-cnt #parents-list-groups li .parents-list .parents-details .avatar {
+#our-family-list-cnt #our-family-list-groups li .our-family-list .our-family-member .avatar {
   float: left;
 }
-#parents-list-cnt #parents-list-groups li .parents-list .parents-details .parents-name {
+#our-family-list-cnt #our-family-list-groups li .our-family-list .our-family-member .parents-name {
   float: left;
   width: 400px;
   margin: 0 0 10px 10px;
 }
-#parents-list-cnt #parents-list-groups li .parents-list .parents-details .childs-name {
+#our-family-list-cnt #our-family-list-groups li .our-family-list .our-family-member .childs-name {
+  float: left;
+  width: 400px;
+  margin: 0 0 10px 10px;
+}
+#our-family-list-cnt #our-family-list-groups li .our-family-list .our-family-member .staff-name {
+  float: left;
+  width: 400px;
+  margin: 0 0 10px 10px;
+}
+#our-family-list-cnt #our-family-list-groups li .our-family-list .our-family-member .staff-position {
   float: left;
   width: 400px;
   margin: 0 0 10px 10px;

@@ -15,8 +15,8 @@ class window.Kin.Profile.OurFamilyView extends Kin.Profile.ProfileView
   router: null
 
   events:
-    "keydown #parents-name-filter": "filterNamesHandler"
-    "click #parents-name-filter-bt": "filterNamesHandler"
+    "keyup #our-family-name-filter": "filterNamesHandler"
+    "click #our-family-name-filter-bt": "filterNamesHandler"
 
   initialize: (options)->
     @currentUser = options.currentUser
@@ -46,7 +46,7 @@ class window.Kin.Profile.OurFamilyView extends Kin.Profile.ProfileView
               that.maps.render()
               that.addAddressMarker(mapCenterLat, mapCenterLng, that.model.get('name'))
 
-        $parentsListGroup = $el.find("#parents-list-cnt")
+        $parentsListGroup = $el.find("#our-family-list-cnt")
         that.parentsList = new Kin.Profile.OurFamilyListView
           el: $parentsListGroup
           model: that.model
@@ -76,7 +76,7 @@ class window.Kin.Profile.OurFamilyView extends Kin.Profile.ProfileView
           animation_speed: 0
 
   filterNamesHandler: (ev)->
-    textToFind = $("#parents-name-filter").val().toLowerCase().trim()
+    textToFind = $("#our-family-name-filter").val().toLowerCase().trim()
     @parentsList.findByName(textToFind)
 
   remove: ()->
