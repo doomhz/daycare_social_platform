@@ -13,7 +13,8 @@ class Kin.Profile.ProfileWallView extends Backbone.View
     $.tmpload
       url: @commentTplUrl
       onLoad: ()->
-        that.collection.loadComments(true)
+        that.collection.loadComments
+          isHistory: true
 
   addWallComment: (model)->
     that = @

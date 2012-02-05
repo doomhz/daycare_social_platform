@@ -24,7 +24,9 @@
       return $.tmpload({
         url: this.commentTplUrl,
         onLoad: function() {
-          return that.collection.loadComments(true);
+          return that.collection.loadComments({
+            isHistory: true
+          });
         }
       });
     };

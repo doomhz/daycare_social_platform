@@ -22,6 +22,8 @@
 
     WallCommentsCollection.prototype.isLoadHistory = false;
 
+    WallCommentsCollection.prototype.loadInProgress = false;
+
     WallCommentsCollection.prototype.uri = "/comments/:wall_id/:comment_time/:timeline";
 
     WallCommentsCollection.prototype.initialize = function(models, _arg) {
@@ -39,13 +41,31 @@
       return window.clearInterval(this.intervalId);
     };
 
-    WallCommentsCollection.prototype.loadComments = function(isHistory) {
-      if (isHistory == null) isHistory = false;
-      this.isLoadHistory = isHistory;
-      this.fetch({
-        add: true
-      });
-      return this.isLoadHistory = false;
+    WallCommentsCollection.prototype.loadComments = function(options) {
+      var _this = this;
+      if (options == null) {
+        options = {
+          isHistory: false
+        };
+      }
+      if (!this.loadInProgress) {
+        this.loadInProgress = true;
+        this.isLoadHistory = options.isHistory;
+        this.fetch({
+          add: true,
+          success: options.success,
+          complete: function() {
+            return _this.loadInProgress = false;
+          }
+        });
+        return this.isLoadHistory = false;
+      }
+    };
+
+    WallCommentsCollection.prototype.add = function(models, options) {
+      models = _.isArray(models) ? models.slice() : [models];
+      models = _.difference(models, this.models);
+      return WallCommentsCollection.__super__.add.call(this, models, options);
     };
 
     WallCommentsCollection.prototype.getMaxCommentTime = function() {
@@ -58,8 +78,8 @@
           createdAt = comment.get("added_at");
           if (createdAt > lastCommentTime) lastCommentTime = createdAt;
         }
-        return lastCommentTime;
       }
+      return lastCommentTime;
     };
 
     WallCommentsCollection.prototype.getMinCommentTime = function() {

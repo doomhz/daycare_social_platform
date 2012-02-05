@@ -162,8 +162,14 @@
     };
 
     ProfileView.prototype.loadMoreCommentsHandler = function(ev) {
+      var _this = this;
       ev.preventDefault();
-      return this.profileWall.collection.loadComments(true);
+      return this.profileWall.collection.loadComments({
+        isHistory: true,
+        success: function(collection, models) {
+          if (!models.length) return $(ev.currentTarget).remove();
+        }
+      });
     };
 
     return ProfileView;

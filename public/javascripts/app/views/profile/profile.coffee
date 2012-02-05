@@ -120,4 +120,8 @@ class window.Kin.Profile.ProfileView extends Backbone.View
 
   loadMoreCommentsHandler: (ev)->
     ev.preventDefault()
-    @profileWall.collection.loadComments(true)
+    @profileWall.collection.loadComments
+      isHistory: true
+      success: (collection, models)=>
+        if not models.length
+          $(ev.currentTarget).remove()

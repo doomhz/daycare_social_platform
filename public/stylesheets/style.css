@@ -398,6 +398,9 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 #page-wrapper #main-column #add-comment-box form div input {
   padding: 3px 14px 3px 14px;
 }
+#page-wrapper #main-column #wall-comments-list {
+  margin: 0 0 5px 0;
+}
 #page-wrapper #main-column #wall-comments-list li {
   overflow: hidden;
   margin: 2px 0 2px 0;
@@ -472,7 +475,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #main-column #load-more-comments-cnt {
   background: #f2f2f2;
-  margin: 5px 0 5px 0;
+  margin: 0 0 5px 0;
   padding: 10px;
   cursor: pointer;
 }

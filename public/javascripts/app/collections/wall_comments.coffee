@@ -10,6 +10,8 @@ class Kin.WallCommentsCollection extends Backbone.Collection
 
   isLoadHistory: false
 
+  loadInProgress: false
+
   uri: "/comments/:wall_id/:comment_time/:timeline"
 
   initialize: (models, {@profileId})->
@@ -22,11 +24,23 @@ class Kin.WallCommentsCollection extends Backbone.Collection
   stopAutoUpdateComments: ()->
     window.clearInterval(@intervalId)
 
-  loadComments: (isHistory = false)=>
-    @isLoadHistory = isHistory
-    @fetch
-      add: true
-    @isLoadHistory = false
+  loadComments: (options)=>
+    options ?=
+      isHistory: false
+    if not @loadInProgress
+      @loadInProgress = true
+      @isLoadHistory = options.isHistory
+      @fetch
+        add: true
+        success: options.success
+        complete: ()=>
+          @loadInProgress = false
+      @isLoadHistory = false
+
+  add: (models, options)->
+    models = if _.isArray(models) then models.slice() else [models]
+    models = _.difference(models, @models)
+    super(models, options)
 
   getMaxCommentTime: ()->
     lastCommentTime = 0
@@ -35,7 +49,7 @@ class Kin.WallCommentsCollection extends Backbone.Collection
         createdAt = comment.get("added_at")
         if createdAt > lastCommentTime
           lastCommentTime = createdAt
-      lastCommentTime
+    lastCommentTime
 
   getMinCommentTime: ()->
     firstCommentTime = new Date().getTime()
