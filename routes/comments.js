@@ -1,5 +1,5 @@
 (function() {
-  var Comment, Notification, User,
+  var Comment, Notification, User, _s,
     __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   User = require('../models/user');
@@ -7,6 +7,8 @@
   Comment = require('../models/comment');
 
   Notification = require('../models/notification');
+
+  _s = require('underscore.string');
 
   module.exports = function(app) {
     app.get('/comments/:wall_id/:last_comment_time/:timeline', function(req, res) {
@@ -64,6 +66,7 @@
                 }
                 return res.render('comments/comments', {
                   comments: comments,
+                  _s: _s,
                   show_private: false,
                   layout: false
                 });
@@ -71,6 +74,7 @@
             } else {
               return res.render('comments/comments', {
                 comments: comments,
+                _s: _s,
                 show_private: false,
                 layout: false
               });
@@ -81,7 +85,7 @@
         return res.json([]);
       }
     });
-    return app.post('/comments', function(req, res) {
+    app.post('/comments', function(req, res) {
       var currentComment, currentUser, currentUserId, data, wallId;
       currentUser = req.user ? req.user : {};
       data = req.body;
@@ -103,6 +107,41 @@
           success: true
         });
       }
+    });
+    app.put("/comments/:id", function(req, res) {
+      var commentId, currentUser, data;
+      currentUser = req.user ? req.user : {};
+      commentId = req.params.id;
+      data = req.body;
+      delete data._id;
+      return Comment.update({
+        _id: commentId,
+        from_id: currentUser._id
+      }, data, {}, function(err, comment) {
+        return res.json({
+          success: true
+        });
+      });
+    });
+    return app.del("/comments/:id", function(req, res) {
+      var commentId, currentUser;
+      currentUser = req.user ? req.user : {};
+      commentId = req.params.id;
+      return Comment.findOne({
+        _id: commentId
+      }).run(function(err, comment) {
+        if (("" + comment.from_id) === ("" + currentUser._id)) {
+          return comment.remove(function() {
+            return res.json({
+              success: true
+            });
+          });
+        } else {
+          return res.json({
+            error: "Comment could not be deleted"
+          });
+        }
+      });
     });
   };
 

@@ -351,6 +351,9 @@ header
             text-decoration none
           .name:hover
             text-decoration underline
+          .delete-comment, .edit-comment
+            float right
+            margin 0 0 0 5px
         .status-cnt
           background #f2f2f2
           border-top-radius 5px
@@ -358,6 +361,11 @@ header
           overflow hidden
           .photo-frame
             background-color #fff
+        .comment-edit-textarea
+          resize none
+          width 440px
+          height 50px
+          margin 10px 0 0 0
       li.status
         padding 10px 0 0 0
         margin 10px 0 0 0
@@ -663,7 +671,7 @@ footer
 
 #quick-add-child-win
   #quick-add-child-box-content
-    padding 40px 20px 0 20px
+    padding 0 20px 0 20px
     form
       margin 0
     label

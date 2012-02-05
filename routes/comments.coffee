@@ -1,6 +1,7 @@
 User         = require('../models/user')
 Comment      = require('../models/comment')
 Notification = require('../models/notification')
+_s           = require('underscore.string')
 
 module.exports = (app)->
 
@@ -38,9 +39,9 @@ module.exports = (app)->
                   for user in users
                     if "#{user._id}" is "#{comment.from_id}"
                       comment.from_user = user
-              res.render 'comments/comments', {comments: comments, show_private: false, layout: false}
+              res.render 'comments/comments', {comments: comments, _s: _s, show_private: false, layout: false}
           else
-            res.render 'comments/comments', {comments: comments, show_private: false, layout: false}
+            res.render 'comments/comments', {comments: comments, _s: _s, show_private: false, layout: false}
     else
       res.json []
 
@@ -64,3 +65,23 @@ module.exports = (app)->
           Notification.addForFollowup(savedComment, currentUser)
 
       res.json {success: true}
+
+  app.put "/comments/:id", (req, res)->
+    currentUser = if req.user then req.user else {}
+    commentId = req.params.id
+    data = req.body
+    delete data._id
+
+    Comment.update {_id: commentId, from_id: currentUser._id}, data, {}, (err, comment)->
+      res.json {success: true}
+
+  app.del "/comments/:id", (req, res)->
+    currentUser = if req.user then req.user else {}
+    commentId = req.params.id
+
+    Comment.findOne({_id: commentId}).run (err, comment)->
+      if "#{comment.from_id}" is "#{currentUser._id}"
+        comment.remove ()->
+          res.json {success: true}
+      else
+        res.json {error: "Comment could not be deleted"}

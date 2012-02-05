@@ -1,6 +1,7 @@
 User         = require('../models/user')
 Message      = require('../models/message')
 Notification = require('../models/notification')
+_s           = require("underscore.string")
 
 module.exports = (app)->
 
@@ -43,25 +44,25 @@ module.exports = (app)->
   app.get '/messages/default', (req, res)->
     user = if req.user then req.user else {}
     Message.findDefault user._id, (err, messages)->
-      res.render 'messages/messages', {messages: messages, show_private: false, layout: false}
+      res.render 'messages/messages', {messages: messages, _s: _s, show_private: false, layout: false}
 
   app.get '/messages/sent', (req, res)->
     user = if req.user then req.user else {}
     Message.findSent user._id, (err, messages)->
-      res.render 'messages/messages', {messages: messages, show_private: false, layout: false}
+      res.render 'messages/messages', {messages: messages, _s: _s, show_private: false, layout: false}
 
   app.get '/messages/draft', (req, res)->
     user = if req.user then req.user else {}
     Message.findDraft user._id, (err, messages)->
-      res.render 'messages/messages', {messages: messages, show_private: false, layout: false}
+      res.render 'messages/messages', {messages: messages, _s: _s, show_private: false, layout: false}
 
   app.get '/messages/deleted', (req, res)->
     user = if req.user then req.user else {}
     Message.findDeleted user._id, (err, messages)->
-      res.render 'messages/messages', {messages: messages, show_private: false, layout: false}
+      res.render 'messages/messages', {messages: messages, _s: _s, show_private: false, layout: false}
 
   app.get '/messages/:id', (req, res)->
     messageId = req.params.id
     user = if req.user then req.user else {}
     Message.findOne({_id: messageId}).run (err, message)->
-      res.render 'messages/_message', {message: message, show_private: false, layout: false}
+      res.render 'messages/_message', {message: message, _s: _s, show_private: false, layout: false}

@@ -1,5 +1,6 @@
 - if (profile)
   {
+  "id": "#{profile._id}",
   "_id": "#{profile._id}",
   "master_id": "#{profile.master_id}",
   "type": "#{profile.type}",
@@ -45,6 +46,7 @@
   "daycare_friends": [
   each daycareFriend, i in profile.daycare_friends
     {
+    "id": "#{daycareFriend._id}",
     "_id": "#{daycareFriend._id}",
     "name": "#{daycareFriend.name}"
     }

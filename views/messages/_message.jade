@@ -1,10 +1,10 @@
 {
-- var content = (message.content + "").replace(/"/g, '').replace(/'/g, '').replace(/\\/g, '')
+"id": "#{message._id}",
 "_id": "#{message._id}",
 "from_id": "#{message.from_id}",
 "to_id": "#{message.to_id}",
 "type": "#{message.type}",
-"content": "#{content}",
+"content": "!{_s.escapeHTML(message.content).replace(/\r\n/g, '<br />').replace(/\n/g, '<br />')}",
 "unread": #{message.unread || false},
 "created_at": "#{message.created_at}",
 "updated_at": "#{message.updated_at}",

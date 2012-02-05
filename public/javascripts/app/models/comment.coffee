@@ -15,3 +15,7 @@ class Kin.CommentModel extends Backbone.Model
   initialize: ()->
     if @collection
       @set({wall_id: @collection.profileId})
+
+  url: ()->
+    id = @id or ""
+    "#{@urlRoot}/#{id}"

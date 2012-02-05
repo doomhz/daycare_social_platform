@@ -19,9 +19,16 @@
 </p>
 <p class="comment-header">
   <a href="#profiles/view/<%= comment.get("from_user")._id %>" class="name"><%= _.escape(name) %></a>: <span class="time" title="<%= commentTime %>"><%= commentTime %></span>
-</p>
-<p>
   <%
+    if (comment.get("from_user")._id === Kin.app.currentUser.get("_id")) {
+  %>
+  <a href="#" class="delete-comment">Delete</a>
+  <a href="#" class="edit-comment">Edit</a>
+  <%
+    }
+  %>
+</p>
+<p class="comment-text"><%
     if (typeof content === "object") {
       if (content.type === "new_picture") {
         %>
@@ -55,7 +62,7 @@
     <input name="wall_id" type="hidden" value="<%= comment.get('wall_id') %>" />
     <input name="type" type="hidden" value="followup" />
     <div>
-      <textarea name="content" resize="none" placeholder="add a comment ..." rows="1" cols="40"></textarea>
+      <textarea name="content" resize="none" placeholder="say something ..." rows="1" cols="40"></textarea>
       <input type="submit" value="Add" class="btn primary" />
     </div>
   </form>

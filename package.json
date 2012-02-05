@@ -15,6 +15,7 @@
     , "socket.io": "latest"
     , "mailer": "latest"
     , "underscore": "latest"
+    , "underscore.string": "latest"
     , "jake": "latest"
     , "jasmine-node":   "latest"
     , "jasmine-jquery": "latest"

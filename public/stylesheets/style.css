@@ -416,6 +416,11 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 #page-wrapper #main-column #wall-comments-list li .comment-header .name:hover {
   text-decoration: underline;
 }
+#page-wrapper #main-column #wall-comments-list li .comment-header .delete-comment,
+#page-wrapper #main-column #wall-comments-list li .comment-header .edit-comment {
+  float: right;
+  margin: 0 0 0 5px;
+}
 #page-wrapper #main-column #wall-comments-list li .status-cnt {
   background: #f2f2f2;
   border-top-radius: 5px;
@@ -424,6 +429,12 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #main-column #wall-comments-list li .status-cnt .photo-frame {
   background-color: #fff;
+}
+#page-wrapper #main-column #wall-comments-list li .comment-edit-textarea {
+  resize: none;
+  width: 440px;
+  height: 50px;
+  margin: 10px 0 0 0;
 }
 #page-wrapper #main-column #wall-comments-list li.status {
   padding: 10px 0 0 0;
@@ -787,7 +798,7 @@ footer #footer-wrapper #copyright {
   padding-right: 150px;
 }
 #quick-add-child-win #quick-add-child-box-content {
-  padding: 40px 20px 0 20px;
+  padding: 0 20px 0 20px;
 }
 #quick-add-child-win #quick-add-child-box-content form {
   margin: 0;

@@ -31,6 +31,12 @@
       }
     };
 
+    CommentModel.prototype.url = function() {
+      var id;
+      id = this.id || "";
+      return "" + this.urlRoot + "/" + id;
+    };
+
     return CommentModel;
 
   })(Backbone.Model);

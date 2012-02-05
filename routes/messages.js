@@ -1,11 +1,13 @@
 (function() {
-  var Message, Notification, User;
+  var Message, Notification, User, _s;
 
   User = require('../models/user');
 
   Message = require('../models/message');
 
   Notification = require('../models/notification');
+
+  _s = require("underscore.string");
 
   module.exports = function(app) {
     app.post('/messages', function(req, res) {
@@ -72,6 +74,7 @@
       return Message.findDefault(user._id, function(err, messages) {
         return res.render('messages/messages', {
           messages: messages,
+          _s: _s,
           show_private: false,
           layout: false
         });
@@ -83,6 +86,7 @@
       return Message.findSent(user._id, function(err, messages) {
         return res.render('messages/messages', {
           messages: messages,
+          _s: _s,
           show_private: false,
           layout: false
         });
@@ -94,6 +98,7 @@
       return Message.findDraft(user._id, function(err, messages) {
         return res.render('messages/messages', {
           messages: messages,
+          _s: _s,
           show_private: false,
           layout: false
         });
@@ -105,6 +110,7 @@
       return Message.findDeleted(user._id, function(err, messages) {
         return res.render('messages/messages', {
           messages: messages,
+          _s: _s,
           show_private: false,
           layout: false
         });
@@ -119,6 +125,7 @@
       }).run(function(err, message) {
         return res.render('messages/_message', {
           message: message,
+          _s: _s,
           show_private: false,
           layout: false
         });

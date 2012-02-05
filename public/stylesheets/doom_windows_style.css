@@ -17,6 +17,7 @@
 	overflow: hidden;
 	min-width: 250px;
 	min-height: 50px;
+	padding: 25px 0 0 0;
 }
 
 .doom-win-bt-cnt {
@@ -46,7 +47,7 @@
 	margin-left: 10px;
 }
 
-.doom-win-bt-list li.doom-win-bt-send button, .doom-win-bt-list li.doom-win-bt-add button {
+.doom-win-bt-list li.doom-win-bt-send button, .doom-win-bt-list li.doom-win-bt-add button, .doom-win-bt-list li.doom-win-bt-yes button {
 	-moz-border-bottom-colors: none;
   -moz-border-image: none;
   -moz-border-left-colors: none;
@@ -71,7 +72,7 @@
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
-.doom-win-bt-list li.doom-win-bt-cancel button {
+.doom-win-bt-list li.doom-win-bt-cancel button, .doom-win-bt-list li.doom-win-bt-no button {
   -moz-border-bottom-colors: none;
   -moz-border-image: none;
   -moz-border-left-colors: none;
