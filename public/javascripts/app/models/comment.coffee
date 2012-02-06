@@ -5,6 +5,7 @@ class Kin.CommentModel extends Backbone.Model
     to_id:      null
     wall_id:    null
     type:       "status"
+    privacy:    "private"
     content:    null
     created_at: null
     updated_at: null

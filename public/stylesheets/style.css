@@ -391,12 +391,15 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 #page-wrapper #main-column #add-comment-box form div textarea {
   resize: none;
   height: 5px;
-  width: 439px;
+  width: 405px;
   border: none;
   box-shadow: none;
 }
 #page-wrapper #main-column #add-comment-box form div input {
   padding: 3px 14px 3px 14px;
+}
+#page-wrapper #main-column #add-comment-box form #status-privacy-select {
+  width: 30px;
 }
 #page-wrapper #main-column #wall-comments-list {
   margin: 0 0 5px 0;
@@ -420,6 +423,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 #page-wrapper #main-column #wall-comments-list li .comment-header .edit-comment {
   float: right;
   margin: 0 0 0 5px;
+  display: none;
 }
 #page-wrapper #main-column #wall-comments-list li .status-cnt {
   background: #f2f2f2;
@@ -429,6 +433,10 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #main-column #wall-comments-list li .status-cnt .photo-frame {
   background-color: #fff;
+}
+#page-wrapper #main-column #wall-comments-list li .status-cnt:hover .delete-comment,
+#page-wrapper #main-column #wall-comments-list li .status-cnt:hover .edit-comment {
+  display: inline;
 }
 #page-wrapper #main-column #wall-comments-list li .comment-edit-textarea {
   resize: none;
@@ -457,6 +465,10 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #main-column #wall-comments-list ul.followups li.followup .comment-header .name:hover {
   text-decoration: underline;
+}
+#page-wrapper #main-column #wall-comments-list ul.followups li.followup:hover .delete-comment,
+#page-wrapper #main-column #wall-comments-list ul.followups li.followup:hover .edit-comment {
+  display: inline;
 }
 #page-wrapper #main-column #wall-comments-list div.add-followup-box {
   margin: 0 0 0 0;

@@ -16,8 +16,9 @@
 
     ProfileWallView.prototype.commentTplUrl = '/templates/main/profile/wall_comment.html';
 
-    ProfileWallView.prototype.initialize = function() {
+    ProfileWallView.prototype.initialize = function(options) {
       var that;
+      if (options == null) options = {};
       _.bindAll(this, "addWallComment");
       this.collection.bind("add", this.addWallComment);
       that = this;
@@ -25,7 +26,12 @@
         url: this.commentTplUrl,
         onLoad: function() {
           return that.collection.loadComments({
-            isHistory: true
+            isHistory: true,
+            success: function(collection, models) {
+              if (models.length) {
+                return that.options.loadMoreCommentsCnt.removeClass("hidden");
+              }
+            }
           });
         }
       });

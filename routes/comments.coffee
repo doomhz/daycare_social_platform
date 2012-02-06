@@ -12,38 +12,41 @@ module.exports = (app)->
     lastCommentTime = req.params.last_comment_time
     timeline = if req.params.timeline in ["future", "past"] then req.params.timeline else "future"
     comparison = if req.params.timeline is "future" then "gt" else "lt"
-
+    privacy = ["public"]
     if wallId is currentUserId or wallId in currentUser.friends
-      Comment.find({wall_id: wallId, type: "status"}).where('added_at')[comparison](lastCommentTime).desc("added_at").limit(5).run (err, statuses = [])->
-        statusIds = []
-        for status in statuses
-          statusIds.push(status._id)
+      privacy.push("private")
 
-        followupsQuery = Comment.find({wall_id: wallId, type: "followup"}).desc("added_at")
+    Comment.find({wall_id: wallId, type: "status"})
+    .where('added_at')[comparison](lastCommentTime)
+    .where("privacy").in(privacy)
+    .desc("added_at").limit(5).run (err, statuses = [])->
+      statusIds = []
+      for status in statuses
+        statusIds.push(status._id)
 
-        if timeline is "past"
-          followupsQuery.where("to_id").in(statusIds)
-        else
-          followupsQuery.where('added_at')[comparison](lastCommentTime)
+      followupsQuery = Comment.find({wall_id: wallId, type: "followup"}).desc("added_at")
 
-        followupsQuery.run (err, followups = [])->
-          usersToFind = []
-          comments = statuses.concat(followups)
-          for comment in comments
-            usersToFind.push(comment.from_id)
-            comment.timeline = timeline
-          if usersToFind.length
-            User.where("_id").in(usersToFind).run (err, users)->
-              if users
-                for comment in comments
-                  for user in users
-                    if "#{user._id}" is "#{comment.from_id}"
-                      comment.from_user = user
-              res.render 'comments/comments', {comments: comments, _s: _s, show_private: false, layout: false}
-          else
+      if timeline is "past"
+        followupsQuery.where("to_id").in(statusIds)
+      else
+        followupsQuery.where('added_at')[comparison](lastCommentTime)
+
+      followupsQuery.run (err, followups = [])->
+        usersToFind = []
+        comments = statuses.concat(followups)
+        for comment in comments
+          usersToFind.push(comment.from_id)
+          comment.timeline = timeline
+        if usersToFind.length
+          User.where("_id").in(usersToFind).run (err, users)->
+            if users
+              for comment in comments
+                for user in users
+                  if "#{user._id}" is "#{comment.from_id}"
+                    comment.from_user = user
             res.render 'comments/comments', {comments: comments, _s: _s, show_private: false, layout: false}
-    else
-      res.json []
+        else
+          res.render 'comments/comments', {comments: comments, _s: _s, show_private: false, layout: false}
 
   app.post '/comments', (req, res)->
     currentUser = if req.user then req.user else {}
@@ -54,7 +57,7 @@ module.exports = (app)->
     currentUserId = "#{currentUser._id}"
     wallId = "#{data.wall_id}"
 
-    if wallId is currentUserId or wallId in currentUser.friends
+    if wallId is currentUserId or wallId in currentUser.friends or (data.type is "followup" and data.privacy is "public")
       currentComment = new Comment(data)
       currentComment.save (err, savedComment)->
 

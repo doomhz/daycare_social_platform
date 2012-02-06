@@ -60,6 +60,7 @@
   <form class="add-followup-form" method="post" action="/comments">
     <input name="to_id" type="hidden" value="<%= comment.get('_id') %>" />
     <input name="wall_id" type="hidden" value="<%= comment.get('wall_id') %>" />
+    <input name="privacy" type="hidden" value="<%= comment.get('privacy') %>" />
     <input name="type" type="hidden" value="followup" />
     <div>
       <textarea name="content" resize="none" placeholder="say something ..." rows="1" cols="40"></textarea>

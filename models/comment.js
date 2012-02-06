@@ -16,6 +16,11 @@
       "enum": ["status", "followup"],
       "default": "status"
     },
+    privacy: {
+      type: String,
+      "enum": ["private", "public"],
+      "default": "private"
+    },
     content: {
       type: {},
       "default": ""

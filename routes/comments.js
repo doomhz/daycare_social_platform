@@ -12,78 +12,78 @@
 
   module.exports = function(app) {
     app.get('/comments/:wall_id/:last_comment_time/:timeline', function(req, res) {
-      var comparison, currentUser, currentUserId, lastCommentTime, timeline, wallId, _ref;
+      var comparison, currentUser, currentUserId, lastCommentTime, privacy, timeline, wallId, _ref;
       currentUser = req.user ? req.user : {};
       currentUserId = "" + currentUser._id;
       wallId = "" + req.params.wall_id;
       lastCommentTime = req.params.last_comment_time;
       timeline = (_ref = req.params.timeline) === "future" || _ref === "past" ? req.params.timeline : "future";
       comparison = req.params.timeline === "future" ? "gt" : "lt";
+      privacy = ["public"];
       if (wallId === currentUserId || __indexOf.call(currentUser.friends, wallId) >= 0) {
-        return Comment.find({
+        privacy.push("private");
+      }
+      return Comment.find({
+        wall_id: wallId,
+        type: "status"
+      }).where('added_at')[comparison](lastCommentTime).where("privacy")["in"](privacy).desc("added_at").limit(5).run(function(err, statuses) {
+        var followupsQuery, status, statusIds, _i, _len;
+        if (statuses == null) statuses = [];
+        statusIds = [];
+        for (_i = 0, _len = statuses.length; _i < _len; _i++) {
+          status = statuses[_i];
+          statusIds.push(status._id);
+        }
+        followupsQuery = Comment.find({
           wall_id: wallId,
-          type: "status"
-        }).where('added_at')[comparison](lastCommentTime).desc("added_at").limit(5).run(function(err, statuses) {
-          var followupsQuery, status, statusIds, _i, _len;
-          if (statuses == null) statuses = [];
-          statusIds = [];
-          for (_i = 0, _len = statuses.length; _i < _len; _i++) {
-            status = statuses[_i];
-            statusIds.push(status._id);
+          type: "followup"
+        }).desc("added_at");
+        if (timeline === "past") {
+          followupsQuery.where("to_id")["in"](statusIds);
+        } else {
+          followupsQuery.where('added_at')[comparison](lastCommentTime);
+        }
+        return followupsQuery.run(function(err, followups) {
+          var comment, comments, usersToFind, _j, _len2;
+          if (followups == null) followups = [];
+          usersToFind = [];
+          comments = statuses.concat(followups);
+          for (_j = 0, _len2 = comments.length; _j < _len2; _j++) {
+            comment = comments[_j];
+            usersToFind.push(comment.from_id);
+            comment.timeline = timeline;
           }
-          followupsQuery = Comment.find({
-            wall_id: wallId,
-            type: "followup"
-          }).desc("added_at");
-          if (timeline === "past") {
-            followupsQuery.where("to_id")["in"](statusIds);
-          } else {
-            followupsQuery.where('added_at')[comparison](lastCommentTime);
-          }
-          return followupsQuery.run(function(err, followups) {
-            var comment, comments, usersToFind, _j, _len2;
-            if (followups == null) followups = [];
-            usersToFind = [];
-            comments = statuses.concat(followups);
-            for (_j = 0, _len2 = comments.length; _j < _len2; _j++) {
-              comment = comments[_j];
-              usersToFind.push(comment.from_id);
-              comment.timeline = timeline;
-            }
-            if (usersToFind.length) {
-              return User.where("_id")["in"](usersToFind).run(function(err, users) {
-                var comment, user, _k, _l, _len3, _len4;
-                if (users) {
-                  for (_k = 0, _len3 = comments.length; _k < _len3; _k++) {
-                    comment = comments[_k];
-                    for (_l = 0, _len4 = users.length; _l < _len4; _l++) {
-                      user = users[_l];
-                      if (("" + user._id) === ("" + comment.from_id)) {
-                        comment.from_user = user;
-                      }
+          if (usersToFind.length) {
+            return User.where("_id")["in"](usersToFind).run(function(err, users) {
+              var comment, user, _k, _l, _len3, _len4;
+              if (users) {
+                for (_k = 0, _len3 = comments.length; _k < _len3; _k++) {
+                  comment = comments[_k];
+                  for (_l = 0, _len4 = users.length; _l < _len4; _l++) {
+                    user = users[_l];
+                    if (("" + user._id) === ("" + comment.from_id)) {
+                      comment.from_user = user;
                     }
                   }
                 }
-                return res.render('comments/comments', {
-                  comments: comments,
-                  _s: _s,
-                  show_private: false,
-                  layout: false
-                });
-              });
-            } else {
+              }
               return res.render('comments/comments', {
                 comments: comments,
                 _s: _s,
                 show_private: false,
                 layout: false
               });
-            }
-          });
+            });
+          } else {
+            return res.render('comments/comments', {
+              comments: comments,
+              _s: _s,
+              show_private: false,
+              layout: false
+            });
+          }
         });
-      } else {
-        return res.json([]);
-      }
+      });
     });
     app.post('/comments', function(req, res) {
       var currentComment, currentUser, currentUserId, data, wallId;
@@ -93,7 +93,7 @@
       data.added_at = new Date().getTime();
       currentUserId = "" + currentUser._id;
       wallId = "" + data.wall_id;
-      if (wallId === currentUserId || __indexOf.call(currentUser.friends, wallId) >= 0) {
+      if (wallId === currentUserId || __indexOf.call(currentUser.friends, wallId) >= 0 || (data.type === "followup" && data.privacy === "public")) {
         currentComment = new Comment(data);
         currentComment.save(function(err, savedComment) {
           if (data.type === "status") {

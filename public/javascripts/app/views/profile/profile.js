@@ -109,7 +109,8 @@
                 profileId: that.model.get("_id")
               }),
               router: that.router,
-              currentUser: that.currentUser
+              currentUser: that.currentUser,
+              loadMoreCommentsCnt: that.$("#load-more-comments-cnt")
             });
           }
         }

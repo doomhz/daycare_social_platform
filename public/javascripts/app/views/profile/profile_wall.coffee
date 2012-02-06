@@ -6,7 +6,7 @@ class Kin.Profile.ProfileWallView extends Backbone.View
 
   commentTplUrl: '/templates/main/profile/wall_comment.html'
 
-  initialize: ()->
+  initialize: (options = {})->
     _.bindAll @, "addWallComment"
     @collection.bind("add", @addWallComment)
     that = @
@@ -15,6 +15,9 @@ class Kin.Profile.ProfileWallView extends Backbone.View
       onLoad: ()->
         that.collection.loadComments
           isHistory: true
+          success: (collection, models)->
+            if models.length
+              that.options.loadMoreCommentsCnt.removeClass("hidden")
 
   addWallComment: (model)->
     that = @

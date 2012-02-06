@@ -80,6 +80,7 @@ class window.Kin.Profile.ProfileView extends Backbone.View
             collection: new Kin.WallCommentsCollection([], {profileId: that.model.get("_id")})
             router: that.router
             currentUser: that.currentUser
+            loadMoreCommentsCnt: that.$("#load-more-comments-cnt")
 
     @
 

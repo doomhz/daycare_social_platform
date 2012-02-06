@@ -331,11 +331,13 @@ header
           textarea
             resize none
             height 5px
-            width 439px
+            width 405px
             border none
             box-shadow none
           input
             padding 3px 14px 3px 14px
+        #status-privacy-select
+          width 30px
 
     #wall-comments-list
       margin 0 0 5px 0
@@ -354,6 +356,7 @@ header
           .delete-comment, .edit-comment
             float right
             margin 0 0 0 5px
+            display none
         .status-cnt
           background #f2f2f2
           border-top-radius 5px
@@ -361,6 +364,9 @@ header
           overflow hidden
           .photo-frame
             background-color #fff
+        .status-cnt:hover
+          .delete-comment, .edit-comment
+            display inline
         .comment-edit-textarea
           resize none
           width 440px
@@ -385,6 +391,9 @@ header
               color: light-green
             .name:hover
               text-decoration underline
+        li.followup:hover
+          .delete-comment, .edit-comment
+            display inline
       div.add-followup-box
         margin 0 0 0 0
         form
