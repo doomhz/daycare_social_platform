@@ -351,6 +351,35 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 #page-wrapper #main-column #profile-tab-menu li.view-on-map.tab-active a {
   background: url("/images/profile_view_on_map_selected_bt.png") no-repeat;
 }
+#page-wrapper #main-column #nav-buttons-menu {
+  float: right;
+  border-bottom: solid 1px #f0f0f0;
+  width: 100%;
+  margin: -30px 0 15px 0;
+}
+#page-wrapper #main-column #nav-buttons-menu li {
+  float: right;
+}
+#page-wrapper #main-column #nav-buttons-menu li a {
+  display: block;
+  width: 90px;
+  height: 24px;
+  background: #f2f2f2;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+}
+#page-wrapper #main-column #nav-buttons-menu li a span {
+  color: #575757;
+  line-height: 24px;
+}
+#page-wrapper #main-column #nav-buttons-menu li a:hover {
+  background: #5b8fa3;
+}
+#page-wrapper #main-column #nav-buttons-menu li a:hover span {
+  color: #fff;
+}
 #page-wrapper #main-column #profile-general-info {
   text-align: justify;
   clear: both;

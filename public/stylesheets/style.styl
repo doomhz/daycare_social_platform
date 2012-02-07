@@ -1,6 +1,7 @@
 light-green = #7e962d
 light-gray  = #575757
 light-blue  = #5b8fa3
+white-gray  = #F2F2F2
 
 *
   margin 0
@@ -299,6 +300,29 @@ header
       li.view-on-map.tab-active
         a
           background url('/images/profile_view_on_map_selected_bt.png') no-repeat
+    #nav-buttons-menu
+      float right
+      border-bottom solid 1px #f0f0f0
+      width 100%
+      margin -30px 0 15px 0
+      li
+        float right
+        a
+          display block
+          width 90px
+          height 24px
+          background white-gray
+          border-top-left-radius 5px
+          border-top-right-radius 5px
+          text-align center
+          text-decoration none
+          span
+            color light-gray
+            line-height 24px
+        a:hover
+          background light-blue
+          span
+            color white
     #profile-general-info
       text-align justify
       clear both
@@ -416,7 +440,7 @@ header
             input
               padding 3px 14px 3px 14px
     #load-more-comments-cnt
-      background: #F2F2F2
+      background: white-gray
       margin: 0 0 5px 0
       padding 10px
       cursor pointer

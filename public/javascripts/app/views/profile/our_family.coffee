@@ -1,4 +1,4 @@
-class window.Kin.Profile.OurFamilyView extends Kin.Profile.ProfileView
+class window.Kin.Profile.OurFamilyView extends Backbone.View
 
   model: null
 
@@ -29,52 +29,13 @@ class window.Kin.Profile.OurFamilyView extends Kin.Profile.ProfileView
       url: @tplUrl
       onLoad: (tpl)->
         $el = $(that.el)
-        $el.html(tpl())
-        canEdit = that.currentUser.canEditProfile(that.model.get('_id'))
-
-        that.$('#profile-main-tabs').doomTabs
-          firstSelectedTab: 1
-          onSelect: ($selectedTab)->
-            if $selectedTab.attr('id') is 'profile-view-on-map-tab' and not that.maps
-              mapCenterLat = that.model.get('location').lat
-              mapCenterLng = that.model.get('location').lng
-              that.maps = new window.Kin.GoogleMapsView
-                id: '#profile-address-maps'
-                mapsOptions:
-                  zoom: 16
-                  mapTypeId: 'google.maps.MapTypeId.ROADMAP'
-                  center: "new google.maps.LatLng(#{mapCenterLat}, #{mapCenterLng})"
-              that.maps.render()
-              that.addAddressMarker(mapCenterLat, mapCenterLng, that.model.get('name'))
+        $el.html(tpl({profile: that.model}))
 
         $parentsListGroup = $el.find("#our-family-list-cnt")
         that.parentsList = new Kin.Profile.OurFamilyListView
           el: $parentsListGroup
           model: that.model
         that.parentsList.render()
-
-        if not that.profileGeneralInfo
-          that.profileGeneralInfo = new Kin.Profile.ProfileGeneralInfoView
-            el: that.$('#profile-info-tab')
-            model: that.model
-            router: that.router
-            currentUser: that.currentUser
-            canEdit: canEdit
-        that.profileGeneralInfo.render()
-
-        that.$('#profile-gallery-tabs').doomTabs
-          onSelect: ($selectedTab)->
-        that.$('div.doom-carousel').doomCarousel
-          autoSlide: false
-          showCaption: false
-          slideSpeed: 400
-          showCounter: true
-        that.$('a[rel^="prettyPhoto"]').prettyPhoto
-          slideshow: false
-          social_tools: false
-          theme: 'light_rounded'
-          deeplinking: false
-          animation_speed: 0
 
   filterNamesHandler: (ev)->
     textToFind = $("#our-family-name-filter").val().toLowerCase().trim()

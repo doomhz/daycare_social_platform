@@ -1,17 +1,22 @@
 <h1>Our family</h1>
 
-<div id="profile-main-tabs">
-    <ul id="profile-tab-menu">
-        <li class="view-on-map"><a href="#profile-view-on-map-tab"><span>view on map</span></a></li>
-        <li class="view-info"><a href="#profile-info-tab"><span>info</span></a></li>
-    </ul>
-
-    <div id="profile-info-tab">
-    </div>
-    <div id="profile-view-on-map-tab">
-        <div id="profile-address-maps"></div>
-    </div>
-</div>
+<ul id="nav-buttons-menu">
+  <%
+    if (profile.get("type") === "daycare") {
+  %>
+  <li><a href="#invite-parents"><span>invite parents</span></a></li>
+  <li><a href="#invite-staff"><span>invite staff</span></a></li>
+  <%
+    }
+  %>
+  <%
+    if (profile.get("type") === "class") {
+  %>
+  <li><a href="#manage-children/<%= profile.get("id") %>"><span>add children</span></a></li>
+  <%
+    }
+  %>
+</ul>
 
 <div id="our-family-filter">
   <div>
