@@ -77,7 +77,7 @@ class Kin.Parent.InvitesView extends Backbone.View
       surname: $form.find("input[name='#{fieldPrefix}s-surname']").val()
       email: $form.find("input[name='#{fieldPrefix}s-email']").val()
       children_ids: $form.find("select[name='children_ids']").val()
-      parent_type: fieldPrefix
+      gender: if fieldPrefix is "mother" then "female" else "male"
     if data.name and data.surname and data.email
       return data
     else

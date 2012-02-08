@@ -20,10 +20,10 @@ FriendRequestSchema = new Schema
     type: [String]
   classes_ids:
     type: [String]
-  parent_type:
+  gender:
     type: String
-    enum: ['mother', 'father']
-    default: 'mother'
+    enum: ['female', 'male']
+    default: 'female'
   status:
     type: String
     enum: ["sent", "accepted"]
@@ -69,7 +69,7 @@ FriendRequestSchema.methods.updateFriendship = (userId, onFriendshipUpdate)->
   daycareAndClassesToFind.push(@from_id)
   childrenIds = @children_ids
   classesIds = @classes_ids
-  parentType = @parent_type
+  gender = @gender
 
   User.find().where("_id").in(@classes_ids).run (err, classes = [])->
     for daycareClass in classes
@@ -93,7 +93,7 @@ FriendRequestSchema.methods.updateFriendship = (userId, onFriendshipUpdate)->
             userFriend.friends.push(userId)
             userFriend.save()
 
-          User.update {_id: userId}, {friends: myFriendsIds, children_ids: childrenIds, classes_ids: classesIds, parent_type: parentType}, {}, (err)->
+          User.update {_id: userId}, {friends: myFriendsIds, children_ids: childrenIds, classes_ids: classesIds, gender: gender}, {}, (err)->
             if onFriendshipUpdate
               onFriendshipUpdate(err)
 

@@ -120,7 +120,7 @@
         surname: $form.find("input[name='" + fieldPrefix + "s-surname']").val(),
         email: $form.find("input[name='" + fieldPrefix + "s-email']").val(),
         children_ids: $form.find("select[name='children_ids']").val(),
-        parent_type: fieldPrefix
+        gender: fieldPrefix === "mother" ? "female" : "male"
       };
       if (data.name && data.surname && data.email) {
         return data;

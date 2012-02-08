@@ -21,7 +21,7 @@
               </p>
               <p class="staff-name">
                 <a href="#profiles/view/<%= st.get("_id") %>">
-                  <%= st.get("name") %> <%= st.get("surname") %>
+                  <%= st.get("gender") === "female" ? "Ms." : "Mr." %> <%= st.get("name") %> <%= st.get("surname") %>
                 </a>
               </p>
               <p class="staff-position">
@@ -51,7 +51,7 @@
                 </a>
               </p>
               <p class="childs-name">
-                <%= parent.get("parent_type") %> of <%= child.get("name") %> <%= child.get("surname") %>
+                <%= parent.get("gender") === "female" ? "mother" : "father" %> of <%= child.get("name") %> <%= child.get("surname") %>
               </p>
             </li>
       <%
@@ -78,7 +78,7 @@
               </p>
               <p class="staff-name">
                 <a href="#profiles/view/<%= st.get("_id") %>">
-                  <%= st.get("name") %> <%= st.get("surname") %>
+                  <%= st.get("gender") === "female" ? "Ms." : "Mr." %> <%= st.get("name") %> <%= st.get("surname") %>
                 </a>
               </p>
               <p class="staff-position">
@@ -108,7 +108,7 @@
                 </a>
               </p>
               <p class="childs-name">
-                <%= parent.get("parent_type") %> of <%= child.get("name") %> <%= child.get("surname") %>
+                <%= parent.get("gender") === "female" ? "mother" : "father" %> of <%= child.get("name") %> <%= child.get("surname") %>
               </p>
             </li>
       <%

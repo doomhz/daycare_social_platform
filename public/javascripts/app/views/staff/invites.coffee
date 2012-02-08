@@ -59,6 +59,7 @@ class Kin.Staff.InvitesView extends Backbone.View
 
   getFormData: ($form, fieldPrefix)->
     data =
+      gender: $form.find("select[name='#{fieldPrefix}s-gender']").val()
       name: $form.find("input[name='#{fieldPrefix}s-name']").val()
       surname: $form.find("input[name='#{fieldPrefix}s-surname']").val()
       email: $form.find("input[name='#{fieldPrefix}s-email']").val()

@@ -76,10 +76,10 @@
       "enum": ['daycare', 'parent', 'class', 'staff'],
       "default": 'daycare'
     },
-    parent_type: {
+    gender: {
       type: String,
-      "enum": ['mother', 'father'],
-      "default": 'mother'
+      "enum": ['female', 'male'],
+      "default": 'female'
     },
     opened_since: {
       type: String
