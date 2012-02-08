@@ -22,7 +22,7 @@
 <div class="message-body-cnt hidden">
   <p class="message-body">
     <%
-      print(_.escape(content));
+      print(Kin.Helper.Text.toMarkup(content));
     %>
   </p>
   <%

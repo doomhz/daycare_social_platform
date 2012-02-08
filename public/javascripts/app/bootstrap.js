@@ -1,6 +1,7 @@
 (function() {
 
   window.Kin || (window.Kin = {
+    Helper: {},
     DayCare: {},
     Class: {},
     Parent: {},

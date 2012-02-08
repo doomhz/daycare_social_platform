@@ -1,4 +1,5 @@
 window.Kin or= {
+  Helper:   {}
   DayCare:  {}
   Class:    {}
   Parent:   {}
