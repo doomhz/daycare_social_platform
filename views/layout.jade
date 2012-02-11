@@ -63,6 +63,7 @@ html
     script(src='/javascripts/app/collections/staff.js')
     script(src='/javascripts/app/views/app.js')
     script(src='/javascripts/app/views/window.js')
+    script(src='/javascripts/app/views/header.js')
     script(src='/javascripts/app/views/header/search.js')
     script(src='/javascripts/app/views/header/submenu.js')
     script(src='/javascripts/app/views/header/notification_board.js')
@@ -111,7 +112,7 @@ html
 
     header
       #header-wrapper
-        ul#main-menu
+        ul#main-menu.hidden
           li
             a(href='#') Kindzy
           li
@@ -131,7 +132,7 @@ html
             ul.submenu.hidden
               li
                 a(href="/logout") Logout
-        ul#events-menu
+        ul#events-menu.hidden
           li.messages
             a(href='#messages/inbox')
               span#new-messages-total.indicator.hidden 0
@@ -149,7 +150,7 @@ html
             ul#last-wall-posts.notification-list.hidden
         a(href='/')
           img(src='/images/logo.png', alt='Kindzy.com', id='logo')
-        #search-cnt
+        #search-cnt.hidden
           ul#search-menu.invisible
             li.by-type
               a(href='#search-by-name')

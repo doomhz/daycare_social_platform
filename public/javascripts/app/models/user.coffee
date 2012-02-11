@@ -25,7 +25,7 @@ class Kin.UserModel extends Backbone.Model
 
   autoUpdate: false
 
-  autoUpdateTime: 15000
+  autoUpdateTime: 2000
 
   delegates: []
 
@@ -39,7 +39,15 @@ class Kin.UserModel extends Backbone.Model
 
   autoUpdateHandler: ()=>
     @fetch()
-
+  
+  fetch: (options = {})->
+    options = $.extend { 
+        error: (model, xhr, error)->
+          if xhr.status is 401
+            window.location = '/login'
+      }, options
+    super(options)
+  
   canEditProfile: (profileId)->
     profileId is @get('_id')
 

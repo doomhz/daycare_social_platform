@@ -48,10 +48,9 @@
             });
           });
         } else {
-          return res.render('profiles/_user', {
-            profile: user,
-            show_private: true,
-            layout: false
+          res.statusCode = 401;
+          return res.json({
+            "error": true
           });
         }
       });

@@ -1,5 +1,7 @@
 class Kin.AppView extends Backbone.View
 
+  el: 'body'
+
   mainColumnView: null
 
   side1ColumnView: null
@@ -19,6 +21,7 @@ class Kin.AppView extends Backbone.View
 
   onUserLoad: ()=>
     @initWindow()
+    @initHeader()
     @initHeaderMenu()
     @initHeaderProfileInfo()
     @initHeaderSearch()
@@ -45,11 +48,17 @@ class Kin.AppView extends Backbone.View
 
   initWindow: ()->
     @window = new Kin.WindowView()
+  
+  initHeader: ()->
+    header = new Kin.HeaderView
+      el: "header"
+    header.render()
 
   initHeaderMenu: ()->
     headerSettingsSubmenu = new Kin.Header.SubmenuView
       el: "header #account-bt"
     @window.addDelegate(headerSettingsSubmenu)
+    headerSettingsSubmenu.render()
 
   initHeaderProfileInfo: ()->
     headerProfileInfo = new Kin.Header.ProfileInfoView

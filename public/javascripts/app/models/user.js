@@ -39,7 +39,7 @@
 
     UserModel.prototype.autoUpdate = false;
 
-    UserModel.prototype.autoUpdateTime = 15000;
+    UserModel.prototype.autoUpdateTime = 2000;
 
     UserModel.prototype.delegates = [];
 
@@ -56,6 +56,16 @@
 
     UserModel.prototype.autoUpdateHandler = function() {
       return this.fetch();
+    };
+
+    UserModel.prototype.fetch = function(options) {
+      if (options == null) options = {};
+      options = $.extend({
+        error: function(model, xhr, error) {
+          if (xhr.status === 401) return window.location = '/login';
+        }
+      }, options);
+      return UserModel.__super__.fetch.call(this, options);
     };
 
     UserModel.prototype.canEditProfile = function(profileId) {

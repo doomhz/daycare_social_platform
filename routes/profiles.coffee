@@ -8,7 +8,6 @@ module.exports = (app)->
 
   app.get '/profiles', (req, res)->
     User.find().asc('name', 'surname').run (err, users)->
-      # TODO Filter public data
       res.render 'profiles/profiles', {profiles: users, show_private: false, layout: false}
 
   app.get '/daycares', (req, res)->
@@ -22,7 +21,8 @@ module.exports = (app)->
         user.findDaycareFriends ()->
           res.render 'profiles/_user', {profile: user, show_private: true, layout: false}
       else
-        res.render 'profiles/_user', {profile: user, show_private: true, layout: false}
+        res.statusCode = 401
+        res.json {"error": true}
 
   app.post '/profiles', (req, res)->
     currentUser = if req.user then req.user else {}

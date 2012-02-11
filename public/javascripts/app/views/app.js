@@ -12,6 +12,8 @@
       AppView.__super__.constructor.apply(this, arguments);
     }
 
+    AppView.prototype.el = 'body';
+
     AppView.prototype.mainColumnView = null;
 
     AppView.prototype.side1ColumnView = null;
@@ -32,6 +34,7 @@
 
     AppView.prototype.onUserLoad = function() {
       this.initWindow();
+      this.initHeader();
       this.initHeaderMenu();
       this.initHeaderProfileInfo();
       this.initHeaderSearch();
@@ -69,12 +72,21 @@
       return this.window = new Kin.WindowView();
     };
 
+    AppView.prototype.initHeader = function() {
+      var header;
+      header = new Kin.HeaderView({
+        el: "header"
+      });
+      return header.render();
+    };
+
     AppView.prototype.initHeaderMenu = function() {
       var headerSettingsSubmenu;
       headerSettingsSubmenu = new Kin.Header.SubmenuView({
         el: "header #account-bt"
       });
-      return this.window.addDelegate(headerSettingsSubmenu);
+      this.window.addDelegate(headerSettingsSubmenu);
+      return headerSettingsSubmenu.render();
     };
 
     AppView.prototype.initHeaderProfileInfo = function() {
