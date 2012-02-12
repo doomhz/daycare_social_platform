@@ -31,4 +31,33 @@ CommentSchema = new Schema
   from_user:
     type: {}
 
-exports = module.exports = mongoose.model("Comment", CommentSchema)
+CommentSchema.statics.addNewPictureStatus = (commentData, pictureSet, newPicture)->
+  timeago = new Date().getTime() - 43200000 # 12 hour ago
+  Comment.findOne({type: "status", "content.type": "new_picture", "content.picture_set_id": pictureSet._id}).gt("added_at", timeago).run (err, comment)->
+    pictureData =
+      _id: newPicture._id
+      url: newPicture.url
+      thumb_url: newPicture.thumb_url
+      medium_url: newPicture.medium_url
+      big_url: newPicture.big_url
+      primary: newPicture.primary
+    if comment
+      pictures = comment.content.pictures
+      pictures.unshift(pictureData)
+      Comment.update({_id: comment._id}, {"content.picture_set_name": pictureSet.name, "content.pictures": pictures}).run ()->
+    else
+      comment = new Comment
+        from_id: commentData.from_id
+        to_id: commentData.to_id
+        wall_id: commentData.to_id
+        type: "status"
+        content:
+          type: "new_picture"
+          picture_set_id: pictureSet._id
+          picture_set_name: pictureSet.name
+          pictures: [pictureData]
+      comment.save()
+
+Comment = mongoose.model("Comment", CommentSchema)
+
+exports = module.exports = Comment

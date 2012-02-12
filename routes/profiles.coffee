@@ -168,8 +168,15 @@ module.exports = (app)->
         user.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove()
         user.save()
 
-        Comment.findOne({"content.picture._id": pictureToRemove._id}).run (err, comment)->
-          comment.remove()
+        Comment.find({"content.type": "new_picture", "content.picture_set_id": user.picture_sets[pictureSetIndexToGo]._id}).run (err, comments = [])->
+          if comments.length
+            for comment in comments
+              pictures = _.filter comment.content.pictures, (picture)->
+                "#{picture._id}" isnt "#{pictureId}"
+              if pictures.length
+                Comment.update({_id: comment._id}, {"content.pictures": pictures}).run ()->
+              else
+                comment.remove()
 
         res.json {success: true}
       else
@@ -311,19 +318,12 @@ module.exports = (app)->
                           console.log err
                         if err
                           console.log stderr
-
-                        comment = new Comment
+                        
+                        commentData =
                           from_id: currentUser._id
                           to_id: user._id
                           wall_id: user._id
-                          type: "status"
-                          content:
-                            type: "new_picture"
-                            picture_set_id: user.picture_sets[pictureSetIndex]._id
-                            picture_set_name: user.picture_sets[pictureSetIndex].name
-                            picture: newPicture
-
-                        comment.save()
+                        Comment.addNewPictureStatus(commentData, user.picture_sets[pictureSetIndex], newPicture)
 
                         res.json newPicture
                     )

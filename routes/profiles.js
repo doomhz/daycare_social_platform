@@ -271,10 +271,31 @@
           }
           user.picture_sets[pictureSetIndexToGo].pictures[pictureIndexToGo].remove();
           user.save();
-          Comment.findOne({
-            "content.picture._id": pictureToRemove._id
-          }).run(function(err, comment) {
-            return comment.remove();
+          Comment.find({
+            "content.type": "new_picture",
+            "content.picture_set_id": user.picture_sets[pictureSetIndexToGo]._id
+          }).run(function(err, comments) {
+            var comment, pictures, _k, _len3, _results;
+            if (comments == null) comments = [];
+            if (comments.length) {
+              _results = [];
+              for (_k = 0, _len3 = comments.length; _k < _len3; _k++) {
+                comment = comments[_k];
+                pictures = _.filter(comment.content.pictures, function(picture) {
+                  return ("" + picture._id) !== ("" + pictureId);
+                });
+                if (pictures.length) {
+                  _results.push(Comment.update({
+                    _id: comment._id
+                  }, {
+                    "content.pictures": pictures
+                  }).run(function() {}));
+                } else {
+                  _results.push(comment.remove());
+                }
+              }
+              return _results;
+            }
           });
           return res.json({
             success: true
@@ -427,22 +448,15 @@
                     height: 600,
                     quality: 1
                   }, function(err, stdout, stderr) {
-                    var comment;
+                    var commentData;
                     if (err) console.log(err);
                     if (err) console.log(stderr);
-                    comment = new Comment({
+                    commentData = {
                       from_id: currentUser._id,
                       to_id: user._id,
-                      wall_id: user._id,
-                      type: "status",
-                      content: {
-                        type: "new_picture",
-                        picture_set_id: user.picture_sets[pictureSetIndex]._id,
-                        picture_set_name: user.picture_sets[pictureSetIndex].name,
-                        picture: newPicture
-                      }
-                    });
-                    comment.save();
+                      wall_id: user._id
+                    };
+                    Comment.addNewPictureStatus(commentData, user.picture_sets[pictureSetIndex], newPicture);
                     return res.json(newPicture);
                   });
                 });

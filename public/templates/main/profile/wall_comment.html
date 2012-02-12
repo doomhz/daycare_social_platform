@@ -31,13 +31,19 @@
 <p class="comment-text"><%
     if (typeof content === "object") {
       if (content.type === "new_picture") {
+          var pictureTotal = content.pictures.length === 1 ? "one" : content.pictures.length;
+          var pictureWord = content.pictures.length === 1 ? "picture" : "pictures";
         %>
-        added a new picture in the album <a href="#profiles/view/picture-set/<%=content.picture_set_id %>"><%= content.picture_set_name %></a>.
+        added <%= pictureTotal %> new <%= pictureWord %> in the album <a href="#profiles/view/picture-set/<%=content.picture_set_id %>"><%= content.picture_set_name %></a>.
         <br />
-        <a href="<%=content.picture.big_url %>" title="<%=content.picture.description %>" class="photo-frame" rel="prettyPhoto">
-          <img src="<%=content.picture.thumb_url %>" />
+        <%
+          _.each(content.pictures.slice(0, 3), function (picture, index) {
+        %>
+        <a href="<%= picture.big_url %>" title="<%= picture.description %>" class="photo-frame" rel="prettyPhoto[<%= content.picture_set_id %>]">
+          <img src="<%= picture.thumb_url %>" />
         </a>
         <%
+          });
       }
     } else {
       print(Kin.Helper.Text.toMarkup(content));

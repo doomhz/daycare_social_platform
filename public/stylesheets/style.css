@@ -454,6 +454,10 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   margin: 0 0 0 5px;
   display: none;
 }
+#page-wrapper #main-column #wall-comments-list li .comment-text {
+  width: 452px;
+  float: left;
+}
 #page-wrapper #main-column #wall-comments-list li .status-cnt {
   background: #f2f2f2;
   border-top-radius: 5px;

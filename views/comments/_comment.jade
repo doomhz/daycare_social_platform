@@ -12,9 +12,9 @@
   "type": "#{comment.content.type}",
   "picture_set_id": "#{comment.content.picture_set_id}",
   "picture_set_name": "#{comment.content.picture_set_name}",
-  "picture":
-  - var picture = comment.content.picture
-  include ../profiles/_picture
+  "pictures":
+  - var pictures = comment.content.pictures
+  include ../profiles/pictures
   }
 -else
   "!{_s.escapeHTML(comment.content).replace(/\r\n/g, '<br />').replace(/\n/g, '<br />')}"
