@@ -465,7 +465,12 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   overflow: hidden;
 }
 #page-wrapper #main-column #wall-comments-list li .status-cnt .photo-frame {
-  background-color: #fff;
+  background-color: #5b8fa3;
+  margin: 5px 0 0 0;
+  padding: 2px;
+}
+#page-wrapper #main-column #wall-comments-list li .status-cnt .hidden {
+  display: none;
 }
 #page-wrapper #main-column #wall-comments-list li .status-cnt:hover .delete-comment,
 #page-wrapper #main-column #wall-comments-list li .status-cnt:hover .edit-comment {

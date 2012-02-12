@@ -38,11 +38,12 @@
         <br />
         <%
           _.each(content.pictures, function (picture, index) {
+            var showThumb = index < 3 ? true : false;
         %>
         
-        <a href="<%= picture.big_url %>" title="<%= picture.description %>" class="photo-frame" rel="prettyPhoto[<%= content.picture_set_id %>]">
+        <a href="<%= picture.big_url %>" title="<%= picture.description %>" class="photo-frame <%= !showThumb ? 'hidden' : '' %>" rel="prettyPhoto[<%= content.picture_set_id %>]">
           <%
-            if (index < 3) {
+            if (showThumb) {
           %>
           <img src="<%= picture.thumb_url %>" />
           <%

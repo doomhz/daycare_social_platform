@@ -1,6 +1,7 @@
 light-green = #7e962d
 light-gray  = #575757
 light-blue  = #5b8fa3
+bg-blue     = #E6F1F5
 white-gray  = #F2F2F2
 
 *
@@ -344,7 +345,7 @@ header
       form
         border-radius 3px
         padding 3px
-        background #e6f1f5
+        background bg-blue
         margin 0
         div
           background #fff
@@ -390,7 +391,11 @@ header
           padding 4px
           overflow hidden
           .photo-frame
-            background-color #fff
+            background-color light-blue
+            margin 5px 0 0 0
+            padding 2px
+          .hidden
+            display none
         .status-cnt:hover
           .delete-comment, .edit-comment
             display inline
@@ -405,7 +410,7 @@ header
         border-top solid 1px #f2f2f2
       ul.followups
         li.followup
-          background #e6f1f5
+          background bg-blue
           margin 2px 0 2px 0
           padding 4px
           .avatar
@@ -426,7 +431,7 @@ header
         form
           border-bottom-radius 3px
           padding 3px
-          background #e6f1f5
+          background bg-blue
           margin 0
           div
             background #fff
@@ -489,7 +494,7 @@ header
             form
               border-bottom-radius 3px
               padding 3px
-              background #e6f1f5
+              background bg-blue
               margin 0
               div
                 background #fff
@@ -506,7 +511,7 @@ header
                 input
                   padding 3px 14px 3px 14px
       li.unread
-        background #e6f1f5
+        background bg-blue
 
   #side-column1
     padding 10px 0 0 0
@@ -728,7 +733,7 @@ footer
   margin 15px 0 0 0
   border-radius 3px
   padding 3px
-  background #e6f1f5
+  background bg-blue
   div
     background #fff
     border-top solid 1px #d9d9d9
