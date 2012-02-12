@@ -10,6 +10,7 @@ MessageSchema = new Schema
     enum: ["default", "draft", "sent", "deleted"]
     default: "default"
   content:
+    type: String
     default: ""
   unread:
     type: Boolean

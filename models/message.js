@@ -17,6 +17,7 @@
       "default": "default"
     },
     content: {
+      type: String,
       "default": ""
     },
     unread: {
