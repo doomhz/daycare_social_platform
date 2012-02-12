@@ -37,10 +37,17 @@
         added <%= pictureTotal %> new <%= pictureWord %> in the album <a href="#profiles/view/picture-set/<%=content.picture_set_id %>"><%= content.picture_set_name %></a>.
         <br />
         <%
-          _.each(content.pictures.slice(0, 3), function (picture, index) {
+          _.each(content.pictures, function (picture, index) {
         %>
+        
         <a href="<%= picture.big_url %>" title="<%= picture.description %>" class="photo-frame" rel="prettyPhoto[<%= content.picture_set_id %>]">
+          <%
+            if (index < 3) {
+          %>
           <img src="<%= picture.thumb_url %>" />
+          <%
+            }
+          %>
         </a>
         <%
           });
