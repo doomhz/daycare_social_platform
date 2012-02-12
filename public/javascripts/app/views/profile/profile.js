@@ -35,6 +35,8 @@
 
     ProfileView.prototype.renderProfileWall = true;
 
+    ProfileView.prototype.postsBatchSize = Kin.CONFIG.postsBatchSize;
+
     ProfileView.prototype.initialize = function(_arg) {
       this.router = _arg.router, this.currentUser = _arg.currentUser;
       return this;
@@ -168,7 +170,13 @@
       return this.profileWall.collection.loadComments({
         isHistory: true,
         success: function(collection, models) {
-          if (!models.length) return $(ev.currentTarget).remove();
+          var statuses;
+          statuses = _.filter(models, function(model) {
+            return model.type === "status";
+          });
+          if (statuses.length < _this.postsBatchSize) {
+            return $(ev.currentTarget).remove();
+          }
         }
       });
     };

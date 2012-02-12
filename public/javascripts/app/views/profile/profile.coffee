@@ -23,6 +23,8 @@ class window.Kin.Profile.ProfileView extends Backbone.View
 
   renderProfileWall: true
 
+  postsBatchSize: Kin.CONFIG.postsBatchSize
+
   initialize: ({@router, @currentUser})->
     @
 
@@ -124,5 +126,7 @@ class window.Kin.Profile.ProfileView extends Backbone.View
     @profileWall.collection.loadComments
       isHistory: true
       success: (collection, models)=>
-        if not models.length
+        statuses = _.filter models, (model)->
+          model.type is "status"
+        if statuses.length < @postsBatchSize
           $(ev.currentTarget).remove()

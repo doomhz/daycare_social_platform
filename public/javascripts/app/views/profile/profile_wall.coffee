@@ -6,9 +6,14 @@ class Kin.Profile.ProfileWallView extends Backbone.View
 
   commentTplUrl: '/templates/main/profile/wall_comment.html'
 
+  postsBatchSize: Kin.CONFIG.postsBatchSize
+
   initialize: (options = {})->
     _.bindAll @, "addWallComment"
     @collection.bind("add", @addWallComment)
+    @render()
+
+  render: ()->
     that = @
     $.tmpload
       url: @commentTplUrl
@@ -16,7 +21,9 @@ class Kin.Profile.ProfileWallView extends Backbone.View
         that.collection.loadComments
           isHistory: true
           success: (collection, models)->
-            if models.length
+            statuses = _.filter models, (model)->
+              model.type is "status"
+            if statuses.length is that.postsBatchSize
               that.options.loadMoreCommentsCnt.removeClass("hidden")
 
   addWallComment: (model)->

@@ -16,11 +16,17 @@
 
     ProfileWallView.prototype.commentTplUrl = '/templates/main/profile/wall_comment.html';
 
+    ProfileWallView.prototype.postsBatchSize = Kin.CONFIG.postsBatchSize;
+
     ProfileWallView.prototype.initialize = function(options) {
-      var that;
       if (options == null) options = {};
       _.bindAll(this, "addWallComment");
       this.collection.bind("add", this.addWallComment);
+      return this.render();
+    };
+
+    ProfileWallView.prototype.render = function() {
+      var that;
       that = this;
       return $.tmpload({
         url: this.commentTplUrl,
@@ -28,7 +34,11 @@
           return that.collection.loadComments({
             isHistory: true,
             success: function(collection, models) {
-              if (models.length) {
+              var statuses;
+              statuses = _.filter(models, function(model) {
+                return model.type === "status";
+              });
+              if (statuses.length === that.postsBatchSize) {
                 return that.options.loadMoreCommentsCnt.removeClass("hidden");
               }
             }
