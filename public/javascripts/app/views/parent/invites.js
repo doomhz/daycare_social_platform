@@ -8,6 +8,8 @@
     __extends(InvitesView, _super);
 
     function InvitesView() {
+      this.restoreFormData = __bind(this.restoreFormData, this);
+      this.cacheFormData = __bind(this.cacheFormData, this);
       this.onFormSaveError = __bind(this.onFormSaveError, this);
       this.onFormSaveSuccess = __bind(this.onFormSaveSuccess, this);
       InvitesView.__super__.constructor.apply(this, arguments);
@@ -26,9 +28,11 @@
       "click #open-add-child-box-bt": "openAddChildBoxHandler"
     };
 
+    InvitesView.prototype.cachedFormData = null;
+
     InvitesView.prototype.initialize = function() {};
 
-    InvitesView.prototype.render = function() {
+    InvitesView.prototype.render = function(afterRender) {
       var that;
       that = this;
       return $.tmpload({
@@ -46,6 +50,7 @@
                 children: children.models
               }));
               that.$(".chzn-select").chosen();
+              $.isFunction(afterRender) && afterRender();
               that.friendRequestsList = new Kin.Parent.FriendRequestsListView({
                 el: that.$("#friend-requests-list"),
                 collection: that.collection,
@@ -168,7 +173,10 @@
                 childModel.save(null, {
                   data: formData,
                   success: function() {
-                    that.render();
+                    that.cacheFormData();
+                    that.render(function() {
+                      return that.restoreFormData();
+                    });
                     return $.jGrowl("Child added successfully");
                   },
                   error: function() {
@@ -181,6 +189,31 @@
           });
         }
       });
+    };
+
+    InvitesView.prototype.cacheFormData = function() {
+      var $form, $inputs, that;
+      that = this;
+      $form = this.$("#send-invite-form");
+      this.cachedFormData = {};
+      $inputs = $form.find("input");
+      return $inputs.each(function(index, input) {
+        var $input;
+        $input = $(input);
+        return that.cachedFormData[$input.attr("name")] = $input.val();
+      });
+    };
+
+    InvitesView.prototype.restoreFormData = function() {
+      var $form, inputData, inputName, _ref, _results;
+      $form = this.$("#send-invite-form");
+      _ref = this.cachedFormData;
+      _results = [];
+      for (inputName in _ref) {
+        inputData = _ref[inputName];
+        _results.push($form.find("input[name='" + inputName + "']:first").val(inputData));
+      }
+      return _results;
     };
 
     InvitesView.prototype.remove = function() {

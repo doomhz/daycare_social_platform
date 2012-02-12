@@ -11,9 +11,11 @@ class Kin.Parent.InvitesView extends Backbone.View
     "submit #send-invite-form"    : "sendInvite"
     "click #open-add-child-box-bt": "openAddChildBoxHandler"
 
+  cachedFormData: null
+
   initialize: ()->
 
-  render: ()->
+  render: (afterRender)->
     that = @
     $.tmpload
       url: @tplUrl
@@ -23,6 +25,7 @@ class Kin.Parent.InvitesView extends Backbone.View
           success: ()->
             $(that.el).html(tpl({profile: that.model, classes: that.model.get("daycare_friends"), children: children.models}))
             that.$(".chzn-select").chosen()
+            $.isFunction(afterRender) and afterRender()
 
             that.friendRequestsList = new Kin.Parent.FriendRequestsListView
               el: that.$("#friend-requests-list")
@@ -112,12 +115,28 @@ class Kin.Parent.InvitesView extends Backbone.View
               childModel.save null,
                 data: formData
                 success: ()->
-                  that.render()
+                  that.cacheFormData()
+                  that.render ()->
+                    that.restoreFormData()
                   $.jGrowl("Child added successfully")
                 error: ()->
                   $.jGrowl("Child could not be added :( Please try again.")
             $win.close()
         })
+
+  cacheFormData: ()=>
+    that = @
+    $form = @$("#send-invite-form")
+    @cachedFormData = {}
+    $inputs = $form.find("input")
+    $inputs.each (index, input)->
+      $input = $(input)
+      that.cachedFormData[$input.attr("name")] = $input.val()
+  
+  restoreFormData: ()=>
+    $form = @$("#send-invite-form")
+    for inputName, inputData of @cachedFormData
+      $form.find("input[name='#{inputName}']:first").val(inputData)
 
   remove: ()->
     @unbind()
