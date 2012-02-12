@@ -179,6 +179,32 @@
         registerView: 'auth/register.jade',
         loginSuccessRedirect: '/',
         registerSuccessRedirect: '/',
+        respondToLoginSucceed: function(res, user, data) {
+          var redirectTo, _ref;
+          if (user == null) user = {};
+          if (user.type === "daycare") {
+            redirectTo = "/#profiles/view/" + user._id;
+            res.writeHead(303, {
+              'Location': redirectTo
+            });
+            res.end();
+          }
+          if ((_ref = user.type) === "parent" || _ref === "staff") {
+            return User.findOne({
+              type: "daycare"
+            }).where("_id")["in"](user.friends).run(function(err, daycare) {
+              if (daycare) {
+                redirectTo = "/#profiles/view/" + daycare._id;
+              } else {
+                redirectTo = "/#profiles/view/" + user._id;
+              }
+              res.writeHead(303, {
+                'Location': redirectTo
+              });
+              return res.end();
+            });
+          }
+        },
         respondToRegistrationSucceed: function(res, user, data) {
           var User, redirectTo, userInfo;
           redirectTo = '/';

@@ -380,18 +380,22 @@ module.exports = (app)->
 
   app.get '/parents/:daycare_id', (req, res)->
     daycareId = req.params.daycare_id
-    User.findOne({_id: daycareId}).run (err, dayCare)->
-      User.find({type: "parent"}).where("_id").in(dayCare.friends).run (err, parents)->
-        parentIds = []
-        for parent in parents
-          parentIds = _.union(parentIds, parent.children_ids)
-        Child.find().where("_id").in(parentIds).run (err, children)->
+    currentUser = if req.user then req.user else {}
+    if "#{daycareId}" is "#{currentUser._id}" or daycareId in currentUser.friends
+      User.findOne({_id: daycareId}).run (err, dayCare)->
+        User.find({type: "parent"}).where("_id").in(dayCare.friends).run (err, parents)->
+          parentIds = []
           for parent in parents
-            for child in children
-              if child._id in parent.children_ids
-                parent.children.push(child)
+            parentIds = _.union(parentIds, parent.children_ids)
+          Child.find().where("_id").in(parentIds).run (err, children)->
+            for parent in parents
+              for child in children
+                if child._id in parent.children_ids
+                  parent.children.push(child)
 
-          res.render 'profiles/profiles', {profiles: parents, layout: false}
+            res.render 'profiles/profiles', {profiles: parents, layout: false}
+    else
+      res.render 'profiles/profiles', {profiles: [], layout: false}
 
   app.get '/staff/:daycare_id', (req, res)->
     daycareId = req.params.daycare_id

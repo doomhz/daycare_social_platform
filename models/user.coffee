@@ -134,6 +134,20 @@ UserSchema.plugin(
         registerView: 'auth/register.jade'
         loginSuccessRedirect: '/'
         registerSuccessRedirect: '/'
+        respondToLoginSucceed: (res, user = {}, data)->
+          if user.type is "daycare"
+            redirectTo = "/#profiles/view/#{user._id}"
+            res.writeHead(303, {'Location': redirectTo})
+            res.end()
+          if user.type in ["parent", "staff"]
+            User.findOne({type: "daycare"}).where("_id").in(user.friends).run (err, daycare)->
+              if daycare
+                redirectTo = "/#profiles/view/#{daycare._id}"
+              else
+                redirectTo = "/#profiles/view/#{user._id}"
+              res.writeHead(303, {'Location': redirectTo})
+              res.end()
+          
         respondToRegistrationSucceed: (res, user, data)->
           redirectTo = '/'
 
