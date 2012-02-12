@@ -34,14 +34,14 @@ class window.Kin.Profile.ProfileSide1View extends Backbone.View
 
   quickMessageHandler: (ev)->
     ev.preventDefault()
-    @showQuickMessageWindow()
+    @showQuickMessageWindow(@model)
 
-  showQuickMessageWindow: ()->
+  showQuickMessageWindow: (profile)->
     that = @
     $.tmpload
       url: @quickMessageTplUrl
       onLoad: (tpl)->
-        winContent = tpl({profile: that.model})
+        winContent = tpl({profile: profile})
         dWindow(winContent, {
           wrapperId: "quick-message-win"
           closeOnSideClick: false

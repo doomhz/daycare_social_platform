@@ -1,5 +1,5 @@
 <div id="quick-message-box-content">
-  <p>To: <span id="message-to-name"><%= profile.get("name") %></span></p>
+  <p>To: <span id="message-to-name"><%= profile.get("name") %> <%= profile.get("surname") %></span></p>
   <form>
     <fieldset>
       <input type="hidden" name="from_id" value="<%= Kin.app.currentUser.get("_id") %>" />

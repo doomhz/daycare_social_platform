@@ -16,6 +16,8 @@
 
     PictureSetSide1View.prototype.selectedMenuItem = null;
 
+    PictureSetSide1View.prototype.profileModel = null;
+
     PictureSetSide1View.prototype.initialize = function(_arg) {
       this.selectedMenuItem = _arg.selectedMenuItem;
       this.model && (this.model.view = this);
@@ -25,14 +27,13 @@
     PictureSetSide1View.prototype.render = function() {
       var that;
       that = this;
-      $.tmpload({
+      return $.tmpload({
         url: this.tplUrl,
         onLoad: function(tpl) {
-          var profileModel;
-          profileModel = new Kin.ProfileModel({
+          that.profileModel = new Kin.ProfileModel({
             _id: that.model.get('user_id')
           });
-          return profileModel.fetch({
+          return that.profileModel.fetch({
             success: function(profile) {
               return $(that.el).html(tpl({
                 pictureSet: that.model,
@@ -43,7 +44,11 @@
           });
         }
       });
-      return this;
+    };
+
+    PictureSetSide1View.prototype.quickMessageHandler = function(ev) {
+      ev.preventDefault();
+      return this.showQuickMessageWindow(this.profileModel);
     };
 
     PictureSetSide1View.prototype.remove = function() {

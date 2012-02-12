@@ -6,6 +6,8 @@ class window.Kin.Profile.PictureSetSide1View extends Kin.Profile.ProfileSide1Vie
 
   selectedMenuItem: null
 
+  profileModel: null
+
   initialize: ({@selectedMenuItem})->
     @model and @model.view = @
     @
@@ -15,11 +17,14 @@ class window.Kin.Profile.PictureSetSide1View extends Kin.Profile.ProfileSide1Vie
     $.tmpload
       url: @tplUrl
       onLoad: (tpl)->
-        profileModel = new Kin.ProfileModel({_id: that.model.get('user_id')})
-        profileModel.fetch
+        that.profileModel = new Kin.ProfileModel({_id: that.model.get('user_id')})
+        that.profileModel.fetch
           success: (profile)->
             $(that.el).html(tpl({pictureSet: that.model, profile: profile, selectedMenuItem: that.selectedMenuItem}))
-    @
+
+  quickMessageHandler: (ev)->
+    ev.preventDefault()
+    @showQuickMessageWindow(@profileModel)
 
   remove: ()->
     @unbind()

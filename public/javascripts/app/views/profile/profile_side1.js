@@ -56,10 +56,10 @@
 
     ProfileSide1View.prototype.quickMessageHandler = function(ev) {
       ev.preventDefault();
-      return this.showQuickMessageWindow();
+      return this.showQuickMessageWindow(this.model);
     };
 
-    ProfileSide1View.prototype.showQuickMessageWindow = function() {
+    ProfileSide1View.prototype.showQuickMessageWindow = function(profile) {
       var that;
       that = this;
       return $.tmpload({
@@ -67,7 +67,7 @@
         onLoad: function(tpl) {
           var winContent;
           winContent = tpl({
-            profile: that.model
+            profile: profile
           });
           return dWindow(winContent, {
             wrapperId: "quick-message-win",
