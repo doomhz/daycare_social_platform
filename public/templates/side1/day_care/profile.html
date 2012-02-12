@@ -9,9 +9,15 @@
     </a>
 </div>
 <ul id="profile-bt-menu">
+    <%
+      if (Kin.app.currentUser.get("_id") !== profile.get("_id")) {
+    %>
     <li>
         <a href="#quick-message" id="quick-message-bt">Send a message</a>
     </li>
+    <%
+      }
+    %>
     <%
       if (Kin.app.currentUser.get("_id") === profile.get("_id")) {
     %>

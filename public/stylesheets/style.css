@@ -325,6 +325,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   border-bottom: solid 1px #f0f0f0;
   width: 100%;
   margin: 0 0 15px 0;
+  min-height: 25px;
 }
 #page-wrapper #main-column #profile-tab-menu li {
   float: right;
@@ -353,9 +354,9 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 }
 #page-wrapper #main-column #nav-buttons-menu {
   float: right;
-  border-bottom: solid 1px #f0f0f0;
   width: 100%;
-  margin: -30px 0 15px 0;
+  margin: -40px 0 15px 0;
+  position: relative;
 }
 #page-wrapper #main-column #nav-buttons-menu li {
   float: right;
@@ -420,7 +421,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
 #page-wrapper #main-column #add-comment-box form div textarea {
   resize: none;
   height: 5px;
-  width: 405px;
+  width: 357px;
   border: none;
   box-shadow: none;
 }
@@ -428,7 +429,7 @@ header #header-wrapper #search-cnt #search-bar #search-bt {
   padding: 3px 14px 3px 14px;
 }
 #page-wrapper #main-column #add-comment-box form #status-privacy-select {
-  width: 30px;
+  width: 80px;
 }
 #page-wrapper #main-column #wall-comments-list {
   margin: 0 0 5px 0;
@@ -885,9 +886,12 @@ footer #footer-wrapper #copyright {
 #our-family-filter div .input-text {
   resize: none;
   height: 10px;
-  width: 372px;
+  width: 357px;
   border: none;
   box-shadow: none;
+}
+#our-family-filter div select {
+  width: 75px;
 }
 #our-family-list-cnt .total {
   color: #7e962d;

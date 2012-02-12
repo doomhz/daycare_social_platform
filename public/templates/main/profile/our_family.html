@@ -1,5 +1,10 @@
 <h1>Our family</h1>
 
+<div id="profile-main-tabs">
+    <ul id="profile-tab-menu">
+    </ul>
+</div>
+
 <ul id="nav-buttons-menu">
   <%
     if (profile.get("type") === "daycare" && profile.get("_id") === Kin.app.currentUser.get("_id")) {
@@ -21,7 +26,7 @@
 <div id="our-family-filter">
   <div>
     <input type="text" placeholder="Type in a name" id="our-family-name-filter" class="input-text">
-    <select id="our-family-type-filter" class="mini">
+    <select id="our-family-type-filter" class="medium">
       <option value="all">All</option>
       <option value="staff">Staff</option>
       <option value="parents">Parents</option>
