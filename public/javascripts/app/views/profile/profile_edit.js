@@ -32,11 +32,13 @@
 
     ProfileEditView.prototype.addressMarker = null;
 
+    ProfileEditView.prototype.router = null;
+
     ProfileEditView.prototype.initialize = function(options) {
       if (options == null) options = {};
       this.model && (this.model.view = this);
       this.maps = options.maps;
-      return this;
+      return this.router = options.router;
     };
 
     ProfileEditView.prototype.render = function() {
@@ -145,7 +147,8 @@
       that = this;
       this.model.save(hashedData, {
         success: function() {
-          return that.addFormMessage($(ev.target), 'success', 'Profile information was saved.');
+          that.addFormMessage($(ev.target), 'success', 'Profile information was saved.');
+          return that.router.navigate("profiles/view/" + (that.model.get("_id")), true);
         },
         error: function() {
           return that.addFormMessage($(ev.target), 'error', 'Profile information could not be updated.');

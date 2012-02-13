@@ -20,10 +20,12 @@ class window.Kin.Profile.ProfileEditView extends Backbone.View
 
   addressMarker: null
 
+  router: null
+
   initialize: (options = {})->
     @model and @model.view = @
     @maps = options.maps
-    @
+    @router = options.router
 
   render: ()->
     that = @
@@ -104,6 +106,7 @@ class window.Kin.Profile.ProfileEditView extends Backbone.View
     @model.save hashedData,
       success: ()->
         that.addFormMessage($(ev.target), 'success', 'Profile information was saved.')
+        that.router.navigate("profiles/view/#{that.model.get("_id")}", true)
       error: ()->
         that.addFormMessage($(ev.target), 'error', 'Profile information could not be updated.')
     false

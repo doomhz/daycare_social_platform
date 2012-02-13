@@ -49,7 +49,7 @@ class Kin.UserModel extends Backbone.Model
     super(options)
   
   canEditProfile: (profileId)->
-    profileId is @get('_id')
+    profileId is @get('_id') or (@get("type") is "daycare" and profileId in @get("friends"))
 
   getProfilePicture: ()->
     profilePictureSet = @getProfilePictureSet(@get('picture_sets'))

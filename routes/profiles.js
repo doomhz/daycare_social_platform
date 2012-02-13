@@ -130,8 +130,7 @@
       var pictureSetId;
       pictureSetId = req.params.id;
       return User.findOne({
-        'picture_sets._id': pictureSetId,
-        _id: req.user._id
+        'picture_sets._id': pictureSetId
       }).run(function(err, user) {
         var key, pictureSet, pictureSetIndexToEdit, value, _i, _len, _ref, _ref2;
         if (user) {
@@ -163,8 +162,7 @@
       var pictureSetId;
       pictureSetId = req.params.id;
       return User.findOne({
-        'picture_sets._id': pictureSetId,
-        _id: req.user._id
+        'picture_sets._id': pictureSetId
       }).run(function(err, user) {
         var filePath, picture, pictureSet, _i, _len, _ref;
         if (user) {
@@ -219,8 +217,7 @@
       var pictureId;
       pictureId = req.params.pictureId;
       return User.findOne({
-        'picture_sets.pictures._id': pictureId,
-        _id: req.user._id
+        'picture_sets.pictures._id': pictureId
       }).run(function(err, user) {
         var bigFilePath, filePath, mediumFilePath, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, pictureToRemove, thumbFilePath, _i, _j, _len, _len2, _ref, _ref2;
         if (user) {
@@ -311,8 +308,7 @@
       var pictureId;
       pictureId = req.params.pictureId;
       return User.findOne({
-        'picture_sets.pictures._id': pictureId,
-        _id: req.user._id
+        'picture_sets.pictures._id': pictureId
       }).run(function(err, user) {
         var key, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, value, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3, _ref4;
         if (user) {
@@ -401,8 +397,7 @@
         });
         return req.on('end', function() {
           return User.findOne({
-            'picture_sets._id': pictureSetId,
-            _id: req.user._id
+            'picture_sets._id': pictureSetId
           }).run(function(err, user) {
             var im, newPicturePosition, pictureSet, pictureSetIndex, pictureSets, _i, _len;
             if (user) {

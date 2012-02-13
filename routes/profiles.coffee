@@ -67,7 +67,7 @@ module.exports = (app)->
 
   app.put '/profiles/picture-set/:id', (req, res)->
     pictureSetId = req.params.id
-    User.findOne({'picture_sets._id': pictureSetId, _id: req.user._id}).run (err, user) ->
+    User.findOne({'picture_sets._id': pictureSetId}).run (err, user) ->
       if user
         pictureSetIndexToEdit = -1
 
@@ -87,7 +87,7 @@ module.exports = (app)->
 
   app.del '/profiles/picture-set/:id', (req, res)->
     pictureSetId = req.params.id
-    User.findOne({'picture_sets._id': pictureSetId, _id: req.user._id}).run (err, user) ->
+    User.findOne({'picture_sets._id': pictureSetId}).run (err, user) ->
       if user
         pictureSet = user.picture_sets.id(pictureSetId)
         pictureSet.remove()
@@ -122,7 +122,7 @@ module.exports = (app)->
   app.del '/profiles/picture/:pictureId', (req, res)->
     pictureId = req.params.pictureId
 
-    User.findOne({'picture_sets.pictures._id': pictureId, _id: req.user._id}).run (err, user) ->
+    User.findOne({'picture_sets.pictures._id': pictureId}).run (err, user) ->
       if user
         pictureSetIndex = -1
         pictureIndex = -1
@@ -185,7 +185,7 @@ module.exports = (app)->
   app.put '/profiles/picture/:pictureId', (req, res)->
     pictureId = req.params.pictureId
 
-    User.findOne({'picture_sets.pictures._id': pictureId, _id: req.user._id}).run (err, user) ->
+    User.findOne({'picture_sets.pictures._id': pictureId}).run (err, user) ->
       if user
         pictureSetIndex = -1
         pictureIndex = -1
@@ -260,7 +260,7 @@ module.exports = (app)->
         ws.write(data)
 
       req.on 'end', ()->
-        User.findOne({'picture_sets._id': pictureSetId, _id: req.user._id}).run (err, user) ->
+        User.findOne({'picture_sets._id': pictureSetId}).run (err, user) ->
           if user
             pictureSets = user.picture_sets
 

@@ -1,7 +1,8 @@
 (function() {
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = Object.prototype.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; },
+    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Kin.UserModel = (function(_super) {
 
@@ -69,7 +70,7 @@
     };
 
     UserModel.prototype.canEditProfile = function(profileId) {
-      return profileId === this.get('_id');
+      return profileId === this.get('_id') || (this.get("type") === "daycare" && __indexOf.call(this.get("friends"), profileId) >= 0);
     };
 
     UserModel.prototype.getProfilePicture = function() {

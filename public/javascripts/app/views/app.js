@@ -221,6 +221,7 @@
           that.mainColumnView = new Kin.Profile.ProfileEditView({
             model: model,
             el: that.mainColumnSelector,
+            router: that.router,
             maps: new Kin.GoogleMapsView({
               id: '#profile-address-maps',
               mapsOptions: {
