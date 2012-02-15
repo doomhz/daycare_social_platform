@@ -1,4 +1,5 @@
 User = require("./user")
+_    = require("underscore")
 
 NotificationSchema = new Schema
   user_id:
@@ -59,19 +60,24 @@ NotificationSchema.statics.addForStatus = (newComment, sender)->
       notification = new Notification(notificationData)
       notification.saveAndTriggerNewComments(wallOwnerId)
 
-    User.find().where("_id").in(wallOwner.friends).run (err, users)->
-      for usr in users
-        content = if wallOwnerId is senderId then "posted on his wall." else "posted on #{wallOwner.name} #{wallOwner.surname}'s wall."
-        unread  = if senderId is "#{usr._id}" then false else true
-        notificationData =
-          user_id: usr._id
-          from_id: senderId
-          wall_id: newComment.wall_id
-          type: "feed"
-          content: content
-          unread: unread
-        notification = new Notification(notificationData)
-        notification.saveAndTriggerNewComments(usr._id)
+    friendsToFind = if wallOwner.type in ["daycare", "class"] then wallOwner.friends else []
+    friendsToFind = _.filter friendsToFind, (friendId)->
+      friendId not in [senderId, wallOwnerId]
+    
+    if friendsToFind.length
+      receiverTypes = ["parent", "daycare", "staff"]
+      User.find().where("_id").in(friendsToFind).where("type").in(receiverTypes).run (err, users)->
+        for usr in users
+          content = if wallOwnerId is senderId then "posted on his wall." else "posted on #{wallOwner.name} #{wallOwner.surname}'s wall."
+          notificationData =
+            user_id: usr._id
+            from_id: senderId
+            wall_id: newComment.wall_id
+            type: "feed"
+            content: content
+            unread: true
+          notification = new Notification(notificationData)
+          notification.saveAndTriggerNewComments(usr._id)
 
 NotificationSchema.statics.addForFollowup = (newComment, sender)->
   Notification = require("./notification")

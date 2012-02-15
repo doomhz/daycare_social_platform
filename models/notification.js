@@ -1,8 +1,10 @@
 (function() {
-  var NotificationSchema, User, exports, notificationsSocket,
+  var NotificationSchema, User, exports, notificationsSocket, _,
     __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   User = require("./user");
+
+  _ = require("underscore");
 
   NotificationSchema = new Schema({
     user_id: {
@@ -69,7 +71,7 @@
     return User.findOne({
       _id: wallOwnerId
     }).run(function(err, wallOwner) {
-      var notification, notificationData;
+      var friendsToFind, notification, notificationData, receiverTypes, _ref;
       if (wallOwnerId !== senderId) {
         notificationData = {
           user_id: wallOwnerId,
@@ -81,26 +83,32 @@
         notification = new Notification(notificationData);
         notification.saveAndTriggerNewComments(wallOwnerId);
       }
-      return User.find().where("_id")["in"](wallOwner.friends).run(function(err, users) {
-        var content, unread, usr, _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = users.length; _i < _len; _i++) {
-          usr = users[_i];
-          content = wallOwnerId === senderId ? "posted on his wall." : "posted on " + wallOwner.name + " " + wallOwner.surname + "'s wall.";
-          unread = senderId === ("" + usr._id) ? false : true;
-          notificationData = {
-            user_id: usr._id,
-            from_id: senderId,
-            wall_id: newComment.wall_id,
-            type: "feed",
-            content: content,
-            unread: unread
-          };
-          notification = new Notification(notificationData);
-          _results.push(notification.saveAndTriggerNewComments(usr._id));
-        }
-        return _results;
+      friendsToFind = (_ref = wallOwner.type) === "daycare" || _ref === "class" ? wallOwner.friends : [];
+      friendsToFind = _.filter(friendsToFind, function(friendId) {
+        return friendId !== senderId && friendId !== wallOwnerId;
       });
+      if (friendsToFind.length) {
+        receiverTypes = ["parent", "daycare", "staff"];
+        return User.find().where("_id")["in"](friendsToFind).where("type")["in"](receiverTypes).run(function(err, users) {
+          var content, usr, _i, _len, _results;
+          _results = [];
+          for (_i = 0, _len = users.length; _i < _len; _i++) {
+            usr = users[_i];
+            content = wallOwnerId === senderId ? "posted on his wall." : "posted on " + wallOwner.name + " " + wallOwner.surname + "'s wall.";
+            notificationData = {
+              user_id: usr._id,
+              from_id: senderId,
+              wall_id: newComment.wall_id,
+              type: "feed",
+              content: content,
+              unread: true
+            };
+            notification = new Notification(notificationData);
+            _results.push(notification.saveAndTriggerNewComments(usr._id));
+          }
+          return _results;
+        });
+      }
     });
   };
 
