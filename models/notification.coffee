@@ -51,11 +51,12 @@ NotificationSchema.statics.addForStatus = (newComment, sender)->
 
   User.findOne({_id: wallOwnerId}).run (err, wallOwner)->
     if wallOwnerId isnt senderId
+      notificationType = if wallOwner.type is "daycare" then "feed" else "alert"
       notificationData =
         user_id: wallOwnerId
         from_id: senderId
         wall_id: newComment.wall_id
-        type: "alert"
+        type: notificationType
         content: "posted on your wall."
       notification = new Notification(notificationData)
       notification.saveAndTriggerNewComments(wallOwnerId)
@@ -68,7 +69,7 @@ NotificationSchema.statics.addForStatus = (newComment, sender)->
       receiverTypes = ["parent", "daycare", "staff"]
       User.find().where("_id").in(friendsToFind).where("type").in(receiverTypes).run (err, users)->
         for usr in users
-          content = if wallOwnerId is senderId then "posted on his wall." else "posted on #{wallOwner.name} #{wallOwner.surname}'s wall."
+          content = if wallOwnerId is senderId then "posted on his wall." else "posted on #{wallOwner.name or ""} #{wallOwner.surname or ""}'s wall."
           notificationData =
             user_id: usr._id
             from_id: senderId
@@ -92,33 +93,16 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
       statusOwnerId    = "#{originalComment.from_id}"
 
       User.findOne({_id: statusOwnerId}).run (err, statusOwner)->
-        if statusOwnerId isnt senderId
-          content = if wallOwnerId is statusOwnerId then "commented on your post on your wall." else "commented on your post on #{wallOwner.name} #{wallOwner.surname}'s wall."
-          notificationData =
-            user_id: statusOwnerId
-            from_id: senderId
-            wall_id: newComment.wall_id
-            type: "alert"
-            content: content
-          notification = new Notification(notificationData)
-          notification.saveAndTriggerNewComments(statusOwnerId)
+        
+        sentUserIds = [senderId]
 
-        if wallOwnerId isnt senderId and wallOwnerId isnt statusOwnerId
-          content = "commented on #{statusOwner.name} #{statusOwner.surname}'s post on your wall."
-          notificationData =
-            user_id: wallOwnerId
-            from_id: senderId
-            wall_id: newComment.wall_id
-            type: "alert"
-            content: content
-          notification = new Notification(notificationData)
-          notification.saveAndTriggerNewComments(wallOwnerId)
-
-        Comment.find([{type: "followup", wall_id: newComment.wall_id, to_id: statusOwnerId}]).where("from_id").nin([senderId, wallOwnerId, statusOwnerId]).run (err, comments)->
-          sentUserIds = []
+        Comment.find({type: "followup", wall_id: newComment.wall_id, to_id: originalStatusId}).run (err, comments)->
+          
           for comment in comments
             if comment.from_id not in sentUserIds
-              content = "commented on #{statusOwner.name} #{statusOwner.surname}'s post on #{wallOwner.name} #{wallOwner.surname}'s wall."
+              statusOwnerName = if statusOwnerId is senderId then "his" else "#{statusOwner.name or ""} #{statusOwner.surname or ""}'s"
+              wallOwnerName   = if wallOwnerId is senderId then "his" else "#{wallOwner.name or ""} #{wallOwner.surname or ""}'s"
+              content = "commented on #{statusOwnerName} post on #{wallOwnerName} wall."
               notificationData =
                 user_id: comment.from_id
                 from_id: sender._id
@@ -129,21 +113,47 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
               notification.saveAndTriggerNewComments(comment.from_id)
               sentUserIds.push(comment.from_id)
 
-        User.find().where("_id").in(wallOwner.friends).run (err, users)->
-          for usr in users
-            statusOwnerName = if statusOwnerId is senderId then "his" else "#{statusOwner.name} #{statusOwner.surname}'s"
-            wallOwnerName   = if wallOwnerId is senderId then "his" else "#{wallOwner.name} #{wallOwner.surname}'s"
-            content = "commented on #{statusOwnerName} post on #{wallOwnerName} wall."
-            unread  = if senderId is "#{usr._id}" then false else true
+          if statusOwnerId not in sentUserIds
+            wallOwnerName   = if wallOwnerId is senderId then "his" else "#{wallOwner.name or ""} #{wallOwner.surname or ""}'s"
+            content = "commented on your post on #{wallOwnerName} wall."
+            notificationType = if statusOwner.type in ["daycare", "class"] and statusOwnerId is newComment.wall_id then "feed" else "alert"
             notificationData =
-              user_id: usr._id
+              user_id: statusOwnerId
               from_id: senderId
               wall_id: newComment.wall_id
-              type: "feed"
+              type: notificationType
               content: content
-              unread: unread
             notification = new Notification(notificationData)
-            notification.saveAndTriggerNewComments(usr._id)
+            notification.saveAndTriggerNewComments(statusOwnerId)
+            sentUserIds.push(statusOwnerId)
+          
+          if wallOwnerId isnt statusOwnerId and wallOwnerId not in sentUserIds
+            content = "commented on #{statusOwner.name} #{statusOwner.surname}'s post on your wall."
+            notificationType = if wallOwner.type in ["daycare", "class"] then "feed" else "alert"
+            notificationData =
+              user_id: wallOwnerId
+              from_id: senderId
+              wall_id: newComment.wall_id
+              type: notificationType
+              content: content
+            notification = new Notification(notificationData)
+            notification.saveAndTriggerNewComments(wallOwnerId)
+
+          if wallOwner.type in ["daycare", "class"]
+            friendsToFeed = _.difference(wallOwner.friends, sentUserIds)
+            User.find().where("_id").in(friendsToFeed).run (err, users)->
+              for usr in users
+                statusOwnerName = if statusOwnerId is senderId then "his" else "#{statusOwner.name or ""} #{statusOwner.surname or ""}'s"
+                wallOwnerName   = if wallOwnerId is senderId then "his" else "#{wallOwner.name or ""} #{wallOwner.surname or ""}'s"
+                content = "commented on #{statusOwnerName} post on #{wallOwnerName} wall."
+                notificationData =
+                  user_id: usr._id
+                  from_id: senderId
+                  wall_id: newComment.wall_id
+                  type: "feed"
+                  content: content
+                notification = new Notification(notificationData)
+                notification.saveAndTriggerNewComments(usr._id)
 
 NotificationSchema.statics.triggerNewMessages = (userId)->
   sessionId = notificationsSocket.userSessions[userId]
