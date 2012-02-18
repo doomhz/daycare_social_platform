@@ -11,6 +11,95 @@
   _s = require('underscore.string');
 
   module.exports = function(app) {
+    app.get('/comments/:id', function(req, res) {
+      var commentId, currentUser;
+      currentUser = req.user ? req.user : {};
+      commentId = req.params.id;
+      return Comment.findOne({
+        _id: commentId
+      }).run(function(err, status) {
+        return User.findOne({
+          _id: status.from_id
+        }).run(function(err, user) {
+          if (user) status.from_user = user;
+          return res.render('comments/comments', {
+            comments: [status],
+            _s: _s,
+            show_private: false,
+            layout: false
+          });
+        });
+      });
+    });
+    app.get('/comment/:id', function(req, res) {
+      var commentId, currentUser;
+      currentUser = req.user ? req.user : {};
+      commentId = req.params.id;
+      return Comment.findOne({
+        _id: commentId
+      }).run(function(err, status) {
+        return User.findOne({
+          _id: status.from_id
+        }).run(function(err, user) {
+          if (user) status.from_user = user;
+          return res.render('comments/_comment', {
+            comment: status,
+            _s: _s,
+            show_private: false,
+            layout: false
+          });
+        });
+      });
+    });
+    app.get('/followups/:id/:last_comment_time', function(req, res) {
+      var commentId, currentUser, lastCommentTime;
+      currentUser = req.user ? req.user : {};
+      commentId = req.params.id;
+      lastCommentTime = req.params.last_comment_time;
+      return Comment.find({
+        to_id: commentId,
+        type: "followup"
+      }).where('added_at').gt(lastCommentTime).asc("added_at").run(function(err, followups) {
+        var followup, usersToFind, _i, _len;
+        if (followups == null) followups = [];
+        if (followups.length) {
+          usersToFind = [];
+          for (_i = 0, _len = followups.length; _i < _len; _i++) {
+            followup = followups[_i];
+            usersToFind.push(followup.from_id);
+          }
+          if (usersToFind.length) {
+            return User.where("_id")["in"](usersToFind).run(function(err, users) {
+              var followup, user, _j, _k, _len2, _len3;
+              if (users) {
+                for (_j = 0, _len2 = followups.length; _j < _len2; _j++) {
+                  followup = followups[_j];
+                  for (_k = 0, _len3 = users.length; _k < _len3; _k++) {
+                    user = users[_k];
+                    if (("" + user._id) === ("" + followup.from_id)) {
+                      followup.from_user = user;
+                    }
+                  }
+                }
+              }
+              return res.render('comments/comments', {
+                comments: followups,
+                _s: _s,
+                show_private: false,
+                layout: false
+              });
+            });
+          }
+        } else {
+          return res.render('comments/comments', {
+            comments: followups,
+            _s: _s,
+            show_private: false,
+            layout: false
+          });
+        }
+      });
+    });
     app.get('/comments/:wall_id/:last_comment_time/:timeline', function(req, res) {
       var comparison, currentUser, currentUserId, lastCommentTime, privacy, timeline, wallId, _ref;
       currentUser = req.user ? req.user : {};
@@ -85,7 +174,7 @@
         });
       });
     });
-    app.post('/comments', function(req, res) {
+    app.post('/comment', function(req, res) {
       var currentComment, currentUser, currentUserId, data, wallId;
       currentUser = req.user ? req.user : {};
       data = req.body;
@@ -108,7 +197,7 @@
         });
       }
     });
-    app.put("/comments/:id", function(req, res) {
+    app.put("/comment/:id", function(req, res) {
       var commentId, currentUser, data;
       currentUser = req.user ? req.user : {};
       commentId = req.params.id;

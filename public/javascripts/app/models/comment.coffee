@@ -11,7 +11,7 @@ class Kin.CommentModel extends Backbone.Model
     updated_at: null
     from_user:  {}
 
-  urlRoot: "/comments"
+  urlRoot: "/comment"
 
   initialize: ()->
     if @collection

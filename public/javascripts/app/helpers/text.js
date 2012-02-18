@@ -14,6 +14,12 @@
         }
       }
       return text;
+    },
+    truncate: function(text, limit, placeholder) {
+      if (limit == null) limit = 30;
+      if (placeholder == null) placeholder = "...";
+      if (text.length > limit) text = text.substr(0, limit) + placeholder;
+      return text;
     }
   };
 

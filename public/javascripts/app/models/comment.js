@@ -22,7 +22,7 @@
       from_user: {}
     };
 
-    CommentModel.prototype.urlRoot = "/comments";
+    CommentModel.prototype.urlRoot = "/comment";
 
     CommentModel.prototype.initialize = function() {
       if (this.collection) {

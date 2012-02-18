@@ -20,6 +20,7 @@ class window.Kin.MainRouter extends Backbone.Router
     'invite-staff'                  : 'inviteStaff'
     'add-class'                     : 'addClass'
     'manage-children/:id'           : 'manageChildren'
+    'comments/view/:id'             : 'viewComment'
 
   initialize: ({@app})->
 
@@ -70,3 +71,6 @@ class window.Kin.MainRouter extends Backbone.Router
 
   manageChildren: (id)->
     @app.renderManageChildren(id)
+  
+  viewComment: (id)->
+    @app.renderViewComment(id)

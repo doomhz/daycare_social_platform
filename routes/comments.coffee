@@ -5,6 +5,46 @@ _s           = require('underscore.string')
 
 module.exports = (app)->
 
+  app.get '/comments/:id', (req, res)->
+    currentUser = if req.user then req.user else {}
+    commentId   = req.params.id
+    Comment.findOne({_id: commentId}).run (err, status)->
+      User.findOne({_id: status.from_id}).run (err, user)->
+        if user
+          status.from_user = user
+        res.render 'comments/comments', {comments: [status], _s: _s, show_private: false, layout: false}
+  
+  app.get '/comment/:id', (req, res)->
+    currentUser = if req.user then req.user else {}
+    commentId   = req.params.id
+    Comment.findOne({_id: commentId}).run (err, status)->
+      User.findOne({_id: status.from_id}).run (err, user)->
+        if user
+          status.from_user = user
+        res.render 'comments/_comment', {comment: status, _s: _s, show_private: false, layout: false}
+
+  app.get '/followups/:id/:last_comment_time', (req, res)->
+    currentUser = if req.user then req.user else {}
+    commentId   = req.params.id
+    lastCommentTime = req.params.last_comment_time
+
+    Comment.find({to_id: commentId, type: "followup"}).where('added_at').gt(lastCommentTime).asc("added_at").run (err, followups = [])->
+      
+      if followups.length
+        usersToFind = []
+        for followup in followups
+          usersToFind.push(followup.from_id)
+        if usersToFind.length
+          User.where("_id").in(usersToFind).run (err, users)->
+            if users
+              for followup in followups
+                for user in users
+                  if "#{user._id}" is "#{followup.from_id}"
+                    followup.from_user = user
+            res.render 'comments/comments', {comments: followups, _s: _s, show_private: false, layout: false}
+      else
+        res.render 'comments/comments', {comments: followups, _s: _s, show_private: false, layout: false}
+
   app.get '/comments/:wall_id/:last_comment_time/:timeline', (req, res)->
     currentUser = if req.user then req.user else {}
     currentUserId = "#{currentUser._id}"
@@ -48,7 +88,7 @@ module.exports = (app)->
         else
           res.render 'comments/comments', {comments: comments, _s: _s, show_private: false, layout: false}
 
-  app.post '/comments', (req, res)->
+  app.post '/comment', (req, res)->
     currentUser = if req.user then req.user else {}
     data = req.body
     data.from_id = currentUser._id
@@ -69,7 +109,7 @@ module.exports = (app)->
 
       res.json {success: true}
 
-  app.put "/comments/:id", (req, res)->
+  app.put "/comment/:id", (req, res)->
     currentUser = if req.user then req.user else {}
     commentId = req.params.id
     data = req.body

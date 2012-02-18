@@ -20,15 +20,15 @@
         var messageDate = $.timeago(_.escape(item.created_at));
         var name = (messageUser.name || "") + " " + (messageUser.surname || "");
       %>
-      <span class="name" id="message-to-name"><%= _.escape(name) %></span> <span class="time"><%= messageDate %></span>
+      <span class="name" id="message-to-name"><%= _.escape(name) %></span>
     </p>
         <br />
     <p class="message-body">
       <%
-        print(_.escape(item.content.substr(0, 30)));
+        print(_.escape(Kin.Helper.Text.truncate(item.content, 37)));
       %>
-      ...
     </p>
+    <p class="time"><%= messageDate %></p>
   </a>
   <%
     }
@@ -37,7 +37,7 @@
   <%
     if (item.type === 'feed') {
   %>
-  <a href="#profiles/view/<%= item.wall_id %>">
+  <a href="#comments/view/<%= item.comment_id %>">
     <p class="avatar">
       <img src="<%= avatarUrl %>" width="30" height="30" />
     </p>
@@ -47,7 +47,7 @@
         var messageDate = $.timeago(_.escape(item.created_at));
         var name = (messageUser.name || "") + " " + (messageUser.surname || "");
       %>
-      <span class="name" id="message-to-name"><%= _.escape(name) %></span> <span class="time"><%= messageDate %></span>
+      <span class="name" id="message-to-name"><%= _.escape(name) %></span>
     </p>
         <br />
     <p class="message-body">
@@ -55,6 +55,7 @@
         print(_.escape(item.content));
       %>
     </p>
+    <p class="time"><%= messageDate %></p>
   </a>
   <%
     }
@@ -63,7 +64,7 @@
   <%
     if (item.type === 'alert') {
   %>
-  <a href="#profiles/view/<%= item.wall_id %>">
+  <a href="#comments/view/<%= item.comment_id %>">
     <p class="avatar">
       <img src="<%= avatarUrl %>" width="30" height="30" />
     </p>
@@ -73,7 +74,7 @@
         var messageDate = $.timeago(_.escape(item.created_at));
         var name = (messageUser.name || "") + " " + (messageUser.surname || "");
       %>
-      <span class="name" id="message-to-name"><%= _.escape(name) %></span> <span class="time"><%= messageDate %></span>
+      <span class="name" id="message-to-name"><%= _.escape(name) %></span>
     </p>
         <br />
     <p class="message-body">
@@ -81,6 +82,7 @@
         print(_.escape(item.content));
       %>
     </p>
+    <p class="time"><%= messageDate %></p>
   </a>
   <%
     }

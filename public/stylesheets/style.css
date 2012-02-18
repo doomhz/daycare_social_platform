@@ -196,6 +196,8 @@ header #header-wrapper #events-menu li ul.notification-list li .avatar {
 }
 header #header-wrapper #events-menu li ul.notification-list li .message-header {
   float: left;
+  width: 215px;
+  text-align: left;
 }
 header #header-wrapper #events-menu li ul.notification-list li .message-header .name {
   font-weight: bold;
@@ -209,6 +211,11 @@ header #header-wrapper #events-menu li ul.notification-list li .message-body {
   float: right;
   width: 215px;
   text-align: left;
+  padding: 2px 0 2px 0;
+}
+header #header-wrapper #events-menu li ul.notification-list li .time {
+  color: #999;
+  float: right;
 }
 header #header-wrapper #events-menu li ul.notification-list li.view-all-list-items-bt a {
   text-align: center;

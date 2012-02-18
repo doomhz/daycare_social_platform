@@ -29,7 +29,8 @@
       'invite-parents': 'inviteParents',
       'invite-staff': 'inviteStaff',
       'add-class': 'addClass',
-      'manage-children/:id': 'manageChildren'
+      'manage-children/:id': 'manageChildren',
+      'comments/view/:id': 'viewComment'
     };
 
     MainRouter.prototype.initialize = function(_arg) {
@@ -98,6 +99,10 @@
 
     MainRouter.prototype.manageChildren = function(id) {
       return this.app.renderManageChildren(id);
+    };
+
+    MainRouter.prototype.viewComment = function(id) {
+      return this.app.renderViewComment(id);
     };
 
     return MainRouter;

@@ -11,6 +11,8 @@ NotificationSchema = new Schema
     default: true
   wall_id:
     type: String
+  comment_id:
+    type: String
   type:
     type: String
     enum: ["alert", "feed"]
@@ -46,6 +48,7 @@ NotificationSchema.methods.saveAndTriggerNewComments = ()->
 NotificationSchema.statics.addForStatus = (newComment, sender)->
   Notification = require("./notification")
 
+  commentId   = "#{newComment._id}"
   wallOwnerId = "#{newComment.wall_id}"
   senderId    = "#{sender._id}"
 
@@ -56,6 +59,7 @@ NotificationSchema.statics.addForStatus = (newComment, sender)->
         user_id: wallOwnerId
         from_id: senderId
         wall_id: newComment.wall_id
+        comment_id: commentId
         type: notificationType
         content: "posted on your wall."
       notification = new Notification(notificationData)
@@ -74,6 +78,7 @@ NotificationSchema.statics.addForStatus = (newComment, sender)->
             user_id: usr._id
             from_id: senderId
             wall_id: newComment.wall_id
+            comment_id: commentId
             type: "feed"
             content: content
             unread: true
@@ -84,6 +89,7 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
   Notification = require("./notification")
   Comment      = require("./comment")
 
+  commentId        = "#{newComment.to_id}"
   wallOwnerId      = "#{newComment.wall_id}"
   senderId         = "#{sender._id}"
   originalStatusId = "#{newComment.to_id}"
@@ -107,6 +113,7 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
                 user_id: comment.from_id
                 from_id: sender._id
                 wall_id: newComment.wall_id
+                comment_id: commentId
                 type: "alert"
                 content: content
               notification = new Notification(notificationData)
@@ -116,12 +123,12 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
           if statusOwnerId not in sentUserIds
             wallOwnerName   = if wallOwnerId is senderId then "his" else "#{wallOwner.name or ""} #{wallOwner.surname or ""}'s"
             content = "commented on your post on #{wallOwnerName} wall."
-            notificationType = if statusOwner.type in ["daycare", "class"] and statusOwnerId is newComment.wall_id then "feed" else "alert"
             notificationData =
               user_id: statusOwnerId
               from_id: senderId
               wall_id: newComment.wall_id
-              type: notificationType
+              comment_id: commentId
+              type: "alert"
               content: content
             notification = new Notification(notificationData)
             notification.saveAndTriggerNewComments(statusOwnerId)
@@ -134,6 +141,7 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
               user_id: wallOwnerId
               from_id: senderId
               wall_id: newComment.wall_id
+              comment_id: commentId
               type: notificationType
               content: content
             notification = new Notification(notificationData)
@@ -150,6 +158,7 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
                   user_id: usr._id
                   from_id: senderId
                   wall_id: newComment.wall_id
+                  comment_id: commentId
                   type: "feed"
                   content: content
                 notification = new Notification(notificationData)

@@ -473,6 +473,39 @@
       });
     };
 
+    AppView.prototype.renderViewComment = function(id) {
+      var comment, that;
+      that = this;
+      this.clearColumns();
+      comment = new Kin.CommentModel({
+        id: id
+      });
+      return comment.fetch({
+        success: function(model) {
+          var commentId, comments, followups;
+          commentId = model.get("type") === "followup" ? model.get("to_id") : id;
+          comments = new Kin.CommentsCollection([], {
+            commentId: commentId
+          });
+          followups = new Kin.FollowupsCollection([], {
+            commentId: commentId
+          });
+          that.mainColumnView = new Kin.Comment.CommentView({
+            model: model,
+            collection: comments,
+            followupsCollection: followups,
+            el: that.mainColumnSelector
+          });
+          that.mainColumnView.render();
+          that.side1ColumnView = new Kin.Comment.CommentSide1View({
+            model: model,
+            el: that.side1ColumnSelector
+          });
+          return that.side1ColumnView.render();
+        }
+      });
+    };
+
     AppView.prototype.initTopLink = function() {
       return $('#top-link').topLink();
     };

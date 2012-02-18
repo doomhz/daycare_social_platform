@@ -379,6 +379,30 @@ class Kin.AppView extends Backbone.View
           el: that.side1ColumnSelector
         that.side1ColumnView.render()
 
+  renderViewComment: (id)->
+    that = @
+    @clearColumns()
+    comment = new Kin.CommentModel
+      id: id
+    comment.fetch
+      success: (model)->
+        commentId = if model.get("type") is "followup" then model.get("to_id") else id
+        
+        comments = new Kin.CommentsCollection([], {commentId: commentId})
+        followups = new Kin.FollowupsCollection([], {commentId: commentId})
+
+        that.mainColumnView = new Kin.Comment.CommentView
+          model: model
+          collection: comments
+          followupsCollection: followups
+          el: that.mainColumnSelector
+        that.mainColumnView.render()
+
+        that.side1ColumnView = new Kin.Comment.CommentSide1View
+          model: model
+          el: that.side1ColumnSelector
+        that.side1ColumnView.render()
+
   initTopLink: ()->
     $('#top-link').topLink()
 

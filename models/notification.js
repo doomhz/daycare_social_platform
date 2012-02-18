@@ -20,6 +20,9 @@
     wall_id: {
       type: String
     },
+    comment_id: {
+      type: String
+    },
     type: {
       type: String,
       "enum": ["alert", "feed"],
@@ -64,8 +67,9 @@
   };
 
   NotificationSchema.statics.addForStatus = function(newComment, sender) {
-    var Notification, senderId, wallOwnerId;
+    var Notification, commentId, senderId, wallOwnerId;
     Notification = require("./notification");
+    commentId = "" + newComment._id;
     wallOwnerId = "" + newComment.wall_id;
     senderId = "" + sender._id;
     return User.findOne({
@@ -78,6 +82,7 @@
           user_id: wallOwnerId,
           from_id: senderId,
           wall_id: newComment.wall_id,
+          comment_id: commentId,
           type: notificationType,
           content: "posted on your wall."
         };
@@ -100,6 +105,7 @@
               user_id: usr._id,
               from_id: senderId,
               wall_id: newComment.wall_id,
+              comment_id: commentId,
               type: "feed",
               content: content,
               unread: true
@@ -114,9 +120,10 @@
   };
 
   NotificationSchema.statics.addForFollowup = function(newComment, sender) {
-    var Comment, Notification, originalStatusId, senderId, wallOwnerId;
+    var Comment, Notification, commentId, originalStatusId, senderId, wallOwnerId;
     Notification = require("./notification");
     Comment = require("./comment");
+    commentId = "" + newComment.to_id;
     wallOwnerId = "" + newComment.wall_id;
     senderId = "" + sender._id;
     originalStatusId = "" + newComment.to_id;
@@ -138,7 +145,7 @@
             wall_id: newComment.wall_id,
             to_id: originalStatusId
           }).run(function(err, comments) {
-            var comment, content, friendsToFeed, notification, notificationData, notificationType, statusOwnerName, wallOwnerName, _i, _len, _ref, _ref2, _ref3, _ref4;
+            var comment, content, friendsToFeed, notification, notificationData, notificationType, statusOwnerName, wallOwnerName, _i, _len, _ref, _ref2, _ref3;
             for (_i = 0, _len = comments.length; _i < _len; _i++) {
               comment = comments[_i];
               if (_ref = comment.from_id, __indexOf.call(sentUserIds, _ref) < 0) {
@@ -149,6 +156,7 @@
                   user_id: comment.from_id,
                   from_id: sender._id,
                   wall_id: newComment.wall_id,
+                  comment_id: commentId,
                   type: "alert",
                   content: content
                 };
@@ -160,12 +168,12 @@
             if (__indexOf.call(sentUserIds, statusOwnerId) < 0) {
               wallOwnerName = wallOwnerId === senderId ? "his" : "" + (wallOwner.name || "") + " " + (wallOwner.surname || "") + "'s";
               content = "commented on your post on " + wallOwnerName + " wall.";
-              notificationType = ((_ref2 = statusOwner.type) === "daycare" || _ref2 === "class") && statusOwnerId === newComment.wall_id ? "feed" : "alert";
               notificationData = {
                 user_id: statusOwnerId,
                 from_id: senderId,
                 wall_id: newComment.wall_id,
-                type: notificationType,
+                comment_id: commentId,
+                type: "alert",
                 content: content
               };
               notification = new Notification(notificationData);
@@ -174,18 +182,19 @@
             }
             if (wallOwnerId !== statusOwnerId && __indexOf.call(sentUserIds, wallOwnerId) < 0) {
               content = "commented on " + statusOwner.name + " " + statusOwner.surname + "'s post on your wall.";
-              notificationType = (_ref3 = wallOwner.type) === "daycare" || _ref3 === "class" ? "feed" : "alert";
+              notificationType = (_ref2 = wallOwner.type) === "daycare" || _ref2 === "class" ? "feed" : "alert";
               notificationData = {
                 user_id: wallOwnerId,
                 from_id: senderId,
                 wall_id: newComment.wall_id,
+                comment_id: commentId,
                 type: notificationType,
                 content: content
               };
               notification = new Notification(notificationData);
               notification.saveAndTriggerNewComments(wallOwnerId);
             }
-            if ((_ref4 = wallOwner.type) === "daycare" || _ref4 === "class") {
+            if ((_ref3 = wallOwner.type) === "daycare" || _ref3 === "class") {
               friendsToFeed = _.difference(wallOwner.friends, sentUserIds);
               return User.find().where("_id")["in"](friendsToFeed).run(function(err, users) {
                 var usr, _j, _len2, _results;
@@ -199,6 +208,7 @@
                     user_id: usr._id,
                     from_id: senderId,
                     wall_id: newComment.wall_id,
+                    comment_id: commentId,
                     type: "feed",
                     content: content
                   };
