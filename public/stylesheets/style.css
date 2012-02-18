@@ -841,6 +841,9 @@ footer #footer-wrapper #copyright {
 #pictures-list li .photo-frame {
   height: 85px;
 }
+#pictures-list li input {
+  width: 90%;
+}
 #quick-message-win #quick-message-box-content {
   padding: 20px 20px 0 20px;
 }
