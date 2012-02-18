@@ -341,6 +341,9 @@ module.exports = (app)->
       if user.type is "class"
         Child.find({user_id: userId}).run (err, children)->
           res.render 'children/children', {children: children, layout: false}
+      else if user.type is "parent"
+        Child.find().where("_id").in(user.children_ids).run (err, children)->
+          res.render 'children/children', {children: children, layout: false}
       else
         User.find({master_id: userId}).run (err, classes)->
           classesIds = []

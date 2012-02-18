@@ -871,6 +871,21 @@ footer #footer-wrapper #copyright {
   padding: 0 10px 0 10px;
   width: 220px;
 }
+#review-children-win #review-children-box-content {
+  padding: 0 20px 0 20px;
+}
+#review-children-win #review-children-box-content form {
+  margin: 0;
+}
+#review-children-win #review-children-box-content label {
+  width: 60px;
+}
+#review-children-win #review-children-box-content .input {
+  margin-left: 70px;
+}
+#review-children-win #review-children-box-content select {
+  padding: 0 10px 0 10px;
+}
 #write-message-cnt textarea {
   width: 364px;
 }

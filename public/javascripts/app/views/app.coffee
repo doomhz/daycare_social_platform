@@ -28,6 +28,7 @@ class Kin.AppView extends Backbone.View
     @initHeaderNotification()
     @initTopLink()
     @initRouter()
+    @initStartupEvents()
 
   initRouter: ()->
     @router = new Kin.MainRouter
@@ -101,6 +102,12 @@ class Kin.AppView extends Backbone.View
     @window.addDelegate(followupsNotification)
 
     headerNotificationBoard.watch()
+
+  initStartupEvents: ()->
+    if @currentUser.get("type") is "parent" and not @currentUser.get("reviewed_children")
+      reviewChildren = new Kin.Parent.ReviewChildrenView
+        currentUser: @currentUser
+      reviewChildren.render()
 
   renderDaycares: ()->
     @clearColumns()

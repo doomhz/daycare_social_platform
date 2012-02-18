@@ -101,6 +101,10 @@
       type: [String],
       "default": []
     },
+    reviewed_children: {
+      type: Boolean,
+      "default": false
+    },
     daycare_friends: {
       type: [{}],
       "default": []

@@ -42,18 +42,19 @@
     };
 
     ManageChildrenView.prototype.addChild = function(ev) {
-      var $form, childModel, formData, that;
+      var childModel, hashedData, that;
       ev.preventDefault();
       that = this;
-      $form = $(ev.target);
-      formData = $form.serialize();
+      hashedData = this.$(ev.target).hashForm();
+      if (hashedData.birthday) {
+        hashedData.birthday = "" + hashedData.birthday.year + "-" + hashedData.birthday.month + "-" + hashedData.birthday.day;
+      }
       childModel = new Kin.ChildModel;
-      return childModel.save(null, {
-        data: formData,
+      return childModel.save(hashedData, {
         success: function() {
           var childName, childSurname;
-          childName = $form.find("input[name='name']").val();
-          childSurname = $form.find("input[name='surname']").val();
+          childName = hashedData.name;
+          childSurname = hashedData.surname;
           $.jGrowl("" + childName + " " + childSurname + " successfully added to this group");
           return that.render();
         },

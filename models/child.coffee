@@ -5,6 +5,12 @@ ChildSchema = new Schema
     type: String
   surname:
     type: String
+  gender:
+    type: String
+    enum: ['female', 'male']
+    default: 'female'
+  birthday:
+    type: String
 
 Child = mongoose.model("Child", ChildSchema)
 exports = module.exports = Child

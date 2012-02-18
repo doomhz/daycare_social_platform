@@ -35,6 +35,7 @@ module.exports = (app)->
                     friendId isnt "#{requestUser._id}"
                   userFriend.save()
                 requestUser.friends = []
+                requestUser.children_ids = []
                 requestUser.save()
                 friendRequest.updateFriendship(requestUser._id)
 

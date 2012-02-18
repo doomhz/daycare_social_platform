@@ -484,6 +484,13 @@
               layout: false
             });
           });
+        } else if (user.type === "parent") {
+          return Child.find().where("_id")["in"](user.children_ids).run(function(err, children) {
+            return res.render('children/children', {
+              children: children,
+              layout: false
+            });
+          });
         } else {
           return User.find({
             master_id: userId

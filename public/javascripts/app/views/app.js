@@ -40,7 +40,8 @@
       this.initHeaderSearch();
       this.initHeaderNotification();
       this.initTopLink();
-      return this.initRouter();
+      this.initRouter();
+      return this.initStartupEvents();
     };
 
     AppView.prototype.initRouter = function() {
@@ -137,6 +138,16 @@
       headerNotificationBoard.addDelegate(followupsNotification);
       this.window.addDelegate(followupsNotification);
       return headerNotificationBoard.watch();
+    };
+
+    AppView.prototype.initStartupEvents = function() {
+      var reviewChildren;
+      if (this.currentUser.get("type") === "parent" && !this.currentUser.get("reviewed_children")) {
+        reviewChildren = new Kin.Parent.ReviewChildrenView({
+          currentUser: this.currentUser
+        });
+        return reviewChildren.render();
+      }
     };
 
     AppView.prototype.renderDaycares = function() {

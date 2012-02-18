@@ -10,6 +10,14 @@
     },
     surname: {
       type: String
+    },
+    gender: {
+      type: String,
+      "enum": ['female', 'male'],
+      "default": 'female'
+    },
+    birthday: {
+      type: String
     }
   });
 

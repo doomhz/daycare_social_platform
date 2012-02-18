@@ -56,6 +56,7 @@
                     userFriend.save();
                   }
                   requestUser.friends = [];
+                  requestUser.children_ids = [];
                   requestUser.save();
                   return friendRequest.updateFriendship(requestUser._id);
                 });

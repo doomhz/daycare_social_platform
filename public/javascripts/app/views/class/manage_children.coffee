@@ -26,14 +26,14 @@ class Kin.Class.ManageChildrenView extends Backbone.View
   addChild: (ev)->
     ev.preventDefault()
     that = @
-    $form = $(ev.target)
-    formData = $form.serialize()
+    hashedData = @$(ev.target).hashForm()
+    if hashedData.birthday
+      hashedData.birthday = "#{hashedData.birthday.year}-#{hashedData.birthday.month}-#{hashedData.birthday.day}"
     childModel = new Kin.ChildModel
-    childModel.save null,
-      data: formData
+    childModel.save hashedData,
       success: ()->
-        childName = $form.find("input[name='name']").val()
-        childSurname = $form.find("input[name='surname']").val()
+        childName = hashedData.name
+        childSurname = hashedData.surname
         $.jGrowl("#{childName} #{childSurname} successfully added to this group")
         that.render()
       error: ()->

@@ -1,0 +1,68 @@
+<div id="review-children-box-content">
+  <h4>Please verify if your children information bellow is correct</h4>
+  <%
+    children.each(function (child) {
+  %>
+  <form id="add-child-form">
+    <fieldset>
+      <input type="hidden" name="id" value="<%= child.get("_id") %>" />
+      <input type="hidden" name="_id" value="<%= child.get("_id") %>" />
+      <input type="hidden" name="user_id" value="<%= child.get("user_id") %>" />
+      <div class="clear">
+        <label>Name</label>
+        <div class="input">
+          <input type="text" name="name" value="<%= child.get("name") %>" />
+        </div>
+      </div>
+      <div class="clear">
+        <label>Surname</label>
+        <div class="input">
+          <input type="text" name="surname" value="<%= child.get("surname") %>" />
+        </div>
+      </div>
+      <div class="clear">
+        <label>Gender</label>
+        <div class="input">
+          <select class="mini" name="gender">
+            <option value="male" <% if (child.get("gender") === "male") { %>selected="selected"<% } %>>Male</option>
+            <option value="female" <% if (child.get("gender") === "female") { %>selected="selected"<% } %>>Female</option>
+          </select>
+        </div>
+      </div>
+      <div class="clearfix">
+        <%
+          var birthday = child.get('birthday').split("-");
+          var birthdayDay = birthday[2];
+          var birthdayMonth = birthday[1];
+          var birthdayYear = birthday[0];
+          var now = new Date();
+          var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        %>
+        <label>Birthday</label>
+        <div class="input">
+          <select name="birthday[month]" class="mini">
+              <option value="">-</option>
+              <% for (var i = 0; i <= 11; i++) { %>
+              <option value="<%=i %>" <% if (i == birthdayMonth) { print('selected="selected"');} %>><%=months[i] %></option>
+              <% } %>
+          </select>
+          <select name="birthday[day]" class="mini">
+              <option value="">-</option>
+              <% for (var i = 1; i <= 31; i++) { %>
+              <option value="<%=i %>" <% if (i == birthdayDay) { print('selected="selected"');} %>><%=i %></option>
+              <% } %>
+          </select>
+          <select name="birthday[year]" class="mini">
+              <option value="">-</option>
+              <% for (var i = now.getFullYear(), lastYear = now.getFullYear() - 20; i >= lastYear; i--) { %>
+              <option value="<%=i %>" <% if (i == birthdayYear) { print('selected="selected"');} %>><%=i %></option>
+              <% } %>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  <%
+    });
+  %>
+</div>
