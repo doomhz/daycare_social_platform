@@ -22,6 +22,7 @@
     ProfileView.prototype.events = {
       "submit #add-comment-form": "addCommentHandler",
       "submit .add-followup-form": "addFollowupHandler",
+      "keyup .add-followup-form textarea": "typeFollowupHandler",
       "click #load-more-comments-cnt": "loadMoreCommentsHandler"
     };
 
@@ -147,6 +148,14 @@
       $form = this.$(ev.target);
       this.sendCommentFromForm($form);
       return $form.find("textarea").val("").keyup();
+    };
+
+    ProfileView.prototype.typeFollowupHandler = function(ev) {
+      var $form;
+      if (ev.keyCode === 13) {
+        $form = this.$(ev.target).parents("form");
+        return $form.submit();
+      }
     };
 
     ProfileView.prototype.sendCommentFromForm = function($form) {

@@ -43,6 +43,13 @@
               animation_speed: 0
             });
           }
+          if (typeof that.model.get("content") !== "object") {
+            that.$(".comment-text").expander({
+              slicePoint: 215,
+              expandSpeed: 0,
+              collapseSpeed: 0
+            });
+          }
           that.$(".edit-comment").bind("click", that.editCommentHandler);
           return that.$(".delete-comment").bind("click", that.deleteCommentHandler);
         }

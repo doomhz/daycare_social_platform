@@ -23,7 +23,8 @@
     CommentView.prototype.tplUrl = "/templates/main/comment/comment.html";
 
     CommentView.prototype.events = {
-      "submit .add-followup-form": "addFollowupHandler"
+      "submit .add-followup-form": "addFollowupHandler",
+      "keyup .add-followup-form textarea": "typeFollowupHandler"
     };
 
     CommentView.prototype.initialize = function(options) {
@@ -88,6 +89,14 @@
       return $form.find("textarea").val("").keyup();
     };
 
+    CommentView.prototype.typeFollowupHandler = function(ev) {
+      var $form;
+      if (ev.keyCode === 13) {
+        $form = this.$(ev.target).parents("form");
+        return $form.submit();
+      }
+    };
+
     CommentView.prototype.sendCommentFromForm = function($form) {
       var comment, commentData, that;
       that = this;
@@ -97,7 +106,9 @@
       });
       return comment.save(null, {
         data: commentData,
-        success: function() {}
+        success: function() {
+          return that.followupsCollection.loadFollowups();
+        }
       });
     };
 

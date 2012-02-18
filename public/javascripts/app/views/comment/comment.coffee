@@ -12,6 +12,7 @@ class window.Kin.Comment.CommentView extends Backbone.View
 
   events:
     "submit .add-followup-form": "addFollowupHandler"
+    "keyup .add-followup-form textarea": "typeFollowupHandler"
 
   initialize: (options = {})->
     @followupsCollection = options.followupsCollection
@@ -58,6 +59,11 @@ class window.Kin.Comment.CommentView extends Backbone.View
     @sendCommentFromForm($form)
     $form.find("textarea").val("").keyup()
 
+  typeFollowupHandler: (ev)->
+    if ev.keyCode is 13
+      $form = @$(ev.target).parents("form")
+      $form.submit()
+
   sendCommentFromForm: ($form)->
     that = @
     commentData = $form.serialize()
@@ -65,4 +71,5 @@ class window.Kin.Comment.CommentView extends Backbone.View
     comment.save null,
       data: commentData
       success: ()->
+        that.followupsCollection.loadFollowups()
       

@@ -25,6 +25,11 @@ class Kin.Profile.WallCommentView extends Backbone.View
             deeplinking: false
             animation_speed: 0
 
+        if typeof that.model.get("content") isnt "object"
+          that.$(".comment-text").expander
+            slicePoint: 215
+            expandSpeed: 0
+            collapseSpeed: 0
         that.$(".edit-comment").bind("click", that.editCommentHandler)
         that.$(".delete-comment").bind("click", that.deleteCommentHandler)
 
