@@ -121,6 +121,7 @@
     User = mongoose.model('User');
     return User.find().where("type")["in"](["daycare", "class"]).where("_id")["in"](this.friends).run(function(err, daycareFriends) {
       var daycareFriend, daycareFriendData, _i, _len;
+      that.daycare_friends = [];
       for (_i = 0, _len = daycareFriends.length; _i < _len; _i++) {
         daycareFriend = daycareFriends[_i];
         daycareFriendData = {
@@ -184,29 +185,51 @@
         loginSuccessRedirect: '/',
         registerSuccessRedirect: '/',
         respondToLoginSucceed: function(res, user, data) {
-          var redirectTo, _ref;
+          var FriendRequest, friendRequestId, redirectTo, userId, _ref;
           if (user == null) user = {};
+          userId = "" + user._id;
+          friendRequestId = data.req.body.friend_request_id;
           if (user.type === "daycare") {
-            redirectTo = "/#profiles/view/" + user._id;
+            redirectTo = "/#profiles/view/" + userId;
             res.writeHead(303, {
               'Location': redirectTo
             });
-            res.end();
-          }
-          if ((_ref = user.type) === "parent" || _ref === "staff") {
-            return User.findOne({
-              type: "daycare"
-            }).where("_id")["in"](user.friends).run(function(err, daycare) {
-              if (daycare) {
-                redirectTo = "/#profiles/view/" + daycare._id;
-              } else {
-                redirectTo = "/#profiles/view/" + user._id;
-              }
-              res.writeHead(303, {
-                'Location': redirectTo
+            return res.end();
+          } else if ((_ref = user.type) === "parent" || _ref === "staff") {
+            if (friendRequestId) {
+              FriendRequest = mongoose.model("FriendRequest");
+              return FriendRequest.findOne({
+                _id: friendRequestId
+              }).run(function(err, friendRequest) {
+                friendRequest.status = "accepted";
+                friendRequest.user_id = userId;
+                return friendRequest.save(function(err, updateRequest) {
+                  var dayCareId;
+                  dayCareId = friendRequest.from_id;
+                  redirectTo = "/#profiles/view/" + dayCareId;
+                  return FriendRequest.updateFriendship(userId, function(err) {
+                    res.writeHead(303, {
+                      'Location': redirectTo
+                    });
+                    return res.end();
+                  });
+                });
               });
-              return res.end();
-            });
+            } else {
+              return User.findOne({
+                type: "daycare"
+              }).where("_id")["in"](user.friends).run(function(err, daycare) {
+                if (daycare) {
+                  redirectTo = "/#profiles/view/" + daycare._id;
+                } else {
+                  redirectTo = "/#profiles/view/" + user._id;
+                }
+                res.writeHead(303, {
+                  'Location': redirectTo
+                });
+                return res.end();
+              });
+            }
           }
         },
         respondToRegistrationSucceed: function(res, user, data) {
@@ -246,7 +269,7 @@
                 friendRequest.save();
                 dayCareId = friendRequest.from_id;
                 redirectTo = "/#profiles/view/" + dayCareId;
-                return friendRequest.updateFriendship(userId, function(err) {
+                return FriendRequest.updateFriendship(userId, function(err) {
                   res.writeHead(303, {
                     'Location': redirectTo
                   });

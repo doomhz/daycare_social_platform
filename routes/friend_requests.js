@@ -58,7 +58,7 @@
                   requestUser.friends = [];
                   requestUser.children_ids = [];
                   requestUser.save();
-                  return friendRequest.updateFriendship(requestUser._id);
+                  return FriendRequest.updateFriendship(requestUser._id);
                 });
               });
             }
@@ -90,11 +90,24 @@
       return FriendRequest.findOne({
         _id: friendRequestId
       }).run(function(err, friendRequest) {
-        return res.render('friend_requests/_friend_request', {
-          friend_request: friendRequest,
-          show_private: false,
-          layout: false
-        });
+        if (friendRequest) {
+          return User.findOne({
+            email: friendRequest.email
+          }).run(function(err, user) {
+            if (user) friendRequest.user = user;
+            return res.render('friend_requests/_friend_request', {
+              friend_request: friendRequest,
+              show_private: false,
+              layout: false
+            });
+          });
+        } else {
+          return res.render('friend_requests/_friend_request', {
+            friend_request: friendRequest,
+            show_private: false,
+            layout: false
+          });
+        }
       });
     });
   };

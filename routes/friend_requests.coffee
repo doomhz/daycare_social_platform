@@ -37,7 +37,7 @@ module.exports = (app)->
                 requestUser.friends = []
                 requestUser.children_ids = []
                 requestUser.save()
-                friendRequest.updateFriendship(requestUser._id)
+                FriendRequest.updateFriendship(requestUser._id)
 
       res.json {success: true}
 
@@ -51,4 +51,10 @@ module.exports = (app)->
   app.get '/friend-request/:id', (req, res)->
     friendRequestId = req.params.id
     FriendRequest.findOne({_id: friendRequestId}).run (err, friendRequest)->
-      res.render 'friend_requests/_friend_request', {friend_request: friendRequest, show_private: false, layout: false}
+      if friendRequest
+        User.findOne({email: friendRequest.email}).run (err, user)->
+          if user
+            friendRequest.user = user
+          res.render 'friend_requests/_friend_request', {friend_request: friendRequest, show_private: false, layout: false}
+      else
+        res.render 'friend_requests/_friend_request', {friend_request: friendRequest, show_private: false, layout: false}

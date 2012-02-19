@@ -31,6 +31,8 @@ FriendRequestSchema = new Schema
   created_at:
     type: Date
     default: Date.now
+  user:
+    type: {}
 
 FriendRequestSchema.statics.sendMail = (friendRequest, options)->
   User.findOne({_id: friendRequest.from_id}).run (err, daycare)->
@@ -62,40 +64,52 @@ FriendRequestSchema.statics.sendMail = (friendRequest, options)->
         console.log err
     )
 
-FriendRequestSchema.methods.updateFriendship = (userId, onFriendshipUpdate)->
-  Child = require("./child")
+FriendRequestSchema.statics.updateFriendship = (userId, onFriendshipUpdate)->
+  Child          = mongoose.model("Child")
+  FriendRequest  = mongoose.model("FriendRequest")
 
-  daycareAndClassesToFind = []
-  daycareAndClassesToFind.push(@from_id)
-  childrenIds = @children_ids
-  classesIds = @classes_ids
-  gender = @gender
+  FriendRequest.find({user_id: userId}).run (err, friendRequests)->
 
-  User.find().where("_id").in(@classes_ids).run (err, classes = [])->
-    for daycareClass in classes
-      daycareAndClassesToFind.push(daycareClass._id)
+    daycareAndClassesToFind = []
+    childrenIds             = []
+    classesIds              = []
+    gender                  = ""
 
-    Child.find().where("_id").in(childrenIds).run (err, children = [])->
-      for child in children
-        daycareAndClassesToFind.push(child.user_id)
+    for friendRequest in friendRequests
+      daycareAndClassesToFind.push(friendRequest.from_id)
+      childrenIds = childrenIds.concat(friendRequest.children_ids)
+      classesIds  = classesIds.concat(friendRequest.classes_ids)
+      gender      = friendRequest.gender
 
-      User.find().where("_id").in(daycareAndClassesToFind).run (err, dayCares)->
-        friendsToAdd = []
-        for dayCare in dayCares
-          friendsToAdd = _.union(friendsToAdd, dayCare.friends)
-          dayCare.friends.push(userId)
-          dayCare.save()
+    User.find().where("_id").in(classesIds).run (err, classes = [])->
+      for daycareClass in classes
+        daycareAndClassesToFind.push(daycareClass._id)
 
-        User.find().where("type").in(["parent", "staff"]).where("_id").in(friendsToAdd).run (err, dayCareFriends)->
-          myFriendsIds = daycareAndClassesToFind
-          for userFriend in dayCareFriends
-            myFriendsIds.push(userFriend._id)
-            userFriend.friends.push(userId)
-            userFriend.save()
+      Child.find().where("_id").in(childrenIds).run (err, children = [])->
+        for child in children
+          daycareAndClassesToFind.push(child.user_id)
 
-          User.update {_id: userId}, {friends: myFriendsIds, children_ids: childrenIds, classes_ids: classesIds, gender: gender}, {}, (err)->
-            if onFriendshipUpdate
-              onFriendshipUpdate(err)
+        User.find().where("_id").in(daycareAndClassesToFind).run (err, dayCares)->
+          friendsToAdd = []
+          for dayCare in dayCares
+            friendsToAdd = _.union(friendsToAdd, dayCare.friends)
+            dayCare.friends.push(userId)
+            dayCare.save()
+
+          User.find().where("type").in(["parent", "staff"]).where("_id").in(friendsToAdd).run (err, dayCareFriends)->
+            myFriendsIds = daycareAndClassesToFind
+            for userFriend in dayCareFriends
+              myFriendsIds.push(userFriend._id)
+              userFriend.friends.push(userId)
+              userFriend.save()
+
+            myFriendsIds = _.uniq(myFriendsIds)
+            childrenIds  = _.uniq(childrenIds)
+            classesIds   = _.uniq(classesIds)
+
+            User.update {_id: userId}, {friends: myFriendsIds, children_ids: childrenIds, classes_ids: classesIds, gender: gender}, {}, (err)->
+              if onFriendshipUpdate
+                onFriendshipUpdate(err)
 
 FriendRequest = mongoose.model("FriendRequest", FriendRequestSchema)
 

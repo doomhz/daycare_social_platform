@@ -22,8 +22,15 @@
     });
     friendRequestId = $("input[name='friend_request_id']").val();
     if (friendRequestId || (searchStart = window.document.location.search.search(/friend_request=.*/) > -1)) {
+      $("#register-as").addClass("hidden");
       friendRequestId = friendRequestId || window.document.location.search.substring(searchStart).replace("friend_request=", "");
       $.getJSON("/friend-request/" + friendRequestId, function(response) {
+        var loginFormUrl;
+        loginFormUrl = "/login?friend_request=" + friendRequestId;
+        if (response._id === friendRequestId && response.user.id && window.document.location.href.search("/login") === -1) {
+          window.document.location = loginFormUrl;
+        }
+        $("#login-form").attr("action", loginFormUrl);
         if (response._id === friendRequestId && response.status === "sent") {
           $("input[type='radio'][value='" + response.type + "']").attr("checked", true).click();
           $("input[name='name']").val(response.name);

@@ -22,5 +22,11 @@
       ,
 ],
 "status": "#{friend_request.status}",
-"created_at": "#{friend_request.created_at}"
+"created_at": "#{friend_request.created_at}",
+"user":
+- var profile = friend_request.user
+- if (profile)
+  include ../profiles/_user
+- else
+  {}	
 }

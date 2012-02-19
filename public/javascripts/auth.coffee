@@ -7,7 +7,6 @@ $ ()->
       newType = if $el.attr("type") is "text" then "password" else "text"
       $clone.attr("type", newType)
       $el.replaceWith($clone)
-
     $pwdEl = $(ev.target)
     if $pwdEl.text() is $pwdEl.data("show")
       $pwdEl.text($pwdEl.data("hide"))
@@ -16,8 +15,13 @@ $ ()->
 
   friendRequestId = $("input[name='friend_request_id']").val()
   if friendRequestId or (searchStart = window.document.location.search.search(/friend_request=.*/) > -1)
+    $("#register-as").addClass("hidden")
     friendRequestId = friendRequestId or window.document.location.search.substring(searchStart).replace("friend_request=", "")
     $.getJSON "/friend-request/" + friendRequestId, (response)->
+      loginFormUrl = "/login?friend_request=#{friendRequestId}"
+      if response._id is friendRequestId and response.user.id and window.document.location.href.search("/login") is -1
+        window.document.location = loginFormUrl
+      $("#login-form").attr("action", loginFormUrl)
       if response._id is friendRequestId and response.status is "sent"
         $("input[type='radio'][value='#{response.type}']").attr("checked", true).click()
         $("input[name='name']").val(response.name)

@@ -4,8 +4,9 @@ h2 Login
     ul#errors
       - each error in errors
         li.error= error
-form(action='/login', method='POST')
+form(action='/login', method='POST', id='login-form')
   fieldset
+    input(type='hidden', name="friend_request_id", value='')
     #login.clearfix
       label(for=everyauth.password.loginFormFieldName) E-mail
       .input
