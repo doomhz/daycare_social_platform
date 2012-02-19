@@ -162,8 +162,12 @@ UserSchema.plugin(
                   redirectTo = "/#profiles/view/#{dayCareId}"
 
                   FriendRequest.updateFriendship userId, (err)->
-                    res.writeHead(303, {'Location': redirectTo})
-                    res.end()
+                    userInfo =
+                      reviewed_children: false
+                    
+                    User.update {_id: userId}, userInfo, {}, (err)->
+                      res.writeHead(303, {'Location': redirectTo})
+                      res.end()
             else
              
               User.findOne({type: "daycare"}).where("_id").in(user.friends).run (err, daycare)->

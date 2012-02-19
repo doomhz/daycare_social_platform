@@ -208,10 +208,18 @@
                   dayCareId = friendRequest.from_id;
                   redirectTo = "/#profiles/view/" + dayCareId;
                   return FriendRequest.updateFriendship(userId, function(err) {
-                    res.writeHead(303, {
-                      'Location': redirectTo
+                    var userInfo;
+                    userInfo = {
+                      reviewed_children: false
+                    };
+                    return User.update({
+                      _id: userId
+                    }, userInfo, {}, function(err) {
+                      res.writeHead(303, {
+                        'Location': redirectTo
+                      });
+                      return res.end();
                     });
-                    return res.end();
                   });
                 });
               });
