@@ -14,7 +14,6 @@
 
     MainRouter.prototype.routes = {
       '': 'root',
-      'day-cares': 'dayCares',
       'profiles/view/:id': 'viewProfile',
       'profiles/view/gallery/:id': 'viewProfileGallery',
       'profiles/edit/:id': 'editProfile',
@@ -30,7 +29,10 @@
       'invite-staff': 'inviteStaff',
       'add-class': 'addClass',
       'manage-children/:id': 'manageChildren',
-      'comments/view/:id': 'viewComment'
+      'comments/view/:id': 'viewComment',
+      'day-cares': 'dayCares',
+      'day-care/:section/:id': 'viewDaycareSection',
+      'day-care/edit/:section/:id': 'editDaycareSection'
     };
 
     MainRouter.prototype.initialize = function(_arg) {
@@ -103,6 +105,14 @@
 
     MainRouter.prototype.viewComment = function(id) {
       return this.app.renderViewComment(id);
+    };
+
+    MainRouter.prototype.viewDaycareSection = function(section, id) {
+      return this.app.renderDaycareSection(section, id);
+    };
+
+    MainRouter.prototype.editDaycareSection = function(section, id) {
+      return this.app.renderEditDaycareSection(section, id);
     };
 
     return MainRouter;

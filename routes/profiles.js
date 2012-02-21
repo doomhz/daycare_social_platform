@@ -33,6 +33,12 @@
         });
       });
     });
+    app.get('/day-care/section/:section_name/:daycare_id', function(req, res) {
+      return res.render('profiles/section', {
+        show_private: false,
+        layout: false
+      });
+    });
     app.get('/profiles/me', function(req, res) {
       var currentUser;
       currentUser = req.user ? req.user : {};

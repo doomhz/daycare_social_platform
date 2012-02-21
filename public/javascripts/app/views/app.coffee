@@ -410,6 +410,35 @@ class Kin.AppView extends Backbone.View
           el: that.side1ColumnSelector
         that.side1ColumnView.render()
 
+  renderDaycareSection: (sectionName, daycareId)->
+    that = @
+    @clearColumns()
+    
+    profile = new Kin.ProfileModel({_id: daycareId})
+    profile.fetch
+      success: (model, response)->
+
+        model.setPictureSets()
+
+        section = new Kin.SectionModel
+          id: daycareId
+          name: sectionName
+        
+        that.mainColumnView = new Kin.DayCare.SectionView
+          model: section
+          el: that.mainColumnSelector
+          currentUser: that.currentUser
+        that.mainColumnView.render()
+
+        that.side1ColumnView = new Kin.Profile.ProfileSide1View
+          model: model
+          el: that.side1ColumnSelector
+          selectedMenuItem: "#{sectionName}-section-menu-item"
+          currentUser: that.currentUser
+        that.side1ColumnView.render()
+
+  renderEditDaycareSection: (sectionName, daycareId)->
+
   initTopLink: ()->
     $('#top-link').topLink()
 

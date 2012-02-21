@@ -7,6 +7,7 @@ class window.Kin.Profile.ProfileSide1View extends Backbone.View
     parent:  '/templates/side1/parent/profile.html'
     staff:  '/templates/side1/staff/profile.html'
     class:  '/templates/side1/class/profile.html'
+    section: '/templates/side1/day_care/profile.html'
 
   quickMessageTplUrl: '/templates/side1/messages/quick_message_box.html'
 

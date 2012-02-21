@@ -13,6 +13,9 @@ module.exports = (app)->
   app.get '/daycares', (req, res)->
     User.find({type: 'daycare'}).desc('created_at').run (err, daycares) ->
       res.render 'profiles/profiles', {profiles: daycares, show_private: false, layout: false}
+  
+  app.get '/day-care/section/:section_name/:daycare_id', (req, res)->
+    res.render 'profiles/section', {show_private: false, layout: false}
 
   app.get '/profiles/me', (req, res)->
     currentUser = if req.user then req.user else {}

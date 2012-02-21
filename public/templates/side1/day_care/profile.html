@@ -38,4 +38,13 @@
     <li id="our-family-menu-item" class="<%=(selectedMenuItem === 'our-family-menu-item' ? 'selected' : '') %>">
         <a href="#profiles/view/our-family/<%=profile.get('_id') %>"><span>Our Family</span></a>
     </li>
+    <li id="general-information-section-menu-item" class="<%=(selectedMenuItem === 'general-information-section-menu-item' ? 'selected' : '') %>">
+        <a href="#day-care/general-information/<%=profile.get('_id') %>"><span>General information</span></a>
+    </li>
+    <li id="environment-section-menu-item" class="<%=(selectedMenuItem === 'environment-section-menu-item' ? 'selected' : '') %>">
+        <a href="#day-care/environment/<%=profile.get('_id') %>"><span>Environment</span></a>
+    </li>
+    <li id="enrollment-section-menu-item" class="<%=(selectedMenuItem === 'enrollment-section-menu-item' ? 'selected' : '') %>">
+        <a href="#day-care/enrollment/<%=profile.get('_id') %>"><span>Enrollment</span></a>
+    </li>
 </ul>
