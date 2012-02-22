@@ -19,7 +19,10 @@
       "class": '/templates/side1/class/edit.html'
     };
 
-    ProfileEditSide1View.prototype.initialize = function() {
+    ProfileEditSide1View.prototype.selectedMenuItem = null;
+
+    ProfileEditSide1View.prototype.initialize = function(_arg) {
+      this.selectedMenuItem = _arg.selectedMenuItem;
       this.model && (this.model.view = this);
       return this;
     };
@@ -31,7 +34,8 @@
         url: this.tplUrl[this.model.get("type")],
         onLoad: function(tpl) {
           return $(that.el).html(tpl({
-            profile: that.model
+            profile: that.model,
+            selectedMenuItem: that.selectedMenuItem
           }));
         }
       });

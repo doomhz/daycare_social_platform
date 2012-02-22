@@ -1,1 +1,7 @@
 <h1>Enrollment</h1>
+
+<% if (section.get("id") === Kin.app.currentUser.get("id")) { %>
+<p>
+	<a href="#day-care/edit/<%= section.get("name") %>/<%= section.get("id") %>">Edit this information</a>
+</p>
+<% } %>

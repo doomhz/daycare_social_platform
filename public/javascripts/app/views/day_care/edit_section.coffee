@@ -1,7 +1,8 @@
-class Kin.DayCare.SectionView extends Backbone.View
+class Kin.DayCare.EditSectionView extends Backbone.View
+
   el: null
 
-  tplUrl: '/templates/main/day_care/{sectionName}.html'
+  tplUrl: '/templates/main/day_care/edit_{sectionName}.html'
 
   model: null
 

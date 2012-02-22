@@ -8,7 +8,9 @@ class window.Kin.Profile.ProfileEditSide1View extends Kin.Profile.ProfileSide1Vi
     staff:  '/templates/side1/staff/edit.html'
     class:  '/templates/side1/class/edit.html'
 
-  initialize: ()->
+  selectedMenuItem: null
+
+  initialize: ({@selectedMenuItem})->
     @model and @model.view = @
     @
 
@@ -17,7 +19,7 @@ class window.Kin.Profile.ProfileEditSide1View extends Kin.Profile.ProfileSide1Vi
     $.tmpload
       url: @tplUrl[@model.get("type")]
       onLoad: (tpl)->
-        $(that.el).html(tpl({profile: that.model}))
+        $(that.el).html(tpl({profile: that.model, selectedMenuItem: that.selectedMenuItem}))
     @
 
   remove: ()->

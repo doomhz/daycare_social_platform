@@ -227,6 +227,7 @@
       return profile.fetch({
         success: function(model, response) {
           var mapCenterLat, mapCenterLng;
+          model.setPictureSets();
           mapCenterLat = model.get('location').lat;
           mapCenterLng = model.get('location').lng;
           that.mainColumnView = new Kin.Profile.ProfileEditView({
@@ -245,7 +246,8 @@
           that.mainColumnView.render();
           that.side1ColumnView = new Kin.Profile.ProfileEditSide1View({
             model: model,
-            el: that.side1ColumnSelector
+            el: that.side1ColumnSelector,
+            selectedMenuItem: "edit-profile-menu-item"
           });
           return that.side1ColumnView.render();
         }
@@ -534,22 +536,48 @@
           });
           that.mainColumnView = new Kin.DayCare.SectionView({
             model: section,
-            el: that.mainColumnSelector,
-            currentUser: that.currentUser
+            el: that.mainColumnSelector
           });
           that.mainColumnView.render();
           that.side1ColumnView = new Kin.Profile.ProfileSide1View({
             model: model,
             el: that.side1ColumnSelector,
-            selectedMenuItem: "" + sectionName + "-section-menu-item",
-            currentUser: that.currentUser
+            selectedMenuItem: "" + sectionName + "-section-menu-item"
           });
           return that.side1ColumnView.render();
         }
       });
     };
 
-    AppView.prototype.renderEditDaycareSection = function(sectionName, daycareId) {};
+    AppView.prototype.renderEditDaycareSection = function(sectionName, daycareId) {
+      var profile, that;
+      that = this;
+      this.clearColumns();
+      profile = new Kin.ProfileModel({
+        _id: daycareId
+      });
+      return profile.fetch({
+        success: function(model, response) {
+          var section;
+          model.setPictureSets();
+          section = new Kin.SectionModel({
+            id: daycareId,
+            name: sectionName
+          });
+          that.mainColumnView = new Kin.DayCare.EditSectionView({
+            model: section,
+            el: that.mainColumnSelector
+          });
+          that.mainColumnView.render();
+          that.side1ColumnView = new Kin.Profile.ProfileEditSide1View({
+            model: model,
+            el: that.side1ColumnSelector,
+            selectedMenuItem: "" + sectionName + "-section-menu-item"
+          });
+          return that.side1ColumnView.render();
+        }
+      });
+    };
 
     AppView.prototype.initTopLink = function() {
       return $('#top-link').topLink();

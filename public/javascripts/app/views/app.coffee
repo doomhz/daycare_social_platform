@@ -170,6 +170,8 @@ class Kin.AppView extends Backbone.View
     profile.fetch
       success: (model, response)->
 
+        model.setPictureSets()
+
         mapCenterLat = model.get('location').lat
         mapCenterLng = model.get('location').lng
 
@@ -188,6 +190,7 @@ class Kin.AppView extends Backbone.View
         that.side1ColumnView = new Kin.Profile.ProfileEditSide1View
           model: model
           el: that.side1ColumnSelector
+          selectedMenuItem: "edit-profile-menu-item"
         that.side1ColumnView.render()
 
   renderViewProfilePictureSet: (id)->
@@ -427,17 +430,38 @@ class Kin.AppView extends Backbone.View
         that.mainColumnView = new Kin.DayCare.SectionView
           model: section
           el: that.mainColumnSelector
-          currentUser: that.currentUser
         that.mainColumnView.render()
 
         that.side1ColumnView = new Kin.Profile.ProfileSide1View
           model: model
           el: that.side1ColumnSelector
           selectedMenuItem: "#{sectionName}-section-menu-item"
-          currentUser: that.currentUser
         that.side1ColumnView.render()
 
   renderEditDaycareSection: (sectionName, daycareId)->
+    that = @
+    @clearColumns()
+    
+    profile = new Kin.ProfileModel({_id: daycareId})
+    profile.fetch
+      success: (model, response)->
+
+        model.setPictureSets()
+
+        section = new Kin.SectionModel
+          id: daycareId
+          name: sectionName
+        
+        that.mainColumnView = new Kin.DayCare.EditSectionView
+          model: section
+          el: that.mainColumnSelector
+        that.mainColumnView.render()
+
+        that.side1ColumnView = new Kin.Profile.ProfileEditSide1View
+          model: model
+          el: that.side1ColumnSelector
+          selectedMenuItem: "#{sectionName}-section-menu-item"
+        that.side1ColumnView.render()
 
   initTopLink: ()->
     $('#top-link').topLink()

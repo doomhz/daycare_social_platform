@@ -2,23 +2,23 @@
   var __hasProp = Object.prototype.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  Kin.DayCare.SectionView = (function(_super) {
+  Kin.DayCare.EditSectionView = (function(_super) {
 
-    __extends(SectionView, _super);
+    __extends(EditSectionView, _super);
 
-    function SectionView() {
-      SectionView.__super__.constructor.apply(this, arguments);
+    function EditSectionView() {
+      EditSectionView.__super__.constructor.apply(this, arguments);
     }
 
-    SectionView.prototype.el = null;
+    EditSectionView.prototype.el = null;
 
-    SectionView.prototype.tplUrl = '/templates/main/day_care/{sectionName}.html';
+    EditSectionView.prototype.tplUrl = '/templates/main/day_care/edit_{sectionName}.html';
 
-    SectionView.prototype.model = null;
+    EditSectionView.prototype.model = null;
 
-    SectionView.prototype.initialize = function(options) {};
+    EditSectionView.prototype.initialize = function(options) {};
 
-    SectionView.prototype.render = function() {
+    EditSectionView.prototype.render = function() {
       var that, tplUrl;
       that = this;
       tplUrl = this.tplUrl.replace("{sectionName}", this.model.get("name")).replace(/-/g, "_");
@@ -36,12 +36,12 @@
       });
     };
 
-    SectionView.prototype.remove = function() {
+    EditSectionView.prototype.remove = function() {
       this.unbind();
       return $(this.el).unbind().empty();
     };
 
-    return SectionView;
+    return EditSectionView;
 
   })(Backbone.View);
 
