@@ -1,5 +1,5 @@
 (function() {
-  var Child, Comment, User, fs, _,
+  var Child, Comment, InfoSection, User, fs, _,
     __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   User = require('../models/user');
@@ -7,6 +7,8 @@
   Comment = require('../models/comment');
 
   Child = require('../models/child');
+
+  InfoSection = require('../models/info_section');
 
   fs = require('fs');
 
@@ -34,9 +36,38 @@
       });
     });
     app.get('/day-care/section/:section_name/:daycare_id', function(req, res) {
-      return res.render('profiles/section', {
-        show_private: false,
-        layout: false
+      var daycareId, sectionName;
+      daycareId = req.params.daycare_id;
+      sectionName = req.params.section_name.replace(/-/g, "_");
+      return InfoSection.findOne({
+        user_id: daycareId
+      }).run(function(err, infoSection) {
+        if (infoSection) {
+          return res.json(infoSection[sectionName]);
+        } else {
+          return res.json({});
+        }
+      });
+    });
+    app.put('/day-care/section/:section_name/:daycare_id', function(req, res) {
+      var data, daycareId, sectionName;
+      daycareId = req.params.daycare_id;
+      sectionName = req.params.section_name.replace(/-/g, "_");
+      data = {};
+      data[sectionName] = req.body;
+      InfoSection.findOne({
+        user_id: daycareId
+      }).run(function(err, infoSection) {
+        if (infoSection) {
+          infoSection.set(data);
+        } else {
+          infoSection = new InfoSection(data);
+          infoSection.user_id = daycareId;
+        }
+        return infoSection.save();
+      });
+      return res.json({
+        success: true
       });
     });
     app.get('/profiles/me', function(req, res) {

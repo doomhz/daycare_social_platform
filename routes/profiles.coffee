@@ -1,8 +1,9 @@
-User    = require('../models/user')
-Comment = require('../models/comment')
-Child   = require('../models/child')
-fs      = require('fs')
-_       = require('underscore')
+User        = require('../models/user')
+Comment     = require('../models/comment')
+Child       = require('../models/child')
+InfoSection = require('../models/info_section')
+fs          = require('fs')
+_           = require('underscore')
 
 module.exports = (app)->
 
@@ -15,7 +16,30 @@ module.exports = (app)->
       res.render 'profiles/profiles', {profiles: daycares, show_private: false, layout: false}
   
   app.get '/day-care/section/:section_name/:daycare_id', (req, res)->
-    res.render 'profiles/section', {show_private: false, layout: false}
+    daycareId   = req.params.daycare_id
+    sectionName = req.params.section_name.replace(/-/g, "_")
+    
+    InfoSection.findOne({user_id: daycareId}).run (err, infoSection)->
+      if infoSection
+        res.json infoSection[sectionName]
+      else
+        res.json {}
+
+  app.put '/day-care/section/:section_name/:daycare_id', (req, res)->
+    daycareId   = req.params.daycare_id
+    sectionName = req.params.section_name.replace(/-/g, "_")
+    data = {}
+    data[sectionName] = req.body
+    
+    InfoSection.findOne({user_id: daycareId}).run (err, infoSection)->
+      if infoSection
+        infoSection.set(data)
+      else
+        infoSection = new InfoSection(data)
+        infoSection.user_id = daycareId
+      infoSection.save()
+
+    res.json {success: true}
 
   app.get '/profiles/me', (req, res)->
     currentUser = if req.user then req.user else {}

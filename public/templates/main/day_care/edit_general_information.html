@@ -1,1 +1,182 @@
 <h1>Edit general information</h1>
+
+<form id="edit-section-form">
+  <fieldset>
+    <div class="clearfix">
+      <label>School Philosophy</label>
+      <div class="input">
+        <textarea name="school_philosophy" placeholder="Short description of the center with a brief message from director."><%=section.get('school_philosophy') %></textarea>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>General Aproach to Learning</label>
+      <div class="input">
+        <select multiple="multiple" name="general_aprocah_to_learning" class="chzn-select" data-placeholder="Select aproach...">
+        <%
+            var learningAproaches = section.get('general_aprocah_to_learning');
+            _.each(view.getGeneralAproachesToLearning(), function (val, key) {
+        %>
+            <option value="<%=key %>"<% if (_.include(learningAproaches, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
+        <%
+            });
+        %>
+        </select>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Licensed</label>
+      <div class="input">
+        <ul class="inputs-list" id="licensed-options">
+          <li>
+            <label>
+              <input type="radio" name="licensed" value="1" <% if (section.get('licensed')) { %>checked="checked"<% } %> />
+              <span>Yes</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="radio" name="licensed" value="0"  <% if (!section.get('licensed')) { %>checked="checked"<% } %> />
+              <span>No</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Speaking classes</label>
+      <div class="input">
+        <select multiple="multiple" name="speaking_classes" class="chzn-select" data-placeholder="Add a language...">
+        <%
+          var speakingClasses = section.get('speaking_classes');
+          _.each(Kin.CONFIG.languages, function (val, key) {
+        %>
+          <option value="<%=key %>"<% if (_.include(speakingClasses, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
+        <%
+          });
+        %>
+        </select>
+      </div>
+    </div>
+    <div class="clearfix <%= section.get('licensed') ? '' : 'hidden' %>" id="license-number-cnt">
+      <label for="license_number">License number</label>
+      <div class="input">
+        <input type="text" name="license_number" value="<%=section.get('license_number') %>" />
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Open door policy</label>
+      <div class="input">
+        <ul class="inputs-list">
+          <li>
+            <label>
+              <input type="radio" name="open_door_policy" value="1" <% if (section.get('open_door_policy')) { %>checked="checked"<% } %> />
+              <span>Yes</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="radio" name="open_door_policy" value="0"  <% if (!section.get('open_door_policy')) { %>checked="checked"<% } %> />
+              <span>No</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="clearfix">Learning Philosophy &amp; Tools</h3>
+    
+    <div class="clearfix">
+      <label>Language</label>
+      <div class="input">
+        <select multiple="multiple" name="learning_philosophy_and_tools_language" class="chzn-select" data-placeholder="Select tools...">
+        <%
+            var learningTools = section.get('learning_philosophy_and_tools_language');
+            _.each(view.getLearningPhilosophyAndToolsLanguage(), function (val, key) {
+        %>
+            <option value="<%=key %>"<% if (_.include(learningTools, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
+        <%
+            });
+        %>
+        </select>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Cognitive development</label>
+      <div class="input">
+        <select multiple="multiple" name="learning_philosophy_and_tools_cognitive_dev" class="chzn-select" data-placeholder="Select tools...">
+        <%
+            var learningTools = section.get('learning_philosophy_and_tools_cognitive_dev');
+            _.each(view.getLearningPhilosophyAndToolsCognitiveDev(), function (val, key) {
+        %>
+            <option value="<%=key %>"<% if (_.include(learningTools, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
+        <%
+            });
+        %>
+        </select>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label class="control-label">Home school connection</label>
+      <div class="input">
+        <ul class="inputs-list">
+        <%
+          var homeSchoolConnections = section.get('home_school_connections');
+          _.each(view.getHomeSchoolConnections(), function (val, key) {
+            key = parseInt(key);
+        %>
+          <li>
+            <label class="checkbox inline">
+              <input type="checkbox" name="home_school_connections[]" value="<%= key %>" <% if (_.include(homeSchoolConnections, key)) { %>checked="checked"<% } %>> <%= val %>
+            </label>
+          </li>
+        <%
+          });
+        %>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label class="control-label">Separation is Handled through</label>
+      <div class="input">
+        <ul class="inputs-list">
+        <%
+          var homeSchoolSeparations = section.get('home_school_separations');
+          _.each(view.getHomeSchoolSeparations(), function (val, key) {
+            key = parseInt(key);
+        %>
+          <li>
+            <label class="checkbox inline">
+              <input type="checkbox" name="home_school_separations[]" value="<%= key %>" <% if (_.include(homeSchoolSeparations, key)) { %>checked="checked"<% } %>> <%= val %>
+            </label>
+          </li>
+        <%
+          });
+        %>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label class="control-label">Certificates / Awards</label>
+      <div class="input">
+        <ul class="inputs-list">
+        <%
+          var certificates = section.get('certificates');
+          _.each(view.getCertificates(), function (val, key) {
+            key = parseInt(key);
+        %>
+          <li>
+            <label class="checkbox inline">
+              <input type="checkbox" name="certificates[]" value="<%= key %>" <% if (_.include(certificates, key)) { %>checked="checked"<% } %>> <%= val %>
+            </label>
+          </li>
+        <%
+          });
+        %>
+        </ul>
+      </div>
+    </div>
+    <div class="actions">
+      <input type="submit" class="btn primary" value="Save" />
+    </div>
+  </fieldset>
+</form>

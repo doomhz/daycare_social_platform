@@ -10,39 +10,10 @@
       EditSectionView.__super__.constructor.apply(this, arguments);
     }
 
-    EditSectionView.prototype.el = null;
-
     EditSectionView.prototype.tplUrl = '/templates/main/day_care/edit_{sectionName}.html';
-
-    EditSectionView.prototype.model = null;
-
-    EditSectionView.prototype.initialize = function(options) {};
-
-    EditSectionView.prototype.render = function() {
-      var that, tplUrl;
-      that = this;
-      tplUrl = this.tplUrl.replace("{sectionName}", this.model.get("name")).replace(/-/g, "_");
-      return $.tmpload({
-        url: tplUrl,
-        onLoad: function(tpl) {
-          return that.model.fetch({
-            success: function(model) {
-              return $(that.el).html(tpl({
-                section: model
-              }));
-            }
-          });
-        }
-      });
-    };
-
-    EditSectionView.prototype.remove = function() {
-      this.unbind();
-      return $(this.el).unbind().empty();
-    };
 
     return EditSectionView;
 
-  })(Backbone.View);
+  })(Kin.DayCare.SectionView);
 
 }).call(this);
