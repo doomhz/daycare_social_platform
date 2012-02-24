@@ -1,1 +1,109 @@
 <h1>Edit environment</h1>
+
+<form id="edit-section-form">
+  <fieldset>
+  	<div class="clearfix">
+      <label class="control-label">Indoors</label>
+      <div class="input">
+        <ul class="inputs-list">
+        <%
+          var indoors = section.get('indoors');
+          _.each(view.getIndoors(), function (val, key) {
+            key = parseInt(key);
+        %>
+          <li>
+            <label class="checkbox inline">
+              <input type="checkbox" name="indoors[]" value="<%= key %>" <% if (_.include(indoors, key)) { %>checked="checked"<% } %>> <%= val %>
+            </label>
+          </li>
+        <%
+          });
+        %>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label class="control-label">Outdoors</label>
+      <div class="input">
+        <ul class="inputs-list">
+        <%
+          var outdoors = section.get('outdoors');
+          _.each(view.getOutdoors(), function (val, key) {
+            key = parseInt(key);
+        %>
+          <li>
+            <label class="checkbox inline">
+              <input type="checkbox" name="outdoors[]" value="<%= key %>" <% if (_.include(outdoors, key)) { %>checked="checked"<% } %>> <%= val %>
+            </label>
+          </li>
+        <%
+          });
+        %>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label class="control-label">Environments for Infants</label>
+      <div class="input">
+        <ul class="inputs-list">
+        <%
+          var forInfants = section.get('for_infants');
+          _.each(view.getForInfants(), function (val, key) {
+            key = parseInt(key);
+        %>
+          <li>
+            <label class="checkbox inline">
+              <input type="checkbox" name="for_infants[]" value="<%= key %>" <% if (_.include(forInfants, key)) { %>checked="checked"<% } %>> <%= val %>
+            </label>
+          </li>
+        <%
+          });
+        %>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label class="control-label">Health and Safety Issues</label>
+      <div class="input">
+        <ul class="inputs-list">
+        <%
+          var safetyIssues = section.get('health_and_safety_issues');
+          _.each(view.getHealthAndSafetyIssues(), function (val, key) {
+            key = parseInt(key);
+        %>
+          <li>
+            <label class="checkbox inline">
+              <input type="checkbox" name="health_and_safety_issues[]" value="<%= key %>" <% if (_.include(safetyIssues, key)) { %>checked="checked"<% } %>> <%= val %>
+            </label>
+          </li>
+        <%
+          });
+        %>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label class="control-label">Transportation policies</label>
+      <div class="input">
+        <ul class="inputs-list">
+        <%
+          var transportation = section.get('transportation_policies');
+          _.each(view.getTransportationPolicies(), function (val, key) {
+            key = parseInt(key);
+        %>
+          <li>
+            <label class="checkbox inline">
+              <input type="checkbox" name="transportation_policies[]" value="<%= key %>" <% if (_.include(transportation, key)) { %>checked="checked"<% } %>> <%= val %>
+            </label>
+          </li>
+        <%
+          });
+        %>
+        </ul>
+      </div>
+    </div>
+  	<div class="actions">
+      <input type="submit" class="btn primary" value="Save" />
+    </div>
+  </fieldset>
+</form>

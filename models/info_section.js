@@ -36,6 +36,23 @@
       certificates: {
         type: [Number]
       }
+    },
+    environment: {
+      indoors: {
+        type: [Number]
+      },
+      outdoors: {
+        type: [Number]
+      },
+      for_infants: {
+        type: [Number]
+      },
+      health_and_safety_issues: {
+        type: [Number]
+      },
+      transportation_policies: {
+        type: [Number]
+      }
     }
   });
 
