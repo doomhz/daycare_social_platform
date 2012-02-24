@@ -960,3 +960,20 @@ footer #footer-wrapper #copyright {
 #send-invite-form {
   overflow: visible;
 }
+.section-container .edit-section {
+  text-align: right;
+}
+.section-container h3 {
+  padding: 10px 0 10px 0;
+  font-size: 12px;
+}
+.section-container h4 {
+  padding: 10px 0 10px 0;
+  font-size: 11px;
+}
+.section-container ul {
+  margin: 0 0 0 20px;
+}
+.section-container ul li {
+  list-style-type: circle;
+}
