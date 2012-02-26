@@ -4,8 +4,8 @@ InfoSectionSchema = new Schema
   general_information:
     school_philosophy:
       type: String
-    general_aprocah_to_learning:
-      type: [Number]
+    general_aproach_to_learning:
+      type: [String]
     licensed:
       type: Boolean
     speaking_classes:
@@ -13,26 +13,26 @@ InfoSectionSchema = new Schema
     open_door_policy:
       type: Boolean
     learning_philosophy_and_tools_language:
-      type: [Number]
+      type: [String]
     learning_philosophy_and_tools_cognitive_dev:
-      type: [Number]
+      type: [String]
     home_school_connections:
-      type: [Number]
+      type: [String]
     home_school_separations:
-      type: [Number]
+      type: [String]
     certificates:
-      type: [Number]
+      type: [String]
   environment:
     indoors:
-      type: [Number]
+      type: [String]
     outdoors:
-      type: [Number]
+      type: [String]
     for_infants:
-      type: [Number]
+      type: [String]
     health_and_safety_issues:
-      type: [Number]
+      type: [String]
     transportation_policies:
-      type: [Number]
+      type: [String]
 
 InfoSection = mongoose.model("InfoSection", InfoSectionSchema)
 exports = module.exports = InfoSection

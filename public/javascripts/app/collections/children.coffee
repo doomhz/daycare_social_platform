@@ -4,7 +4,7 @@ class window.Kin.ChildrenCollection extends Backbone.Collection
 
   uri: "/children/:userId"
 
-  @userId: null
+  userId: null
 
   initialize: (models, options = {})->
     @url = options.url or @url

@@ -1,0 +1,14 @@
+<%
+  _.each(tags, function (tag) {
+    var key  = tag.get("_id");
+    var type = tag.get("type");
+    var val  = tag.get("name");
+%>
+  <li>
+    <label class="checkbox inline">
+      <input type="checkbox" name="<%= type %>[]" value="<%= key %>" <% if (_.include(selectedTags, key)) { %>checked="checked"<% } %>> <%= val %>
+    </label>
+  </li>
+<%
+  });
+%>

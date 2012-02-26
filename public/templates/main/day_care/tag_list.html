@@ -1,0 +1,9 @@
+<%
+  _.each(tags, function (tag) {
+    var key  = tag.get("_id");
+    var val  = tag.get("name");
+%>
+<% if (_.include(selectedTags, key)) { %><li><%= val %></li><% } %>
+<%
+  });
+%>

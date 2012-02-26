@@ -8,62 +8,38 @@
   <% } %>
 
   <h3>Indoors</h3>
-  <ul>  
+  <ul id="indoors-list">
   <%
-      var indoors = section.get('indoors');
-      _.each(view.getIndoors(), function (val, key) {
-  %>
-      <% if (_.include(indoors, parseInt(key))) { %><li><%= val %></li><% } %>
-  <%
-      });
+    view.displayTagList('indoors');
   %>
   </ul>
-
+  
   <h3>Outdoors</h3>
-  <ul>  
+  <ul id="outdoors-list">
   <%
-      var outdoors = section.get('outdoors');
-      _.each(view.getOutdoors(), function (val, key) {
-  %>
-      <% if (_.include(outdoors, parseInt(key))) { %><li><%= val %></li><% } %>
-  <%
-      });
+    view.displayTagList('outdoors');
   %>
   </ul>
 
   <h3>Environments for Infants</h3>
-  <ul>  
+  <ul id="for_infants-list">
   <%
-      var forInfants = section.get('for_infants');
-      _.each(view.getForInfants(), function (val, key) {
-  %>
-      <% if (_.include(forInfants, parseInt(key))) { %><li><%= val %></li><% } %>
-  <%
-      });
+    view.displayTagList('for_infants');
   %>
   </ul>
 
   <h3>Health and Safety Issues</h3>
-  <ul>  
+  <ul id="health_and_safety_issues-list">
   <%
-      var safetyIssues = section.get('health_and_safety_issues');
-      _.each(view.getHealthAndSafetyIssues(), function (val, key) {
-  %>
-      <% if (_.include(safetyIssues, parseInt(key))) { %><li><%= val %></li><% } %>
-  <%
-      });
+    view.displayTagList('health_and_safety_issues');
   %>
   </ul>
 
   <h3>Transportation policies</h3>
-  <ul>  
+  <ul id="transportation_policies-list">
   <%
-      var transportation = section.get('transportation_policies');
-      _.each(view.getTransportationPolicies(), function (val, key) {
-  %>
-      <% if (_.include(transportation, parseInt(key))) { %><li><%= val %></li><% } %>
-  <%
-      });
+    view.displayTagList('transportation_policies');
   %>
   </ul>
+
 </div>

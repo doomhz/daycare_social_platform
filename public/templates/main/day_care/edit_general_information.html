@@ -11,20 +11,10 @@
     <div class="clearfix">
       <label class="control-label">General Aproach to Learning</label>
       <div class="input">
-        <ul class="inputs-list">
-        <%
-          var learningAproaches = section.get('general_aprocah_to_learning');
-          _.each(view.getGeneralAproachesToLearning(), function (val, key) {
-            key = parseInt(key);
-        %>
-          <li>
-            <label class="checkbox inline">
-              <input type="checkbox" name="general_aprocah_to_learning[]" value="<%= key %>" <% if (_.include(learningAproaches, key)) { %>checked="checked"<% } %>> <%= val %>
-            </label>
-          </li>
-        <%
-          });
-        %>
+        <ul class="inputs-list" id="general_aproach_to_learning-inputs">
+          <%
+            view.displayTagInputs("general_aproach_to_learning");
+          %>
         </ul>
       </div>
     </div>
@@ -93,100 +83,50 @@
     <div class="clearfix">
       <label class="control-label">Language</label>
       <div class="input">
-        <ul class="inputs-list">
-        <%
-          var learningTools = section.get('learning_philosophy_and_tools_language');
-          _.each(view.getLearningPhilosophyAndToolsLanguage(), function (val, key) {
-            key = parseInt(key);
-        %>
-          <li>
-            <label class="checkbox inline">
-              <input type="checkbox" name="learning_philosophy_and_tools_language[]" value="<%= key %>" <% if (_.include(learningTools, key)) { %>checked="checked"<% } %>> <%= val %>
-            </label>
-          </li>
-        <%
-          });
-        %>
+        <ul class="inputs-list" id="learning_philosophy_and_tools_language-inputs">
+          <%
+            view.displayTagInputs("learning_philosophy_and_tools_language");
+          %>
         </ul>
       </div>
     </div>
     <div class="clearfix">
       <label class="control-label">Cognitive development</label>
       <div class="input">
-        <ul class="inputs-list">
-        <%
-          var learningTools = section.get('learning_philosophy_and_tools_cognitive_dev');
-          _.each(view.getLearningPhilosophyAndToolsCognitiveDev(), function (val, key) {
-            key = parseInt(key);
-        %>
-          <li>
-            <label class="checkbox inline">
-              <input type="checkbox" name="learning_philosophy_and_tools_cognitive_dev[]" value="<%= key %>" <% if (_.include(learningTools, key)) { %>checked="checked"<% } %>> <%= val %>
-            </label>
-          </li>
-        <%
-          });
-        %>
+        <ul class="inputs-list" id="learning_philosophy_and_tools_cognitive_dev-inputs">
+          <%
+            view.displayTagInputs("learning_philosophy_and_tools_cognitive_dev");
+          %>
         </ul>
       </div>
     </div>
     <div class="clearfix">
       <label class="control-label">Home school connection</label>
       <div class="input">
-        <ul class="inputs-list">
-        <%
-          var homeSchoolConnections = section.get('home_school_connections');
-          _.each(view.getHomeSchoolConnections(), function (val, key) {
-            key = parseInt(key);
-        %>
-          <li>
-            <label class="checkbox inline">
-              <input type="checkbox" name="home_school_connections[]" value="<%= key %>" <% if (_.include(homeSchoolConnections, key)) { %>checked="checked"<% } %>> <%= val %>
-            </label>
-          </li>
-        <%
-          });
-        %>
+        <ul class="inputs-list" id="home_school_connections-inputs">
+          <%
+            view.displayTagInputs("home_school_connections");
+          %>
         </ul>
       </div>
     </div>
     <div class="clearfix">
       <label class="control-label">Separation is Handled through</label>
       <div class="input">
-        <ul class="inputs-list">
-        <%
-          var homeSchoolSeparations = section.get('home_school_separations');
-          _.each(view.getHomeSchoolSeparations(), function (val, key) {
-            key = parseInt(key);
-        %>
-          <li>
-            <label class="checkbox inline">
-              <input type="checkbox" name="home_school_separations[]" value="<%= key %>" <% if (_.include(homeSchoolSeparations, key)) { %>checked="checked"<% } %>> <%= val %>
-            </label>
-          </li>
-        <%
-          });
-        %>
+        <ul class="inputs-list" id="home_school_separations-inputs">
+          <%
+            view.displayTagInputs("home_school_separations");
+          %>
         </ul>
       </div>
     </div>
     <div class="clearfix">
       <label class="control-label">Certificates / Awards</label>
       <div class="input">
-        <ul class="inputs-list">
-        <%
-          var certificates = section.get('certificates');
-          _.each(view.getCertificates(), function (val, key) {
-            key = parseInt(key);
-        %>
-          <li>
-            <label class="checkbox inline">
-              <input type="checkbox" name="certificates[]" value="<%= key %>" <% if (_.include(certificates, key)) { %>checked="checked"<% } %>> <%= val %>
-            </label>
-          </li>
-        <%
-          });
-        %>
+        <ul class="inputs-list" id="certificates-inputs">
+          <%
+            view.displayTagInputs("certificates");
+          %>
         </ul>
       </div>
     </div>

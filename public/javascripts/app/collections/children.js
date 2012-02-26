@@ -14,7 +14,7 @@
 
     ChildrenCollection.prototype.uri = "/children/:userId";
 
-    ChildrenCollection.userId = null;
+    ChildrenCollection.prototype.userId = null;
 
     ChildrenCollection.prototype.initialize = function(models, options) {
       if (options == null) options = {};
