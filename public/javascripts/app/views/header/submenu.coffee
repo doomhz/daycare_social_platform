@@ -44,12 +44,16 @@ class Kin.Header.SubmenuView extends Backbone.View
       url: @onHideUrl
   
   hideSubmenu: ()->
-    @$(@submenuSelector).addClass("hidden")
-    if @onHideUrl
-      @onHide()
+    if not @isHidden()
+      @$(@submenuSelector).addClass("hidden")
+      if @onHideUrl
+        @onHide()
   
   selectMenuItem: ()->
     $(@el).addClass("selected")
   
   deselectMenuItem: ()->
     $(@el).removeClass("selected")
+
+  isHidden: ()->
+    @$(@submenuSelector).hasClass("hidden")

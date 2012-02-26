@@ -66,8 +66,10 @@
     };
 
     SubmenuView.prototype.hideSubmenu = function() {
-      this.$(this.submenuSelector).addClass("hidden");
-      if (this.onHideUrl) return this.onHide();
+      if (!this.isHidden()) {
+        this.$(this.submenuSelector).addClass("hidden");
+        if (this.onHideUrl) return this.onHide();
+      }
     };
 
     SubmenuView.prototype.selectMenuItem = function() {
@@ -76,6 +78,10 @@
 
     SubmenuView.prototype.deselectMenuItem = function() {
       return $(this.el).removeClass("selected");
+    };
+
+    SubmenuView.prototype.isHidden = function() {
+      return this.$(this.submenuSelector).hasClass("hidden");
     };
 
     return SubmenuView;
