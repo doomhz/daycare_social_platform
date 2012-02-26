@@ -9,18 +9,23 @@
       </div>
     </div>
     <div class="clearfix">
-      <label>General Aproach to Learning</label>
+      <label class="control-label">General Aproach to Learning</label>
       <div class="input">
-        <select multiple="multiple" name="general_aprocah_to_learning" class="chzn-select" data-placeholder="Select aproach...">
+        <ul class="inputs-list">
         <%
-            var learningAproaches = section.get('general_aprocah_to_learning');
-            _.each(view.getGeneralAproachesToLearning(), function (val, key) {
+          var learningAproaches = section.get('general_aprocah_to_learning');
+          _.each(view.getGeneralAproachesToLearning(), function (val, key) {
+            key = parseInt(key);
         %>
-            <option value="<%=key %>"<% if (_.include(learningAproaches, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
+          <li>
+            <label class="checkbox inline">
+              <input type="checkbox" name="general_aprocah_to_learning[]" value="<%= key %>" <% if (_.include(learningAproaches, key)) { %>checked="checked"<% } %>> <%= val %>
+            </label>
+          </li>
         <%
-            });
+          });
         %>
-        </select>
+        </ul>
       </div>
     </div>
     <div class="clearfix">
@@ -86,33 +91,43 @@
     <h3 class="clearfix">Learning Philosophy &amp; Tools</h3>
     
     <div class="clearfix">
-      <label>Language</label>
+      <label class="control-label">Language</label>
       <div class="input">
-        <select multiple="multiple" name="learning_philosophy_and_tools_language" class="chzn-select" data-placeholder="Select tools...">
+        <ul class="inputs-list">
         <%
-            var learningTools = section.get('learning_philosophy_and_tools_language');
-            _.each(view.getLearningPhilosophyAndToolsLanguage(), function (val, key) {
+          var learningTools = section.get('learning_philosophy_and_tools_language');
+          _.each(view.getLearningPhilosophyAndToolsLanguage(), function (val, key) {
+            key = parseInt(key);
         %>
-            <option value="<%=key %>"<% if (_.include(learningTools, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
+          <li>
+            <label class="checkbox inline">
+              <input type="checkbox" name="learning_philosophy_and_tools_language[]" value="<%= key %>" <% if (_.include(learningTools, key)) { %>checked="checked"<% } %>> <%= val %>
+            </label>
+          </li>
         <%
-            });
+          });
         %>
-        </select>
+        </ul>
       </div>
     </div>
     <div class="clearfix">
-      <label>Cognitive development</label>
+      <label class="control-label">Cognitive development</label>
       <div class="input">
-        <select multiple="multiple" name="learning_philosophy_and_tools_cognitive_dev" class="chzn-select" data-placeholder="Select tools...">
+        <ul class="inputs-list">
         <%
-            var learningTools = section.get('learning_philosophy_and_tools_cognitive_dev');
-            _.each(view.getLearningPhilosophyAndToolsCognitiveDev(), function (val, key) {
+          var learningTools = section.get('learning_philosophy_and_tools_cognitive_dev');
+          _.each(view.getLearningPhilosophyAndToolsCognitiveDev(), function (val, key) {
+            key = parseInt(key);
         %>
-            <option value="<%=key %>"<% if (_.include(learningTools, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
+          <li>
+            <label class="checkbox inline">
+              <input type="checkbox" name="learning_philosophy_and_tools_cognitive_dev[]" value="<%= key %>" <% if (_.include(learningTools, key)) { %>checked="checked"<% } %>> <%= val %>
+            </label>
+          </li>
         <%
-            });
+          });
         %>
-        </select>
+        </ul>
       </div>
     </div>
     <div class="clearfix">
