@@ -1,5 +1,6 @@
 (function() {
-  var __hasProp = Object.prototype.hasOwnProperty,
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = Object.prototype.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
   Kin.DayCare.SectionView = (function(_super) {
@@ -7,6 +8,8 @@
     __extends(SectionView, _super);
 
     function SectionView() {
+      this.submitAddTagFormHandler = __bind(this.submitAddTagFormHandler, this);
+      this.renderTagForm = __bind(this.renderTagForm, this);
       SectionView.__super__.constructor.apply(this, arguments);
     }
 
@@ -17,6 +20,8 @@
     SectionView.prototype.tagInputsTplUrl = '/templates/main/day_care/tag_inputs.html';
 
     SectionView.prototype.tagListTplUrl = '/templates/main/day_care/tag_list.html';
+
+    SectionView.prototype.tagFormTplUrl = '/templates/main/day_care/tag_form.html';
 
     SectionView.prototype.model = null;
 
@@ -58,16 +63,29 @@
       });
     };
 
-    SectionView.prototype.renderTagInputs = function(type, tags, selectedTags) {
+    SectionView.prototype.renderTagInputs = function(type, tags, selectedTags, add) {
       var that, tpl;
+      if (add == null) add = false;
       that = this;
       return tpl = $.tmpload({
         url: this.tagInputsTplUrl,
         onLoad: function(tpl) {
-          return that.$("#" + type + "-inputs").html(tpl({
-            tags: tags,
-            selectedTags: selectedTags
-          }));
+          var $list;
+          $list = that.$("#" + type + "-inputs");
+          if (add) {
+            return $list.append(tpl({
+              type: type,
+              tags: tags,
+              selectedTags: selectedTags
+            }));
+          } else {
+            $list.html(tpl({
+              type: type,
+              tags: tags,
+              selectedTags: selectedTags
+            }));
+            return that.renderTagForm($list, type);
+          }
         }
       });
     };
@@ -79,9 +97,26 @@
         url: this.tagListTplUrl,
         onLoad: function(tpl) {
           return that.$("#" + type + "-list").html(tpl({
+            type: type,
             tags: tags,
             selectedTags: selectedTags
           }));
+        }
+      });
+    };
+
+    SectionView.prototype.renderTagForm = function($list, type) {
+      var that, tpl;
+      that = this;
+      return tpl = $.tmpload({
+        url: this.tagFormTplUrl,
+        onLoad: function(tpl) {
+          var formHtml;
+          formHtml = tpl({
+            type: type
+          });
+          $list.after(formHtml);
+          return $list.next("form").bind("submit", that.submitAddTagFormHandler);
         }
       });
     };
@@ -116,6 +151,25 @@
         },
         error: function() {
           return $.jGrowl("Data could not be saved :( Please try again.");
+        }
+      });
+    };
+
+    SectionView.prototype.submitAddTagFormHandler = function(ev) {
+      var $form, formData, tag, that;
+      ev.preventDefault();
+      that = this;
+      $form = $(ev.target);
+      formData = $form.serialize();
+      tag = new Kin.TagModel;
+      return tag.save(null, {
+        data: formData,
+        success: function(model) {
+          that.renderTagInputs(model.get("type"), [model], [model.get("_id")], true);
+          return $form.find("input[name='name']").val("");
+        },
+        error: function() {
+          return $.jGrowl("Tag could not be saved :( Please try again.");
         }
       });
     };
