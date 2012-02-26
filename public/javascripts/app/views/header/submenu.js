@@ -18,9 +18,12 @@
 
     SubmenuView.prototype.doNotClose = false;
 
-    SubmenuView.prototype.onShow = null;
+    SubmenuView.prototype.onShowUrl = null;
 
-    SubmenuView.prototype.initialize = function() {
+    SubmenuView.prototype.onHideUrl = null;
+
+    SubmenuView.prototype.initialize = function(options) {
+      if (options == null) options = {};
       this.bind("click:window", this.windowClickHandler);
       return this.$("a:first").bind("click", this.menuButtonClickHandler);
     };
@@ -55,8 +58,16 @@
       });
     };
 
+    SubmenuView.prototype.onHide = function() {
+      return $.ajax({
+        type: "PUT",
+        url: this.onHideUrl
+      });
+    };
+
     SubmenuView.prototype.hideSubmenu = function() {
-      return this.$(this.submenuSelector).addClass("hidden");
+      this.$(this.submenuSelector).addClass("hidden");
+      if (this.onHideUrl) return this.onHide();
     };
 
     SubmenuView.prototype.selectMenuItem = function() {

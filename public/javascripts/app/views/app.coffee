@@ -81,7 +81,7 @@ class Kin.AppView extends Backbone.View
       el: headerNotificationBoard.$(".messages")
       indicatorId: "new-messages-total"
       listId: "last-messages"
-      onShowUrl: null
+      onHideUrl: null
     headerNotificationBoard.addDelegate(messagesNotification)
     @window.addDelegate(messagesNotification)
 
@@ -89,7 +89,7 @@ class Kin.AppView extends Backbone.View
       el: headerNotificationBoard.$(".ccn")
       indicatorId: "new-wall-posts-total"
       listId: "last-wall-posts"
-      onShowUrl: "/notifications/feeds"
+      onHideUrl: "/notifications/feeds"
     headerNotificationBoard.addDelegate(wallPostsNotification)
     @window.addDelegate(wallPostsNotification)
 
@@ -97,7 +97,7 @@ class Kin.AppView extends Backbone.View
       el: headerNotificationBoard.$(".notifications")
       indicatorId: "new-followups-total"
       listId: "last-followups"
-      onShowUrl: "/notifications/alerts"
+      onHideUrl: "/notifications/alerts"
     headerNotificationBoard.addDelegate(followupsNotification)
     @window.addDelegate(followupsNotification)
 

@@ -117,7 +117,7 @@
         el: headerNotificationBoard.$(".messages"),
         indicatorId: "new-messages-total",
         listId: "last-messages",
-        onShowUrl: null
+        onHideUrl: null
       });
       headerNotificationBoard.addDelegate(messagesNotification);
       this.window.addDelegate(messagesNotification);
@@ -125,7 +125,7 @@
         el: headerNotificationBoard.$(".ccn"),
         indicatorId: "new-wall-posts-total",
         listId: "last-wall-posts",
-        onShowUrl: "/notifications/feeds"
+        onHideUrl: "/notifications/feeds"
       });
       headerNotificationBoard.addDelegate(wallPostsNotification);
       this.window.addDelegate(wallPostsNotification);
@@ -133,7 +133,7 @@
         el: headerNotificationBoard.$(".notifications"),
         indicatorId: "new-followups-total",
         listId: "last-followups",
-        onShowUrl: "/notifications/alerts"
+        onHideUrl: "/notifications/alerts"
       });
       headerNotificationBoard.addDelegate(followupsNotification);
       this.window.addDelegate(followupsNotification);
