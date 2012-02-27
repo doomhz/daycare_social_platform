@@ -413,6 +413,22 @@ class Kin.AppView extends Backbone.View
           el: that.side1ColumnSelector
         that.side1ColumnView.render()
 
+  renderViewNotifications: ()->
+    that = @
+    @clearColumns()
+
+    notifications = new Kin.NotificationsCollection
+
+    that.mainColumnView = new Kin.Profile.NotificationsView
+      collection: notifications
+      el: that.mainColumnSelector
+    that.mainColumnView.render()
+
+    that.side1ColumnView = new Kin.Profile.ProfileEditSide1View
+      model: @currentUser
+      el: that.side1ColumnSelector
+    that.side1ColumnView.render()
+
   renderDaycareSection: (sectionName, daycareId)->
     that = @
     @clearColumns()

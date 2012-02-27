@@ -30,6 +30,7 @@
       'add-class': 'addClass',
       'manage-children/:id': 'manageChildren',
       'comments/view/:id': 'viewComment',
+      'notifications': 'viewNotifications',
       'day-cares': 'dayCares',
       'day-care/:section/:id': 'viewDaycareSection',
       'day-care/edit/:section/:id': 'editDaycareSection'
@@ -105,6 +106,10 @@
 
     MainRouter.prototype.viewComment = function(id) {
       return this.app.renderViewComment(id);
+    };
+
+    MainRouter.prototype.viewNotifications = function() {
+      return this.app.renderViewNotifications();
     };
 
     MainRouter.prototype.viewDaycareSection = function(section, id) {

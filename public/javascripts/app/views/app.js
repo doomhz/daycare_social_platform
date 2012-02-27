@@ -519,6 +519,23 @@
       });
     };
 
+    AppView.prototype.renderViewNotifications = function() {
+      var notifications, that;
+      that = this;
+      this.clearColumns();
+      notifications = new Kin.NotificationsCollection;
+      that.mainColumnView = new Kin.Profile.NotificationsView({
+        collection: notifications,
+        el: that.mainColumnSelector
+      });
+      that.mainColumnView.render();
+      that.side1ColumnView = new Kin.Profile.ProfileEditSide1View({
+        model: this.currentUser,
+        el: that.side1ColumnSelector
+      });
+      return that.side1ColumnView.render();
+    };
+
     AppView.prototype.renderDaycareSection = function(sectionName, daycareId) {
       var profile, that;
       that = this;

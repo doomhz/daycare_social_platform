@@ -569,6 +569,18 @@ header
       #our-family-menu-item
         a
           background-image url('/images/our_family_menu_bt.png')
+      #edit-profile-menu-item
+        a
+          background-image url('/images/edit_profile_menu_bt.png')
+      #general-information-section-menu-item
+        a
+          background-image url('/images/general_information_menu_bt.png')
+      #environment-section-menu-item
+        a
+          background-image url('/images/environment_menu_bt.png')
+      #enrollment-section-menu-item
+        a
+          background-image url('/images/enrollment_menu_bt.png')
       #write-menu-item
         a
           background-image url('/images/write_menu_bt.png')
@@ -820,3 +832,53 @@ footer
     margin 0 0 0 20px
     li
       list-style-type circle
+
+#notifications-list
+  margin 8px 0 0 0
+  li
+    background white-gray
+    margin 0
+    float none
+    padding 0
+    border-bottom solid 1px #FFF
+    border-left none
+    height auto
+    overflow hidden
+    a
+      display inline-block
+      width 514px
+      padding 5px
+      background none
+      color #000
+      border none
+      height auto
+      overflow hidden
+    .avatar
+      float left
+      margin 0 5px 0 0
+    .message-header
+      float left
+      width 215px
+      text-align left
+      .name
+        font-weight bold
+        text-decoration none
+        color: light-green
+      .name:hover
+        text-decoration underline
+    .message-body
+      float right
+      width: 478px
+      text-align left
+      padding 2px 0 2px 0
+    .time
+      color #999999
+      float right
+  li.unread
+    background #c8e9fa
+
+#load-more-notifications-cnt
+  padding 10px
+  background white-gray
+  margin 5px 0 5px 0
+  cursor pointer

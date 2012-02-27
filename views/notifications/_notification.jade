@@ -1,0 +1,20 @@
+- if (notification)
+  {
+  "id": "#{notification._id}",
+  "_id": "#{notification._id}",
+  "user_id": "#{notification.user_id}",
+  "from_id": "#{notification.from_id}",
+  "unread": #{notification.unread},
+  "wall_id": "#{notification.wall_id}",
+  "comment_id": "#{notification.comment_id}",
+  "type": "#{notification.type}",
+  "content": "#{notification.content}",
+  "created_at": "#{notification.created_at}",
+  "updated_at": "#{notification.updated_at}",
+  "from_user":
+  - var profile = notification.from_user
+  - if (profile)
+    include ../profiles/_user
+  - else
+    {}
+  }
