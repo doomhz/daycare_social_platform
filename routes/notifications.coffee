@@ -17,10 +17,11 @@ module.exports = (app)->
 
     res.json {success: true}
 
-  app.get '/notifications/:max_time', (req, res)->
+  app.get '/notifications/:type/:max_time', (req, res)->
     currentUser = if req.user then req.user else {}
+    type = req.params.type
     maxTime = req.params.max_time
-    Notification.find({user_id: currentUser._id}).where("created_at").lte(maxTime).limit(10).desc("created_at").run (err, notifications = [])->
+    Notification.find({user_id: currentUser._id, type: type}).where("created_at").lte(maxTime).limit(10).desc("created_at").run (err, notifications = [])->
       usersToFind = []
       for notification in notifications
         usersToFind.push(notification.from_id)

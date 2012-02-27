@@ -14,7 +14,10 @@
 
     NotificationsView.prototype.el = null;
 
-    NotificationsView.prototype.tplUrl = "/templates/main/profile/notifications.html";
+    NotificationsView.prototype.tplUrl = {
+      alert: "/templates/main/profile/notifications.html",
+      feed: "/templates/main/profile/feeds.html"
+    };
 
     NotificationsView.prototype.itemTplUrl = "/templates/main/profile/notification_item.html";
 
@@ -22,7 +25,11 @@
       "click #load-more-notifications-cnt": "loadMoreNotificationsHandler"
     };
 
-    NotificationsView.prototype.initialize = function() {
+    NotificationsView.prototype.type = "alert";
+
+    NotificationsView.prototype.initialize = function(options) {
+      if (options == null) options = {};
+      this.type = options.type || this.type;
       return this.collection.bind("add", this.addNotificationHandler);
     };
 
@@ -30,7 +37,7 @@
       var that;
       that = this;
       return $.tmpload({
-        url: this.tplUrl,
+        url: this.tplUrl[this.type],
         onLoad: function(tpl) {
           $(that.el).html(tpl());
           return $.tmpload({

@@ -523,10 +523,33 @@
       var notifications, that;
       that = this;
       this.clearColumns();
-      notifications = new Kin.NotificationsCollection;
+      notifications = new Kin.NotificationsCollection([], {
+        type: "alert"
+      });
       that.mainColumnView = new Kin.Profile.NotificationsView({
         collection: notifications,
-        el: that.mainColumnSelector
+        el: that.mainColumnSelector,
+        type: "alert"
+      });
+      that.mainColumnView.render();
+      that.side1ColumnView = new Kin.Profile.ProfileEditSide1View({
+        model: this.currentUser,
+        el: that.side1ColumnSelector
+      });
+      return that.side1ColumnView.render();
+    };
+
+    AppView.prototype.renderViewFeeds = function() {
+      var notifications, that;
+      that = this;
+      this.clearColumns();
+      notifications = new Kin.NotificationsCollection([], {
+        type: "feed"
+      });
+      that.mainColumnView = new Kin.Profile.NotificationsView({
+        collection: notifications,
+        el: that.mainColumnSelector,
+        type: "feed"
       });
       that.mainColumnView.render();
       that.side1ColumnView = new Kin.Profile.ProfileEditSide1View({

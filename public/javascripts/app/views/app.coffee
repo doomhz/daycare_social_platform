@@ -49,7 +49,7 @@ class Kin.AppView extends Backbone.View
 
   initWindow: ()->
     @window = new Kin.WindowView()
-  
+
   initHeader: ()->
     header = new Kin.HeaderView
       el: "header"
@@ -397,7 +397,7 @@ class Kin.AppView extends Backbone.View
     comment.fetch
       success: (model)->
         commentId = if model.get("type") is "followup" then model.get("to_id") else id
-        
+
         comments = new Kin.CommentsCollection([], {commentId: commentId})
         followups = new Kin.FollowupsCollection([], {commentId: commentId})
 
@@ -417,11 +417,32 @@ class Kin.AppView extends Backbone.View
     that = @
     @clearColumns()
 
-    notifications = new Kin.NotificationsCollection
+    notifications = new Kin.NotificationsCollection [],
+      type: "alert"
 
     that.mainColumnView = new Kin.Profile.NotificationsView
       collection: notifications
       el: that.mainColumnSelector
+      type: "alert"
+    that.mainColumnView.render()
+
+    that.side1ColumnView = new Kin.Profile.ProfileEditSide1View
+      model: @currentUser
+      el: that.side1ColumnSelector
+    that.side1ColumnView.render()
+
+  renderViewFeeds: ()->
+    that = @
+    @clearColumns()
+
+    notifications = new Kin.NotificationsCollection [],
+      type: "feed"
+
+    that.mainColumnView = new Kin.Profile.NotificationsView
+      collection: notifications
+      el: that.mainColumnSelector
+      type: "feed"
+
     that.mainColumnView.render()
 
     that.side1ColumnView = new Kin.Profile.ProfileEditSide1View
@@ -432,7 +453,7 @@ class Kin.AppView extends Backbone.View
   renderDaycareSection: (sectionName, daycareId)->
     that = @
     @clearColumns()
-    
+
     profile = new Kin.ProfileModel({_id: daycareId})
     profile.fetch
       success: (model, response)->
@@ -442,7 +463,7 @@ class Kin.AppView extends Backbone.View
         section = new Kin.SectionModel
           id: daycareId
           name: sectionName
-        
+
         that.mainColumnView = new Kin.DayCare.SectionView
           model: section
           el: that.mainColumnSelector
@@ -457,7 +478,7 @@ class Kin.AppView extends Backbone.View
   renderEditDaycareSection: (sectionName, daycareId)->
     that = @
     @clearColumns()
-    
+
     profile = new Kin.ProfileModel({_id: daycareId})
     profile.fetch
       success: (model, response)->
@@ -467,7 +488,7 @@ class Kin.AppView extends Backbone.View
         section = new Kin.SectionModel
           id: daycareId
           name: sectionName
-        
+
         that.mainColumnView = new Kin.DayCare.EditSectionView
           model: section
           el: that.mainColumnSelector

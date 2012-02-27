@@ -2,12 +2,13 @@ class window.Kin.NotificationsCollection extends Backbone.Collection
 
   model: window.Kin.NotificationModel
 
-  uri: "/notifications/:max_time"
+  uri: "/notifications/:type/:max_time"
 
-  userId: null
+  type: "alert"
 
   initialize: (models, options = {})->
     @url = options.url or @url
+    @type = options.type or @type
 
   getMinTime: ()->
     minTime = new Date().getTime()
@@ -18,4 +19,4 @@ class window.Kin.NotificationsCollection extends Backbone.Collection
     minTime
 
   url: ()->
-    "#{@uri.replace(":max_time", @getMinTime())}"
+    "#{@uri.replace(":max_time", @getMinTime()).replace(":type", @type)}"

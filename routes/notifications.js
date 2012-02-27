@@ -42,12 +42,14 @@
         success: true
       });
     });
-    return app.get('/notifications/:max_time', function(req, res) {
-      var currentUser, maxTime;
+    return app.get('/notifications/:type/:max_time', function(req, res) {
+      var currentUser, maxTime, type;
       currentUser = req.user ? req.user : {};
+      type = req.params.type;
       maxTime = req.params.max_time;
       return Notification.find({
-        user_id: currentUser._id
+        user_id: currentUser._id,
+        type: type
       }).where("created_at").lte(maxTime).limit(10).desc("created_at").run(function(err, notifications) {
         var notification, usersToFind, _i, _len;
         if (notifications == null) notifications = [];

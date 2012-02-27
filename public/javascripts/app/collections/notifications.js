@@ -12,13 +12,14 @@
 
     NotificationsCollection.prototype.model = window.Kin.NotificationModel;
 
-    NotificationsCollection.prototype.uri = "/notifications/:max_time";
+    NotificationsCollection.prototype.uri = "/notifications/:type/:max_time";
 
-    NotificationsCollection.prototype.userId = null;
+    NotificationsCollection.prototype.type = "alert";
 
     NotificationsCollection.prototype.initialize = function(models, options) {
       if (options == null) options = {};
-      return this.url = options.url || this.url;
+      this.url = options.url || this.url;
+      return this.type = options.type || this.type;
     };
 
     NotificationsCollection.prototype.getMinTime = function() {
@@ -34,7 +35,7 @@
     };
 
     NotificationsCollection.prototype.url = function() {
-      return "" + (this.uri.replace(":max_time", this.getMinTime()));
+      return "" + (this.uri.replace(":max_time", this.getMinTime()).replace(":type", this.type));
     };
 
     return NotificationsCollection;

@@ -102,11 +102,25 @@
   </a>
 </li>
 <%
-  } else {
+  }
+%>
+<%
+  if (listId === "last-followups") {
 %>
 <li class="view-all-list-items-bt">
   <a href="#notifications">
       View all notifications
+  </a>
+</li>
+<%
+  }
+%>
+<%
+  if (listId === "last-wall-posts") {
+%>
+<li class="view-all-list-items-bt">
+  <a href="#feeds">
+      View all feeds
   </a>
 </li>
 <%
