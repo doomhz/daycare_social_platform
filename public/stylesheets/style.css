@@ -84,7 +84,8 @@ header #header-wrapper #main-menu li ul.submenu {
   float: right;
   position: absolute;
   background: #e1f5fc;
-  margin: -3px 0 0 0;
+  margin: 0 0 0 -88px;
+  width: 120px;
 }
 header #header-wrapper #main-menu li ul.submenu li {
   margin: 0;
@@ -92,7 +93,7 @@ header #header-wrapper #main-menu li ul.submenu li {
 }
 header #header-wrapper #main-menu li ul.submenu li a {
   display: inline-block;
-  width: 90px;
+  width: 110px;
   padding: 5px;
   background: none;
   color: #000;
@@ -114,16 +115,13 @@ header #header-wrapper #main-menu #account-bt #my-settings-bt span {
   display: none;
 }
 header #header-wrapper #main-menu #account-bt ul.submenu {
-  right: 226px;
+  margin: 0 0 0 -104px;
 }
 header #header-wrapper #main-menu #account-bt.selected {
   background-color: #e1f5fc;
 }
 header #header-wrapper #main-menu #account-bt.selected a {
   color: #000;
-}
-header #header-wrapper #main-menu #my-profile-bt ul.submenu {
-  right: 263px;
 }
 header #header-wrapper #main-menu #my-profile-bt.selected {
   background-color: #e1f5fc;
