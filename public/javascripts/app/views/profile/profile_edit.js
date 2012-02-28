@@ -21,7 +21,8 @@
 
     ProfileEditView.prototype.events = {
       'submit #profile-edit-form': 'saveProfile',
-      'change #licensed-options': 'toggleLicenseNumberField'
+      'change #licensed-options': 'toggleLicenseNumberField',
+      'change #homebased-options': 'toggleReligiousAffiliationField'
     };
 
     ProfileEditView.prototype.addressAutocompleteEl = '#address-autocomplete';
@@ -168,6 +169,14 @@
         return this.$('#license-number-cnt').removeClass('hidden');
       } else {
         return this.$('#license-number-cnt').addClass('hidden');
+      }
+    };
+
+    ProfileEditView.prototype.toggleReligiousAffiliationField = function(ev) {
+      if ($(ev.target).val() === "1") {
+        return this.$('#religious-affiliation-cnt').addClass('hidden');
+      } else {
+        return this.$('#religious-affiliation-cnt').removeClass('hidden');
       }
     };
 

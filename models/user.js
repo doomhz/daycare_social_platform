@@ -90,6 +90,14 @@
     serving_disabilities: {
       type: Boolean
     },
+    homebased: {
+      type: Boolean,
+      "default": false
+    },
+    religious_affiliation: {
+      type: Boolean,
+      "default": false
+    },
     picture_sets: {
       type: [PictureSet]
     },

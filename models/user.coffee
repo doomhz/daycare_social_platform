@@ -66,6 +66,12 @@ UserSchema = new Schema
     type: Boolean
   serving_disabilities:
     type: Boolean
+  homebased:
+    type: Boolean
+    default: false
+  religious_affiliation:
+    type: Boolean
+    default: false
   picture_sets:
     type: [PictureSet]
   friends:
@@ -141,35 +147,35 @@ UserSchema.plugin(
         respondToLoginSucceed: (res, user = {}, data)->
           userId = "#{user._id}"
           friendRequestId = data.req.body.friend_request_id
-          
+
           if user.type is "daycare"
             redirectTo = "/#profiles/view/#{userId}"
             res.writeHead(303, {'Location': redirectTo})
             res.end()
-          
+
           else if user.type in ["parent", "staff"]
-            
+
             if friendRequestId
-              
+
               FriendRequest  = mongoose.model("FriendRequest")
 
               FriendRequest.findOne({_id: friendRequestId}).run (err, friendRequest)->
                 friendRequest.status = "accepted"
                 friendRequest.user_id = userId
                 friendRequest.save (err, updateRequest)->
-                  
+
                   dayCareId = friendRequest.from_id
                   redirectTo = "/#profiles/view/#{dayCareId}"
 
                   FriendRequest.updateFriendship userId, (err)->
                     userInfo =
                       reviewed_children: false
-                    
+
                     User.update {_id: userId}, userInfo, {}, (err)->
                       res.writeHead(303, {'Location': redirectTo})
                       res.end()
             else
-             
+
               User.findOne({type: "daycare"}).where("_id").in(user.friends).run (err, daycare)->
                 if daycare
                   redirectTo = "/#profiles/view/#{daycare._id}"
@@ -177,7 +183,7 @@ UserSchema.plugin(
                   redirectTo = "/#profiles/view/#{user._id}"
                 res.writeHead(303, {'Location': redirectTo})
                 res.end()
-          
+
         respondToRegistrationSucceed: (res, user, data)->
           redirectTo = '/'
 

@@ -11,6 +11,7 @@ class window.Kin.Profile.ProfileEditView extends Backbone.View
   events:
     'submit #profile-edit-form': 'saveProfile'
     'change #licensed-options'  : 'toggleLicenseNumberField'
+    'change #homebased-options'  : 'toggleReligiousAffiliationField'
 
   addressAutocompleteEl: '#address-autocomplete'
 
@@ -120,3 +121,9 @@ class window.Kin.Profile.ProfileEditView extends Backbone.View
       @$('#license-number-cnt').removeClass('hidden')
     else
       @$('#license-number-cnt').addClass('hidden')
+
+  toggleReligiousAffiliationField: (ev)->
+    if $(ev.target).val() is "1"
+      @$('#religious-affiliation-cnt').addClass('hidden')
+    else
+      @$('#religious-affiliation-cnt').removeClass('hidden')

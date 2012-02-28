@@ -40,4 +40,5 @@
     <% if (profile.get('serving_disabilities')) { %>
     <li><span>Serving people with disabilities:</span> <span class="value"><% if (profile.get('serving_disabilities')) {print('Yes');} else {print('No');} %></span></li>
     <% } %>
+    <li><span>Organization:</span> <span class="value"><% if (profile.get('homebased')) {print('Homebased');} else {print('Center');} %></span></li>
 </ul>
