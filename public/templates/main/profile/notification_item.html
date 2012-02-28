@@ -4,7 +4,7 @@
   var avatar = pictureSets.getPrimaryPicture(item.from_user.picture_sets);
   var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
 %>
-<li class="<%= item.unread ? 'unread' : '' %>">
+<div class="<%= item.unread ? 'unread' : '' %> <%= item.type %>">
   <a href="#comments/view/<%= item.comment_id %>">
     <p class="avatar">
       <img src="<%= avatarUrl %>" width="30" height="30" />
@@ -12,7 +12,7 @@
     <p class="message-header">
       <%
         var messageUser = item.from_user;
-        var messageDate = $.timeago(new Date(item.created_at).format("UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"));
+        var messageDate = new Date(item.created_at).format("H:MM");
         var name = (messageUser.name || "") + " " + (messageUser.surname || "");
       %>
       <span class="name" id="message-to-name"><%= _.escape(name) %></span>
@@ -25,4 +25,4 @@
     </p>
     <p class="time"><%= messageDate %></p>
   </a>
-</li>
+</div>

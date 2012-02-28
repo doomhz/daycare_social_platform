@@ -21,11 +21,15 @@
 
     NotificationsView.prototype.itemTplUrl = "/templates/main/profile/notification_item.html";
 
+    NotificationsView.prototype.dateTplUrl = "/templates/main/profile/notification_date.html";
+
     NotificationsView.prototype.events = {
       "click #load-more-notifications-cnt": "loadMoreNotificationsHandler"
     };
 
     NotificationsView.prototype.type = "alert";
+
+    NotificationsView.prototype.lastDisplayedDay = null;
 
     NotificationsView.prototype.initialize = function(options) {
       if (options == null) options = {};
@@ -43,8 +47,13 @@
           return $.tmpload({
             url: that.itemTplUrl,
             onLoad: function() {
-              return that.collection.fetch({
-                add: true
+              return $.tmpload({
+                url: that.dateTplUrl,
+                onLoad: function() {
+                  return that.collection.fetch({
+                    add: true
+                  });
+                }
               });
             }
           });
@@ -53,12 +62,14 @@
     };
 
     NotificationsView.prototype.addNotificationHandler = function(model) {
-      var that, tpl;
+      var itemTpl, notificationDate, that;
       that = this;
-      tpl = $.tmpload({
+      itemTpl = $.tmpload({
         url: this.itemTplUrl
       });
-      return that.$("#notifications-list").append(tpl({
+      notificationDate = new Date(model.get("created_at"));
+      if (this.isAnotherDay(notificationDate)) this.renderDate(notificationDate);
+      return that.$("#notifications-list").append(itemTpl({
         item: model
       }));
     };
@@ -68,6 +79,26 @@
       return this.collection.fetch({
         add: true
       });
+    };
+
+    NotificationsView.prototype.isAnotherDay = function(notificationDate) {
+      return this.parseDate(notificationDate) !== this.lastDisplayedDay;
+    };
+
+    NotificationsView.prototype.renderDate = function(notificationDate) {
+      var dateTpl, that;
+      that = this;
+      dateTpl = $.tmpload({
+        url: this.dateTplUrl
+      });
+      that.$("#notifications-list").append(dateTpl({
+        date: notificationDate
+      }));
+      return this.lastDisplayedDay = this.parseDate(notificationDate);
+    };
+
+    NotificationsView.prototype.parseDate = function(date) {
+      return "" + (date.getYear()) + (date.getMonth()) + (date.getDay());
     };
 
     NotificationsView.prototype.remove = function() {

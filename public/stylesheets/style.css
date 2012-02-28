@@ -996,7 +996,8 @@ footer #footer-wrapper #copyright {
 #notifications-list {
   margin: 8px 0 0 0;
 }
-#notifications-list li {
+#notifications-list .alert,
+#notifications-list .feed {
   background: #f2f2f2;
   margin: 0;
   float: none;
@@ -1006,7 +1007,8 @@ footer #footer-wrapper #copyright {
   height: auto;
   overflow: hidden;
 }
-#notifications-list li a {
+#notifications-list .alert a,
+#notifications-list .feed a {
   display: inline-block;
   width: 514px;
   padding: 5px;
@@ -1016,34 +1018,40 @@ footer #footer-wrapper #copyright {
   height: auto;
   overflow: hidden;
 }
-#notifications-list li .avatar {
+#notifications-list .alert .avatar,
+#notifications-list .feed .avatar {
   float: left;
   margin: 0 5px 0 0;
 }
-#notifications-list li .message-header {
+#notifications-list .alert .message-header,
+#notifications-list .feed .message-header {
   float: left;
   width: 215px;
   text-align: left;
 }
-#notifications-list li .message-header .name {
+#notifications-list .alert .message-header .name,
+#notifications-list .feed .message-header .name {
   font-weight: bold;
   text-decoration: none;
   color: #7e962d;
 }
-#notifications-list li .message-header .name:hover {
+#notifications-list .alert .message-header .name:hover,
+#notifications-list .feed .message-header .name:hover {
   text-decoration: underline;
 }
-#notifications-list li .message-body {
+#notifications-list .alert .message-body,
+#notifications-list .feed .message-body {
   float: right;
   width: 478px;
   text-align: left;
   padding: 2px 0 2px 0;
 }
-#notifications-list li .time {
+#notifications-list .alert .time,
+#notifications-list .feed .time {
   color: #999;
   float: right;
 }
-#notifications-list li.unread {
+#notifications-list .unread {
   background: #c8e9fa;
 }
 #load-more-notifications-cnt {
