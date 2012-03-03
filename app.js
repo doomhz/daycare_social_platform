@@ -1,7 +1,7 @@
 var express = require('express');
     mongooseAuth = require('mongoose-auth');
 var everyauth = require('./node_modules/mongoose-auth/node_modules/everyauth');
-everyauth.debug = true;
+everyauth.debug = process.env.NODE_ENV === 'production' ? false : true;
 var RedisStore = require('connect-redis')(express);
 
 require('./models/db_connect');
