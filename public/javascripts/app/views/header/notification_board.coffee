@@ -1,20 +1,20 @@
 class Kin.Header.NotificationBoardView extends Backbone.View
 
   el: null
-  
+
   currentUser: null
-  
+
   socket: null
-  
+
   socketUrl: "http://#{window.location.hostname}/user-notifications"
-  
+
   delegates: []
 
   initialize: ({@currentUser})->
-  
+
   addDelegate: (delegate)->
     @delegates.push(delegate)
-  
+
   removeDelegate: (delegate)->
     @delegates = _.filter @delegates, (obj)->
       obj is delegate
@@ -38,6 +38,11 @@ class Kin.Header.NotificationBoardView extends Backbone.View
     @socket.on "last-followups", (data)->
       that.triggerChangeOnDelegates("last-followups", data.followups)
 
+    @socket.on "new-requests-total", (data)->
+      that.triggerChangeOnDelegates("new-requests-total", data.total)
+    @socket.on "last-requests", (data)->
+      that.triggerChangeOnDelegates("last-requests", data.requests)
+
     @socket.on "connect", (socket)->
       sessionId = that.socket.socket.sessionid
 
@@ -46,9 +51,12 @@ class Kin.Header.NotificationBoardView extends Backbone.View
 
       that.socket.emit("get-new-wall-posts-total", {user_id: that.currentUser.get("_id"), session_id: sessionId})
       that.socket.emit("get-last-wall-posts", {user_id: that.currentUser.get("_id"), session_id: sessionId})
-    
+
       that.socket.emit("get-new-followups-total", {user_id: that.currentUser.get("_id"), session_id: sessionId})
       that.socket.emit("get-last-followups", {user_id: that.currentUser.get("_id"), session_id: sessionId})
+
+      that.socket.emit("get-new-requests-total", {user_id: that.currentUser.get("_id"), session_id: sessionId})
+      that.socket.emit("get-last-requests", {user_id: that.currentUser.get("_id"), session_id: sessionId})
 
   triggerChangeOnDelegates: (attribute, value)->
     for delegate in @delegates

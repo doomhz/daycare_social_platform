@@ -32,6 +32,7 @@
       'comments/view/:id': 'viewComment',
       'notifications': 'viewNotifications',
       'feeds': 'viewFeeds',
+      'requests': 'viewRequests',
       'day-cares': 'dayCares',
       'day-care/:section/:id': 'viewDaycareSection',
       'day-care/edit/:section/:id': 'editDaycareSection'
@@ -115,6 +116,10 @@
 
     MainRouter.prototype.viewFeeds = function() {
       return this.app.renderViewFeeds();
+    };
+
+    MainRouter.prototype.viewRequests = function() {
+      return this.app.renderViewRequests();
     };
 
     MainRouter.prototype.viewDaycareSection = function(section, id) {

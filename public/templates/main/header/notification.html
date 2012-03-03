@@ -88,6 +88,33 @@
     }
   %>
 
+  <%
+    if (item.type === 'request') {
+  %>
+  <a href="#profiles/view/<%= item.comment_id %>">
+    <p class="avatar">
+      <img src="<%= avatarUrl %>" width="30" height="30" />
+    </p>
+    <p class="message-header">
+      <%
+        var messageUser = item.from_user;
+        var messageDate = $.timeago(_.escape(item.created_at));
+        var name = (messageUser.name || "") + " " + (messageUser.surname || "");
+      %>
+      <span class="name" id="message-to-name"><%= _.escape(name) %></span>
+    </p>
+        <br />
+    <p class="message-body">
+      <%
+        print(_.escape(item.content));
+      %>
+    </p>
+    <p class="time"><%= messageDate %></p>
+  </a>
+  <%
+    }
+  %>
+
 </li>
 <%
   });
@@ -121,6 +148,17 @@
 <li class="view-all-list-items-bt">
   <a href="#feeds">
       View all feeds
+  </a>
+</li>
+<%
+  }
+%>
+<%
+  if (listId === "last-requests") {
+%>
+<li class="view-all-list-items-bt">
+  <a href="#requests">
+      View all friend requests
   </a>
 </li>
 <%

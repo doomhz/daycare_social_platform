@@ -22,6 +22,7 @@ class window.Kin.MainRouter extends Backbone.Router
     'comments/view/:id'             : 'viewComment'
     'notifications'                 : 'viewNotifications'
     'feeds'                         : 'viewFeeds'
+    'requests'                      : 'viewRequests'
     'day-cares'                     : 'dayCares'
     'day-care/:section/:id'         : 'viewDaycareSection'
     'day-care/edit/:section/:id'    : 'editDaycareSection'
@@ -84,6 +85,9 @@ class window.Kin.MainRouter extends Backbone.Router
 
   viewFeeds: ()->
     @app.renderViewFeeds()
+
+  viewRequests: ()->
+    @app.renderViewRequests()
 
   viewDaycareSection: (section, id)->
     @app.renderDaycareSection(section, id)

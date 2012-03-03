@@ -15,7 +15,7 @@ NotificationSchema = new Schema
     type: String
   type:
     type: String
-    enum: ["alert", "feed"]
+    enum: ["alert", "feed", "request"]
     default: "feed"
   content:
     type: {}
@@ -44,6 +44,8 @@ NotificationSchema.methods.saveAndTriggerNewComments = ()->
       Notification.triggerNewWallPosts(data.user_id)
     if data.type is "alert"
       Notification.triggerNewFollowups(data.user_id)
+    if data.type is "request"
+      Notification.triggerNewRequests(data.user_id)
 
 NotificationSchema.statics.addForStatus = (newComment, sender)->
   Notification = require("./notification")
@@ -68,7 +70,7 @@ NotificationSchema.statics.addForStatus = (newComment, sender)->
     friendsToFind = if wallOwner.type in ["daycare", "class"] then wallOwner.friends else []
     friendsToFind = _.filter friendsToFind, (friendId)->
       friendId not in [senderId, wallOwnerId]
-    
+
     if friendsToFind.length
       receiverTypes = ["parent", "daycare", "staff"]
       User.find().where("_id").in(friendsToFind).where("type").in(receiverTypes).run (err, users)->
@@ -99,11 +101,11 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
       statusOwnerId    = "#{originalComment.from_id}"
 
       User.findOne({_id: statusOwnerId}).run (err, statusOwner)->
-        
+
         sentUserIds = [senderId]
 
         Comment.find({type: "followup", wall_id: newComment.wall_id, to_id: originalStatusId}).run (err, comments)->
-          
+
           for comment in comments
             if comment.from_id not in sentUserIds
               statusOwnerName = if statusOwnerId is senderId then "his" else "#{statusOwner.name or ""} #{statusOwner.surname or ""}'s"
@@ -133,7 +135,7 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
             notification = new Notification(notificationData)
             notification.saveAndTriggerNewComments(statusOwnerId)
             sentUserIds.push(statusOwnerId)
-          
+
           if wallOwnerId isnt statusOwnerId and wallOwnerId not in sentUserIds
             content = "commented on #{statusOwner.name} #{statusOwner.surname}'s post on your wall."
             notificationType = if wallOwner.type in ["daycare", "class"] then "feed" else "alert"
@@ -163,6 +165,21 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
                   content: content
                 notification = new Notification(notificationData)
                 notification.saveAndTriggerNewComments(usr._id)
+
+NotificationSchema.statics.addForRequest = (receiverId, classesIds)->
+  Notification   = mongoose.model("Notification")
+  console.log classesIds
+  User.find().where("_id").in(classesIds).run (err, classes)->
+    for daycareClass in classes
+      console.log daycareClass._id
+      notificationData =
+        user_id: receiverId
+        from_id: daycareClass.master_id
+        comment_id: daycareClass._id
+        type: "request"
+        content: "invited you to #{daycareClass.name}."
+      notification = new Notification(notificationData)
+      notification.saveAndTriggerNewComments(receiverId)
 
 NotificationSchema.statics.triggerNewMessages = (userId)->
   sessionId = notificationsSocket.userSessions[userId]
@@ -223,5 +240,30 @@ NotificationSchema.statics.triggerNewFollowups = (userId)->
       userSocket.emit("new-followups-total", {total: newFollowupsTotal})
     @findLastFollowups userId, 5, (err, followups)->
       userSocket.emit("last-followups", {followups: followups})
+
+NotificationSchema.statics.findLastRequests = (userId, limit, onFind)->
+  @find({user_id: userId, type: "request"}).desc('created_at').limit(limit).run (err, requests)->
+    usersToFind = []
+    if requests
+      for request in requests
+        if not (request.from_id in usersToFind) then usersToFind.push request.from_id
+      # TODO Filter private data
+      User.find().where("_id").in(usersToFind).run (err, users)->
+        if users
+          for request in requests
+            for user in users
+              if "#{user._id}" is "#{request.from_id}" then request.from_user = user
+        onFind(err, requests)
+    else
+      onFind(err, requests)
+
+NotificationSchema.statics.triggerNewRequests = (userId)->
+  sessionId = notificationsSocket.userSessions[userId]
+  userSocket = notificationsSocket.socket(sessionId)
+  if userSocket
+    @find({user_id: userId, type: "request", unread: true}).count (err, newRequestsTotal)->
+      userSocket.emit("new-requests-total", {total: newRequestsTotal})
+    @findLastRequests userId, 5, (err, requests)->
+      userSocket.emit("last-requests", {requests: requests})
 
 exports = module.exports = mongoose.model("Notification", NotificationSchema)

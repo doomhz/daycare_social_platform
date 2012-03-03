@@ -5,6 +5,7 @@ class window.Kin.Profile.NotificationsView extends Backbone.View
   tplUrl:
     alert: "/templates/main/profile/notifications.html"
     feed: "/templates/main/profile/feeds.html"
+    request: "/templates/main/profile/requests.html"
 
   itemTplUrl: "/templates/main/profile/notification_item.html"
   dateTplUrl: "/templates/main/profile/notification_date.html"

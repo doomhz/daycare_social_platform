@@ -17,6 +17,13 @@ module.exports = (app)->
 
     res.json {success: true}
 
+  app.put '/notifications/requests', (req, res)->
+    user = if req.user then req.user else {}
+    Notification.update {user_id: user._id, type: "request", unread: true}, {unread: false}, {multi: true}, (err, notifications)->
+      Notification.triggerNewRequests(user._id)
+
+    res.json {success: true}
+
   app.get '/notifications/:type/:max_time', (req, res)->
     currentUser = if req.user then req.user else {}
     type = req.params.type

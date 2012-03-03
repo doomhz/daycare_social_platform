@@ -56,6 +56,12 @@
       this.socket.on("last-followups", function(data) {
         return that.triggerChangeOnDelegates("last-followups", data.followups);
       });
+      this.socket.on("new-requests-total", function(data) {
+        return that.triggerChangeOnDelegates("new-requests-total", data.total);
+      });
+      this.socket.on("last-requests", function(data) {
+        return that.triggerChangeOnDelegates("last-requests", data.requests);
+      });
       return this.socket.on("connect", function(socket) {
         var sessionId;
         sessionId = that.socket.socket.sessionid;
@@ -79,7 +85,15 @@
           user_id: that.currentUser.get("_id"),
           session_id: sessionId
         });
-        return that.socket.emit("get-last-followups", {
+        that.socket.emit("get-last-followups", {
+          user_id: that.currentUser.get("_id"),
+          session_id: sessionId
+        });
+        that.socket.emit("get-new-requests-total", {
+          user_id: that.currentUser.get("_id"),
+          session_id: sessionId
+        });
+        return that.socket.emit("get-last-requests", {
           user_id: that.currentUser.get("_id"),
           session_id: sessionId
         });

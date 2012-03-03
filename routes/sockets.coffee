@@ -56,6 +56,21 @@ module.exports = (app)->
       Notification.findLastFollowups userId, 5, (err, followups)->
         userSocket.emit("last-followups", {followups: followups})
 
+    socket.on "get-new-requests-total", (data)->
+      userId = data.user_id
+      sessionId = data.session_id
+      userSocket = userNotifications.socket(sessionId)
+      userNotifications.userSessions[userId] = sessionId
+      Notification.find({user_id: userId, type: "request", unread: true}).count (err, requestsTotal)->
+        userSocket.emit("new-requests-total", {total: requestsTotal})
+    socket.on "get-last-requests", (data)->
+      userId = data.user_id
+      sessionId = data.session_id
+      userSocket = userNotifications.socket(sessionId)
+      userNotifications.userSessions[userId] = sessionId
+      Notification.findLastRequests userId, 5, (err, requests)->
+        userSocket.emit("last-requests", {requests: requests})
+
 
     socket.on "disconnect", ()->
       # socket.disconnect()

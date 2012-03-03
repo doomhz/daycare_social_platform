@@ -108,7 +108,7 @@
     };
 
     AppView.prototype.initHeaderNotification = function() {
-      var followupsNotification, headerNotificationBoard, messagesNotification, wallPostsNotification;
+      var followupsNotification, headerNotificationBoard, messagesNotification, requestsNotification, wallPostsNotification;
       headerNotificationBoard = new Kin.Header.NotificationBoardView({
         el: "header #notification-board",
         currentUser: this.currentUser
@@ -137,6 +137,14 @@
       });
       headerNotificationBoard.addDelegate(followupsNotification);
       this.window.addDelegate(followupsNotification);
+      requestsNotification = new Kin.Header.NotificationView({
+        el: headerNotificationBoard.$(".friend-request"),
+        indicatorId: "new-requests-total",
+        listId: "last-requests",
+        onHideUrl: "/notifications/requests"
+      });
+      headerNotificationBoard.addDelegate(requestsNotification);
+      this.window.addDelegate(requestsNotification);
       return headerNotificationBoard.watch();
     };
 
@@ -550,6 +558,26 @@
         collection: notifications,
         el: that.mainColumnSelector,
         type: "feed"
+      });
+      that.mainColumnView.render();
+      that.side1ColumnView = new Kin.Profile.ProfileEditSide1View({
+        model: this.currentUser,
+        el: that.side1ColumnSelector
+      });
+      return that.side1ColumnView.render();
+    };
+
+    AppView.prototype.renderViewRequests = function() {
+      var notifications, that;
+      that = this;
+      this.clearColumns();
+      notifications = new Kin.NotificationsCollection([], {
+        type: "request"
+      });
+      that.mainColumnView = new Kin.Profile.NotificationsView({
+        collection: notifications,
+        el: that.mainColumnSelector,
+        type: "request"
       });
       that.mainColumnView.render();
       that.side1ColumnView = new Kin.Profile.ProfileEditSide1View({

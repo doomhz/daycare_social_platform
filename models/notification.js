@@ -25,7 +25,7 @@
     },
     type: {
       type: String,
-      "enum": ["alert", "feed"],
+      "enum": ["alert", "feed", "request"],
       "default": "feed"
     },
     content: {
@@ -60,8 +60,9 @@
     Notification = require("./notification");
     return this.save(function(err, data) {
       if (data.type === "feed") Notification.triggerNewWallPosts(data.user_id);
-      if (data.type === "alert") {
-        return Notification.triggerNewFollowups(data.user_id);
+      if (data.type === "alert") Notification.triggerNewFollowups(data.user_id);
+      if (data.type === "request") {
+        return Notification.triggerNewRequests(data.user_id);
       }
     });
   };
@@ -224,6 +225,30 @@
     });
   };
 
+  NotificationSchema.statics.addForRequest = function(receiverId, classesIds) {
+    var Notification;
+    Notification = mongoose.model("Notification");
+    console.log(classesIds);
+    return User.find().where("_id")["in"](classesIds).run(function(err, classes) {
+      var daycareClass, notification, notificationData, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = classes.length; _i < _len; _i++) {
+        daycareClass = classes[_i];
+        console.log(daycareClass._id);
+        notificationData = {
+          user_id: receiverId,
+          from_id: daycareClass.master_id,
+          comment_id: daycareClass._id,
+          type: "request",
+          content: "invited you to " + daycareClass.name + "."
+        };
+        notification = new Notification(notificationData);
+        _results.push(notification.saveAndTriggerNewComments(receiverId));
+      }
+      return _results;
+    });
+  };
+
   NotificationSchema.statics.triggerNewMessages = function(userId) {
     var Message, sessionId, userSocket;
     sessionId = notificationsSocket.userSessions[userId];
@@ -354,6 +379,63 @@
       return this.findLastFollowups(userId, 5, function(err, followups) {
         return userSocket.emit("last-followups", {
           followups: followups
+        });
+      });
+    }
+  };
+
+  NotificationSchema.statics.findLastRequests = function(userId, limit, onFind) {
+    return this.find({
+      user_id: userId,
+      type: "request"
+    }).desc('created_at').limit(limit).run(function(err, requests) {
+      var request, usersToFind, _i, _len, _ref;
+      usersToFind = [];
+      if (requests) {
+        for (_i = 0, _len = requests.length; _i < _len; _i++) {
+          request = requests[_i];
+          if (!(_ref = request.from_id, __indexOf.call(usersToFind, _ref) >= 0)) {
+            usersToFind.push(request.from_id);
+          }
+        }
+        return User.find().where("_id")["in"](usersToFind).run(function(err, users) {
+          var request, user, _j, _k, _len2, _len3;
+          if (users) {
+            for (_j = 0, _len2 = requests.length; _j < _len2; _j++) {
+              request = requests[_j];
+              for (_k = 0, _len3 = users.length; _k < _len3; _k++) {
+                user = users[_k];
+                if (("" + user._id) === ("" + request.from_id)) {
+                  request.from_user = user;
+                }
+              }
+            }
+          }
+          return onFind(err, requests);
+        });
+      } else {
+        return onFind(err, requests);
+      }
+    });
+  };
+
+  NotificationSchema.statics.triggerNewRequests = function(userId) {
+    var sessionId, userSocket;
+    sessionId = notificationsSocket.userSessions[userId];
+    userSocket = notificationsSocket.socket(sessionId);
+    if (userSocket) {
+      this.find({
+        user_id: userId,
+        type: "request",
+        unread: true
+      }).count(function(err, newRequestsTotal) {
+        return userSocket.emit("new-requests-total", {
+          total: newRequestsTotal
+        });
+      });
+      return this.findLastRequests(userId, 5, function(err, requests) {
+        return userSocket.emit("last-requests", {
+          requests: requests
         });
       });
     }

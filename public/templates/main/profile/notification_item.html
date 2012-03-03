@@ -3,9 +3,10 @@
   var pictureSets = new Kin.PictureSetsCollection();
   var avatar = pictureSets.getPrimaryPicture(item.from_user.picture_sets);
   var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
+  var itemUrl = item.type === "request" ? ("profiles/view/" + item.comment_id) : ("comments/view/" + item.comment_id);
 %>
 <div class="<%= item.unread ? 'unread' : '' %> <%= item.type %>">
-  <a href="#comments/view/<%= item.comment_id %>">
+  <a href="#<%= itemUrl %>">
     <p class="avatar">
       <img src="<%= avatarUrl %>" width="30" height="30" />
     </p>

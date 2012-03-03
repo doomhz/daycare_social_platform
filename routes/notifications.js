@@ -42,6 +42,24 @@
         success: true
       });
     });
+    app.put('/notifications/requests', function(req, res) {
+      var user;
+      user = req.user ? req.user : {};
+      Notification.update({
+        user_id: user._id,
+        type: "request",
+        unread: true
+      }, {
+        unread: false
+      }, {
+        multi: true
+      }, function(err, notifications) {
+        return Notification.triggerNewRequests(user._id);
+      });
+      return res.json({
+        success: true
+      });
+    });
     return app.get('/notifications/:type/:max_time', function(req, res) {
       var currentUser, maxTime, type;
       currentUser = req.user ? req.user : {};

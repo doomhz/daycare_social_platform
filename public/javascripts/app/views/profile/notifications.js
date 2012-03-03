@@ -16,7 +16,8 @@
 
     NotificationsView.prototype.tplUrl = {
       alert: "/templates/main/profile/notifications.html",
-      feed: "/templates/main/profile/feeds.html"
+      feed: "/templates/main/profile/feeds.html",
+      request: "/templates/main/profile/requests.html"
     };
 
     NotificationsView.prototype.itemTplUrl = "/templates/main/profile/notification_item.html";

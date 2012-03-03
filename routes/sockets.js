@@ -100,6 +100,34 @@
           });
         });
       });
+      socket.on("get-new-requests-total", function(data) {
+        var sessionId, userId, userSocket;
+        userId = data.user_id;
+        sessionId = data.session_id;
+        userSocket = userNotifications.socket(sessionId);
+        userNotifications.userSessions[userId] = sessionId;
+        return Notification.find({
+          user_id: userId,
+          type: "request",
+          unread: true
+        }).count(function(err, requestsTotal) {
+          return userSocket.emit("new-requests-total", {
+            total: requestsTotal
+          });
+        });
+      });
+      socket.on("get-last-requests", function(data) {
+        var sessionId, userId, userSocket;
+        userId = data.user_id;
+        sessionId = data.session_id;
+        userSocket = userNotifications.socket(sessionId);
+        userNotifications.userSessions[userId] = sessionId;
+        return Notification.findLastRequests(userId, 5, function(err, requests) {
+          return userSocket.emit("last-requests", {
+            requests: requests
+          });
+        });
+      });
       return socket.on("disconnect", function() {});
     });
     return Notification.setNotificationsSocket(userNotifications);

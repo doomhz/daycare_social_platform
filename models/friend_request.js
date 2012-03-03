@@ -86,9 +86,10 @@
   };
 
   FriendRequestSchema.statics.updateFriendship = function(userId, onFriendshipUpdate) {
-    var Child, FriendRequest;
+    var Child, FriendRequest, Notification;
     Child = mongoose.model("Child");
     FriendRequest = mongoose.model("FriendRequest");
+    Notification = mongoose.model("Notification");
     return FriendRequest.find({
       user_id: userId
     }).run(function(err, friendRequests) {
@@ -117,6 +118,7 @@
           for (_k = 0, _len3 = children.length; _k < _len3; _k++) {
             child = children[_k];
             daycareAndClassesToFind.push(child.user_id);
+            classesIds.push(child.user_id);
           }
           return User.find().where("_id")["in"](daycareAndClassesToFind).run(function(err, dayCares) {
             var dayCare, friendsToAdd, _l, _len4;
@@ -147,7 +149,8 @@
                 classes_ids: classesIds,
                 gender: gender
               }, {}, function(err) {
-                if (onFriendshipUpdate) return onFriendshipUpdate(err);
+                if (onFriendshipUpdate) onFriendshipUpdate(err);
+                return Notification.addForRequest(userId, classesIds);
               });
             });
           });

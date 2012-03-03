@@ -67,6 +67,7 @@ FriendRequestSchema.statics.sendMail = (friendRequest, options)->
 FriendRequestSchema.statics.updateFriendship = (userId, onFriendshipUpdate)->
   Child          = mongoose.model("Child")
   FriendRequest  = mongoose.model("FriendRequest")
+  Notification   = mongoose.model("Notification")
 
   FriendRequest.find({user_id: userId}).run (err, friendRequests)->
 
@@ -88,6 +89,7 @@ FriendRequestSchema.statics.updateFriendship = (userId, onFriendshipUpdate)->
       Child.find().where("_id").in(childrenIds).run (err, children = [])->
         for child in children
           daycareAndClassesToFind.push(child.user_id)
+          classesIds.push(child.user_id)
 
         User.find().where("_id").in(daycareAndClassesToFind).run (err, dayCares)->
           friendsToAdd = []
@@ -110,6 +112,7 @@ FriendRequestSchema.statics.updateFriendship = (userId, onFriendshipUpdate)->
             User.update {_id: userId}, {friends: myFriendsIds, children_ids: childrenIds, classes_ids: classesIds, gender: gender}, {}, (err)->
               if onFriendshipUpdate
                 onFriendshipUpdate(err)
+              Notification.addForRequest(userId, classesIds)
 
 FriendRequest = mongoose.model("FriendRequest", FriendRequestSchema)
 
