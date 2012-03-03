@@ -6,7 +6,10 @@ io           = require('socket.io')
 
 module.exports = (app)->
 
-  sio = io.listen(app)
+  sioOptions =
+    log: if process.env.NODE_ENV is "production" then false else true
+
+  sio = io.listen(app, sioOptions)
 
   userNotifications = sio.of("/user-notifications").on "connection", (socket)->
     userNotifications.userSessions or= {}

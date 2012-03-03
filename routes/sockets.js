@@ -12,8 +12,11 @@
   io = require('socket.io');
 
   module.exports = function(app) {
-    var sio, userNotifications;
-    sio = io.listen(app);
+    var sio, sioOptions, userNotifications;
+    sioOptions = {
+      log: process.env.NODE_ENV === "production" ? false : true
+    };
+    sio = io.listen(app, sioOptions);
     userNotifications = sio.of("/user-notifications").on("connection", function(socket) {
       userNotifications.userSessions || (userNotifications.userSessions = {});
       socket.on("get-new-messages-total", function(data) {
