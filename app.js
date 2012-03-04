@@ -3,7 +3,7 @@ var express = require('express');
 var everyauth = require('./node_modules/mongoose-auth/node_modules/everyauth');
 everyauth.debug = process.env.NODE_ENV === 'production' ? false : true;
 var RedisStore = require('connect-redis')(express);
-var redisAuthDbName = 'kindzy_auth_' + process.env.NODE_ENV;
+var redisAuthDbName = 'kindzy_auth_' + (process.env.NODE_ENV || "development");
 
 require('./models/db_connect');
 
