@@ -1,5 +1,5 @@
 class Kin.DayCare.SectionView extends Backbone.View
-  
+
   el: null
 
   tplUrl: '/templates/main/day_care/{sectionName}.html'
@@ -12,10 +12,13 @@ class Kin.DayCare.SectionView extends Backbone.View
 
   model: null
 
+  profile: null
+
   events:
     "submit #edit-section-form": "submitSectionFormHandler"
 
-  initialize: (options)->
+  initialize: (options = {})->
+    @profile = options.profile
 
   getTags: (type, callback)->
     tags = new Kin.TagsCollection [], {type: type}
@@ -31,7 +34,7 @@ class Kin.DayCare.SectionView extends Backbone.View
       onLoad: (tpl)->
         that.model.fetch
           success: (model)->
-            $(that.el).html(tpl({section: model, view: that}))
+            $(that.el).html(tpl({section: model, profile: that.profile, view: that}))
             that.$(".chzn-select").chosen()
 
   renderTagInputs: (type, tags, selectedTags, add = false)->

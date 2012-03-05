@@ -25,11 +25,16 @@
 
     SectionView.prototype.model = null;
 
+    SectionView.prototype.profile = null;
+
     SectionView.prototype.events = {
       "submit #edit-section-form": "submitSectionFormHandler"
     };
 
-    SectionView.prototype.initialize = function(options) {};
+    SectionView.prototype.initialize = function(options) {
+      if (options == null) options = {};
+      return this.profile = options.profile;
+    };
 
     SectionView.prototype.getTags = function(type, callback) {
       var tags;
@@ -54,6 +59,7 @@
             success: function(model) {
               $(that.el).html(tpl({
                 section: model,
+                profile: that.profile,
                 view: that
               }));
               return that.$(".chzn-select").chosen();

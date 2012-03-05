@@ -33,6 +33,36 @@ InfoSectionSchema = new Schema
       type: [String]
     transportation_policies:
       type: [String]
+  enrollment:
+    application_accepted:
+      type: String
+    parent_visit_tours:
+      type: String
+    child_interview_process:
+      type: String
+    parent_interview_process:
+      type: String
+    dateline_for_applications:
+      type: String
+    application_fee:
+      type: Number
+    admission_acceptance_criteria:
+      type: String
+    notification_occurs:
+      type: String
+    deposit_required:
+      type: Number
+    financial_aid:
+      type: Boolean
+    child_acceptance_criteria:
+      type: String
+    potty_trained:
+      type: Boolean
+    child_minimum_age_to_enroll:
+      type: String
+    kindergartens_attended:
+      type: String
+
 
 InfoSection = mongoose.model("InfoSection", InfoSectionSchema)
 exports = module.exports = InfoSection

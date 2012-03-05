@@ -1,1 +1,129 @@
 <h1>Edit enrollment</h1>
+
+<form id="edit-section-form">
+  <fieldset>
+
+    <h3 class="clearfix">Application process</h3>
+
+    <div class="clearfix">
+      <label>Application accepeted</label>
+      <div class="input">
+        <textarea name="application_accepted"><%=section.get('application_accepted') %></textarea>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Parent visit tours</label>
+      <div class="input">
+        <textarea name="parent_visit_tours"><%=section.get('parent_visit_tours') %></textarea>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Child interview process</label>
+      <div class="input">
+        <textarea name="child_interview_process"><%=section.get('child_interview_process') %></textarea>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Parent interview process</label>
+      <div class="input">
+        <textarea name="parent_interview_process"><%=section.get('parent_interview_process') %></textarea>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Dateline for applications</label>
+      <div class="input">
+        <textarea name="dateline_for_applications"><%=section.get('dateline_for_applications') %></textarea>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Application fee</label>
+      <div class="input">
+        $<input name="application_fee" type="text" value="<%=section.get('application_fee') %>" />
+      </div>
+    </div>
+
+    <h3 class="clearfix">Admission process</h3>
+
+    <div class="clearfix">
+      <label>Acceptance criteria</label>
+      <div class="input">
+        <textarea name="admission_acceptance_criteria"><%=section.get('admission_acceptance_criteria') %></textarea>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Notification occurs</label>
+      <div class="input">
+        <textarea name="notification_occurs"><%=section.get('notification_occurs') %></textarea>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Deposit required</label>
+      <div class="input">
+        $<input name="deposit_required" type="text" value="<%=section.get('deposit_required') %>" />
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Financial aid</label>
+      <div class="input">
+        <ul class="inputs-list">
+          <li>
+            <label>
+              <input type="radio" name="financial_aid" value="1" <% if (section.get('financial_aid')) { %>checked="checked"<% } %> />
+              <span>Yes</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="radio" name="financial_aid" value="0"  <% if (!section.get('financial_aid')) { %>checked="checked"<% } %> />
+              <span>No</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="clearfix">Age/Child Requirements</h3>
+
+    <div class="clearfix">
+      <label>Acceptance criteria</label>
+      <div class="input">
+        <textarea name="child_acceptance_criteria"><%=section.get('child_acceptance_criteria') %></textarea>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Potty trained</label>
+      <div class="input">
+        <ul class="inputs-list">
+          <li>
+            <label>
+              <input type="radio" name="potty_trained" value="1" <% if (section.get('potty_trained')) { %>checked="checked"<% } %> />
+              <span>Yes</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="radio" name="potty_trained" value="0"  <% if (!section.get('potty_trained')) { %>checked="checked"<% } %> />
+              <span>No</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix">
+      <label>Child's minimum age to enroll</label>
+      <div class="input">
+        <input name="child_minimum_age_to_enroll" type="text" value="<%=section.get('child_minimum_age_to_enroll') %>" />
+      </div>
+    </div>
+
+    <h3 class="clearfix">Kindergartens Attended by <%= Kin.app.currentUser.get("name") %></h3>
+
+    <div class="clearfix">
+      <textarea name="kindergartens_attended"><%=section.get('kindergartens_attended') %></textarea>
+    </div>
+
+    <div class="actions">
+      <input type="submit" class="btn primary" value="Save" />
+    </div>
+  </fieldset>
+ </form>

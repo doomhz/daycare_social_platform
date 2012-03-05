@@ -1,7 +1,68 @@
 <h1>Enrollment</h1>
 
-<% if (section.get("id") === Kin.app.currentUser.get("id")) { %>
-<p>
-	<a href="#day-care/edit/<%= section.get("name") %>/<%= section.get("id") %>">Edit this information</a>
-</p>
-<% } %>
+<div class="section-container">
+  <% if (section.get("id") === Kin.app.currentUser.get("id")) { %>
+  <p class="edit-section">
+    <a href="#day-care/edit/<%= section.get("name") %>/<%= section.get("id") %>">Edit this information</a>
+  </p>
+  <% } %>
+
+  <h3>Application process</h3>
+
+  <ul>
+    <li>
+      <span>Application accepeted:</span> <span><%=section.get('application_accepted') %></span>
+    </li>
+    <li>
+      <span>Parent visit tours:</span> <span><%=section.get('parent_visit_tours') %></span>
+    </li>
+    <li>
+      <span>Child interview process:</span> <span><%=section.get('child_interview_process') %></span>
+    </li>
+    <li>
+      <span>Parent interview process:</span> <span><%=section.get('parent_interview_process') %></span>
+    </li>
+    <li>
+      <span>Dateline for applications:</span> <span><%=section.get('dateline_for_applications') %></span>
+    </li>
+    <li>
+      <span>Application fee:</span> $<span><%=section.get('application_fee') %></span>
+    </li>
+  </ul>
+
+  <h3>Admission process</h3>
+
+  <ul>
+    <li>
+      <span>Acceptance criteria:</span> <span><%=section.get('admission_acceptance_criteria') %></span>
+    </li>
+    <li>
+      <span>Notification occurs:</span> <span><%=section.get('notification_occurs') %></span>
+    </li>
+    <li>
+      <span>Deposit required:</span> <span><%=section.get('deposit_required') %></span>
+    </li>
+    <li>
+      <span>Financial aid:</span> <span><% if (section.get('financial_aid')) { %>Yes<% } else { %>No<% } %></span>
+    </li>
+  </ul>
+
+  <h3>Age/Child Requirements</h3>
+
+  <ul>
+    <li>
+      <span>Acceptance criteria:</span> <span><%=section.get('child_acceptance_criteria') %></span>
+    </li>
+    <li>
+      <span>Potty trained:</span> <span><% if (section.get('potty_trained')) { %>Yes<% } else { %>No<% } %></span>
+    </li>
+    <li>
+      <span>Child's minimum age to enroll:</span> <span><%=section.get('child_minimum_age_to_enroll') %></span>
+    </li>
+  </ul>
+
+  <h3>Kindergartens Attended by <%= profile.get("name") %></h3>
+
+  <p><%=section.get('kindergartens_attended') %></p>
+
+</div>

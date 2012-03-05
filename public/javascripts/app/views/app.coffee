@@ -494,6 +494,7 @@ class Kin.AppView extends Backbone.View
         that.mainColumnView = new Kin.DayCare.SectionView
           model: section
           el: that.mainColumnSelector
+          profile: model
         that.mainColumnView.render()
 
         that.side1ColumnView = new Kin.Profile.ProfileSide1View
