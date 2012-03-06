@@ -36,6 +36,10 @@ class Kin.DayCare.SectionView extends Backbone.View
           success: (model)->
             $(that.el).html(tpl({section: model, profile: that.profile, view: that}))
             that.$(".chzn-select").chosen()
+            that.$(".time-picker").timePicker
+              step: 15
+            that.$("#add-typical-day-bt").bind "click", that.addTypicalDayHandler
+            that.$("#edit-typical-day-list").delegate ".delete-typical-day", "click", that.deleteTypicalDayHandler
 
   renderTagInputs: (type, tags, selectedTags, add = false)->
     that = @
@@ -101,6 +105,23 @@ class Kin.DayCare.SectionView extends Backbone.View
         $form.find("input[name='name']").val("")
       error: ()->
         $.jGrowl("Tag could not be saved :( Please try again.")
+
+  addTypicalDayHandler: (ev)=>
+    ev.preventDefault()
+    $cnt = @$("#add-typical-day-cnt")
+    $typicalDayList = @$("#edit-typical-day-list")
+    $newCnt = $cnt.clone()
+    $newCnt.removeClass("hidden")
+    newIndex = $typicalDayList.find("li:last").data("index") + 1
+    $newCnt = $newCnt.html().replace(/index/g, newIndex)
+    $typicalDayList.append("<li data-index='#{newIndex}'>#{$newCnt}</li>")
+    $typicalDayList.find(".time-picker").timePicker
+      step: 15
+
+  deleteTypicalDayHandler: (ev)->
+    ev.preventDefault()
+    $el = $(ev.target)
+    $el.parents("li:first").remove()
 
   remove: ()->
     @unbind()

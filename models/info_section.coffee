@@ -34,6 +34,8 @@ InfoSectionSchema = new Schema
     transportation_policies:
       type: [String]
   enrollment:
+    typical_day:
+      type: [{}]
     application_accepted:
       type: String
     parent_visit_tours:

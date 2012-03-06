@@ -3,6 +3,25 @@
 <form id="edit-section-form">
   <fieldset>
 
+    <h3 class="clearfix">Typical Day</h3>
+
+    <ul id="edit-typical-day-list">
+    <%
+      _.each(section.get('typical_day'), function (day, index) {
+        if (day) {
+    %>
+      <li data-index="<%= index %>">
+          <input name="typical_day[<%= index %>][start_time]" value="<%= day.start_time %>" class="mini time-picker" /> - <input name="typical_day[<%= index %>][end_time]" value="<%= day.end_time %>" class="mini time-picker" />:
+          <textarea name="typical_day[<%= index %>][description]"><%=day.description %></textarea>
+          <a href="#" class="delete-typical-day">Delete</a>
+      </li>
+    <%
+        }
+      });
+    %>
+    </ul>
+    <input type="button" class="btn primary" id="add-typical-day-bt" value="Add activity" />
+
     <h3 class="clearfix">Application process</h3>
 
     <div class="clearfix">
@@ -127,3 +146,9 @@
     </div>
   </fieldset>
  </form>
+
+ <div id="add-typical-day-cnt" class="hidden">
+  <input name="typical_day[index][start_time]" value="" class="mini time-picker" /> - <input name="typical_day[index][end_time]" value="" class="mini time-picker" />:
+  <textarea name="typical_day[index][description]"></textarea>
+  <a href="#" class="delete-typical-day">Delete</a>
+</div>

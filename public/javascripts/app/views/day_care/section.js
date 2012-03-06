@@ -8,6 +8,7 @@
     __extends(SectionView, _super);
 
     function SectionView() {
+      this.addTypicalDayHandler = __bind(this.addTypicalDayHandler, this);
       this.submitAddTagFormHandler = __bind(this.submitAddTagFormHandler, this);
       this.renderTagForm = __bind(this.renderTagForm, this);
       SectionView.__super__.constructor.apply(this, arguments);
@@ -62,7 +63,12 @@
                 profile: that.profile,
                 view: that
               }));
-              return that.$(".chzn-select").chosen();
+              that.$(".chzn-select").chosen();
+              that.$(".time-picker").timePicker({
+                step: 15
+              });
+              that.$("#add-typical-day-bt").bind("click", that.addTypicalDayHandler);
+              return that.$("#edit-typical-day-list").delegate(".delete-typical-day", "click", that.deleteTypicalDayHandler);
             }
           });
         }
@@ -178,6 +184,28 @@
           return $.jGrowl("Tag could not be saved :( Please try again.");
         }
       });
+    };
+
+    SectionView.prototype.addTypicalDayHandler = function(ev) {
+      var $cnt, $newCnt, $typicalDayList, newIndex;
+      ev.preventDefault();
+      $cnt = this.$("#add-typical-day-cnt");
+      $typicalDayList = this.$("#edit-typical-day-list");
+      $newCnt = $cnt.clone();
+      $newCnt.removeClass("hidden");
+      newIndex = $typicalDayList.find("li:last").data("index") + 1;
+      $newCnt = $newCnt.html().replace(/index/g, newIndex);
+      $typicalDayList.append("<li data-index='" + newIndex + "'>" + $newCnt + "</li>");
+      return $typicalDayList.find(".time-picker").timePicker({
+        step: 15
+      });
+    };
+
+    SectionView.prototype.deleteTypicalDayHandler = function(ev) {
+      var $el;
+      ev.preventDefault();
+      $el = $(ev.target);
+      return $el.parents("li:first").remove();
     };
 
     SectionView.prototype.remove = function() {

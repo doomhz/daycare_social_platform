@@ -55,6 +55,9 @@
       }
     },
     enrollment: {
+      typical_day: {
+        type: [{}]
+      },
       application_accepted: {
         type: String
       },
