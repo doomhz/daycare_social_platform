@@ -4,6 +4,7 @@ var everyauth = require('./node_modules/mongoose-auth/node_modules/everyauth');
 everyauth.debug = process.env.NODE_ENV === 'production' ? false : true;
 var RedisStore = require('connect-redis')(express);
 var redisAuthDbName = 'kindzy_auth_' + (process.env.NODE_ENV || "development");
+var gzippo = require('gzippo');
 
 require('./models/db_connect');
 
@@ -16,7 +17,8 @@ var app = module.exports = express.createServer(
   express.cookieParser(),
   express.session({secret: 'kinsecretkey83', store: new RedisStore({db: redisAuthDbName})}),
   require('stylus').middleware({ src: __dirname + '/public' }),
-  express.static(__dirname + '/public'),
+  //express.static(__dirname + '/public'),
+  gzippo.staticGzip(__dirname + '/public'),
   mongooseAuth.middleware()
 );
 

@@ -17,6 +17,7 @@
     , "underscore": "latest"
     , "underscore.string": "latest"
     , "jake": "latest"
+    , "gzippo": "latest"
     , "jasmine-node":   "latest"
     , "jasmine-jquery": "latest"
     , "jsdom":          "latest"
