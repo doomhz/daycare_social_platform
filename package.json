@@ -6,6 +6,7 @@
       "express": "latest"
     , "stylus": "latest"
     , "jade": "latest"
+    , "connect-assets": "latest"
     , "mongoose": "latest"
     , "mongoose-auth": "latest"
     , "connect-redis": "latest"
