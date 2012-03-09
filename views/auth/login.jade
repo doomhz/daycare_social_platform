@@ -19,24 +19,5 @@ form(action='/login', method='POST', id='login-form')
     #submit.actions
       input.btn.primary(type='submit', value='Login') Login
 
-    p Don't have an account yet? 
+    p Don't have an account yet?
       a(href='/register') Click here to register.
-
-script(type='text/javascript')
-  $("#show-password").click(function (ev) {
-    ev.preventDefault()
-    $(".password-fields").each(function (index, el) {
-      var $el = $(el);
-      var $clone = $el.clone();
-      var newType = $el.attr("type") === "text" ? "password" : "text";
-      $clone.attr("type", newType);
-      $el.replaceWith($clone);
-    });
-
-    var $pwdEl = $(ev.target);
-    if ($pwdEl.text() === $pwdEl.data("show")) {
-      $pwdEl.text($pwdEl.data("hide"));
-    } else {
-      $pwdEl.text($pwdEl.data("show"));
-    }
-  });
