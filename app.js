@@ -11,6 +11,7 @@ require('./models/db_connect');
 // TODO Figure out how to include the mongooseAuth.middleware() without instatiating a User before
 User = require('./models/user');
 
+var oneYear = 31557600000;
 var app = module.exports = express.createServer(
   express.bodyParser(),
   express.methodOverride(),
@@ -19,7 +20,7 @@ var app = module.exports = express.createServer(
   require('stylus').middleware({src: __dirname + '/public'}),
   //express.static(__dirname + '/public'),
   require('connect-assets')({src: __dirname + '/public', detectChanges: false}),
-  gzippo.staticGzip(__dirname + '/public'),
+  gzippo.staticGzip(__dirname + '/public', {clientMaxAge: oneYear, maxAge: oneYear}),
   mongooseAuth.middleware()
 );
 
