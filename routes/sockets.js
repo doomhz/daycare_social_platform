@@ -14,7 +14,14 @@
   module.exports = function(app) {
     var sio, sioOptions, userNotifications;
     sioOptions = {
-      log: process.env.NODE_ENV === "production" ? false : true
+      log: process.env.NODE_ENV === "production" ? false : true,
+      browser: {
+        client: {
+          minification: true,
+          etag: true,
+          gzip: true
+        }
+      }
     };
     sio = io.listen(app, sioOptions);
     userNotifications = sio.of("/user-notifications").on("connection", function(socket) {

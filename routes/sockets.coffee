@@ -8,6 +8,11 @@ module.exports = (app)->
 
   sioOptions =
     log: if process.env.NODE_ENV is "production" then false else true
+    browser:
+      client:
+        minification: true
+        etag: true
+        gzip: true
 
   sio = io.listen(app, sioOptions)
 
