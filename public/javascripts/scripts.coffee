@@ -1,5 +1,4 @@
 #= require vendor/date.format
-#= require vendor/jquery.min
 #= require vendor/jquery.doomTweaks
 #= require vendor/underscore-min
 #= require vendor/underscore.string
