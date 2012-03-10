@@ -11,14 +11,14 @@
 #= require vendor/fileuploader
 #= require vendor/jquery.prettyPhoto
 #= require vendor/jquery.doomEdit
-#= require vendor/chosen.jquery.min
+#= require vendor/jquery.chosen
 #= require vendor/jquery.autoresize
 #= require vendor/jquery.timeago
 #= require vendor/jquery.doomWindows
 #= require vendor/jquery.jgrowl
 #= require vendor/jquery.topLink
 #= require vendor/jquery.expander.min
-#= require vendor/jquery.timePicker.min
+#= require vendor/jquery.timePicker
 #= require app/bootstrap
 #= require app/helpers/text
 #= require app/models/user

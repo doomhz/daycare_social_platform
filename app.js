@@ -16,7 +16,7 @@ var app = module.exports = express.createServer(
   express.methodOverride(),
   express.cookieParser(),
   express.session({secret: 'kinsecretkey83', store: new RedisStore({db: redisAuthDbName})}),
-  require('stylus').middleware({ src: __dirname + '/public' }),
+  require('stylus').middleware({src: __dirname + '/public'}),
   //express.static(__dirname + '/public'),
   require('connect-assets')({src: __dirname + '/public'}),
   gzippo.staticGzip(__dirname + '/public'),
