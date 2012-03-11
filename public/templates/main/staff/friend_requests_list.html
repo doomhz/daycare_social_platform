@@ -9,7 +9,11 @@
     <td><a href="#" data-id="<%= friendRequestId %>" title="Click to edit classes" class="staff-name"><%= friendRequest.get("name") %> <%= friendRequest.get("surname") %></a></td>
     <td><%= friendRequest.get("email") %></td>
     <td><%= new Date(friendRequest.get("created_at")).format("mmm d, yyyy HH:MM") %></td>
-    <td><%= friendRequest.get("status") %></td>
+    <td>
+      <%= friendRequest.get("status") %>
+      <br />
+      <button class="btn cancel-request" data-id="<%= friendRequestId %>">Cancel</button>
+    </td>
 </tr>
 <tr id="class-cnt-<%= friendRequestId %>" class="hidden">
   <td> </td>

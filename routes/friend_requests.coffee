@@ -58,3 +58,23 @@ module.exports = (app)->
           res.render 'friend_requests/_friend_request', {friend_request: friendRequest, show_private: false, layout: false}
       else
         res.render 'friend_requests/_friend_request', {friend_request: friendRequest, show_private: false, layout: false}
+
+  app.del '/friend-request/:id', (req, res)->
+    friendRequestId = req.params.id
+    currentUser = if req.user then req.user else {}
+
+    FriendRequest.findOne({_id: friendRequestId}).run (err, friendRequest)->
+      if friendRequest
+        if friendRequest.status is "accepted" and friendRequest.user_id
+          User.findOne({_id: friendRequest.user_id}).run (err, requestUser)->
+            User.find().where("_id").in(requestUser.friends).run (err, userFriends)->
+              for userFriend in userFriends
+                userFriend.friends = _.filter userFriend.friends, (friendId)->
+                  friendId isnt "#{requestUser._id}"
+                userFriend.save()
+              requestUser.friends = []
+              requestUser.children_ids = []
+              requestUser.save()
+        friendRequest.remove()
+
+      res.json {success: true}

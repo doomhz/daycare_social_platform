@@ -84,7 +84,7 @@
         });
       });
     });
-    return app.get('/friend-request/:id', function(req, res) {
+    app.get('/friend-request/:id', function(req, res) {
       var friendRequestId;
       friendRequestId = req.params.id;
       return FriendRequest.findOne({
@@ -108,6 +108,40 @@
             layout: false
           });
         }
+      });
+    });
+    return app.del('/friend-request/:id', function(req, res) {
+      var currentUser, friendRequestId;
+      friendRequestId = req.params.id;
+      currentUser = req.user ? req.user : {};
+      return FriendRequest.findOne({
+        _id: friendRequestId
+      }).run(function(err, friendRequest) {
+        if (friendRequest) {
+          if (friendRequest.status === "accepted" && friendRequest.user_id) {
+            User.findOne({
+              _id: friendRequest.user_id
+            }).run(function(err, requestUser) {
+              return User.find().where("_id")["in"](requestUser.friends).run(function(err, userFriends) {
+                var userFriend, _i, _len;
+                for (_i = 0, _len = userFriends.length; _i < _len; _i++) {
+                  userFriend = userFriends[_i];
+                  userFriend.friends = _.filter(userFriend.friends, function(friendId) {
+                    return friendId !== ("" + requestUser._id);
+                  });
+                  userFriend.save();
+                }
+                requestUser.friends = [];
+                requestUser.children_ids = [];
+                return requestUser.save();
+              });
+            });
+          }
+          friendRequest.remove();
+        }
+        return res.json({
+          success: true
+        });
       });
     });
   };
