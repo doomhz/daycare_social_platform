@@ -19,7 +19,7 @@ var app = module.exports = express.createServer(
   express.session({secret: 'kinsecretkey83', store: new RedisStore({db: redisAuthDbName})}),
   require('stylus').middleware({src: __dirname + '/public'}),
   //express.static(__dirname + '/public'),
-  require('connect-assets')({src: __dirname + '/public', buildsExpire: false, detectChanges: false}),
+  require('connect-assets')({src: __dirname + '/public', minifyBuilds: false, buildsExpire: false, detectChanges: false}),
   gzippo.staticGzip(__dirname + '/public', {clientMaxAge: oneYear, maxAge: oneYear}),
   mongooseAuth.middleware()
 );
