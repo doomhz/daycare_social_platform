@@ -13,7 +13,7 @@ module.exports = (app)->
         if user
           status.from_user = user
         res.render 'comments/comments', {comments: [status], _s: _s, show_private: false, layout: false}
-  
+
   app.get '/comment/:id', (req, res)->
     currentUser = if req.user then req.user else {}
     commentId   = req.params.id
@@ -29,7 +29,7 @@ module.exports = (app)->
     lastCommentTime = req.params.last_comment_time
 
     Comment.find({to_id: commentId, type: "followup"}).where('added_at').gt(lastCommentTime).asc("added_at").run (err, followups = [])->
-      
+
       if followups.length
         usersToFind = []
         for followup in followups
@@ -56,10 +56,11 @@ module.exports = (app)->
     if wallId is currentUserId or wallId in currentUser.friends
       privacy.push("private")
 
+    commentsLimit = 15
     Comment.find({wall_id: wallId, type: "status"})
     .where('added_at')[comparison](lastCommentTime)
     .where("privacy").in(privacy)
-    .desc("added_at").limit(5).run (err, statuses = [])->
+    .desc("added_at").limit(commentsLimit).run (err, statuses = [])->
       statusIds = []
       for status in statuses
         statusIds.push(status._id)

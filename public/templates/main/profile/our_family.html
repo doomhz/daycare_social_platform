@@ -15,7 +15,7 @@
     }
   %>
   <%
-    if (profile.get("type") === "class" && $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends"))) {
+    if (profile.get("type") === "class" && $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends")) > -1) {
   %>
   <li><a href="#manage-children/<%= profile.get("id") %>"><span>add children</span></a></li>
   <%
@@ -23,6 +23,9 @@
   %>
 </ul>
 
+<%
+  if (profile.get("_id") === Kin.app.currentUser.get("_id") || $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends")) > -1) {
+%>
 <div id="our-family-filter">
   <div>
     <input type="text" placeholder="Type in a name" id="our-family-name-filter" class="input-text">
@@ -30,11 +33,15 @@
       <option value="all">All</option>
       <option value="staff">Staff</option>
       <option value="parents">Parents</option>
-      <option value="children">Children</option>
+      <option value="children">Children</optio
+        n>
     </select>
     <input type="submit" value="Search" class="btn primary" id="our-family-name-filter-bt" />
   </div>
 </div>
+<%
+  }
+%>
 
 <div id="our-family-list-cnt">
 </div>

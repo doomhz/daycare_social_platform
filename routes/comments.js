@@ -101,7 +101,7 @@
       });
     });
     app.get('/comments/:wall_id/:last_comment_time/:timeline', function(req, res) {
-      var comparison, currentUser, currentUserId, lastCommentTime, privacy, timeline, wallId, _ref;
+      var commentsLimit, comparison, currentUser, currentUserId, lastCommentTime, privacy, timeline, wallId, _ref;
       currentUser = req.user ? req.user : {};
       currentUserId = "" + currentUser._id;
       wallId = "" + req.params.wall_id;
@@ -112,10 +112,11 @@
       if (wallId === currentUserId || __indexOf.call(currentUser.friends, wallId) >= 0) {
         privacy.push("private");
       }
+      commentsLimit = 15;
       return Comment.find({
         wall_id: wallId,
         type: "status"
-      }).where('added_at')[comparison](lastCommentTime).where("privacy")["in"](privacy).desc("added_at").limit(5).run(function(err, statuses) {
+      }).where('added_at')[comparison](lastCommentTime).where("privacy")["in"](privacy).desc("added_at").limit(commentsLimit).run(function(err, statuses) {
         var followupsQuery, status, statusIds, _i, _len;
         if (statuses == null) statuses = [];
         statusIds = [];
