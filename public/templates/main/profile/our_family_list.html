@@ -5,7 +5,7 @@
       if (classes.length) {
         classes.each(function (daycareClass) {
     %>
-    <h2><%= daycareClass.get("name") %></h2>
+    <h2><a href="#profiles/view/<%= daycareClass.get("id") %>"><%= daycareClass.get("name") %></a></h2>
     <ul class="our-family-list">
       <%
         var classStaff = staff.filterByClassId(daycareClass.get("_id"));
