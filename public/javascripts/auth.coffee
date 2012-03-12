@@ -23,7 +23,7 @@ $ ()->
         if response._id is friendRequestId and response.user.id and window.document.location.href.search("/login") is -1
           window.document.location = loginFormUrl
         $("#login-form").attr("action", loginFormUrl)
-        if response._id is friendRequestId and response.status is "sent"
+        if response._id is friendRequestId and response.status is "pending"
           $("input[type='radio'][value='#{response.type}']").attr("checked", true).click()
           $("input[name='name']").val(response.name)
           $("input[name='surname']").val(response.surname)

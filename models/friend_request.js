@@ -39,8 +39,8 @@
     },
     status: {
       type: String,
-      "enum": ["sent", "accepted"],
-      "default": "sent"
+      "enum": ["pending", "accepted"],
+      "default": "pending"
     },
     created_at: {
       type: Date,
