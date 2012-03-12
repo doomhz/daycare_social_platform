@@ -131,9 +131,7 @@
                   });
                   userFriend.save();
                 }
-                requestUser.friends = [];
-                requestUser.children_ids = [];
-                return requestUser.save();
+                return requestUser.remove();
               });
             });
           }

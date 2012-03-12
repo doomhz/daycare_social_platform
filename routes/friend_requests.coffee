@@ -72,9 +72,7 @@ module.exports = (app)->
                 userFriend.friends = _.filter userFriend.friends, (friendId)->
                   friendId isnt "#{requestUser._id}"
                 userFriend.save()
-              requestUser.friends = []
-              requestUser.children_ids = []
-              requestUser.save()
+              requestUser.remove()
         friendRequest.remove()
 
       res.json {success: true}
