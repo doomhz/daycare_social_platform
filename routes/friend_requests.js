@@ -102,11 +102,7 @@
             });
           });
         } else {
-          return res.render('friend_requests/_friend_request', {
-            friend_request: friendRequest,
-            show_private: false,
-            layout: false
-          });
+          return res.json({});
         }
       });
     });

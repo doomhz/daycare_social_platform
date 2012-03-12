@@ -57,7 +57,7 @@ module.exports = (app)->
             friendRequest.user = user
           res.render 'friend_requests/_friend_request', {friend_request: friendRequest, show_private: false, layout: false}
       else
-        res.render 'friend_requests/_friend_request', {friend_request: friendRequest, show_private: false, layout: false}
+        res.json {}
 
   app.del '/friend-request/:id', (req, res)->
     friendRequestId = req.params.id
