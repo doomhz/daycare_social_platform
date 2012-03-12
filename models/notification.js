@@ -97,11 +97,12 @@
       if (friendsToFind.length) {
         receiverTypes = ["parent", "daycare", "staff"];
         return User.find().where("_id")["in"](friendsToFind).where("type")["in"](receiverTypes).run(function(err, users) {
-          var content, usr, _i, _len, _results;
+          var content, usr, whoseWall, _i, _len, _results;
           _results = [];
           for (_i = 0, _len = users.length; _i < _len; _i++) {
             usr = users[_i];
-            content = wallOwnerId === senderId ? "posted on his wall." : "posted on " + (wallOwner.name || "") + " " + (wallOwner.surname || "") + "'s wall.";
+            whoseWall = wallOwner.getPronoun();
+            content = wallOwnerId === senderId ? "posted on " + whoseWall + " wall." : "posted on " + (wallOwner.name || "") + " " + (wallOwner.surname || "") + "'s wall.";
             notificationData = {
               user_id: usr._id,
               from_id: senderId,
@@ -139,8 +140,10 @@
         return User.findOne({
           _id: statusOwnerId
         }).run(function(err, statusOwner) {
-          var sentUserIds;
+          var sentUserIds, whoseStatus, whoseWall;
           sentUserIds = [senderId];
+          whoseStatus = statusOwner.getPronoun();
+          whoseWall = wallOwner.getPronoun();
           return Comment.find({
             type: "followup",
             wall_id: newComment.wall_id,
@@ -150,8 +153,8 @@
             for (_i = 0, _len = comments.length; _i < _len; _i++) {
               comment = comments[_i];
               if (_ref = comment.from_id, __indexOf.call(sentUserIds, _ref) < 0) {
-                statusOwnerName = statusOwnerId === senderId ? "his" : "" + (statusOwner.name || "") + " " + (statusOwner.surname || "") + "'s";
-                wallOwnerName = wallOwnerId === senderId ? "his" : "" + (wallOwner.name || "") + " " + (wallOwner.surname || "") + "'s";
+                statusOwnerName = statusOwnerId === senderId ? whoseStatus : "" + (statusOwner.name || "") + " " + (statusOwner.surname || "") + "'s";
+                wallOwnerName = wallOwnerId === senderId ? whoseWall : "" + (wallOwner.name || "") + " " + (wallOwner.surname || "") + "'s";
                 content = "commented on " + statusOwnerName + " post on " + wallOwnerName + " wall.";
                 notificationData = {
                   user_id: comment.from_id,
@@ -167,7 +170,7 @@
               }
             }
             if (__indexOf.call(sentUserIds, statusOwnerId) < 0) {
-              wallOwnerName = wallOwnerId === senderId ? "his" : "" + (wallOwner.name || "") + " " + (wallOwner.surname || "") + "'s";
+              wallOwnerName = wallOwnerId === senderId ? whoseWall : "" + (wallOwner.name || "") + " " + (wallOwner.surname || "") + "'s";
               content = "commented on your post on " + wallOwnerName + " wall.";
               notificationData = {
                 user_id: statusOwnerId,
@@ -202,8 +205,8 @@
                 _results = [];
                 for (_j = 0, _len2 = users.length; _j < _len2; _j++) {
                   usr = users[_j];
-                  statusOwnerName = statusOwnerId === senderId ? "his" : "" + (statusOwner.name || "") + " " + (statusOwner.surname || "") + "'s";
-                  wallOwnerName = wallOwnerId === senderId ? "his" : "" + (wallOwner.name || "") + " " + (wallOwner.surname || "") + "'s";
+                  statusOwnerName = statusOwnerId === senderId ? whoseStatus : "" + (statusOwner.name || "") + " " + (statusOwner.surname || "") + "'s";
+                  wallOwnerName = wallOwnerId === senderId ? whoseWall : "" + (wallOwner.name || "") + " " + (wallOwner.surname || "") + "'s";
                   content = "commented on " + statusOwnerName + " post on " + wallOwnerName + " wall.";
                   notificationData = {
                     user_id: usr._id,

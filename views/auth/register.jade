@@ -29,7 +29,7 @@ form(action='/register', method='POST')
         .inline-inputs
           input(type='text', name="name", value=userParams["name"], class="small large", placeholder="Name")
           span &nbsp;&nbsp;&nbsp;&nbsp;
-          input(type='text', name="surname", value=userParams["surname"], class="small hidden", placeholder="Surname")
+          input(type='text', name="surname", value=userParams["surname"], class="small hidden", placeholder="Last name")
           input(type='hidden', name="daycare_name", value=userParams["daycare_name"])
     #email.clearfix
       label(for=everyauth.password.loginFormFieldName) E-mail

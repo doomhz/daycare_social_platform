@@ -142,6 +142,17 @@
     });
   };
 
+  UserSchema.methods.getPronoun = function() {
+    var pronoun, _ref;
+    pronoun = "his";
+    if ((_ref = this.type) === "daycare" || _ref === "class") {
+      pronoun = "their";
+    } else if (this.gender === "female") {
+      pronoun = "her";
+    }
+    return pronoun;
+  };
+
   UserSchema.statics.checkPermissions = function(object, requiredKey, requiredValue, resForAutoRedirect) {
     if (object == null) object = {};
     if (object && (!requiredKey || !requiredValue)) return true;

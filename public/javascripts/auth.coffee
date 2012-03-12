@@ -35,13 +35,13 @@ $ ()->
   $("input[name='type']&&input[value='parent']").click (ev)->
     if $(ev.target).attr("checked")
       $("input[name='surname']").removeClass("hidden")
-      $("label[for='name']").text("Name")
+      $("label[for='name']").text("First and last name")
       $("input[name='name']").removeClass("large")
 
   $("input[name='type']&&input[value='staff']").click (ev)->
     if $(ev.target).attr("checked")
       $("input[name='surname']").removeClass("hidden")
-      $("label[for='name']").text("Name")
+      $("label[for='name']").text("First and last name")
       $("input[name='name']").removeClass("large")
 
   $("input[name='type']&&input[value='daycare']").click (ev)->

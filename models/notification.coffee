@@ -75,7 +75,8 @@ NotificationSchema.statics.addForStatus = (newComment, sender)->
       receiverTypes = ["parent", "daycare", "staff"]
       User.find().where("_id").in(friendsToFind).where("type").in(receiverTypes).run (err, users)->
         for usr in users
-          content = if wallOwnerId is senderId then "posted on his wall." else "posted on #{wallOwner.name or ""} #{wallOwner.surname or ""}'s wall."
+          whoseWall = wallOwner.getPronoun()
+          content = if wallOwnerId is senderId then "posted on #{whoseWall} wall." else "posted on #{wallOwner.name or ""} #{wallOwner.surname or ""}'s wall."
           notificationData =
             user_id: usr._id
             from_id: senderId
@@ -103,13 +104,15 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
       User.findOne({_id: statusOwnerId}).run (err, statusOwner)->
 
         sentUserIds = [senderId]
+        whoseStatus = statusOwner.getPronoun()
+        whoseWall = wallOwner.getPronoun()
 
         Comment.find({type: "followup", wall_id: newComment.wall_id, to_id: originalStatusId}).run (err, comments)->
 
           for comment in comments
             if comment.from_id not in sentUserIds
-              statusOwnerName = if statusOwnerId is senderId then "his" else "#{statusOwner.name or ""} #{statusOwner.surname or ""}'s"
-              wallOwnerName   = if wallOwnerId is senderId then "his" else "#{wallOwner.name or ""} #{wallOwner.surname or ""}'s"
+              statusOwnerName = if statusOwnerId is senderId then whoseStatus else "#{statusOwner.name or ""} #{statusOwner.surname or ""}'s"
+              wallOwnerName   = if wallOwnerId is senderId then whoseWall else "#{wallOwner.name or ""} #{wallOwner.surname or ""}'s"
               content = "commented on #{statusOwnerName} post on #{wallOwnerName} wall."
               notificationData =
                 user_id: comment.from_id
@@ -123,7 +126,7 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
               sentUserIds.push(comment.from_id)
 
           if statusOwnerId not in sentUserIds
-            wallOwnerName   = if wallOwnerId is senderId then "his" else "#{wallOwner.name or ""} #{wallOwner.surname or ""}'s"
+            wallOwnerName   = if wallOwnerId is senderId then whoseWall else "#{wallOwner.name or ""} #{wallOwner.surname or ""}'s"
             content = "commented on your post on #{wallOwnerName} wall."
             notificationData =
               user_id: statusOwnerId
@@ -153,8 +156,8 @@ NotificationSchema.statics.addForFollowup = (newComment, sender)->
             friendsToFeed = _.difference(wallOwner.friends, sentUserIds)
             User.find().where("_id").in(friendsToFeed).run (err, users)->
               for usr in users
-                statusOwnerName = if statusOwnerId is senderId then "his" else "#{statusOwner.name or ""} #{statusOwner.surname or ""}'s"
-                wallOwnerName   = if wallOwnerId is senderId then "his" else "#{wallOwner.name or ""} #{wallOwner.surname or ""}'s"
+                statusOwnerName = if statusOwnerId is senderId then whoseStatus else "#{statusOwner.name or ""} #{statusOwner.surname or ""}'s"
+                wallOwnerName   = if wallOwnerId is senderId then whoseWall else "#{wallOwner.name or ""} #{wallOwner.surname or ""}'s"
                 content = "commented on #{statusOwnerName} post on #{wallOwnerName} wall."
                 notificationData =
                   user_id: usr._id

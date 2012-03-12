@@ -102,6 +102,15 @@ UserSchema.methods.findDaycareFriends = (onFind)->
       that.daycare_friends.push(daycareFriendData)
     onFind(err, daycareFriends)
 
+UserSchema.methods.getPronoun = ()->
+  pronoun = "his"
+  if @type in ["daycare", "class"]
+    pronoun = "their"
+  else if @gender is "female"
+    pronoun = "her"
+  pronoun
+
+
 UserSchema.statics.checkPermissions = (object = {}, requiredKey, requiredValue, resForAutoRedirect)->
   if object and (not requiredKey or not requiredValue)
     return true
