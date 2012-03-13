@@ -12,17 +12,21 @@ require('./models/db_connect');
 User = require('./models/user');
 
 var oneYear = 31557600000;
+var gzippoOptions = process.env.NODE_ENV === 'production' ? {clientMaxAge: oneYear, maxAge: oneYear} : {contentTypeMatch: /none/};
+var connectAssetsOptions = process.env.NODE_ENV === 'production' ? {src: __dirname + '/public', minifyBuilds: true} : {src: __dirname + '/public'};
+var staticRenderer = process.env.NODE_ENV === 'production' ? gzippo.staticGzip(__dirname + '/public', gzippoOptions) : express.static(__dirname + '/public');
+
 var app = module.exports = express.createServer(
   express.bodyParser(),
   express.methodOverride(),
   express.cookieParser(),
   express.session({secret: 'kinsecretkey83', store: new RedisStore({db: redisAuthDbName})}),
   require('stylus').middleware({src: __dirname + '/public'}),
-  //express.static(__dirname + '/public'),
-  require('connect-assets')({src: __dirname + '/public', minifyBuilds: false, buildsExpire: false, detectChanges: false}),
-  gzippo.staticGzip(__dirname + '/public', {clientMaxAge: oneYear, maxAge: oneYear}),
+  staticRenderer,
+  require('connect-assets')(connectAssetsOptions),
   mongooseAuth.middleware()
 );
+
 
 // Configuration
 
@@ -38,6 +42,7 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler());
 });
+
 
 // Routes
 
