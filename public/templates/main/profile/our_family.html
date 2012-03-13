@@ -7,7 +7,10 @@
 
 <ul id="nav-buttons-menu">
   <%
-    if (profile.get("type") === "daycare" && profile.get("_id") === Kin.app.currentUser.get("_id")) {
+    $.l(profile.get("type"));
+    if ((profile.get("type") === "daycare" && profile.get("_id") === Kin.app.currentUser.get("_id")) ||
+        (profile.get("type") === "class" && profile.get("master_id") === Kin.app.currentUser.get("_id"))
+      ) {
   %>
   <li><a href="#invite-parents"><span>invite parents</span></a></li>
   <li><a href="#invite-staff"><span>invite staff</span></a></li>

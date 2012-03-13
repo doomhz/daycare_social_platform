@@ -8,7 +8,7 @@
   module.exports = function(app) {
     app.get('/', function(req, res) {
       return res.render('site/index', {
-        title: "Kindzy.com"
+        title: "Kindzy"
       });
     });
     return app.get('/geolocation', function(req, res) {
