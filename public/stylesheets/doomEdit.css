@@ -2,12 +2,12 @@
   cursor:pointer;
 }
 
-.dedit-input-link {
+.dedit-input-link, .dedit-select-link {
   padding: 0 25px 0 0;
   text-decoration: underline;
 }
 
-.dedit-input:hover, .dedit-input-link:hover, .dedit-select:hover, #profile-general-info.dedit:hover {
+.dedit-input:hover, .dedit-input-link:hover, .dedit-select:hover, .dedit-select-link:hover, #profile-general-info.dedit:hover {
 	background: transparent url(/images/doom_edit/edit.png) no-repeat bottom right;
   cursor:pointer;
 }

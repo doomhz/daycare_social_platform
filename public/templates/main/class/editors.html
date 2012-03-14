@@ -1,0 +1,32 @@
+<div>
+  <div id="gender-editor-cnt">
+    <select name="gender" id="gender-editor">
+      <option value="male">male</option>
+      <option value="female">female</option>
+    </select>
+  </div>
+  <%
+    var now = new Date();
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  %>
+  <div id="birthday-editor-cnt">
+    <select name="birthday[month]" class="mini">
+        <option value="">-</option>
+        <% for (var i = 0; i <= 11; i++) { %>
+        <option value="<%=i + 1 %>"><%=months[i] %></option>
+        <% } %>
+    </select>
+    <select name="birthday[day]" class="mini">
+        <option value="">-</option>
+        <% for (var i = 1; i <= 31; i++) { %>
+        <option value="<%=i %>"><%=i %></option>
+        <% } %>
+    </select>
+    <select name="birthday[year]" class="mini">
+        <option value="">-</option>
+        <% for (var i = now.getFullYear(), lastYear = now.getFullYear() - 20; i >= lastYear; i--) { %>
+        <option value="<%=i %>"><%=i %></option>
+        <% } %>
+    </select>
+  </div>
+<div>

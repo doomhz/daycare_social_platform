@@ -8,8 +8,8 @@
     <td><%= index %></td>
     <td><span class="dedit-input-link" data-id="<%= child.get("_id") %>" data-field="name"><%= child.get("name") %></span></td>
     <td><span class="dedit-input-link" data-id="<%= child.get("_id") %>" data-field="surname"><%= child.get("surname") %></span></td>
-    <td><span><%= child.get("gender") %></span></td>
-    <td><span><%= child.get("birthday") %></span></td>
+    <td><span class="dedit-select-link gender-edit-select" data-id="<%= child.get("_id") %>" data-field="gender"><%= child.get("gender") %></span></td>
+    <td><span class="dedit-select-link birthday-edit-select" data-id="<%= child.get("_id") %>" data-field="birthday"><%= child.get("birthday") %></span></td>
     <td><a href="#" data-id="<%= child.get("_id") %>" class="delete-child">Delete</a></td>
 </tr>
 <%
