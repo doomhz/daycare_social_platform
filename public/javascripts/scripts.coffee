@@ -19,6 +19,7 @@
 #= require vendor/jquery.topLink
 #= require vendor/jquery.expander.min
 #= require vendor/jquery.timePicker
+#= require vendor/jquery.validate
 #= require app/bootstrap
 #= require app/helpers/text
 #= require app/models/user

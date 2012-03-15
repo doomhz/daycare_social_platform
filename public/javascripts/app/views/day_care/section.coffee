@@ -14,9 +14,6 @@ class Kin.DayCare.SectionView extends Backbone.View
 
   profile: null
 
-  events:
-    "submit #edit-section-form": "submitSectionFormHandler"
-
   initialize: (options = {})->
     @profile = options.profile
 
@@ -26,7 +23,7 @@ class Kin.DayCare.SectionView extends Backbone.View
       success: (collection)->
         callback(collection.models)
 
-  render: ()->
+  render: (callback = ()->)->
     that = @
     tplUrl = @tplUrl.replace("{sectionName}", @model.get("name")).replace(/-/g, "_")
     $.tmpload
@@ -35,11 +32,7 @@ class Kin.DayCare.SectionView extends Backbone.View
         that.model.fetch
           success: (model)->
             $(that.el).html(tpl({section: model, profile: that.profile, view: that}))
-            that.$(".chzn-select").chosen()
-            that.$(".time-picker").timePicker
-              step: 15
-            that.$("#add-typical-day-bt").bind "click", that.addTypicalDayHandler
-            that.$("#edit-typical-day-list").delegate ".delete-typical-day", "click", that.deleteTypicalDayHandler
+            callback()
 
   renderTagInputs: (type, tags, selectedTags, add = false)->
     that = @
@@ -67,7 +60,9 @@ class Kin.DayCare.SectionView extends Backbone.View
       onLoad: (tpl)->
         formHtml = tpl({type: type})
         $list.after(formHtml)
-        $list.next("form").bind "submit", that.submitAddTagFormHandler
+        $form = $list.next("form")
+        $form.bind("submit", that.submitAddTagFormHandler)
+        $form.validate()
 
   displayTagInputs: (type)->
     that = @
@@ -80,48 +75,6 @@ class Kin.DayCare.SectionView extends Backbone.View
     selectedTags = @model.get(type)
     @getTags type, (tags)->
       that.renderTagList(type, tags, selectedTags)
-
-  submitSectionFormHandler: (ev)->
-    ev.preventDefault()
-    $form = $(ev.target)
-    formData = $form.serialize()
-    @model.save null
-      data: formData
-      success: ()->
-        $.jGrowl("Data was successfully saved.")
-      error: ()->
-        $.jGrowl("Data could not be saved :( Please try again.")
-
-  submitAddTagFormHandler: (ev)=>
-    ev.preventDefault()
-    that = @
-    $form = $(ev.target)
-    formData = $form.serialize()
-    tag = new Kin.TagModel
-    tag.save null
-      data: formData
-      success: (model)->
-        that.renderTagInputs(model.get("type"), [model], [model.get("_id")], true)
-        $form.find("input[name='name']").val("")
-      error: ()->
-        $.jGrowl("Tag could not be saved :( Please try again.")
-
-  addTypicalDayHandler: (ev)=>
-    ev.preventDefault()
-    $cnt = @$("#add-typical-day-cnt")
-    $typicalDayList = @$("#edit-typical-day-list")
-    $newCnt = $cnt.clone()
-    $newCnt.removeClass("hidden")
-    newIndex = $typicalDayList.find("li:last").data("index") + 1
-    $newCnt = $newCnt.html().replace(/index/g, newIndex)
-    $typicalDayList.append("<li data-index='#{newIndex}'>#{$newCnt}</li>")
-    $typicalDayList.find(".time-picker").timePicker
-      step: 15
-
-  deleteTypicalDayHandler: (ev)->
-    ev.preventDefault()
-    $el = $(ev.target)
-    $el.parents("li:first").remove()
 
   remove: ()->
     @unbind()
