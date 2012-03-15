@@ -4,7 +4,7 @@ h2 Register
     ul#errors
       - each error in errors
         li.error= error
-form(action='/register', method='POST')
+form(action='/register', method='POST', id='register-form')
   fieldset
     input(type='hidden', name="friend_request_id", value=userParams["friend_request_id"])
     #register-as.clearfix
@@ -36,11 +36,15 @@ form(action='/register', method='POST')
       .input
         input(type='text', name=everyauth.password.loginFormFieldName, value=userParams[everyauth.password.loginFormFieldName])
         &nbsp; (will be your login name)
-    #password.clearfix
+    #password_cnt.clearfix
       label(for=everyauth.password.passwordFormFieldName) Password
       .input
-        input(type='password', name=everyauth.password.passwordFormFieldName, class="password-fields")
+        input(type='password', name=everyauth.password.passwordFormFieldName, class="password-fields required", id="password")
         a#show-password(href="#", data-show="Show password", data-hide="Hide password") Show password
+    #confirm_password.clearfix
+      label(for='password_confirm') Confirm password
+      .input
+        input(type='password', name="password_confirm", class="password-fields", id="password_confirm")
     #submit.actions
       input.btn.primary(type='submit', value='Register')
 

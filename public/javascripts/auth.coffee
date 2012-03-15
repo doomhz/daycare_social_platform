@@ -13,6 +13,18 @@ $ ()->
     else
       $pwdEl.text($pwdEl.data("show"))
 
+  if $("input[name='password_confirm']").length
+    $("#register-form").validate
+      rules:
+        password_confirm:
+          equalTo: "#password"
+      messages:
+        password_confirm:
+          equalTo: "Passwords do not match."
+      errorPlacement: (error, element)->
+        error.appendTo(element.parent())
+
+
   friendRequestId = $("input[name='friend_request_id']").val()
   if friendRequestId or (searchStart = window.document.location.search.search(/friend_request=.*/) > -1)
     $("#register-as").addClass("hidden")
