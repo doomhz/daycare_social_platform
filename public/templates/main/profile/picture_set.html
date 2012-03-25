@@ -1,13 +1,15 @@
-<h1>
-  <span <% if (pictureSet.get('type') !== 'profile') { %>class="<%= (canEdit ? "dedit-input" : "") %>" id="picture-set-text-edit"<% } %> data-placeholder="Click here to edit."><%=pictureSet.get('name') %></span>
-  <% if (pictureSet.get('type') !== 'profile' && canEdit) { %>
-  (<span class="<%= (canEdit ? "dedit-select" : "") %>" id="picture-set-type-select" data-type="<%=pictureSet.get('type') %>"><%=pictureSet.get('type') === 'public' ? 'Public' : 'Private' %></span>)
+<div id="general-wrapper" class="picture-set">
+  <h1>
+    <span <% if (pictureSet.get('type') !== 'profile') { %>class="<%= (canEdit ? "dedit-input" : "") %>" id="picture-set-text-edit"<% } %> data-placeholder="Edit."><%=pictureSet.get('name') %></span>
+    <% if (pictureSet.get('type') !== 'profile' && canEdit) { %>
+    (<span class="<%= (canEdit ? "dedit-select" : "") %>" id="picture-set-type-select" data-type="<%=pictureSet.get('type') %>"><%=pictureSet.get('type') === 'public' ? 'Public' : 'Private' %></span>)
+    <% } %>
+  </h1>
+  
+  <% if (canEdit) { %>
+  <div id="picture-uploader"></div>
   <% } %>
-</h1>
-
-<% if (canEdit) { %>
-<div id="picture-uploader"></div>
-<% } %>
-
-<ul id="pictures-list">
-</ul>
+  
+  <ul id="pictures-list">
+  </ul>
+</div>

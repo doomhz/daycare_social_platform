@@ -9,20 +9,19 @@ class window.Kin.Header.ProfileInfoView extends Kin.Header.SubmenuView
   initialize: ()->
     super()
     @bind("change", @currentUserChangeHandler)
-    @updateProfilePicture()
+    @updateProfileName()
     @updateProfileUrls()
     @renderDaycaresList()
 
   currentUserChangeHandler: (attribute, value)->
-    if attribute is "picture_sets"
-      @updateProfilePicture()
+    if attribute in ["name", "surname"]
+      @updateProfileName()
     if attribute is "daycare_friends"
       @renderDaycaresList()
 
-  updateProfilePicture: ()->
-    profilePicture = @model.getProfilePicture()
-    if profilePicture
-      @$("#my-profile-thumb").attr("src", @model.getProfilePicture().thumb_url)
+  updateProfileName: ()->
+    profileName = @model.get("name") + " " + @model.get("surname")
+    @$("#my-profile-name").text(profileName)
 
   updateProfileUrls: ()->
     urlIds = ["#my-profile-view-url", "#my-profile-edit-url"]

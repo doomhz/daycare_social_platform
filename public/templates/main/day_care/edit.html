@@ -1,189 +1,184 @@
-<h1>Edit day care</h1>
-<form id="profile-edit-form">
-	<fieldset>
-	    <input type="hidden" name="_id" value="<%=profile.get('_id') %>" />
-	    <div class="clearfix">
-	        <label for="name">Name</label>
-			<div class="input">
-	        	<input type="text" name="name" value="<%=profile.get('name') %>" />
-			</div>
-	    </div>
-	    <div class="clearfix">
-	        <label for="address">Address</label>
-			<div class="input">
+<div id="general-wrapper" class="edit">
+  <h1>Edit day care</h1>
+  <form id="profile-edit-form">
+  	<fieldset>
+  	    <input type="hidden" name="_id" value="<%=profile.get('_id') %>" />
+  	    <div class="clearfix content-box">
+  	      <label for="name" class="title">Name</label>
+  			  <div class="input">
+  	        	<input type="text" name="name" value="<%=profile.get('name') %>" />
+  			  </div>
+  	      <label for="address" class="title">Address</label>
+  		    <div class="input">
 	        	<input type="text" name="address" value="<%=profile.get('address') %>" id="address-autocomplete" />
 		        <input type="hidden" name="location[lat]" value="<%=profile.get('location').lat %>" id="location-lat" />
 		        <input type="hidden" name="location[lng]" value="<%=profile.get('location').lng %>" id="location-lng" />
-			</div>
-	        <div id="profile-address-maps"></div>
-	    </div>
-	    <div class="clearfix">
-	        <label for="phone">Phone</label>
-			<div class="input">
-	        	<input type="text" name="phone" value="<%=profile.get('phone') %>" />
-			</div>
-	    </div>
-	    <div class="clearfix">
-	        <label for="fax">Fax</label>
-			<div class="input">
-	        	<input type="text" name="fax" value="<%=profile.get('fax') %>" />
-			</div>
-	    </div>
-	    <div class="clearfix">
-	        <label for="contact_person">Contact person</label>
-			<div class="input">
-	        	<input type="text" name="contact_person" value="<%=profile.get('contact_person') %>" />
-			</div>
-	    </div>
-	    <div class="clearfix">
-	        <label>Speaking classes</label>
-			<div class="input">
-	        	<select multiple="multiple" name="speaking_classes" class="chzn-select" data-placeholder="Add a language...">
-		        <%
-		            var speakingClasses = profile.get('speaking_classes');
-		            _.each(Kin.CONFIG.languages, function (val, key) {
-		        %>
-		            <option value="<%=key %>"<% if (_.include(speakingClasses, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
-		        <%
-		            });
-		        %>
-		        </select>
-			</div>
-	    </div>
-	    <div class="clearfix">
-	        <label>Homebased</label>
-			<div class="input">
-	        	<ul class="inputs-list" id="homebased-options">
-		            <li>
-						<label>
-		                	<input type="radio" name="homebased" value="1" <% if (profile.get('homebased')) { %>checked="checked"<% } %> />
-			                <span>Yes</span>
-						</label>
-		            </li>
-		            <li>
-						<label>
-		                	<input type="radio" name="homebased" value="0"  <% if (!profile.get('homebased')) { %>checked="checked"<% } %> />
-			                <span>No</span>
-						</label>
-		            </li>
-		        </ul>
-			</div>
-	    </div>
-	    <div class="clearfix <%= !profile.get('homebased') ? '' : 'hidden' %>" id="religious-affiliation-cnt">
-	        <label>Religious affiliation</label>
-			<div class="input">
-	        	<ul class="inputs-list">
-		            <li>
-						<label>
-		                	<input type="radio" name="religious_affiliation" value="1" <% if (profile.get('religious_affiliation')) { %>checked="checked"<% } %> />
-			                <span>Yes</span>
-						</label>
-		            </li>
-		            <li>
-						<label>
-		                	<input type="radio" name="religious_affiliation" value="0"  <% if (!profile.get('religious_affiliation')) { %>checked="checked"<% } %> />
-			                <span>No</span>
-						</label>
-		            </li>
-		        </ul>
-			</div>
-	    </div>
-	    <div class="clearfix">
-	        <label>Licensed</label>
-			<div class="input">
-	        	<ul class="inputs-list" id="licensed-options">
-		            <li>
-						<label>
-		                	<input type="radio" name="licensed" value="1" <% if (profile.get('licensed')) { %>checked="checked"<% } %> />
-		                	<span>Yes</span>
-						</label>
-		            </li>
-		            <li>
-						<label>
-		                	<input type="radio" name="licensed" value="0"  <% if (!profile.get('licensed')) { %>checked="checked"<% } %> />
-		                	<span>No</span>
-						</label>
-		            </li>
-		        </ul>
-			</div>
-	    </div>
-	    <div class="clearfix <%= profile.get('licensed') ? '' : 'hidden' %>" id="license-number-cnt">
-	        <label for="license_number">License number</label>
-			<div class="input">
-	        	<input type="text" name="license_number" value="<%=profile.get('license_number') %>" />
-			</div>
-	    </div>
-	    <div class="clearfix">
-	        <%
-	            var openedSince = profile.get('opened_since').split("-");
-	            var openedSinceDay = openedSince[2];
-	            var openedSinceMonth = openedSince[1];
-	            var openedSinceYear = openedSince[0];
-	            var now = new Date();
-	            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-	        %>
-	        <label>Opened since</label>
-			<div class="input">
-		        <select name="opened_since[month]" class="mini">
-		            <option value="">-</option>
-		            <% for (var i = 0; i <= 11; i++) { %>
-		            <option value="<%=i %>" <% if (i == openedSinceMonth) { print('selected="selected"');} %>><%=months[i] %></option>
-		            <% } %>
-		        </select>
-		        <select name="opened_since[day]" class="mini">
-		            <option value="">-</option>
-		            <% for (var i = 1; i <= 31; i++) { %>
-		            <option value="<%=i %>" <% if (i == openedSinceDay) { print('selected="selected"');} %>><%=i %></option>
-		            <% } %>
-		        </select>
-		        <select name="opened_since[year]" class="mini">
-		            <option value="">-</option>
-		            <% for (var i = now.getFullYear(), lastYear = now.getFullYear() - 20; i >= lastYear; i--) { %>
-		            <option value="<%=i %>" <% if (i == openedSinceYear) { print('selected="selected"');} %>><%=i %></option>
-		            <% } %>
-		        </select>
-			</div>
-	    </div>
-	    <div class="clearfix">
-	        <label>Open door policy</label>
-			<div class="input">
-	        	<ul class="inputs-list">
-		            <li>
-						<label>
-		                	<input type="radio" name="open_door_policy" value="1" <% if (profile.get('open_door_policy')) { %>checked="checked"<% } %> />
-			                <span>Yes</span>
-						</label>
-		            </li>
-		            <li>
-						<label>
-		                	<input type="radio" name="open_door_policy" value="0"  <% if (!profile.get('open_door_policy')) { %>checked="checked"<% } %> />
-			                <span>No</span>
-						</label>
-		            </li>
-		        </ul>
-			</div>
-	    </div>
-	    <div class="clearfix">
-	        <label>Serving people with disabilities</label>
-			<div class="input">
-	        	<ul class="inputs-list">
-		            <li>
-						<label>
-		                	<input type="radio" name="serving_disabilities" value="1" <% if (profile.get('serving_disabilities')) { %>checked="checked"<% } %> />
-			                <span>Yes</span>
-						</label>
-		            </li>
-		            <li>
-						<label>
-		                	<input type="radio" name="serving_disabilities" value="0"  <% if (!profile.get('serving_disabilities')) { %>checked="checked"<% } %> />
-			                <span>No</span>
-						</label>
-		            </li>
-		        </ul>
-			</div>
-	    </div>
-	    <div class="actions">
-	        <input type="submit" id="save-profile-bt" class="btn primary" value="Save" />
-	    </div>
-	</fieldset>
-</form>
+  		    </div>
+  	        <div id="profile-address-maps"></div>
+  	        <label for="phone" class="title">Phone</label>
+  			  <div class="input">
+  	        <input type="text" name="phone" value="<%=profile.get('phone') %>" />
+  			  </div>
+  	        <label for="fax" class="title">Fax</label>
+  			  <div class="input">
+  	        <input type="text" name="fax" value="<%=profile.get('fax') %>" />
+  			  </div>
+  	        <label for="contact_person" class="title">Contact person</label>
+  			  <div class="input">
+  	        <input type="text" name="contact_person" value="<%=profile.get('contact_person') %>" />
+  			  </div>
+  	    </div>
+  	    <div class="clearfix content-box">
+  	        <label class="title">Speaking classes</label>
+  			<div class="input">
+  	        	<select multiple="multiple" name="speaking_classes" class="chzn-select" data-placeholder="Add a language...">
+  		        <%
+  		            var speakingClasses = profile.get('speaking_classes');
+  		            _.each(Kin.CONFIG.languages, function (val, key) {
+  		        %>
+  		            <option value="<%=key %>"<% if (_.include(speakingClasses, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
+  		        <%
+  		            });
+  		        %>
+  		        </select>
+  			</div>
+  	    </div>
+  	    <div class="clearfix content-box">
+  	        <label class="title">Homebased</label>
+  			<div class="input">
+  	        	<ul class="inputs-list" id="homebased-options">
+  		            <li>
+  						<label>
+  		                	<input type="radio" name="homebased" value="1" <% if (profile.get('homebased')) { %>checked="checked"<% } %> />
+  			                <span>Yes</span>
+  						</label>
+  		            </li>
+  		            <li>
+  						<label>
+  		                	<input type="radio" name="homebased" value="0"  <% if (!profile.get('homebased')) { %>checked="checked"<% } %> />
+  			                <span>No</span>
+  						</label>
+  		            </li>
+  		        </ul>
+  			</div>
+  	    </div>
+  	    <div class="clearfix content-box <%= !profile.get('homebased') ? '' : 'hidden' %>" id="religious-affiliation-cnt">
+  	        <label class="title">Religious affiliation</label>
+  			<div class="input">
+  	        	<ul class="inputs-list">
+  		            <li>
+  						<label>
+  		                	<input type="radio" name="religious_affiliation" value="1" <% if (profile.get('religious_affiliation')) { %>checked="checked"<% } %> />
+  			                <span>Yes</span>
+  						</label>
+  		            </li>
+  		            <li>
+  						<label>
+  		                	<input type="radio" name="religious_affiliation" value="0"  <% if (!profile.get('religious_affiliation')) { %>checked="checked"<% } %> />
+  			                <span>No</span>
+  						</label>
+  		            </li>
+  		        </ul>
+  			</div>
+  	    </div>
+  	    <div class="clearfix content-box">
+  	        <label class="title">Licensed</label>
+  			<div class="input">
+  	        	<ul class="inputs-list" id="licensed-options">
+  		            <li>
+  						<label>
+  		                	<input type="radio" name="licensed" value="1" <% if (profile.get('licensed')) { %>checked="checked"<% } %> />
+  		                	<span>Yes</span>
+  						</label>
+  		            </li>
+  		            <li>
+  						<label>
+  		                	<input type="radio" name="licensed" value="0"  <% if (!profile.get('licensed')) { %>checked="checked"<% } %> />
+  		                	<span>No</span>
+  						</label>
+  		            </li>
+  		        </ul>
+  		        <div class="clearfix <%= profile.get('licensed') ? '' : 'hidden' %>" id="license-number-cnt">
+  		            <label for="license_number">License number</label>
+  		        <div class="input">
+  		            	<input type="text" name="license_number" value="<%=profile.get('license_number') %>" />
+  		        </div>
+  			</div>
+  	    </div>
+  	    
+  	    </div>
+  	    <div class="clearfix content-box">
+  	        <%
+  	            var openedSince = profile.get('opened_since').split("-");
+  	            var openedSinceDay = openedSince[2];
+  	            var openedSinceMonth = openedSince[1];
+  	            var openedSinceYear = openedSince[0];
+  	            var now = new Date();
+  	            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  	        %>
+  	        <label class="title">Opened since</label>
+  			<div class="input">
+  		        <select name="opened_since[month]" class="mini">
+  		            <option value="">-</option>
+  		            <% for (var i = 0; i <= 11; i++) { %>
+  		            <option value="<%=i %>" <% if (i == openedSinceMonth) { print('selected="selected"');} %>><%=months[i] %></option>
+  		            <% } %>
+  		        </select>
+  		        <select name="opened_since[day]" class="mini">
+  		            <option value="">-</option>
+  		            <% for (var i = 1; i <= 31; i++) { %>
+  		            <option value="<%=i %>" <% if (i == openedSinceDay) { print('selected="selected"');} %>><%=i %></option>
+  		            <% } %>
+  		        </select>
+  		        <select name="opened_since[year]" class="mini">
+  		            <option value="">-</option>
+  		            <% for (var i = now.getFullYear(), lastYear = now.getFullYear() - 20; i >= lastYear; i--) { %>
+  		            <option value="<%=i %>" <% if (i == openedSinceYear) { print('selected="selected"');} %>><%=i %></option>
+  		            <% } %>
+  		        </select>
+  			</div>
+  	    </div>
+  	    <div class="clearfix content-box">
+  	        <label class="title">Open door policy</label>
+  			<div class="input">
+  	        	<ul class="inputs-list">
+  		            <li>
+  						<label>
+  		                	<input type="radio" name="open_door_policy" value="1" <% if (profile.get('open_door_policy')) { %>checked="checked"<% } %> />
+  			                <span>Yes</span>
+  						</label>
+  		            </li>
+  		            <li>
+  						<label>
+  		                	<input type="radio" name="open_door_policy" value="0"  <% if (!profile.get('open_door_policy')) { %>checked="checked"<% } %> />
+  			                <span>No</span>
+  						</label>
+  		            </li>
+  		        </ul>
+  			</div>
+  	    </div>
+  	    <div class="clearfix content-box">
+  	        <label class="title">Serving people with disabilities</label>
+  			<div class="input">
+  	        	<ul class="inputs-list">
+  		            <li>
+  						<label>
+  		                	<input type="radio" name="serving_disabilities" value="1" <% if (profile.get('serving_disabilities')) { %>checked="checked"<% } %> />
+  			                <span>Yes</span>
+  						</label>
+  		            </li>
+  		            <li>
+  						<label>
+  		                	<input type="radio" name="serving_disabilities" value="0"  <% if (!profile.get('serving_disabilities')) { %>checked="checked"<% } %> />
+  			                <span>No</span>
+  						</label>
+  		            </li>
+  		        </ul>
+  			</div>
+  	    </div>
+  	    <div class="actions">
+  	        <input type="submit" id="save-profile-bt" class="btn primary" value="Save" />
+  	    </div>
+  	</fieldset>
+  </form>
+</div>

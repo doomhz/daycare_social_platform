@@ -3,14 +3,14 @@
 %>
     <li>
         <%
-            var thumbUrl    = picture.get('thumb_url') || picture.get('url');
-            var description = picture.get('description') || (canEdit ? 'Click here to add a description' : '');
-            var placeholder = 'Click here to add a description';
+            var thumbUrl    = picture.get('small_url') || picture.get('url');
+            var description = picture.get('description') || (canEdit ? 'Add description' : '');
+            var placeholder = 'Add description';
         %>
         <a href="<%=picture.get('big_url') %>" title="<%=picture.get('description') %>" target="_blank" rel="prettyPhoto[album]" class="photo-frame">
-            <img src="<%=thumbUrl %>" alt="<%=picture.get('description') %>" width="110" height="85" />
+            <img src="<%=thumbUrl %>" alt="<%=picture.get('description') %>" width="110" title="<%=description %>" />
         </a>
-        <p class="picture-description <%= (canEdit ? "dedit-input picture-text-edit" : "" ) %>" data-pic-cid="<%=picture.cid %>" data-placeholder="<%= placeholder %>"><%=description %></p>
+        <p class="picture-description <%= (canEdit ? "dedit-input picture-text-edit" : "" ) %>" data-pic-cid="<%=picture.cid %>" data-placeholder="<%= placeholder %>" title="<%=description %>">&nbsp;<%=description %></p>
 		<%
 			if (canEdit) {
 		%>
@@ -18,15 +18,15 @@
             <%
                 if (picture.get('primary')) {
             %>
-            Primary
+            <span class="is-primary"></span>
             <%
                 } else {
             %>
-            <a href="#" title="Set as primary picture" data-pic-cid="<%=picture.cid %>" class="primary-pic-bt">Make primary</a>
+            <a href="#" title="Set as primary picture" data-pic-cid="<%=picture.cid %>" class="primary-pic-bt"></a>
             <%
                 }
             %>
-            &nbsp;<a href="#" title="Delete picture" data-pic-cid="<%=picture.cid %>" class="delete-pic-bt">Delete</a>
+            &nbsp;<a href="#" title="Delete picture" data-pic-cid="<%=picture.cid %>" class="delete-pic-bt"></a>
         </p>
 		<%
 			}

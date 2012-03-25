@@ -1,4 +1,5 @@
 # TODO Put created and updated dates for each model - check if mongoose can handle the updates automatically
+path         = require("path")
 mongooseAuth = require('mongoose-auth')
 
 Picture = new Schema
@@ -8,6 +9,12 @@ Picture = new Schema
   description:
     type: String
   url:
+    type: String
+  tiny_url:
+    type: String
+  mini_url:
+    type: String
+  small_url:
     type: String
   thumb_url:
     type: String

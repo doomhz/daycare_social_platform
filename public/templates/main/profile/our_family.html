@@ -1,43 +1,40 @@
-<h1>Our family</h1>
-
-<div id="profile-main-tabs">
-    <ul id="profile-tab-menu">
+<div id="general-wrapper" class="our-family">
+  <h1>Our family</h1>
+  
+  <div class="content-box">
+    <ul id="nav-buttons-menu">
+      <%
+        $.l(profile.get("type"));
+        if ((profile.get("type") === "daycare" && profile.get("_id") === Kin.app.currentUser.get("_id")) ||
+            (profile.get("type") === "class" && profile.get("master_id") === Kin.app.currentUser.get("_id"))
+          ) {
+      %>
+      <li><a href="#invite-parents" class="btn"><span>invite parents</span></a></li>
+      <li><a href="#invite-staff" class="btn"><span>invite staff</span></a></li>
+      <%
+        }
+      %>
+      <%
+        if (profile.get("type") === "class" && $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends")) > -1) {
+      %>
+      <li><a href="#manage-children/<%= profile.get("id") %>"><span>add children</span></a></li>
+      <%
+        }
+      %>
     </ul>
 </div>
-
-<ul id="nav-buttons-menu">
-  <%
-    $.l(profile.get("type"));
-    if ((profile.get("type") === "daycare" && profile.get("_id") === Kin.app.currentUser.get("_id")) ||
-        (profile.get("type") === "class" && profile.get("master_id") === Kin.app.currentUser.get("_id"))
-      ) {
-  %>
-  <li><a href="#invite-parents"><span>invite parents</span></a></li>
-  <li><a href="#invite-staff"><span>invite staff</span></a></li>
-  <%
-    }
-  %>
-  <%
-    if (profile.get("type") === "class" && $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends")) > -1) {
-  %>
-  <li><a href="#manage-children/<%= profile.get("id") %>"><span>add children</span></a></li>
-  <%
-    }
-  %>
-</ul>
 
 <%
   if (profile.get("_id") === Kin.app.currentUser.get("_id") || $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends")) > -1) {
 %>
 <div id="our-family-filter">
-  <div>
+  <div class="content-box">
     <input type="text" placeholder="Type in a name" id="our-family-name-filter" class="input-text">
     <select id="our-family-type-filter" class="medium">
       <option value="all">All</option>
       <option value="staff">Staff</option>
       <option value="parents">Parents</option>
-      <option value="children">Children</optio
-        n>
+      <option value="children">Children</option>
     </select>
     <input type="submit" value="Search" class="btn primary" id="our-family-name-filter-bt" />
   </div>

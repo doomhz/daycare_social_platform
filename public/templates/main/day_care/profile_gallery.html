@@ -1,149 +1,140 @@
 <p>
-  <a href="#day-cares" title="Go back to search results" class="back-to-results-bt"><span>Back to results</span></a>
+  <a href="#day-cares" title="Go back to search results" class="back-to-results-bt"><span>&larr; Back to results</span></a>
 </p>
 
-<h1 id="profile-title"><%=profile.get('name') %></h1>
-
-<div id="profile-main-tabs">
-    <ul id="profile-tab-menu">
-        <li class="view-on-map"><a href="#profile-view-on-map-tab"><span>view on map</span></a></li>
-        <li class="view-info"><a href="#profile-info-tab"><span>info</span></a></li>
-    </ul>
-
-    <div id="profile-info-tab">
-    </div>
-    <div id="profile-view-on-map-tab">
-        <div id="profile-address-maps"></div>
-    </div>
+<div id="general-wrapper" class="daycare-gallery">
+  <h1 id="profile-title">Photo Gallery</h1>
+  
+  <%
+    var publicSets = profile.getPublicSets();
+  %>
+  
+  <%
+    if (publicSets.length) {
+  %>
+  
+    
+  <div id="profile-gallery-tabs">
+      <ul id="profile-gallery-tab-menu">
+      <%
+          var i = 0;
+          _.each(publicSets, function (set) {
+              i++;
+      %>
+          <li><a href="#profile-gallery-tab-<%=i %>"><%=set.name %></a></li>
+      <%
+          });
+      %>
+      </ul>
+      <%
+          var i = 0;
+          _.each(publicSets, function (publicSet) {
+              i++;
+      %>
+      <div id="profile-gallery-tab-<%=i %>">
+          <div class="doom-carousel">
+              <div class="doom-carousel-cnt">
+                  <ul class="doom-carousel-list">
+                      <%
+                          _.each(publicSet.pictures, function (picture) {
+                              var mediumPictureUrl = picture.medium_url || picture.url;
+                      %>
+                      <li>
+                          <a href="<%=picture.big_url %>" title="<%=picture.description %>" rel="prettyPhoto[album-<%=publicSet._id %>]" class="photo-frame">
+                              <img src="<%=mediumPictureUrl %>" alt="<%=picture.description %>" class="doom-carousel-pic" width="538" />
+                          </a>
+                      </li>
+                      <%
+                          });
+                      %>
+                  </ul>
+              </div>
+              <a href="#left" title="Left" class="doom-carousel-left-btn"><span>Prev</span></a><span class="pic-counter pic-nr">1</span><span class="pic-nr-separator pic-nr">/</span><span class="pic-total pic-nr"><%=publicSet.pictures.length %></span><a href="#right" title="Right" class="doom-carousel-right-btn"><span>Next</span></a>
+          </div>
+      </div>
+      <%
+          });
+      %>
+  </div>
+  
+  <%
+    }
+  %>
+  
+  <h2>Albums</h2>
+  
+  <% if (canEdit) { %>
+  
+  <p>
+      <button id="show-new-pic-set-form-bt" class="btn white primary">Add album</button>
+  </p>
+  
+  <form id="create-new-pic-cnt" class="hidden">
+  	<fieldset>
+      	<div class="clearfix">
+  	        <label for="new-pic-set-name" class="title">Name</label>
+  			<div class="input">
+  	        	<input type="text" name="new-pic-set-name" />
+  			</div>
+  	    </div>
+  	    <div class="clearfix">
+  	        <label for="new-pic-set-type" class="title">Type</label>
+  			<div class="input">
+  	        	<select name="new-pic-set-type">
+  		        <%
+  		            var typeOptions = {'public': 'Public', 'default': 'Private'};
+  		            _.each(typeOptions, function (val, key) {
+  		        %>
+  		            <option value="<%=key %>"><%=val %></option>
+  		        <%
+  		            });
+  		        %>
+  		        </select>
+  			</div>
+  	    </div>
+  	    <div class="actions">
+  	        <input id="create-new-pic-set-bt" class="btn primary" type="submit" value="Create picture set" />
+  	        <input id="cancel-new-pic-set-bt" class="btn" type="button" value="Cancel" />
+  	    </div>
+  	</fieldset>
+  </form>
+  
+  <% } %>
+  
+  <ul id="picture-sets-list">
+  <%
+      var allPictureSets = profile.pictureSets.models;
+      _.each(allPictureSets, function (pictureSet) {
+          var primaryPicture = pictureSet.pictures.getPrimary();
+          var primaryPictureUrl = primaryPicture ? primaryPicture.get('url') : '/';
+          var primaryPictureThumbUrl = primaryPicture ? (primaryPicture.get('small_url') || primaryPicture.get('url')) : Kin.CONFIG.noPicture;
+  %>
+      <li>
+          <h3>
+              <a href="#profiles/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>">
+                <%=pictureSet.get('name') %> <span>(<%=pictureSet.get('pictures').length %>)</span>
+              </a>
+          </h3>
+          <a href="#profiles/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>" class="photo-frame">
+              <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="110" />
+          </a>
+          <%
+              if (canEdit && pictureSet.get('type') !== 'profile') {
+          %>
+          <p>
+              <a href="#" title="Delete picture set" data-pic-set-id="<%=pictureSet.get('_id') %>" class="delete-pic-set-bt">&nbsp;</a>
+          </p>
+          <%
+              } else {
+          %>
+          <p><a>&nbsp;</a></p>
+          <%
+              }
+          %>
+      </li>
+  <%
+      });
+  %>
+  </ul>
+    
 </div>
-
-<%
-  var publicSets = profile.getPublicSets();
-%>
-
-<%
-  if (publicSets.length) {
-%>
-
-<h2>Photo gallery - photos of the child care center</h2>
-
-<div id="profile-gallery-tabs">
-    <h3 id="choose-places-title">Choose places</h3>
-    <ul id="profile-gallery-tab-menu">
-    <%
-        var i = 0;
-        _.each(publicSets, function (set) {
-            i++;
-    %>
-        <li><a href="#profile-gallery-tab-<%=i %>"><%=set.name %></a></li>
-    <%
-        });
-    %>
-    </ul>
-    <%
-        var i = 0;
-        _.each(publicSets, function (publicSet) {
-            i++;
-    %>
-    <div id="profile-gallery-tab-<%=i %>">
-        <div class="doom-carousel">
-            <div class="doom-carousel-cnt">
-                <ul class="doom-carousel-list">
-                    <%
-                        _.each(publicSet.pictures, function (picture) {
-                            var mediumPictureUrl = picture.medium_url || picture.url;
-                    %>
-                    <li>
-                        <a href="<%=picture.big_url %>" title="<%=picture.description %>" rel="prettyPhoto[album-<%=publicSet._id %>]" class="photo-frame">
-                            <img src="<%=mediumPictureUrl %>" alt="<%=picture.description %>" class="doom-carousel-pic" width="420" height="290" />
-                        </a>
-                    </li>
-                    <%
-                        });
-                    %>
-                </ul>
-            </div>
-            <a href="#left" title="Left" class="doom-carousel-left-btn"><span>Prev</span></a><span class="pic-counter pic-nr">1</span><span class="pic-nr-separator pic-nr">/</span><span class="pic-total pic-nr"><%=publicSet.pictures.length %></span><a href="#right" title="Right" class="doom-carousel-right-btn"><span>Next</span></a>
-        </div>
-    </div>
-    <%
-        });
-    %>
-</div>
-
-<%
-  }
-%>
-
-
-<h2>Albums</h2>
-
-<% if (canEdit) { %>
-
-<p>
-    <button id="show-new-pic-set-form-bt" class="btn primary">+ Add album</button>
-</p>
-
-<form id="create-new-pic-cnt" class="hidden">
-	<fieldset>
-    	<div class="clearfix">
-	        <label for="new-pic-set-name">Name</label>
-			<div class="input">
-	        	<input type="text" name="new-pic-set-name" />
-			</div>
-	    </div>
-	    <div class="clearfix">
-	        <label for="new-pic-set-type">Type</label>
-			<div class="input">
-	        	<select name="new-pic-set-type">
-		        <%
-		            var typeOptions = {'public': 'Public', 'default': 'Private'};
-		            _.each(typeOptions, function (val, key) {
-		        %>
-		            <option value="<%=key %>"><%=val %></option>
-		        <%
-		            });
-		        %>
-		        </select>
-			</div>
-	    </div>
-	    <div class="actions">
-	        <input id="create-new-pic-set-bt" class="btn primary" type="submit" value="Create picture set" />
-	        <input id="cancel-new-pic-set-bt" class="btn" type="button" value="Cancel" />
-	    </div>
-	</fieldset>
-</form>
-
-<% } %>
-
-<ul id="picture-sets-list">
-<%
-    var allPictureSets = profile.pictureSets.models;
-    _.each(allPictureSets, function (pictureSet) {
-        var primaryPicture = pictureSet.pictures.getPrimary();
-        var primaryPictureUrl = primaryPicture ? primaryPicture.get('url') : '/';
-        var primaryPictureThumbUrl = primaryPicture ? (primaryPicture.get('thumb_url') || primaryPicture.get('url')) : Kin.CONFIG.noPicture;
-%>
-    <li>
-        <h3>
-            <a href="#profiles/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>">
-              <%=pictureSet.get('name') %> (<%=pictureSet.get('pictures').length %>)
-            </a>
-        </h3>
-        <a href="#profiles/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>" class="photo-frame">
-            <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="110" height="85" />
-        </a>
-        <%
-            if (canEdit && pictureSet.get('type') !== 'profile') {
-        %>
-        <p>
-            <a href="#" title="Delete picture set" data-pic-set-id="<%=pictureSet.get('_id') %>" class="delete-pic-set-bt">Delete</a>
-        </p>
-        <%
-            }
-        %>
-    </li>
-<%
-    });
-%>
-</ul>

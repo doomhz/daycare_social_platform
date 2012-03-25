@@ -1,9 +1,10 @@
-User        = require('../models/user')
-Comment     = require('../models/comment')
-Child       = require('../models/child')
-InfoSection = require('../models/info_section')
-fs          = require('fs')
-_           = require('underscore')
+User          = require('../models/user')
+Comment       = require('../models/comment')
+Child         = require('../models/child')
+InfoSection   = require('../models/info_section')
+ImageUploader = require('../models/image_uploader')
+fs            = require('fs')
+_             = require('underscore')
 
 module.exports = (app)->
 
@@ -14,11 +15,11 @@ module.exports = (app)->
   app.get '/daycares', (req, res)->
     User.find({type: 'daycare'}).desc('created_at').run (err, daycares) ->
       res.render 'profiles/profiles', {profiles: daycares, show_private: false, layout: false}
-  
+
   app.get '/day-care/section/:section_name/:daycare_id', (req, res)->
     daycareId   = req.params.daycare_id
     sectionName = req.params.section_name.replace(/-/g, "_")
-    
+
     InfoSection.findOne({user_id: daycareId}).run (err, infoSection)->
       if infoSection
         res.json infoSection[sectionName]
@@ -30,7 +31,7 @@ module.exports = (app)->
     sectionName = req.params.section_name.replace(/-/g, "_")
     data = {}
     data[sectionName] = req.body
-    
+
     InfoSection.findOne({user_id: daycareId}).run (err, infoSection)->
       if infoSection
         infoSection.set(data)
@@ -174,6 +175,24 @@ module.exports = (app)->
         catch e
           console.error e
 
+        tinyFilePath = './public/' + pictureToRemove.tiny_url
+        try
+          fs.unlinkSync(tinyFilePath)
+        catch e
+          console.error e
+
+        miniFilePath = './public/' + pictureToRemove.mini_url
+        try
+          fs.unlinkSync(miniFilePath)
+        catch e
+          console.error e
+
+        smallFilePath = './public/' + pictureToRemove.small_url
+        try
+          fs.unlinkSync(smallFilePath)
+        catch e
+          console.error e
+
         thumbFilePath = './public/' + pictureToRemove.thumb_url
         try
           fs.unlinkSync(thumbFilePath)
@@ -248,25 +267,17 @@ module.exports = (app)->
     fileName = req.query.qqfile
     description = req.query.description
 
-    fileExtension = fileName.substring(fileName.length - 3).toLowerCase()
-    fileName = new Date().getTime()
-    dirPath = './public/users/' + pictureSetId + '/'
-    relativeDirPath = '/users/' + pictureSetId + '/'
-    filePath = dirPath + fileName + '.' + fileExtension
-    thumbFilePath = dirPath + fileName + '_thumb.' + fileExtension
-    mediumFilePath = dirPath + fileName + '_medium.' + fileExtension
-    bigFilePath = dirPath + fileName + '_big.' + fileExtension
-    relativeFilePath = relativeDirPath + fileName + '.' + fileExtension
-    thumbRelativeFilePath = relativeDirPath + fileName + '_thumb.' + fileExtension
-    mediumRelativeFilePath = relativeDirPath + fileName + '_medium.' + fileExtension
-    bigRelativeFilePath = relativeDirPath + fileName + '_big.' + fileExtension
+    imageUploader              = new ImageUploader
+    imageUploader.pictureSetId = pictureSetId
+    imageUploader.baseName     = new Date().getTime()
+    imageUploader.setExtensionFromFilename(fileName)
+    dirPath                    = imageUploader.getDirPath()
+    filePath                   = imageUploader.getFilePath()
+    filePaths                  = imageUploader.getFilePaths()
+    relativeFilePaths          = imageUploader.getFilePaths(true)
 
-    newPictureData =
-      url: relativeFilePath
-      thumb_url: thumbRelativeFilePath
-      medium_url: mediumRelativeFilePath
-      big_url: bigRelativeFilePath
-      description: description
+    newPictureData             = relativeFilePaths
+    newPictureData.description = description
 
     newPicture = null
 
@@ -309,53 +320,14 @@ module.exports = (app)->
             newPicture = user.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1]
             newPicture.success = true
 
-            im = require 'imagemagick'
-            im.crop(
-                srcPath: filePath
-                dstPath: thumbFilePath
-                width: 110
-                height: 85
-                quality: 1
-              , (err, stdout, stderr)->
-                if err
-                  console.log err
-                if err
-                  console.log stderr
+            imageUploader.resizeAll ()->
+                commentData =
+                  from_id: currentUser._id
+                  to_id: user._id
+                  wall_id: user._id
+                Comment.addNewPictureStatus(commentData, user.picture_sets[pictureSetIndex], newPicture)
 
-                im.crop(
-                    srcPath: filePath
-                    dstPath: mediumFilePath
-                    width: 420
-                    height: 290
-                    quality: 1
-                  , (err, stdout, stderr)->
-                    if err
-                      console.log err
-                    if err
-                      console.log stderr
-
-                    im.resize(
-                        srcPath: filePath
-                        dstPath: bigFilePath
-                        width: 800
-                        height: 600
-                        quality: 1
-                      , (err, stdout, stderr)->
-                        if err
-                          console.log err
-                        if err
-                          console.log stderr
-                        
-                        commentData =
-                          from_id: currentUser._id
-                          to_id: user._id
-                          wall_id: user._id
-                        Comment.addNewPictureStatus(commentData, user.picture_sets[pictureSetIndex], newPicture)
-
-                        res.json newPicture
-                    )
-                )
-            )
+                res.json newPicture
           else
             res.json {success: false}
 

@@ -1,137 +1,139 @@
-<h1>Edit general information</h1>
-
-<form id="edit-section-form">
-  <fieldset>
-    <div class="clearfix">
-      <label>School Philosophy</label>
-      <div class="input">
-        <textarea name="school_philosophy" placeholder="Short description of the center with a brief message from director."><%=section.get('school_philosophy') %></textarea>
+<div id="general-wrapper" class="edit-general-information">
+  <h1>Edit general information</h1>
+  
+  <form id="edit-section-form">
+    <fieldset>
+      <div class="clearfix content-box">
+        <label class="title">School Philosophy</label>
+        <div class="input">
+          <textarea class="short-description" name="school_philosophy" placeholder="Short description of the center with a brief message from director."><%=section.get('school_philosophy') %></textarea>
+        </div>
       </div>
-    </div>
-    <div class="clearfix">
-      <label class="control-label">General Aproach to Learning</label>
-      <div class="input">
-        <ul class="inputs-list" id="general_aproach_to_learning-inputs">
+      <div class="clearfix content-box">
+        <label class="control-label title">General Aproach to Learning</label>
+        <div class="input">
+          <ul class="inputs-list" id="general_aproach_to_learning-inputs">
+            <%
+              view.displayTagInputs("general_aproach_to_learning");
+            %>
+          </ul>
+        </div>
+      </div>
+      <div class="clearfix content-box">
+        <label class="title">Licensed</label>
+        <div class="input">
+          <ul class="inputs-list" id="licensed-options">
+            <li>
+              <label>
+                <input type="radio" name="licensed" value="1" <% if (section.get('licensed')) { %>checked="checked"<% } %> />
+                <span>Yes</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="licensed" value="0"  <% if (!section.get('licensed')) { %>checked="checked"<% } %> />
+                <span>No</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="clearfix content-box">
+        <label class="title">Speaking classes</label>
+        <div class="input">
+          <select multiple="multiple" name="speaking_classes" class="chzn-select" data-placeholder="Add a language...">
           <%
-            view.displayTagInputs("general_aproach_to_learning");
+            var speakingClasses = section.get('speaking_classes');
+            _.each(Kin.CONFIG.languages, function (val, key) {
           %>
-        </ul>
-      </div>
-    </div>
-    <div class="clearfix">
-      <label>Licensed</label>
-      <div class="input">
-        <ul class="inputs-list" id="licensed-options">
-          <li>
-            <label>
-              <input type="radio" name="licensed" value="1" <% if (section.get('licensed')) { %>checked="checked"<% } %> />
-              <span>Yes</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="radio" name="licensed" value="0"  <% if (!section.get('licensed')) { %>checked="checked"<% } %> />
-              <span>No</span>
-            </label>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="clearfix">
-      <label>Speaking classes</label>
-      <div class="input">
-        <select multiple="multiple" name="speaking_classes" class="chzn-select" data-placeholder="Add a language...">
-        <%
-          var speakingClasses = section.get('speaking_classes');
-          _.each(Kin.CONFIG.languages, function (val, key) {
-        %>
-          <option value="<%=key %>"<% if (_.include(speakingClasses, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
-        <%
-          });
-        %>
-        </select>
-      </div>
-    </div>
-    <div class="clearfix <%= section.get('licensed') ? '' : 'hidden' %>" id="license-number-cnt">
-      <label for="license_number">License number</label>
-      <div class="input">
-        <input type="text" name="license_number" value="<%=section.get('license_number') %>" />
-      </div>
-    </div>
-    <div class="clearfix">
-      <label>Open door policy</label>
-      <div class="input">
-        <ul class="inputs-list">
-          <li>
-            <label>
-              <input type="radio" name="open_door_policy" value="1" <% if (section.get('open_door_policy')) { %>checked="checked"<% } %> />
-              <span>Yes</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="radio" name="open_door_policy" value="0"  <% if (!section.get('open_door_policy')) { %>checked="checked"<% } %> />
-              <span>No</span>
-            </label>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <h3 class="clearfix">Learning Philosophy &amp; Tools</h3>
-    
-    <div class="clearfix">
-      <label class="control-label">Language</label>
-      <div class="input">
-        <ul class="inputs-list" id="learning_philosophy_and_tools_language-inputs">
+            <option value="<%=key %>"<% if (_.include(speakingClasses, parseInt(key))) { %> selected="selected"<% } %>><%=val %></option>
           <%
-            view.displayTagInputs("learning_philosophy_and_tools_language");
+            });
           %>
-        </ul>
+          </select>
+        </div>
       </div>
-    </div>
-    <div class="clearfix">
-      <label class="control-label">Cognitive development</label>
-      <div class="input">
-        <ul class="inputs-list" id="learning_philosophy_and_tools_cognitive_dev-inputs">
-          <%
-            view.displayTagInputs("learning_philosophy_and_tools_cognitive_dev");
-          %>
-        </ul>
+      <div class="clearfix content-box <%= section.get('licensed') ? '' : 'hidden' %>" id="license-number-cnt">
+        <label for="license_number">License number</label>
+        <div class="input">
+          <input type="text" name="license_number" value="<%=section.get('license_number') %>" />
+        </div>
       </div>
-    </div>
-    <div class="clearfix">
-      <label class="control-label">Home school connection</label>
-      <div class="input">
-        <ul class="inputs-list" id="home_school_connections-inputs">
-          <%
-            view.displayTagInputs("home_school_connections");
-          %>
-        </ul>
+      <div class="clearfix content-box">
+        <label class="title">Open door policy</label>
+        <div class="input">
+          <ul class="inputs-list">
+            <li>
+              <label>
+                <input type="radio" name="open_door_policy" value="1" <% if (section.get('open_door_policy')) { %>checked="checked"<% } %> />
+                <span>Yes</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="open_door_policy" value="0"  <% if (!section.get('open_door_policy')) { %>checked="checked"<% } %> />
+                <span>No</span>
+              </label>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="clearfix">
-      <label class="control-label">Separation is Handled through</label>
-      <div class="input">
-        <ul class="inputs-list" id="home_school_separations-inputs">
-          <%
-            view.displayTagInputs("home_school_separations");
-          %>
-        </ul>
+  
+      <h3 class="clearfix">Learning Philosophy &amp; Tools</h3>
+      
+      <div class="clearfix content-box">
+        <label class="control-label">Language</label>
+        <div class="input">
+          <ul class="inputs-list" id="learning_philosophy_and_tools_language-inputs">
+            <%
+              view.displayTagInputs("learning_philosophy_and_tools_language");
+            %>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="clearfix">
-      <label class="control-label">Certificates / Awards</label>
-      <div class="input">
-        <ul class="inputs-list" id="certificates-inputs">
-          <%
-            view.displayTagInputs("certificates");
-          %>
-        </ul>
+      <div class="clearfix content-box">
+        <label class="control-label title">Cognitive development</label>
+        <div class="input">
+          <ul class="inputs-list" id="learning_philosophy_and_tools_cognitive_dev-inputs">
+            <%
+              view.displayTagInputs("learning_philosophy_and_tools_cognitive_dev");
+            %>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="actions">
-      <input type="submit" class="btn primary" value="Save" />
-    </div>
-  </fieldset>
-</form>
+      <div class="clearfix content-box">
+        <label class="control-label title">Home school connection</label>
+        <div class="input">
+          <ul class="inputs-list" id="home_school_connections-inputs">
+            <%
+              view.displayTagInputs("home_school_connections");
+            %>
+          </ul>
+        </div>
+      </div>
+      <div class="clearfix content-box">
+        <label class="control-label title">Separation is Handled through</label>
+        <div class="input">
+          <ul class="inputs-list" id="home_school_separations-inputs">
+            <%
+              view.displayTagInputs("home_school_separations");
+            %>
+          </ul>
+        </div>
+      </div>
+      <div class="clearfix content-box">
+        <label class="control-label title">Certificates / Awards</label>
+        <div class="input">
+          <ul class="inputs-list" id="certificates-inputs">
+            <%
+              view.displayTagInputs("certificates");
+            %>
+          </ul>
+        </div>
+      </div>
+      <div class="actions">
+        <input type="submit" class="btn primary" value="Save" />
+      </div>
+    </fieldset>
+  </form>
+</div>

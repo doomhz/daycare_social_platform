@@ -1,71 +1,66 @@
-!!!
+!!! 5
 html
   head
     title= title
-
+    
     include _styles
 
   body
+    #wrapper
+      #header.header
+        .header-content
+          .logo
+            a(href='/')
+              img(src='/images/logo.png')
+          .search
+            ul
+              li.by-name
+                input(type="text", name="", placeholder="Search by name")
+              li.advanced
+                a(href="#")
+          .user_notifications
+            ul#events-menu.hidden
+              li.messages.mails
+                a.icon(href='#messages/inbox')
+                  span#new-messages-total.indicator.hidden 0
+                ul#last-messages.notification-list.hidden
+              li.friend-request.users
+                a.icon(href='#requests')
+                  span#new-requests-total.indicator.hidden 0
+                ul#last-requests.notification-list.hidden
+              li.notifications.replies
+                a.icon(href='#alerts')
+                  span#new-followups-total.indicator.hidden 0
+                ul#last-followups.notification-list.hidden
+              li.ccn.history
+                a.icon(href='#feeds')
+                  span#new-wall-posts-total.indicator.hidden 0
+                ul#last-wall-posts.notification-list.hidden
+          .user-menu
+            ul#main-menu.hidden
+              li#my-profile-bt.name-dropdown
+                a(href='#')
+                  span#my-profile-name
+                ul.submenu.hidden
+                  li.my-profile
+                    a(href="#profiles/view/:id", id="my-profile-view-url") My profile
+                  li.edit-profile
+                    a(href="#profiles/edit/:id", id="my-profile-edit-url") Edit profile
+                  li#my-daycares-list
+              li#account-bt
+                a(href='#', id="my-settings-bt")
+              li.logout
+                a(href="/logout")
 
-    header
-      #header-wrapper
-        ul#main-menu.hidden
-          li
-            a(href='#') Kindzy
-          li
-            a(href='#') Home
-          li#my-profile-bt
-            a(href='#')
-              img(src='/images/no_picture.png', alt='My profile', height='32', width='32', id="my-profile-thumb")
-            ul.submenu.hidden
-              li
-                a(href="#profiles/view/:id", id="my-profile-view-url") My profile
-              li
-                a(href="#profiles/edit/:id", id="my-profile-edit-url") Edit profile
-              li#my-daycares-list
-          li#account-bt
-            a(href='#', id="my-settings-bt")
-              span Account
-            ul.submenu.hidden
-              li
-                a(href="/logout") Logout
-        ul#events-menu.hidden
-          li.messages
-            a(href='#messages/inbox')
-              span#new-messages-total.indicator.hidden 0
-            ul#last-messages.notification-list.hidden
-          li.friend-request
-            a(href='#')
-              span#new-requests-total.indicator.hidden 0
-            ul#last-requests.notification-list.hidden
-          li.notifications
-            a(href='#')
-              span#new-followups-total.indicator.hidden 0
-            ul#last-followups.notification-list.hidden
-          li.ccn
-            a(href='#')
-              span#new-wall-posts-total.indicator.hidden 0
-            ul#last-wall-posts.notification-list.hidden
-        a(href='/')
-          img(src='/images/logo.png', alt='Kindzy.com', id='logo')
-        #search-cnt.hidden
-          ul#search-menu.invisible
-            li.by-type
-              a(href='#search-by-name')
-                span by type
-            li.by-name
-              a(href='#search-by-type')
-                span by name
-          #search-bar
-            button#search-bt
-    #page-wrapper
-      #side-column1
-      #side-column2
-      #main-column
-        !{body}
-    footer
-      #footer-wrapper
-        ul
+      .content-wrapper
+        #side-column1.kd-menu
+        #main-column.kd-wall
+          !{body}
+        #side-column2.kd-info
+
+      .footer
+        p.copy Copyright &copy; 2011 Kindzy.com, Inc. All rights reserved.
+        ul.f-menu
           li
             a(href='#') About Us
           li
@@ -82,7 +77,6 @@ html
             a(href='#') Partners
           li
             a(href='#') Widgets and Tools
-        p#copyright Copyright &copy; 2011 Kindzy.com, Inc. All rights reserved.
 
     #top-link(href="#top") Top of Page
 

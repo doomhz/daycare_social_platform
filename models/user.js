@@ -1,5 +1,7 @@
 (function() {
-  var Picture, PictureSet, UserSchema, exports, mongooseAuth;
+  var Picture, PictureSet, UserSchema, exports, mongooseAuth, path;
+
+  path = require("path");
 
   mongooseAuth = require('mongoose-auth');
 
@@ -12,6 +14,15 @@
       type: String
     },
     url: {
+      type: String
+    },
+    tiny_url: {
+      type: String
+    },
+    mini_url: {
+      type: String
+    },
+    small_url: {
       type: String
     },
     thumb_url: {

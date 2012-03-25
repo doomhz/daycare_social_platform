@@ -1,8 +1,9 @@
 
 div.jGrowl {
 	z-index: 			9999;
-	color: 				#000;
-	font-size: 			12px;
+	color: 				#fff;
+	font-size: 			14px;
+	font-weight: bold;
 }
 
 /** Special IE6 Style Positioning **/
@@ -69,8 +70,8 @@ div.jGrowl.bottom-right {
 
 div.jGrowl.center {
 	top: 				0px;
-	width: 				50%;
-	left: 				25%;
+	width: 				100%;
+	text-align: center;
 }
 
 /** Cross Browser Styling **/
@@ -80,35 +81,31 @@ div.center div.jGrowl-notification, div.center div.jGrowl-closer {
 }
 
 div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
-	background-color: #E6F2F5;
-	opacity: 				.85;
-	-ms-filter: 			"progid:DXImageTransform.Microsoft.Alpha(Opacity=85)"; 
-	filter: 				progid:DXImageTransform.Microsoft.Alpha(Opacity=85); 
+	background: #52bece url('../images/bg_notification.png') repeat-x;
 	zoom: 					1;
-	width: 					235px;
+	width: 					100%;
 	padding: 				10px;
-	margin-top: 			5px;
+	margin-top: 			0;
 	margin-bottom: 			5px;
 	font-family: 			Tahoma, Arial, Helvetica, sans-serif;
 	font-size: 				1em;
 	text-align: 			left;
 	display: 				none;
-	-moz-border-radius: 	5px;
-	-webkit-border-radius:	5px;
+	margin-left: -11px;
 }
 
 div.jGrowl div.jGrowl-notification {
-	min-height: 			40px;
+	min-height: 			28px;
 }
 
 div.jGrowl div.jGrowl-notification,
 div.jGrowl div.jGrowl-closer {
-	margin: 				10px;
+	margin-top: 				3px;
 }
 
 div.jGrowl div.jGrowl-notification div.jGrowl-header {
 	font-weight: 			bold;
-	font-size:				.85em;
+	font-size:				18px;
 }
 
 div.jGrowl div.jGrowl-notification div.jGrowl-close {
@@ -117,6 +114,7 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 	font-weight: 			bold;
 	font-size: 				1em;
 	cursor:					pointer;
+	display: none;
 }
 
 div.jGrowl div.jGrowl-closer {
@@ -126,6 +124,13 @@ div.jGrowl div.jGrowl-closer {
 	font-size:				.9em;
 	font-weight: 			bold;
 	text-align: 			center;
+}
+
+.jGrowl-message {
+  text-align: center;
+  margin-top: 3px;
+  position: relative;
+  font-weight: normal;
 }
 
 /** Hide jGrowl when printing **/

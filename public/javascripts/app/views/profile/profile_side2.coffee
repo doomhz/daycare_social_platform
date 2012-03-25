@@ -1,10 +1,10 @@
-class Kin.Profile.ProfileGeneralInfoView extends Backbone.View
+class Kin.Profile.ProfileSide2View extends Backbone.View
 
   tplUrl:
-    daycare: '/templates/main/day_care/profile_general_info.html'
-    parent:  '/templates/main/parent/profile_general_info.html'
-    staff:  '/templates/main/staff/profile_general_info.html'
-    class:  '/templates/main/class/profile_general_info.html'
+    daycare: '/templates/side2/day_care/profile.html'
+    parent:  '/templates/side2/parent/profile.html'
+    staff:  '/templates/side2/staff/profile.html'
+    class:  '/templates/side2/class/profile.html'
 
   router: null
 
@@ -23,13 +23,11 @@ class Kin.Profile.ProfileGeneralInfoView extends Backbone.View
         if canEdit
           that.$("#profile-general-info").bind("click", that.goToEditProfile)
 
-  @
-
   remove: ()->
     $el = $(@el)
     @unbind()
     $el.unbind()
-    @
+    $el.empty()
 
   goToEditProfile: (ev)=>
     editProfileUrl = $(ev.currentTarget).data('edit-url')

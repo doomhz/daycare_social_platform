@@ -1,80 +1,86 @@
-<h1>Manage children for <%= profile.get("name") %> class</h1>
-
-<div id="add-child-cnt">
-  <form id="add-child-form">
-    <fieldset>
-      <input type="hidden" name="user_id" value="<%= profile.get("_id") %>" />
-      <div class="clear">
-        <label>Name</label>
-        <div class="input">
-          <input type="text" name="name" value="" />
-        </div>
+<div id="general-wrapper" class="manage-children">
+  <h1>Manage children for <br><span><%= profile.get("name") %></span> class</h1>
+  
+  <div class="content-box">
+      <div id="add-child-cnt">
+        <form id="add-child-form">
+          <fieldset>
+            <input type="hidden" name="user_id" value="<%= profile.get("_id") %>" />
+            <div class="clear name">
+              <label class="title">Name</label>
+              <div class="input">
+                <input type="text" name="name" value="" />
+              </div>
+            </div>
+            <div class="clear surname">
+              <label class="title">Surname</label>
+              <div class="input">
+                <input type="text" name="surname" value="" />
+              </div>
+            </div>
+            <div class="clear gender">
+              <label class="title">Gender <span>(optional)</span></label>
+              <div class="input">
+                <select class="mini" name="gender">
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+            </div>
+            <div class="clearfix birthdate">
+              <%
+                var now = new Date();
+                var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+              %>
+              <label class="title">Date of birth (optional)</label>
+              <div class="input">
+                    <select name="birthday[month]" class="mini">
+                        <option value="">-</option>
+                        <% for (var i = 0; i <= 11; i++) { %>
+                        <option value="<%=i %>"><%=months[i] %></option>
+                        <% } %>
+                    </select>
+                    <select name="birthday[day]" class="mini">
+                        <option value="">-</option>
+                        <% for (var i = 1; i <= 31; i++) { %>
+                        <option value="<%=i %>"><%=i %></option>
+                        <% } %>
+                    </select>
+                    <select name="birthday[year]" class="mini">
+                        <option value="">-</option>
+                        <% for (var i = now.getFullYear(), lastYear = now.getFullYear() - 20; i >= lastYear; i--) { %>
+                        <option value="<%=i %>"><%=i %></option>
+                        <% } %>
+                    </select>
+              </div>
+            </div>
+            <div class="clearfix smallprint">
+              <p>* Parents must fill in there children gender and date of birth.</p>
+            </div>
+            <div class="actions">
+      	        <input type="submit" id="add-child-bt" class="btn primary" value="Add" />
+      	    </div>
+          </fieldset>
+        </form>
       </div>
-      <div class="clear">
-        <label>Surname</label>
-        <div class="input">
-          <input type="text" name="surname" value="" />
-        </div>
-      </div>
-      <div class="clear">
-        <label>Gender (optional)</label>
-        <div class="input">
-          <select class="mini" name="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
-      </div>
-      <div class="clearfix">
-        <%
-          var now = new Date();
-          var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        %>
-        <label>Date of birth (optional)</label>
-        <div class="input">
-              <select name="birthday[month]" class="mini">
-                  <option value="">-</option>
-                  <% for (var i = 0; i <= 11; i++) { %>
-                  <option value="<%=i %>"><%=months[i] %></option>
-                  <% } %>
-              </select>
-              <select name="birthday[day]" class="mini">
-                  <option value="">-</option>
-                  <% for (var i = 1; i <= 31; i++) { %>
-                  <option value="<%=i %>"><%=i %></option>
-                  <% } %>
-              </select>
-              <select name="birthday[year]" class="mini">
-                  <option value="">-</option>
-                  <% for (var i = now.getFullYear(), lastYear = now.getFullYear() - 20; i >= lastYear; i--) { %>
-                  <option value="<%=i %>"><%=i %></option>
-                  <% } %>
-              </select>
-        </div>
-      </div>
-      <div class="clearfix">
-        <p>* Parents must fill in there children gender and date of birth.</p>
-      </div>
-      <div class="actions">
-	        <input type="submit" id="add-child-bt" class="btn primary" value="Add" />
-	    </div>
-    </fieldset>
-  </form>
+    </div>
+  
+  <div class="children-list">
+    <h2>Children in this class</h2>
+    
+    <table class="bordered-table zebra-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Gender</th>
+          <th>Date of birth</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="children-list">
+      </tbody>
+    </table>
+  </div>
 </div>
-
-<h2>Children in this class</h2>
-
-<table class="bordered-table zebra-striped">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>Surname</th>
-      <th>Gender</th>
-      <th>Date of birth</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody id="children-list">
-  </tbody>
-</table>

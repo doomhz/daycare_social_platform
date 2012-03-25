@@ -1,59 +1,61 @@
-<h1>Edit environment</h1>
-
-<form id="edit-section-form">
-  <fieldset>
-  	<div class="clearfix">
-      <label class="control-label">Indoors</label>
-      <div class="input">
-        <ul class="inputs-list" id="indoors-inputs">
-          <%
-            view.displayTagInputs("indoors");
-          %>
-        </ul>
+<div id="general-wrapper" class="edit-environment">
+  <h1>Edit environment</h1>
+  
+  <form id="edit-section-form">
+    <fieldset>
+    	<div class="clearfix content-box">
+        <label class="control-label title">Indoors</label>
+        <div class="input">
+          <ul class="inputs-list" id="indoors-inputs">
+            <%
+              view.displayTagInputs("indoors");
+            %>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="clearfix">
-      <label class="control-label">Outdoors</label>
-      <div class="input">
-        <ul class="inputs-list" id="outdoors-inputs">
-          <%
-            view.displayTagInputs("outdoors");
-          %>
-        </ul>
+      <div class="clearfix content-box">
+        <label class="control-label title">Outdoors</label>
+        <div class="input">
+          <ul class="inputs-list" id="outdoors-inputs">
+            <%
+              view.displayTagInputs("outdoors");
+            %>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="clearfix">
-      <label class="control-label">Environments for Infants</label>
-      <div class="input">
-        <ul class="inputs-list" id="for_infants-inputs">
-          <%
-            view.displayTagInputs("for_infants");
-          %>
-        </ul>
+      <div class="clearfix content-box">
+        <label class="control-label title">Environments for Infants</label>
+        <div class="input">
+          <ul class="inputs-list" id="for_infants-inputs">
+            <%
+              view.displayTagInputs("for_infants");
+            %>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="clearfix">
-      <label class="control-label">Health and Safety Issues</label>
-      <div class="input">
-        <ul class="inputs-list" id="health_and_safety_issues-inputs">
-          <%
-            view.displayTagInputs("health_and_safety_issues");
-          %>
-        </ul>
+      <div class="clearfix content-box">
+        <label class="control-label title">Health and Safety Issues</label>
+        <div class="input">
+          <ul class="inputs-list" id="health_and_safety_issues-inputs">
+            <%
+              view.displayTagInputs("health_and_safety_issues");
+            %>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="clearfix">
-      <label class="control-label">Transportation policies</label>
-      <div class="input">
-        <ul class="inputs-list" id="transportation_policies-inputs">
-          <%
-            view.displayTagInputs("transportation_policies");
-          %>
-        </ul>
+      <div class="clearfix content-box">
+        <label class="control-label title">Transportation policies</label>
+        <div class="input">
+          <ul class="inputs-list" id="transportation_policies-inputs">
+            <%
+              view.displayTagInputs("transportation_policies");
+            %>
+          </ul>
+        </div>
       </div>
-    </div>
-  	<div class="actions">
-      <input type="submit" class="btn primary" value="Save" />
-    </div>
-  </fieldset>
-</form>
+    	<div class="actions">
+        <input type="submit" class="btn primary" value="Save" />
+      </div>
+    </fieldset>
+  </form>
+</div>

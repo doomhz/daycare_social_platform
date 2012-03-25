@@ -1,24 +1,24 @@
 !!! 5
 html
   head
-    title Kindzy
-    != css('/stylesheets/normalize.css')
-    != css('/stylesheets/bootstrap.css')
-    != css('/stylesheets/style.css')
+    title Kindzy.com
+    != css('/stylesheets/main.css')
   body
-    header
-      #header-wrapper
-        a(href='/')
-          img(src='/images/logo.png', alt='Kindzy.com', id='logo')
-    #page-wrapper
-      #side-column1
-      #side-column2
-      #main-column
-        #token-error-cnt.alert-message.block-message.error.hidden Sorry, but this token is not valid.
-        !{body}
-    footer
-      #footer-wrapper
-        ul
+    #wrapper
+      .header
+        .header-content
+          .logo
+            a(href='/')
+              img(src='/images/logo.png', alt='Kindzy.com')
+      .content-wrapper
+        #side-column1
+        #side-column2
+        #main-column
+          #token-error-cnt.alert-message.block-message.error.hidden Sorry, but this token is not valid.
+          !{body}
+      .footer
+        p.copy Copyright &copy; 2012 Kindzy.com, All rights reserved.
+        ul.f-menu
           li
             a(href='#') About Us
           li
@@ -35,7 +35,6 @@ html
             a(href='#') Partners
           li
             a(href='#') Widgets and Tools
-        p#copyright Copyright &copy; 2011 Kindzy.com, Inc. All rights reserved.
 
     != js('/javascripts/vendor/jquery.min')
     != js('/javascripts/vendor/jquery.validate')

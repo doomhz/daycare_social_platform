@@ -6,9 +6,13 @@ class Kin.AppView extends Backbone.View
 
   side1ColumnView: null
 
+  side2ColumnView: null
+
   mainColumnSelector: "#main-column"
 
   side1ColumnSelector: "#side-column1"
+
+  side2ColumnSelector: "#side-column2"
 
   router: null
 
@@ -52,29 +56,29 @@ class Kin.AppView extends Backbone.View
 
   initHeader: ()->
     header = new Kin.HeaderView
-      el: "header"
+      el: "#header"
     header.render()
 
   initHeaderMenu: ()->
     headerSettingsSubmenu = new Kin.Header.SubmenuView
-      el: "header #account-bt"
+      el: "#header #account-bt"
     @window.addDelegate(headerSettingsSubmenu)
     headerSettingsSubmenu.render()
 
   initHeaderProfileInfo: ()->
     headerProfileInfo = new Kin.Header.ProfileInfoView
-      el: "header #my-profile-bt"
+      el: "#header #my-profile-bt"
       model: @currentUser
     @window.addDelegate(headerProfileInfo)
     @currentUser.addDelegate(headerProfileInfo)
 
   initHeaderSearch: ()->
     headerSearch = new Kin.Header.SearchView
-      el: "header #search-cnt"
+      el: "#header #search-cnt"
 
   initHeaderNotification: ()->
     headerNotificationBoard = new Kin.Header.NotificationBoardView
-      el: "header #notification-board"
+      el: "#header #notification-board"
       currentUser: @currentUser
 
     messagesNotification = new Kin.Header.NotificationView
@@ -148,6 +152,13 @@ class Kin.AppView extends Backbone.View
           selectedMenuItem: "wall-menu-item"
         that.side1ColumnView.render()
 
+        that.side2ColumnView = new Kin.Profile.ProfileSide2View
+          model: model
+          el: that.side2ColumnSelector
+          currentUser: that.currentUser
+          router: that.router
+        that.side2ColumnView.render()
+
   renderViewProfileGallery: (id)->
     that = @
     @clearColumns()
@@ -170,6 +181,13 @@ class Kin.AppView extends Backbone.View
           selectedMenuItem: 'gallery-menu-item'
           currentUser: that.currentUser
         that.side1ColumnView.render()
+
+        that.side2ColumnView = new Kin.Profile.ProfileSide2View
+          model: model
+          el: that.side2ColumnSelector
+          currentUser: that.currentUser
+          router: that.router
+        that.side2ColumnView.render()
 
   renderEditProfile: (id)->
     that = @
@@ -242,6 +260,14 @@ class Kin.AppView extends Backbone.View
           selectedMenuItem: 'our-family-menu-item'
           currentUser: that.currentUser
         that.side1ColumnView.render()
+
+        that.side2ColumnView = new Kin.Profile.ProfileSide2View
+          model: model
+          el: that.side2ColumnSelector
+          currentUser: that.currentUser
+          router: that.router
+        that.side2ColumnView.render()
+
 
   renderWriteMessage: (id)->
     @clearColumns()
@@ -503,6 +529,14 @@ class Kin.AppView extends Backbone.View
           selectedMenuItem: "#{sectionName}-section-menu-item"
         that.side1ColumnView.render()
 
+        that.side2ColumnView = new Kin.Profile.ProfileSide2View
+          model: model
+          el: that.side2ColumnSelector
+          currentUser: that.currentUser
+          router: that.router
+        that.side2ColumnView.render()
+
+
   renderEditDaycareSection: (sectionName, daycareId)->
     that = @
     @clearColumns()
@@ -528,8 +562,15 @@ class Kin.AppView extends Backbone.View
           selectedMenuItem: "#{sectionName}-section-menu-item"
         that.side1ColumnView.render()
 
+        that.side2ColumnView = new Kin.Profile.ProfileSide2View
+          model: model
+          el: that.side2ColumnSelector
+          currentUser: that.currentUser
+          router: that.router
+        that.side2ColumnView.render()
+
   initTopLink: ()->
     $('#top-link').topLink()
 
-  clearColumns: (columns = ['main', 'side1'])->
+  clearColumns: (columns = ['main', 'side1', 'side2'])->
     (@["#{column}ColumnView"] and @["#{column}ColumnView"].remove()) for column in columns

@@ -1,45 +1,57 @@
-<h1>Environment</h1>
-
-<div class="section-container">
-  <% if (section.get("id") === Kin.app.currentUser.get("id")) { %>
-  <p class="edit-section">
-    <a href="#day-care/edit/<%= section.get("name") %>/<%= section.get("id") %>">Edit this information</a>
-  </p>
-  <% } %>
-
-  <h3>Indoors</h3>
-  <ul id="indoors-list">
-  <%
-    view.displayTagList('indoors');
-  %>
-  </ul>
+<div id="general-wrapper" class="environment">
+  <h1>Environment</h1>
   
-  <h3>Outdoors</h3>
-  <ul id="outdoors-list">
-  <%
-    view.displayTagList('outdoors');
-  %>
-  </ul>
-
-  <h3>Environments for Infants</h3>
-  <ul id="for_infants-list">
-  <%
-    view.displayTagList('for_infants');
-  %>
-  </ul>
-
-  <h3>Health and Safety Issues</h3>
-  <ul id="health_and_safety_issues-list">
-  <%
-    view.displayTagList('health_and_safety_issues');
-  %>
-  </ul>
-
-  <h3>Transportation policies</h3>
-  <ul id="transportation_policies-list">
-  <%
-    view.displayTagList('transportation_policies');
-  %>
-  </ul>
-
+  <div class="section-container">
+    <% if (section.get("id") === Kin.app.currentUser.get("id")) { %>
+    <p class="edit-section">
+      <a class="btn" href="#day-care/edit/<%= section.get("name") %>/<%= section.get("id") %>">Edit this information</a>
+    </p>
+    <% } %>
+    
+    <div class="content-box">
+      <h3>Indoors</h3>
+      <ul id="indoors-list">
+      <%
+        view.displayTagList('indoors');
+      %>
+      </ul>
+    </div>
+    
+    <div class="content-box">
+      <h3>Outdoors</h3>
+      <ul id="outdoors-list">
+      <%
+        view.displayTagList('outdoors');
+      %>
+      </ul>
+    </div>
+    
+    <div class="content-box">
+      <h3>Environments for Infants</h3>
+      <ul id="for_infants-list">
+      <%
+        view.displayTagList('for_infants');
+      %>
+      </ul>
+    </div>
+  
+    <div class="content-box">
+      <h3>Health and Safety Issues</h3>
+      <ul id="health_and_safety_issues-list">
+      <%
+        view.displayTagList('health_and_safety_issues');
+      %>
+      </ul>
+    </div>
+    
+    <div class="content-box">
+      <h3>Transportation policies</h3>
+      <ul id="transportation_policies-list">
+      <%
+        view.displayTagList('transportation_policies');
+      %>
+      </ul>
+    </div>
+  
+  </div>
 </div>

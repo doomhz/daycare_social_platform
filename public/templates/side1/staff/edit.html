@@ -3,12 +3,12 @@
     var profilePictureSet = profile.getProfilePictureSet();
     var profilePictureSrc = profilePicture ? profilePicture.thumb_url : Kin.CONFIG.noPicture;
 %>
-<div id="profile-pic-cnt">
+<div id="profile-pic-cnt" class="photo">
     <a href="#profiles/view/picture-set/<%=profilePictureSet._id %>" title="View Day Care" class="photo-frame">
-        <img src="<%=profilePictureSrc %>" alt="<%=profilePicture && profilePicture.description %>" width="150" id="profile-pic" />
+        <img src="<%=profilePictureSrc %>" alt="<%=profilePicture && profilePicture.description %>" width="140" id="profile-pic" />
     </a>
 </div>
 
-<ul id="profile-bt-menu">
+<ul id="profile-bt-menu" class="nav-menu">
     <li><a href="#profiles/view/<%=profile.get('_id') %>">&larr; Back to profile</a></li>
 </ul>

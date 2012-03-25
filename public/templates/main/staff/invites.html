@@ -1,68 +1,72 @@
-<h1>Invite staff to join your network</h1>
-
-<div id="send-invite-cnt">
-  <form id="send-invite-form">
-    <fieldset>
-      <div class="clear">
-        <label>Initials</label>
-        <div class="input">
-          <select class="mini" name="staffs-gender">
-            <option value="male">Mr.</option>
-            <option value="female">Ms.</option>
-          </select>
-        </div>
-      </div>
-      <div class="clear">
-        <label>Name</label>
-        <div class="input">
-          <input type="text" name="staffs-name" value="" />
-        </div>
-      </div>
-      <div class="clear">
-        <label>Surname</label>
-        <div class="input">
-          <input type="text" name="staffs-surname" value="" />
-        </div>
-      </div>
-      <div class="clear">
-        <label>E-mail</label>
-        <div class="input">
-          <input type="text" name="staffs-email" value="" />
-        </div>
-      </div>
-      <div class="clearfix">
-	      <label>Classes</label>
-  			<div class="input">
-        	<select multiple="multiple" name="classes_ids" class="chzn-select" data-placeholder="Add a class...">
-	        <%
-	            _.each(classes, function (daycareClass) {
-	        %>
-            <option value="<%= daycareClass._id %>"><%= daycareClass.name %></option>
-	        <%
-	            });
-	        %>
-	        </select>
-  			</div>
-	    </div>
-      <div class="actions">
-	        <input type="submit" id="send-invite-bt" class="btn primary" value="Send" />
-	    </div>
-    </fieldset>
-  </form>
+<div id="general-wrapper" class="staff-invites">
+  <h1>Invite staff to join your network</h1>
+  
+  <div id="send-invite-cnt">
+    <div class="content-box">
+      <form id="send-invite-form">
+        <fieldset>
+          <div class="clear">
+            <label class="title">Initials</label>
+            <div class="input">
+              <select class="mini" name="staffs-gender">
+                <option value="male">Mr.</option>
+                <option value="female">Ms.</option>
+              </select>
+            </div>
+          </div>
+          <div class="clear">
+            <label class="title">Name</label>
+            <div class="input">
+              <input type="text" name="staffs-name" value="" />
+            </div>
+          </div>
+          <div class="clear">
+            <label class="title">Surname</label>
+            <div class="input">
+              <input type="text" name="staffs-surname" value="" />
+            </div>
+          </div>
+          <div class="clear">
+            <label class="title">E-mail</label>
+            <div class="input">
+              <input type="text" name="staffs-email" value="" />
+            </div>
+          </div>
+          <div class="clearfix">
+    	      <label class="title">Classes</label>
+      			<div class="input">
+            	<select multiple="multiple" name="classes_ids" class="chzn-select" data-placeholder="Add a class...">
+    	        <%
+    	            _.each(classes, function (daycareClass) {
+    	        %>
+                <option value="<%= daycareClass._id %>"><%= daycareClass.name %></option>
+    	        <%
+    	            });
+    	        %>
+    	        </select>
+      			</div>
+    	    </div>
+          <div class="actions">
+    	        <input type="submit" id="send-invite-bt" class="btn primary" value="Send" />
+    	    </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  
+  <p class="title">Sent invites</p>
+  
+  <table class="bordered-table zebra-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>E-mail</th>
+        <th>Sent on</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="friend-requests-list">
+    </tbody>
+  </table>
 </div>
-
-<h2>Sent invites</h2>
-
-<table class="bordered-table zebra-striped">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>E-mail</th>
-      <th>Sent on</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody id="friend-requests-list">
-  </tbody>
-</table>

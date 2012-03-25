@@ -61,7 +61,7 @@
 #= require app/views/header/profile_info
 #= require app/views/profile/profile
 #= require app/views/profile/profile_gallery
-#= require app/views/profile/profile_general_info
+#= require app/views/profile/profile_side2
 #= require app/views/profile/profile_wall
 #= require app/views/profile/our_family
 #= require app/views/profile/our_family_list

@@ -1,5 +1,5 @@
 (function() {
-  var Child, Comment, InfoSection, User, fs, _,
+  var Child, Comment, ImageUploader, InfoSection, User, fs, _,
     __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   User = require('../models/user');
@@ -9,6 +9,8 @@
   Child = require('../models/child');
 
   InfoSection = require('../models/info_section');
+
+  ImageUploader = require('../models/image_uploader');
 
   fs = require('fs');
 
@@ -256,7 +258,7 @@
       return User.findOne({
         'picture_sets.pictures._id': pictureId
       }).run(function(err, user) {
-        var bigFilePath, filePath, mediumFilePath, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, pictureToRemove, thumbFilePath, _i, _j, _len, _len2, _ref, _ref2;
+        var bigFilePath, filePath, mediumFilePath, miniFilePath, picture, pictureIndex, pictureIndexToGo, pictureSet, pictureSetIndex, pictureSetIndexToGo, pictureToRemove, smallFilePath, thumbFilePath, tinyFilePath, _i, _j, _len, _len2, _ref, _ref2;
         if (user) {
           pictureSetIndex = -1;
           pictureIndex = -1;
@@ -282,6 +284,24 @@
           filePath = './public/' + pictureToRemove.url;
           try {
             fs.unlinkSync(filePath);
+          } catch (e) {
+            console.error(e);
+          }
+          tinyFilePath = './public/' + pictureToRemove.tiny_url;
+          try {
+            fs.unlinkSync(tinyFilePath);
+          } catch (e) {
+            console.error(e);
+          }
+          miniFilePath = './public/' + pictureToRemove.mini_url;
+          try {
+            fs.unlinkSync(miniFilePath);
+          } catch (e) {
+            console.error(e);
+          }
+          smallFilePath = './public/' + pictureToRemove.small_url;
+          try {
+            fs.unlinkSync(smallFilePath);
           } catch (e) {
             console.error(e);
           }
@@ -392,30 +412,21 @@
       });
     });
     app.post('/profiles/upload', function(req, res) {
-      var bigFilePath, bigRelativeFilePath, currentUser, description, dirPath, fileExtension, fileName, filePath, mediumFilePath, mediumRelativeFilePath, newPicture, newPictureData, pictureSetId, relativeDirPath, relativeFilePath, thumbFilePath, thumbRelativeFilePath, ws;
+      var currentUser, description, dirPath, fileName, filePath, filePaths, imageUploader, newPicture, newPictureData, pictureSetId, relativeFilePaths, ws;
       currentUser = req.user ? req.user : {};
       pictureSetId = req.query.setId;
       fileName = req.query.qqfile;
       description = req.query.description;
-      fileExtension = fileName.substring(fileName.length - 3).toLowerCase();
-      fileName = new Date().getTime();
-      dirPath = './public/users/' + pictureSetId + '/';
-      relativeDirPath = '/users/' + pictureSetId + '/';
-      filePath = dirPath + fileName + '.' + fileExtension;
-      thumbFilePath = dirPath + fileName + '_thumb.' + fileExtension;
-      mediumFilePath = dirPath + fileName + '_medium.' + fileExtension;
-      bigFilePath = dirPath + fileName + '_big.' + fileExtension;
-      relativeFilePath = relativeDirPath + fileName + '.' + fileExtension;
-      thumbRelativeFilePath = relativeDirPath + fileName + '_thumb.' + fileExtension;
-      mediumRelativeFilePath = relativeDirPath + fileName + '_medium.' + fileExtension;
-      bigRelativeFilePath = relativeDirPath + fileName + '_big.' + fileExtension;
-      newPictureData = {
-        url: relativeFilePath,
-        thumb_url: thumbRelativeFilePath,
-        medium_url: mediumRelativeFilePath,
-        big_url: bigRelativeFilePath,
-        description: description
-      };
+      imageUploader = new ImageUploader;
+      imageUploader.pictureSetId = pictureSetId;
+      imageUploader.baseName = new Date().getTime();
+      imageUploader.setExtensionFromFilename(fileName);
+      dirPath = imageUploader.getDirPath();
+      filePath = imageUploader.getFilePath();
+      filePaths = imageUploader.getFilePaths();
+      relativeFilePaths = imageUploader.getFilePaths(true);
+      newPictureData = relativeFilePaths;
+      newPictureData.description = description;
       newPicture = null;
       if (req.xhr) {
         try {
@@ -436,7 +447,7 @@
           return User.findOne({
             'picture_sets._id': pictureSetId
           }).run(function(err, user) {
-            var im, newPicturePosition, pictureSet, pictureSetIndex, pictureSets, _i, _len;
+            var newPicturePosition, pictureSet, pictureSetIndex, pictureSets, _i, _len;
             if (user) {
               pictureSets = user.picture_sets;
               newPicturePosition = null;
@@ -454,44 +465,15 @@
               user.save();
               newPicture = user.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1];
               newPicture.success = true;
-              im = require('imagemagick');
-              return im.crop({
-                srcPath: filePath,
-                dstPath: thumbFilePath,
-                width: 110,
-                height: 85,
-                quality: 1
-              }, function(err, stdout, stderr) {
-                if (err) console.log(err);
-                if (err) console.log(stderr);
-                return im.crop({
-                  srcPath: filePath,
-                  dstPath: mediumFilePath,
-                  width: 420,
-                  height: 290,
-                  quality: 1
-                }, function(err, stdout, stderr) {
-                  if (err) console.log(err);
-                  if (err) console.log(stderr);
-                  return im.resize({
-                    srcPath: filePath,
-                    dstPath: bigFilePath,
-                    width: 800,
-                    height: 600,
-                    quality: 1
-                  }, function(err, stdout, stderr) {
-                    var commentData;
-                    if (err) console.log(err);
-                    if (err) console.log(stderr);
-                    commentData = {
-                      from_id: currentUser._id,
-                      to_id: user._id,
-                      wall_id: user._id
-                    };
-                    Comment.addNewPictureStatus(commentData, user.picture_sets[pictureSetIndex], newPicture);
-                    return res.json(newPicture);
-                  });
-                });
+              return imageUploader.resizeAll(function() {
+                var commentData;
+                commentData = {
+                  from_id: currentUser._id,
+                  to_id: user._id,
+                  wall_id: user._id
+                };
+                Comment.addNewPictureStatus(commentData, user.picture_sets[pictureSetIndex], newPicture);
+                return res.json(newPicture);
               });
             } else {
               return res.json({

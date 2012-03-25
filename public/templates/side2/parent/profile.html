@@ -1,0 +1,57 @@
+<div id="side-info-container">
+  <%
+    var lat = profile.get("location").lat;
+    var lng = profile.get("location").lng;
+  %>
+  <%
+    if (lat && lng) {
+  %>
+    <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= lat %>,<%= lng %>&zoom=15&size=198x198&markers=color:red%7Ccolor:white%7C<%= lat %>,<%= lng %>&sensor=false" id="mini-map" width="198" height="198" />
+  <%
+    }
+  %>
+  <ul id="profile-general-info" data-edit-url="#profiles/edit/<%=profile.get('_id') %>" class="<%= (canEdit) ? "dedit" : "" %>">
+      <% if (profile.get('address')) { %>
+      <li><span class="title">Address:</span> <span class="value"><%=profile.get('address') %></span></li>
+      <% } %>
+      <% if (profile.get('phone')) { %>
+      <li><span class="title">Phone:</span> <span class="value"><%=profile.get('phone') %></span></li>
+      <% } %>
+      <% if (profile.get('fax')) { %>
+      <li><span class="title">Fax:</span> <span class="value"><%=profile.get('fax') %></span></li>
+      <% } %>
+      <% if (profile.get('contact_person')) { %>
+      <li><span class="title">Contact person:</span> <span class="value"><%=profile.get('contact_person') %></span></li>
+      <% } %>
+      <% if (profile.get('speaking_classes')) { %>
+      <li><span class="title">Speaking classes:</span> <span class="value"><%
+          var speakingClasses = profile.get('speaking_classes');
+          _.each(speakingClasses, function (key) {
+              print(Kin.CONFIG.languages[parseInt(key)], key === speakingClasses.length - 1 ? '' : ', ');
+          });
+      %></span>
+      </li>
+      <% } %>
+      <% if (profile.get('licensed')) { %>
+      <li><span class="title">Licensed:</span> <span class="value"><% if (profile.get('licensed')) {print('Yes');} else {print('No');} %></span></li>
+      <% } %>
+      <%
+          var openedSince = profile.get('opened_since').split("-");
+          var openedSinceDay = openedSince[2];
+          var openedSinceMonth = openedSince[1];
+          var openedSinceYear = openedSince[0];
+          var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          var openedSinceDate = (openedSinceMonth ? months[openedSinceMonth] + ' ' : "") + (openedSinceDay ? openedSinceDay + ', ' : "") + (openedSinceYear ? openedSinceYear : "");
+      %>
+      <% if (openedSinceDate) { %>
+      <li><span class="title">Opened since:</span> <span class="value"><%=openedSinceDate %></span></li>
+      <% } %>
+      <% if (profile.get('open_door_policy')) { %>
+      <li><span class="title">Open door policy:</span> <span class="value"><% if (profile.get('open_door_policy')) {print('Yes');} else {print('No');} %></span></li>
+      <% } %>
+      <% if (profile.get('serving_disabilities')) { %>
+      <li><span class="title">Serving people with disabilities:</span> <span class="value"><% if (profile.get('serving_disabilities')) {print('Yes');} else {print('No');} %></span></li>
+      <% } %>
+      <li><span class="title">Organization:</span> <span class="value"><% if (profile.get('homebased')) {print('Homebased');} else {print('Center');} %></span></li>
+  </ul>
+</div>

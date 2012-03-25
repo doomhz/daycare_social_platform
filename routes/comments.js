@@ -213,7 +213,7 @@
         });
       });
     });
-    return app.del("/comments/:id", function(req, res) {
+    return app.del("/comment/:id", function(req, res) {
       var commentId, currentUser;
       currentUser = req.user ? req.user : {};
       commentId = req.params.id;

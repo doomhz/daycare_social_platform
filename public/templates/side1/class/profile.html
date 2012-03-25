@@ -3,14 +3,15 @@
     var profilePictureSet = profile.getProfilePictureSet();
     var profilePictureSrc = profilePicture ? profilePicture.thumb_url : Kin.CONFIG.noPicture;
 %>
-<div id="profile-pic-cnt">
+<div id="profile-pic-cnt" class="photo">
     <a href="#profiles/view/picture-set/<%= profilePictureSet ? profilePictureSet._id : "" %>" title="View Day Care" class="photo-frame">
-        <img src="<%=profilePictureSrc %>" alt="<%=profilePicture && profilePicture.description %>" width="150" id="profile-pic" />
+        <img src="<%=profilePictureSrc %>" alt="<%=profilePicture && profilePicture.description %>" width="140" id="profile-pic" />
     </a>
 </div>
 <ul id="profile-bt-menu">
 </ul>
-<ul id="profile-left-menu">
+<h1><%= profile.get("name") %> <%= profile.get("surname") %></h1>
+<ul id="profile-left-menu" class="nav-menu">
     <li id="wall-menu-item" class="<%=(selectedMenuItem === 'wall-menu-item' ? 'selected' : '') %>">
         <a href="#profiles/view/<%=profile.get('_id') %>"><span>Wall</span></a>
     </li>

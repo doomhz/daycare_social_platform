@@ -1,20 +1,21 @@
-h2 Login
-- if ('undefined' !== typeof errors && errors.length)
-  div.alert-message.block-message.error
-    ul#errors
-      - each error in errors
-        li.error= error
-form(action='/login', method='POST', id='login-form')
-  fieldset
-    input(type='hidden', name="friend_request_id", value='')
-    #login.clearfix
-      label(for=everyauth.password.loginFormFieldName) E-mail
-      .input
-        input(type='text', name=everyauth.password.loginFormFieldName, value=email)
-    #password.clearfix
-      label(for=everyauth.password.passwordFormFieldName) Password
-      .input
-        input(type='password', name=everyauth.password.passwordFormFieldName, class="password-fields")
-        a#show-password(href="#", data-show="Show password", data-hide="Hide password") Show password
-    #submit.actions
-      input.btn.primary(type='submit', value='Login') Login
+div.login-wrapper
+  h1 Welcome back, please login
+  - if ('undefined' !== typeof errors && errors.length)
+    div.alert-message.block-message.error
+      ul#errors
+        - each error in errors
+          li.error= error
+  form(action='/login', method='POST', id='login-form')
+    fieldset
+      input(type='hidden', name="friend_request_id", value='')
+      #login.clearfix
+        label(for=everyauth.password.loginFormFieldName) E-mail
+        .input
+          input(type='text', name=everyauth.password.loginFormFieldName, value=email,placeholder="Your Email Address")
+      #password.clearfix
+        label(for=everyauth.password.passwordFormFieldName) Password
+        .input
+          input(type='password', name=everyauth.password.passwordFormFieldName, class="password-fields")
+          a#show-password(href="#", data-show="Show password", data-hide="Hide password") Show password
+      #submit.actions
+        input.btn.primary(type='submit', value='Login') Login

@@ -1,67 +1,85 @@
 <%
   var pictureSets = new Kin.PictureSetsCollection();
   var avatar = pictureSets.getPrimaryPicture(comment.get("from_user").picture_sets);
-  var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
+  var tinyAvatarUrl = avatar ? avatar.tiny_url : Kin.CONFIG.noPicture;
+  var miniAvatarUrl = avatar ? avatar.mini_url : Kin.CONFIG.noPicture;
   var commentTime = new Date(comment.get("updated_at")).format("UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
   var name = comment.get("from_user").name + " " + comment.get("from_user").surname;
   var content = comment.get("content");
+  var currentUserAvatar = Kin.app.currentUser.getProfilePicture() ? Kin.app.currentUser.getProfilePicture().tiny_url : Kin.CONFIG.noPicture;
 
   if (comment.get("type") === "status") {
 %>
-<div class="status-cnt">
+<div class="status-cnt origin">
 <%
   }
 %>
-<p class="avatar">
+<p class="photo">
   <a href="#profiles/view/<%= comment.get("from_user")._id %>">
-    <img src="<%= avatarUrl %>" width="60" height="60" />
+    <%
+      if (comment.get("type") === "status") {
+    %>
+    <img src="<%= miniAvatarUrl %>" width="50" height="50" />
+    <%
+      } else {
+    %>
+    <img src="<%= tinyAvatarUrl %>" width="30" height="30" />
+    <%
+      }
+    %>
   </a>
 </p>
-<p class="comment-header">
+<div class="content">
   <a href="#profiles/view/<%= comment.get("from_user")._id %>" class="name"><%= _.escape(name) %></a>: <span class="time" title="<%= commentTime %>"><%= commentTime %></span>
   <%
     if (comment.get("from_user")._id === Kin.app.currentUser.get("_id")) {
   %>
   <a href="#" class="delete-comment">Delete</a>
   <a href="#" class="edit-comment">Edit</a>
+  <br />
   <%
     }
   %>
-</p>
-<p class="comment-text"><%
+  <span class="comment-text"><%
     if (typeof content === "object") {
       if (content.type === "new_picture") {
           var pictureTotal = content.pictures.length === 1 ? "one" : content.pictures.length;
           var pictureWord = content.pictures.length === 1 ? "picture" : "pictures";
         %>
         added <%= pictureTotal %> new <%= pictureWord %> in the album <a href="#profiles/view/picture-set/<%=content.picture_set_id %>"><%= content.picture_set_name %></a>.
-        <br />
-        <%
-          _.each(content.pictures, function (picture, index) {
-            var showThumb = index < 3 ? true : false;
-        %>
         
-        <a href="<%= picture.big_url %>" title="<%= picture.description %>" class="photo-frame <%= !showThumb ? 'hidden' : '' %>" rel="prettyPhoto[<%= content.picture_set_id %>]">
+        <div class="comment-photos">
           <%
-            if (showThumb) {
+            _.each(content.pictures, function (picture, index) {
+              var showThumb = index < 3 ? true : false;
           %>
-          <img src="<%= picture.thumb_url %>" />
+  
+          <a href="<%= picture.big_url %>" title="<%= picture.description %>" class="photo-frame <%= !showThumb ? 'hidden' : '' %>" rel="prettyPhoto[<%= content.picture_set_id %>]">
+            <%
+              if (showThumb) {
+            %>
+            <img src="<%= picture.small_url %>" />
+            <%
+              }
+            %>
+          </a>
           <%
-            }
+            });
           %>
-        </a>
-        <%
-          });
+        </div>
+    <%
       }
     } else {
       print(Kin.Helper.Text.toMarkup(content));
     }
   %>
-</p>
+</span>
+</div>
 <%
   if (comment.get("type") === "status") {
 %>
 </div>
+<div class="post-footer"></div>
 <%
   }
 %>
@@ -70,15 +88,18 @@
   if (comment.get("type") === "status") {
 %>
 <ul class="followups"></ul>
-<div class="add-followup-box">
+<div class="add-followup-box send-reply">
+  <p class="photo">
+    <a href="#">
+      <img src="<%= currentUserAvatar %>" height="30" width="30">
+    </a>
+  </p>
   <form class="add-followup-form" method="post" action="/comments">
     <input name="to_id" type="hidden" value="<%= comment.get('_id') %>" />
     <input name="wall_id" type="hidden" value="<%= comment.get('wall_id') %>" />
     <input name="privacy" type="hidden" value="<%= comment.get('privacy') %>" />
     <input name="type" type="hidden" value="followup" />
-    <div>
-      <textarea name="content" resize="none" placeholder="say something ..." rows="1" cols="40"></textarea>
-    </div>
+    <textarea name="content" resize="none" placeholder="Write your reply..." rows="1" cols="40" class="reply-box"></textarea>
   </form>
 </div>
 <%

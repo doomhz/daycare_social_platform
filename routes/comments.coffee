@@ -119,7 +119,7 @@ module.exports = (app)->
     Comment.update {_id: commentId, from_id: currentUser._id}, data, {}, (err, comment)->
       res.json {success: true}
 
-  app.del "/comments/:id", (req, res)->
+  app.del "/comment/:id", (req, res)->
     currentUser = if req.user then req.user else {}
     commentId = req.params.id
 

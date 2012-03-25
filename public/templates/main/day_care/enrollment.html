@@ -1,84 +1,92 @@
-<h1>Enrollment</h1>
+<div id="general-wrapper" class="enrollment">
+  <h1>Enrollment</h1>
 
-<div class="section-container">
-  <% if (section.get("id") === Kin.app.currentUser.get("id")) { %>
-  <p class="edit-section">
-    <a href="#day-care/edit/<%= section.get("name") %>/<%= section.get("id") %>">Edit this information</a>
-  </p>
-  <% } %>
+  <div class="section-container">
+    <% if (section.get("id") === Kin.app.currentUser.get("id")) { %>
+    <p class="edit-section">
+      <a class="btn" href="#day-care/edit/<%= section.get("name") %>/<%= section.get("id") %>">Edit this information</a>
+    </p>
+    <% } %>
 
-  <h3>Typical Day</h3>
+    <h2>Typical Day</h2>
 
-  <ul id="typical-day-list">
-  <%
-    _.each(section.get('typical_day'), function (day, index) {
-      if (day) {
-  %>
-    <li>
-        <span><%= day.start_time %></span> - <span><%= day.end_time %></span>: <span><%=day.description %></span>
-    </li>
-  <%
-      }
-    });
-  %>
-  </ul>
+    <ul id="typical-day-list">
+    <%
+      _.each(section.get('typical_day'), function (day, index) {
+        if (day) {
+    %>
+      <li>
+          <span><%= day.start_time %></span> - <span><%= day.end_time %></span>: <span><%=day.description %></span>
+      </li>
+    <%
+        }
+      });
+    %>
+    </ul>
 
-  <h3>Application process</h3>
+    <div class="content-box">
+      <h3>Application process</h3>
 
-  <ul>
-    <li>
-      <span>Application accepeted:</span> <span><%=section.get('application_accepted') %></span>
-    </li>
-    <li>
-      <span>Parent visit tours:</span> <span><%=section.get('parent_visit_tours') %></span>
-    </li>
-    <li>
-      <span>Child interview process:</span> <span><%=section.get('child_interview_process') %></span>
-    </li>
-    <li>
-      <span>Parent interview process:</span> <span><%=section.get('parent_interview_process') %></span>
-    </li>
-    <li>
-      <span>Dateline for applications:</span> <span><%=section.get('dateline_for_applications') %></span>
-    </li>
-    <li>
-      <span>Application fee:</span> $<span><%=section.get('application_fee') %></span>
-    </li>
-  </ul>
+      <ul>
+        <li>
+          <span>Application accepeted:</span> <span><%=section.get('application_accepted') %></span>
+        </li>
+        <li>
+          <span>Parent visit tours:</span> <span><%=section.get('parent_visit_tours') %></span>
+        </li>
+        <li>
+          <span>Child interview process:</span> <span><%=section.get('child_interview_process') %></span>
+        </li>
+        <li>
+          <span>Parent interview process:</span> <span><%=section.get('parent_interview_process') %></span>
+        </li>
+        <li>
+          <span>Dateline for applications:</span> <span><%=section.get('dateline_for_applications') %></span>
+        </li>
+        <li>
+          <span>Application fee:</span> $<span><%=section.get('application_fee') %></span>
+        </li>
+      </ul>
+    </div>
 
-  <h3>Admission process</h3>
+    <div class="content-box">
+      <h3>Admission process</h3>
 
-  <ul>
-    <li>
-      <span>Acceptance criteria:</span> <span><%=section.get('admission_acceptance_criteria') %></span>
-    </li>
-    <li>
-      <span>Notification occurs:</span> <span><%=section.get('notification_occurs') %></span>
-    </li>
-    <li>
-      <span>Deposit required:</span> <span><%=section.get('deposit_required') %></span>
-    </li>
-    <li>
-      <span>Financial aid:</span> <span><% if (section.get('financial_aid')) { %>Yes<% } else { %>No<% } %></span>
-    </li>
-  </ul>
+      <ul>
+        <li>
+          <span>Acceptance criteria:</span> <span><%=section.get('admission_acceptance_criteria') %></span>
+        </li>
+        <li>
+          <span>Notification occurs:</span> <span><%=section.get('notification_occurs') %></span>
+        </li>
+        <li>
+          <span>Deposit required:</span> <span><%=section.get('deposit_required') %></span>
+        </li>
+        <li>
+          <span>Financial aid:</span> <span><% if (section.get('financial_aid')) { %>Yes<% } else { %>No<% } %></span>
+        </li>
+      </ul>
+    </div>
 
-  <h3>Age/Child Requirements</h3>
+    <div class="content-box">
+      <h3>Age/Child Requirements</h3>
 
-  <ul>
-    <li>
-      <span>Acceptance criteria:</span> <span><%=section.get('child_acceptance_criteria') %></span>
-    </li>
-    <li>
-      <span>Potty trained:</span> <span><% if (section.get('potty_trained')) { %>Yes<% } else { %>No<% } %></span>
-    </li>
-    <li>
-      <span>Child's minimum age to enroll:</span> <span><%=section.get('child_minimum_age_to_enroll') %></span>
-    </li>
-  </ul>
+      <ul>
+        <li>
+          <span>Acceptance criteria:</span> <span><%=section.get('child_acceptance_criteria') %></span>
+        </li>
+        <li>
+          <span>Potty trained:</span> <span><% if (section.get('potty_trained')) { %>Yes<% } else { %>No<% } %></span>
+        </li>
+        <li>
+          <span>Child's minimum age to enroll:</span> <span><%=section.get('child_minimum_age_to_enroll') %></span>
+        </li>
+      </ul>
+    </div>
 
-  <h3>Kindergartens Attended by <%= profile.get("name") %></h3>
+    <div class="content-box">
+      <h3>Kindergartens Attended by <%= profile.get("name") %></h3>
 
-  <p><%=section.get('kindergartens_attended') %></p>
-
+      <p><%=section.get('kindergartens_attended') %></p>
+    </div>
 </div>

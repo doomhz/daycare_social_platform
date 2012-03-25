@@ -17,14 +17,14 @@ var connectAssetsOptions = process.env.NODE_ENV === 'production' ? {src: __dirna
 var staticRenderer = process.env.NODE_ENV === 'production' ? gzippo.staticGzip(__dirname + '/public', gzippoOptions) : express.static(__dirname + '/public');
 
 var app = module.exports = express.createServer(
-  express.bodyParser(),
-  express.methodOverride(),
-  express.cookieParser(),
-  express.session({secret: 'kinsecretkey83', store: new RedisStore({db: redisAuthDbName})}),
-  require('stylus').middleware({src: __dirname + '/public'}),
-  staticRenderer,
-  require('connect-assets')(connectAssetsOptions),
-  mongooseAuth.middleware()
+ express.bodyParser(),
+ express.methodOverride(),
+ express.cookieParser(),
+ express.session({secret: 'kinsecretkey83', store: new RedisStore({db: redisAuthDbName})}),
+ require('stylus').middleware({src: __dirname + '/public'}),
+ staticRenderer,
+ require('connect-assets')(connectAssetsOptions),
+ mongooseAuth.middleware()
 );
 
 

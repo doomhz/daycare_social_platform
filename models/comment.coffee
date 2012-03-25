@@ -37,6 +37,9 @@ CommentSchema.statics.addNewPictureStatus = (commentData, pictureSet, newPicture
     pictureData =
       _id: newPicture._id
       url: newPicture.url
+      tiny_url: newPicture.tiny_url
+      mini_url: newPicture.mini_url
+      small_url: newPicture.small_url
       thumb_url: newPicture.thumb_url
       medium_url: newPicture.medium_url
       big_url: newPicture.big_url

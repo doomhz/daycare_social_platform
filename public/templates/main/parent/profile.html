@@ -1,41 +1,47 @@
-<h1 id="profile-title"><%=profile.get('name') %> <%=profile.get('surname') %></h1>
-
-<div id="profile-main-tabs">
-    <ul id="profile-tab-menu">
-    </ul>
+<div id="general-wrapper" class="parent-profile">
+  <div id="profile-main-tabs">
+      <ul id="profile-tab-menu">
+      </ul>
+  </div>
+  
+  <%
+    if (profile.get("_id") == Kin.app.currentUser.get("_id") || $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends")) > -1) {
+  %>
+  <div id="add-comment-box" class="post-msg">
+    <form id="add-comment-form" method="post" action="/comment">
+      <input name="to_id" type="hidden" value="<%= profile.get('_id') %>" />
+      <input name="wall_id" type="hidden" value="<%= profile.get('_id') %>" />
+      <input name="type" type="hidden" value="status" />
+      <div>
+        <textarea name="content" resize="none" placeholder="say something ..." rows="1" cols="40" class="msg-box"></textarea>
+        <ul class="send">
+          <li class="privacy">
+            <select id="status-privacy-select" name="privacy" class="mini">
+              <option selected="selected" value="private">Private</option>
+              <%
+                if (profile.get("_id") == Kin.app.currentUser.get("_id")) {
+              %>
+              <option value="public">Public</option>
+              <%
+                }
+              %>
+            </select>
+          </li>
+          <li class="post">
+            <button type="submit" class="btn">Post Update</button>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </div>
+  <%
+    }
+  %>
+  
+  <ul id="wall-comments-list" class="kd-posts">
+  </ul>
+  
+  <p id="load-more-comments-cnt" class="hidden">
+    <a href="#" id="load-more-comments-bt">Older posts</a>
+  </p>
 </div>
-
-<%
-  if (profile.get("_id") == Kin.app.currentUser.get("_id") || $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends")) > -1) {
-%>
-<div id="add-comment-box">
-  <form id="add-comment-form" method="post" action="/comment">
-    <input name="to_id" type="hidden" value="<%= profile.get('_id') %>" />
-    <input name="wall_id" type="hidden" value="<%= profile.get('_id') %>" />
-    <input name="type" type="hidden" value="status" />
-    <div>
-      <textarea name="content" resize="none" placeholder="say something ..." rows="1" cols="40"></textarea>
-      <input type="submit" value="Post it" class="btn primary" />
-      <select id="status-privacy-select" name="privacy" class="mini">
-        <option selected="selected" value="private">Private</option>
-        <%
-          if (profile.get("_id") == Kin.app.currentUser.get("_id")) {
-        %>
-        <option value="public">Public</option>
-        <%
-          }
-        %>
-      </select>
-    </div>
-  </form>
-</div>
-<%
-  }
-%>
-
-<ul id="wall-comments-list">
-</ul>
-
-<p id="load-more-comments-cnt" class="hidden">
-  <a href="#" id="load-more-comments-bt">Older posts</a>
-</p>

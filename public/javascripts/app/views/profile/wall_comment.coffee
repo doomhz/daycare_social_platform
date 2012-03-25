@@ -2,6 +2,8 @@ class Kin.Profile.WallCommentView extends Backbone.View
 
   tagName: 'li'
 
+  className: 'single'
+
   tplUrl: '/templates/main/profile/wall_comment.html'
 
   initialize: ()->
