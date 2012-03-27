@@ -14,3 +14,5 @@ window.Kin or= {
     postsBatchSize: 15
 }
 $.tmpload.defaults.tplWrapper = _.template
+$.ajaxSetup
+  cache: false

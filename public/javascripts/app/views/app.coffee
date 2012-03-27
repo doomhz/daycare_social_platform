@@ -52,7 +52,8 @@ class Kin.AppView extends Backbone.View
           onLoad()
 
   initWindow: ()->
-    @window = new Kin.WindowView()
+    @window = new Kin.WindowView
+      el: if $.support.submitBubbles then window else "html"
 
   initHeader: ()->
     header = new Kin.HeaderView

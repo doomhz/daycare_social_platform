@@ -110,7 +110,7 @@ input[type="submit"] {
   display: none;
 }
 
-/* BTN WITH GRADIENT 
+/* BTN WITH GRADIENT
 .btn {
   display: inline-block;
   margin-bottom: 0;
@@ -891,7 +891,7 @@ a:hover {
 
 
 
-/* MAIN WALL WRAPPER */ 
+/* MAIN WALL WRAPPER */
 
 .kd-wall {
   width: 579px;
@@ -919,7 +919,6 @@ a:hover {
 
 .kd-wall .post-msg .msg-box {
   width: 519px;
-  height: 20px !important;
   padding-top: 5px;
   margin-bottom: 10px;
   border-radius: 3px;
@@ -1535,7 +1534,7 @@ table input {
 }
 
 #general-wrapper .input .inputs-list li {
-  
+
 }
 
 #general-wrapper .actions {
@@ -1633,7 +1632,7 @@ table input {
 }
 
 .write-message {
-  
+
 }
 
 .write-message label.title {
@@ -1681,7 +1680,7 @@ table input {
 }
 
 #notifications-list {
-  
+
 }
 
 #notifications-list h2 {
@@ -1749,7 +1748,7 @@ table input {
 /* ENVIRONMENT */
 
 .environment {
-  
+
 }
 
 .environment h3 {
@@ -1768,7 +1767,7 @@ table input {
 }
 
 .edit-environment {
-  
+
 }
 
 .edit-environment .content-box ul {
@@ -1784,7 +1783,7 @@ table input {
 /* ENROLLMENT */
 
 .enrollment {
-  
+
 }
 
 .enrollment h3 {
@@ -1810,7 +1809,7 @@ table input {
 }
 
 .edit-enrollment {
-  
+
 }
 
 .edit-enrollment h3 {
@@ -1841,7 +1840,7 @@ table input {
 /* OUR FAMILY */
 
 .our-family {
-  
+
 }
 
 .our-family .content-box {
@@ -1849,7 +1848,7 @@ table input {
 }
 
 .our-family .content-box .nav-buttons-menu {
-  
+
 }
 
 #nav-buttons-menu li {
@@ -1914,7 +1913,7 @@ table input {
 /* GENERAL INFORMATION */
 
 .general-information {
-  
+
 }
 
 .general-information h3 {
@@ -1953,7 +1952,7 @@ table input {
 }
 
 #add-child-form {
-  
+
 }
 
 #add-child-form div {
@@ -1995,7 +1994,7 @@ table input {
 }
 
 #profile-gallery-tabs ul {
-  
+
 }
 
 #profile-gallery-tabs ul li {
@@ -2008,7 +2007,7 @@ table input {
 }
 
 .daycare-gallery {
-  
+
 }
 
 .daycare-gallery h2 {
@@ -2136,13 +2135,16 @@ table input {
 /* PROFILE EDIT */
 
 #profile-edit-form {
-  
+
 }
 
 #profile-edit-form label.title {
   font-size: 12px !important;
 }
 
+#profile-address-maps {
+  height: 400px;
+}
 
 /* GALLERY SETS */
 

@@ -1,18 +1,18 @@
 <div id="general-wrapper" class="general-information">
   <h1>General information</h1>
-  
+
   <div class="section-container">
     <% if (section.get("id") === Kin.app.currentUser.get("id")) { %>
     <p class="edit-section">
       <a class="btn" href="#day-care/edit/<%= section.get("name") %>/<%= section.get("id") %>">Edit this information</a>
     </p>
     <% } %>
-    
+
     <div class="content-box">
       <h3>School Philosophy</h3>
       <p><%=section.get('school_philosophy') %></p>
     </div>
-    
+
     <div class="content-box">
       <h3>General Aproach to Learning</h3>
       <ul id="general_aproach_to_learning-list">
@@ -22,13 +22,13 @@
       </ul>
       <% if (section.get('licensed')) { %>
     </div>
-    
+
     <div class="content-box">
       <h3>This daycare is licensed</h3>
       <p>License number: <%=section.get('license_number') %></p>
       <% } %>
     </div>
-    
+
     <div class="content-box">
       <h3>Speaking classes</h3>
       <ul>
@@ -42,23 +42,23 @@
       %>
       </ul>
     </div>
-    
+
     <% if (section.get('open_door_policy')) { %>
     <div class="content-box">
       <h3>This daycare has an open door policy.</h3>
     </div>
     <% } %>
-    
+
     <div class="content-box">
       <h3>Learning Philosophy &amp; Tools</h3>
-  
+
       <h4>Language</h4>
       <ul id="learning_philosophy_and_tools_language-list">
       <%
         view.displayTagList('learning_philosophy_and_tools_language');
       %>
       </ul>
-  
+
       <h4>Cognitive development</h4>
       <ul id="learning_philosophy_and_tools_cognitive_dev-list">
       <%
@@ -66,7 +66,7 @@
       %>
       </ul>
     </div>
-    
+
     <div class="content-box">
       <h3>Home school connection</h3>
       <ul id="home_school_connections-list">
@@ -75,7 +75,7 @@
       %>
       </ul>
     </div>
-    
+
     <div class="content-box">
       <h3>Separation is Handled through</h3>
       <ul id="home_school_separations-list">
@@ -84,7 +84,7 @@
       %>
       </ul>
     </div>
-    
+
     <div class="content-box">
       <h3>Certificates / Awards</h3>
       <ul id="certificates-list">
@@ -93,6 +93,6 @@
       %>
       </ul>
     </div>
-  
+
   </div>
 </div>
