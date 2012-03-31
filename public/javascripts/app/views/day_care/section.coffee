@@ -31,7 +31,7 @@ class Kin.DayCare.SectionView extends Backbone.View
       onLoad: (tpl)->
         that.model.fetch
           success: (model)->
-            $(that.el).html(tpl({section: model, profile: that.profile, view: that}))
+            $(that.el).html(tpl({section: that.model, profile: that.profile, view: that}))
             callback()
 
   renderTagInputs: (type, tags, selectedTags, add = false)->

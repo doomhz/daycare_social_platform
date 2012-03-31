@@ -18,7 +18,9 @@ class Kin.DayCare.EditSectionView extends Kin.DayCare.SectionView
   submitSectionFormHandler: (ev)->
     ev.preventDefault()
     $form = $(ev.target)
-    formData = $form.serialize()
+    $formClone = $form.clone()
+    $formClone.find("form").remove()
+    formData = $formClone.serialize()
     @model.save null
       data: formData
       success: ()->

@@ -1,8 +1,5 @@
 class Kin.SectionModel extends Backbone.Model
 
-  defaults:
-    type: "section"
-
   uri: "/day-care/section/:section_name/:id"
 
   initialize: (attributes, options)->
