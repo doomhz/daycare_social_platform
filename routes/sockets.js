@@ -14,7 +14,7 @@
   module.exports = function(app) {
     var sio, sioOptions, userNotifications;
     sioOptions = {
-      log: process.env.NODE_ENV === "production" ? false : true,
+      log: process.env.NODE_ENV === "production" ? false : false,
       browser: {
         client: {
           minification: true,

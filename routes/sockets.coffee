@@ -7,7 +7,7 @@ io           = require('socket.io')
 module.exports = (app)->
 
   sioOptions =
-    log: if process.env.NODE_ENV is "production" then false else true
+    log: if process.env.NODE_ENV is "production" then false else false
     browser:
       client:
         minification: true

@@ -490,7 +490,7 @@
             fs.mkdirSync(dirPath, 0777);
           }
           try {
-            fs.renameSync(req.files.qqfile.path, filePath);
+            fs.writeFileSync(filePath, fs.readFileSync(req.files.qqfile.path));
           } catch (e) {
             console.log(e);
           }
