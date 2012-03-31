@@ -483,9 +483,60 @@
           });
         });
       } else {
-        return res.json({
-          success: false
-        });
+        if (req.files && req.files.qqfile) {
+          try {
+            fs.statSync(dirPath);
+          } catch (e) {
+            fs.mkdirSync(dirPath, 0777);
+          }
+          try {
+            fs.renameSync(req.files.qqfile.path, filePath);
+          } catch (e) {
+            console.log(e);
+          }
+          try {
+            fs.chmodSync(filePath, 777);
+          } catch (e) {
+
+          }
+          return User.findOne({
+            'picture_sets._id': pictureSetId
+          }).run(function(err, user) {
+            var newPicturePosition, pictureSet, pictureSetIndex, pictureSets, _i, _len;
+            if (user) {
+              pictureSets = user.picture_sets;
+              newPicturePosition = null;
+              pictureSetIndex = -1;
+              for (_i = 0, _len = pictureSets.length; _i < _len; _i++) {
+                pictureSet = pictureSets[_i];
+                pictureSetIndex++;
+                if ("" + pictureSet._id === "" + pictureSetId) {
+                  if (!pictureSet.pictures.length) newPictureData.primary = true;
+                  newPicturePosition = pictureSet.pictures.push(newPictureData);
+                  break;
+                }
+              }
+              user.picture_sets = pictureSets;
+              user.save();
+              newPicture = user.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1];
+              newPicture.success = true;
+              return imageUploader.resizeAll(function() {
+                var commentData;
+                commentData = {
+                  from_id: currentUser._id,
+                  to_id: user._id,
+                  wall_id: user._id
+                };
+                Comment.addNewPictureStatus(commentData, user.picture_sets[pictureSetIndex], newPicture);
+                return res.send(JSON.stringify(newPicture));
+              });
+            } else {
+              return res.send('{"success": false}');
+            }
+          });
+        } else {
+          return res.send('{"success": false}');
+        }
       }
     });
     app.get('/children/:user_id', function(req, res) {

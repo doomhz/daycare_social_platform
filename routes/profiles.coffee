@@ -332,7 +332,56 @@ module.exports = (app)->
             res.json {success: false}
 
     else
-      res.json {success: false}
+
+      if req.files and req.files.qqfile
+        try
+          fs.statSync(dirPath)
+        catch e
+          fs.mkdirSync(dirPath, 0777)
+
+        try
+          fs.renameSync(req.files.qqfile.path, filePath)
+        catch e
+          console.log e
+
+        try
+          fs.chmodSync(filePath, 777)
+        catch e
+
+        User.findOne({'picture_sets._id': pictureSetId}).run (err, user) ->
+          if user
+            pictureSets = user.picture_sets
+
+            newPicturePosition = null
+            pictureSetIndex = -1
+
+            for pictureSet in pictureSets
+              pictureSetIndex++
+              if "" + pictureSet._id is "" + pictureSetId
+                if not pictureSet.pictures.length
+                  newPictureData.primary = true
+                newPicturePosition = pictureSet.pictures.push(newPictureData)
+                break
+
+            user.picture_sets = pictureSets
+
+            user.save()
+
+            newPicture = user.picture_sets[pictureSetIndex].pictures[newPicturePosition - 1]
+            newPicture.success = true
+
+            imageUploader.resizeAll ()->
+                commentData =
+                  from_id: currentUser._id
+                  to_id: user._id
+                  wall_id: user._id
+                Comment.addNewPictureStatus(commentData, user.picture_sets[pictureSetIndex], newPicture)
+
+                res.send JSON.stringify(newPicture)
+          else
+            res.send '{"success": false}'
+      else
+        res.send '{"success": false}'
 
   app.get '/children/:user_id', (req, res)->
     userId = req.params.user_id
