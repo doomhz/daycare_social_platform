@@ -1,10 +1,9 @@
 <div id="general-wrapper" class="our-family">
   <h1>Our family</h1>
-  
+
   <div class="content-box">
     <ul id="nav-buttons-menu">
       <%
-        $.l(profile.get("type"));
         if ((profile.get("type") === "daycare" && profile.get("_id") === Kin.app.currentUser.get("_id")) ||
             (profile.get("type") === "class" && profile.get("master_id") === Kin.app.currentUser.get("_id"))
           ) {

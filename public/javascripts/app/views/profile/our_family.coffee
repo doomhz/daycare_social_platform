@@ -38,7 +38,7 @@ class window.Kin.Profile.OurFamilyView extends Backbone.View
         that.parentsList.render()
 
   filterNamesHandler: (ev)->
-    textToFind = $("#our-family-name-filter").val().toLowerCase().trim()
+    textToFind = $.trim($("#our-family-name-filter").val().toLowerCase())
     typeToFind = $("#our-family-type-filter").val()
     @parentsList.findByNameAndType(textToFind, typeToFind)
 
