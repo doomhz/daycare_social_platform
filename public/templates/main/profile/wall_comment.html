@@ -47,13 +47,13 @@
           var pictureWord = content.pictures.length === 1 ? "picture" : "pictures";
         %>
         added <%= pictureTotal %> new <%= pictureWord %> in the album <a href="#profiles/view/picture-set/<%=content.picture_set_id %>"><%= content.picture_set_name %></a>.
-        
+
         <div class="comment-photos">
           <%
             _.each(content.pictures, function (picture, index) {
               var showThumb = index < 3 ? true : false;
           %>
-  
+
           <a href="<%= picture.big_url %>" title="<%= picture.description %>" class="photo-frame <%= !showThumb ? 'hidden' : '' %>" rel="prettyPhoto[<%= content.picture_set_id %>]">
             <%
               if (showThumb) {
