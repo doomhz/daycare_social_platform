@@ -1,41 +1,42 @@
 !!! 5
-html
-  head
-    title Kindzy.com
-    != css('/stylesheets/main.css')
-  body
-    #wrapper
-      .header
-        .header-content
-          .logo
-            a(href='/')
-              img(src='/images/logo.png', alt='Kindzy.com')
-      .content-wrapper
-        #side-column1
-        #side-column2
-        #main-column
-          #token-error-cnt.alert-message.block-message.error.hidden Sorry, but this token is not valid.
-          !{body}
-      .footer
-        p.copy Copyright &copy; 2012 Kindzy.com, All rights reserved.
-        ul.f-menu
-          li
-            a(href='#') About Us
-          li
-            a(href='#') Contact Us
-          li
-            a(href='#') Help
-          li
-            a(href='#') Submission Guidelines
-          li
-            a(href='#') Privacy Policy
-          li
-            a(href='#') Terms of Use
-          li
-            a(href='#') Partners
-          li
-            a(href='#') Widgets and Tools
+// if IE 8
+  <html class="ie8" lang="en">
+head
+  title Kindzy.com
+  != css('/stylesheets/main.css')
+body
+  #wrapper
+    .header
+      .header-content
+        .logo
+          a(href='/')
+            img(src='/images/logo.png', alt='Kindzy.com')
+    .content-wrapper
+      #side-column1
+      #side-column2
+      #main-column
+        #token-error-cnt.alert-message.block-message.error.hidden Sorry, but this token is not valid.
+        !{body}
+    .footer
+      p.copy Copyright &copy; 2012 Kindzy.com, All rights reserved.
+      ul.f-menu
+        li
+          a(href='#') About Us
+        li
+          a(href='#') Contact Us
+        li
+          a(href='#') Help
+        li
+          a(href='#') Submission Guidelines
+        li
+          a(href='#') Privacy Policy
+        li
+          a(href='#') Terms of Use
+        li
+          a(href='#') Partners
+        li
+          a(href='#') Widgets and Tools
 
-    != js('/javascripts/vendor/jquery.min')
-    != js('/javascripts/vendor/jquery.validate')
-    != js('/javascripts/auth')
+  != js('/javascripts/vendor/jquery.min')
+  != js('/javascripts/vendor/jquery.validate')
+  != js('/javascripts/auth')

@@ -1,87 +1,88 @@
 !!! 5
-html
-  head
-    title= title
-    
-    include _styles
+// if IE 8
+  <html class="ie8" lang="en">
+head
+  title= title
 
-  body
-    #wrapper
-      #header.header
-        .header-content
-          .logo
-            a(href='/')
-              img(src='/images/logo.png')
-          .search
-            ul
-              li.by-name
-                input(type="text", name="", placeholder="Search by name")
-              li.advanced
-                a(href="#")
-          .user_notifications
-            ul#events-menu.hidden
-              li.messages.mails
-                a.icon(href='#messages/inbox')
-                  span#new-messages-total.indicator.hidden 0
-                ul#last-messages.notification-list.hidden
-              li.friend-request.users
-                a.icon(href='#requests')
-                  span#new-requests-total.indicator.hidden 0
-                ul#last-requests.notification-list.hidden
-              li.notifications.replies
-                a.icon(href='#alerts')
-                  span#new-followups-total.indicator.hidden 0
-                ul#last-followups.notification-list.hidden
-              li.ccn.history
-                a.icon(href='#feeds')
-                  span#new-wall-posts-total.indicator.hidden 0
-                ul#last-wall-posts.notification-list.hidden
-          .user-menu
-            ul#main-menu.hidden
-              li#my-profile-bt.name-dropdown
-                a(href='#')
-                  span#my-profile-name
-                ul.submenu.hidden
-                  li.my-profile
-                    a(href="#profiles/view/:id", id="my-profile-view-url") My profile
-                  li.edit-profile
-                    a(href="#profiles/edit/:id", id="my-profile-edit-url") Edit profile
-                  li#my-daycares-list
-              li#account-bt
-                a(href='#', id="my-settings-bt")
-              li.logout
-                a(href="/logout")
+  include _styles
 
-      .content-wrapper
-        #side-column1.kd-menu
-        #main-column.kd-wall
-          !{body}
-        #side-column2.kd-info
+body
+  #wrapper
+    #header.header
+      .header-content
+        .logo
+          a(href='/')
+            img(src='/images/logo.png')
+        .search
+          ul
+            li.by-name
+              input(type="text", name="", placeholder="Search by name")
+            li.advanced
+              a(href="#")
+        .user_notifications
+          ul#events-menu.hidden
+            li.messages.mails
+              a.icon(href='#messages/inbox')
+                span#new-messages-total.indicator.hidden 0
+              ul#last-messages.notification-list.hidden
+            li.friend-request.users
+              a.icon(href='#requests')
+                span#new-requests-total.indicator.hidden 0
+              ul#last-requests.notification-list.hidden
+            li.notifications.replies
+              a.icon(href='#alerts')
+                span#new-followups-total.indicator.hidden 0
+              ul#last-followups.notification-list.hidden
+            li.ccn.history
+              a.icon(href='#feeds')
+                span#new-wall-posts-total.indicator.hidden 0
+              ul#last-wall-posts.notification-list.hidden
+        .user-menu
+          ul#main-menu.hidden
+            li#my-profile-bt.name-dropdown
+              a(href='#')
+                span#my-profile-name
+              ul.submenu.hidden
+                li.my-profile
+                  a(href="#profiles/view/:id", id="my-profile-view-url") My profile
+                li.edit-profile
+                  a(href="#profiles/edit/:id", id="my-profile-edit-url") Edit profile
+                li#my-daycares-list
+            li#account-bt
+              a(href='#', id="my-settings-bt")
+            li.logout
+              a(href="/logout")
 
-      .footer
-        p.copy Copyright &copy; 2011 Kindzy.com, Inc. All rights reserved.
-        ul.f-menu
-          li
-            a(href='#') About Us
-          li
-            a(href='#') Contact Us
-          li
-            a(href='#') Help
-          li
-            a(href='#') Submission Guidelines
-          li
-            a(href='#') Privacy Policy
-          li
-            a(href='#') Terms of Use
-          li
-            a(href='#') Partners
-          li
-            a(href='#') Widgets and Tools
+    .content-wrapper
+      #side-column1.kd-menu
+      #main-column.kd-wall
+        !{body}
+      #side-column2.kd-info
 
-    #top-link(href="#top") Top of Page
+    .footer
+      p.copy Copyright &copy; 2011 Kindzy.com, Inc. All rights reserved.
+      ul.f-menu
+        li
+          a(href='#') About Us
+        li
+          a(href='#') Contact Us
+        li
+          a(href='#') Help
+        li
+          a(href='#') Submission Guidelines
+        li
+          a(href='#') Privacy Policy
+        li
+          a(href='#') Terms of Use
+        li
+          a(href='#') Partners
+        li
+          a(href='#') Widgets and Tools
 
-    script(src='http://maps.googleapis.com/maps/api/js?sensor=false')
-    script(src='/socket.io/socket.io.js')
-    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
-    //include _scripts
-    != js('/javascripts/scripts')
+  #top-link(href="#top") Top of Page
+
+  script(src='http://maps.googleapis.com/maps/api/js?sensor=false')
+  script(src='/socket.io/socket.io.js')
+  script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
+  //include _scripts
+  != js('/javascripts/scripts')

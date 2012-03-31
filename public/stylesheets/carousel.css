@@ -87,3 +87,7 @@
   background:#FFF;
   font-weight: bold;
 }
+
+.ie8 .doom-carousel .pic-nr {
+  top: -40px;
+}

@@ -10,7 +10,7 @@
         <a href="<%=picture.get('big_url') %>" title="<%=picture.get('description') %>" target="_blank" rel="prettyPhoto[album]" class="photo-frame">
             <img src="<%=thumbUrl %>" alt="<%=picture.get('description') %>" width="110" title="<%=description %>" />
         </a>
-        <p class="picture-description <%= (canEdit ? "dedit-input picture-text-edit" : "" ) %>" data-pic-cid="<%=picture.cid %>" data-placeholder="<%= placeholder %>" title="<%=description %>">&nbsp;<%=description %></p>
+        <p class="picture-description <%= (canEdit ? "dedit-input picture-text-edit" : "" ) %>" data-pic-cid="<%=picture.cid %>" data-placeholder="<%= placeholder %>" title="<%=description %>"><%=description %></p>
 		<%
 			if (canEdit) {
 		%>
