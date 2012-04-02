@@ -1067,6 +1067,7 @@ a:hover {
 
 #wall-comments-list li.single .followups .comment-text {
   margin: 0 0 5px 0;
+  word-wrap: break-word;
 }
 
 #wall-comments-list li.single .followups .name {
