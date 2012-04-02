@@ -14,7 +14,7 @@
         }
       %>
       <%
-        if (profile.get("type") === "class" && $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends")) > -1) {
+        if (profile.get("type") === "class" && Kin.app.currentUser.get("type") === "daycare" && $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends")) > -1) {
       %>
       <li><a href="#manage-children/<%= profile.get("id") %>"><span>add children</span></a></li>
       <%
