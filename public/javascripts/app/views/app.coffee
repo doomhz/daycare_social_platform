@@ -269,20 +269,14 @@ class Kin.AppView extends Backbone.View
           router: that.router
         that.side2ColumnView.render()
 
-
-  renderWriteMessage: (id)->
+  renderWriteMessage: ()->
     @clearColumns()
 
     usersCollection = new Kin.UsersCollection
 
-    if id
-      draftMessage = new Kin.MessageModel
-        _id: id
-
     @mainColumnView = new Kin.Messages.WriteView
       el: @mainColumnSelector
       collection: usersCollection
-      model: draftMessage
     @mainColumnView.render()
 
     @side1ColumnView = new Kin.Messages.InboxSide1View
@@ -290,13 +284,12 @@ class Kin.AppView extends Backbone.View
       selectedMenuItem: "write-menu-item"
     @side1ColumnView.render()
 
-  renderViewInboxMessages: ()->
+  renderViewMessages: ()->
     @clearColumns()
 
-    messagesCollection = new Kin.MessagesCollection [],
-      url: "/messages/default"
+    messagesCollection = new Kin.MessagesCollection
 
-    @mainColumnView = new Kin.Messages.InboxView
+    @mainColumnView = new Kin.Messages.ConversationsView
       el: @mainColumnSelector
       collection: messagesCollection
     @mainColumnView.render()
@@ -306,53 +299,26 @@ class Kin.AppView extends Backbone.View
       selectedMenuItem: "inbox-menu-item"
     @side1ColumnView.render()
 
-  renderViewDraftMessages: ()->
+  renderViewMessagesFromProfile: (id)->
     @clearColumns()
+    that = @
 
-    messagesCollection = new Kin.MessagesCollection [],
-      url: "/messages/draft"
+    profile = new Kin.ProfileModel({_id: id})
+    profile.fetch
+      success: (model, response)->
+        messagesCollection = new Kin.MessagesFromProfileCollection [],
+            userId: id
 
-    @mainColumnView = new Kin.Messages.DraftView
-      el: @mainColumnSelector
-      collection: messagesCollection
-    @mainColumnView.render()
+        that.mainColumnView = new Kin.Messages.FromProfileView
+          el: that.mainColumnSelector
+          collection: messagesCollection
+          model: model
+        that.mainColumnView.render()
 
-    @side1ColumnView = new Kin.Messages.DraftSide1View
-      el: @side1ColumnSelector
-      selectedMenuItem: "draft-menu-item"
-    @side1ColumnView.render()
-
-  renderViewSentMessages: ()->
-    @clearColumns()
-
-    messagesCollection = new Kin.MessagesCollection [],
-      url: "/messages/sent"
-
-    @mainColumnView = new Kin.Messages.SentView
-      el: @mainColumnSelector
-      collection: messagesCollection
-    @mainColumnView.render()
-
-    @side1ColumnView = new Kin.Messages.SentSide1View
-      el: @side1ColumnSelector
-      selectedMenuItem: "sent-menu-item"
-    @side1ColumnView.render()
-
-  renderViewTrashMessages: ()->
-    @clearColumns()
-
-    messagesCollection = new Kin.MessagesCollection [],
-      url: "/messages/deleted"
-
-    @mainColumnView = new Kin.Messages.TrashView
-      el: @mainColumnSelector
-      collection: messagesCollection
-    @mainColumnView.render()
-
-    @side1ColumnView = new Kin.Messages.TrashSide1View
-      el: @side1ColumnSelector
-      selectedMenuItem: "trash-menu-item"
-    @side1ColumnView.render()
+        that.side1ColumnView = new Kin.Messages.InboxSide1View
+          el: that.side1ColumnSelector
+          selectedMenuItem: "inbox-menu-item"
+        that.side1ColumnView.render()
 
   renderInviteParents: ()->
     that = @

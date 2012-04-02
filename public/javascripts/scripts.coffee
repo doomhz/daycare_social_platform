@@ -43,6 +43,7 @@
 #= require app/collections/followups
 #= require app/collections/wall_comments
 #= require app/collections/messages
+#= require app/collections/messages_from_profile
 #= require app/collections/users
 #= require app/collections/friend_requests
 #= require app/collections/children
@@ -90,15 +91,9 @@
 #= require app/views/staff/friend_requests_list
 #= require app/views/staff/invites
 #= require app/views/staff/invites_side1
-#= require app/views/messages/list_item
-#= require app/views/messages/inbox
+#= require app/views/messages/conversations
+#= require app/views/messages/from_profile
 #= require app/views/messages/inbox_side1
-#= require app/views/messages/draft
-#= require app/views/messages/draft_side1
-#= require app/views/messages/sent
-#= require app/views/messages/sent_side1
-#= require app/views/messages/trash
-#= require app/views/messages/trash_side1
 #= require app/views/messages/write
 #= require app/views/comment/comment
 #= require app/views/comment/comment_side1

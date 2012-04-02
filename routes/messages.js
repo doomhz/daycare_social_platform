@@ -68,10 +68,10 @@
         });
       });
     });
-    app.get('/messages/default', function(req, res) {
+    app.get('/messages', function(req, res) {
       var user;
       user = req.user ? req.user : {};
-      return Message.findDefault(user._id, function(err, messages) {
+      return Message.findConversations(user._id, function(err, messages) {
         return res.render('messages/messages', {
           messages: messages,
           _s: _s,
@@ -80,34 +80,11 @@
         });
       });
     });
-    app.get('/messages/sent', function(req, res) {
-      var user;
+    app.get('/messages/from/:id', function(req, res) {
+      var fromId, user;
       user = req.user ? req.user : {};
-      return Message.findSent(user._id, function(err, messages) {
-        return res.render('messages/messages', {
-          messages: messages,
-          _s: _s,
-          show_private: false,
-          layout: false
-        });
-      });
-    });
-    app.get('/messages/draft', function(req, res) {
-      var user;
-      user = req.user ? req.user : {};
-      return Message.findDraft(user._id, function(err, messages) {
-        return res.render('messages/messages', {
-          messages: messages,
-          _s: _s,
-          show_private: false,
-          layout: false
-        });
-      });
-    });
-    app.get('/messages/deleted', function(req, res) {
-      var user;
-      user = req.user ? req.user : {};
-      return Message.findDeleted(user._id, function(err, messages) {
+      fromId = req.params.id;
+      return Message.findMessagesFromUser(user._id, fromId, function(err, messages) {
         return res.render('messages/messages', {
           messages: messages,
           _s: _s,

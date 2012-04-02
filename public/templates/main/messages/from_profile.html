@@ -1,0 +1,49 @@
+<div id="general-wrapper">
+  <h1>Conversation with <%= profile.get("name") %> <%= profile.get("surname") %></h1>
+
+  <ul id="messages-list">
+    <%
+      messages.each(function (message) {
+        var messageUser = $.inArray(message.get("type"), ["sent", "draft"]) > -1 ? Kin.app.currentUser.attributes : message.get("from_user");
+        var pictureSets = new Kin.PictureSetsCollection();
+        var avatar = pictureSets.getPrimaryPicture(messageUser.picture_sets);
+        var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
+        var messageTime = new Date(message.get("created_at")).format("UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
+        var name = (messageUser.name || "") + " " + (messageUser.surname || "");
+        var content = message.get("content");
+    %>
+      <li>
+        <div class="message-header-cnt">
+          <p class="avatar">
+            <a href="#profiles/view/<%= messageUser.id %>">
+              <img src="<%= avatarUrl %>" width="60" height="60" />
+            </a>
+          </p>
+          <p class="message-header">
+            <a href="#profiles/view/<%= messageUser.id %>" class="name" id="message-to-name"><%= _.escape(name) %></a> <span class="time" title="<%= messageTime %>"><%= messageTime %></span>
+          </p>
+          <p class="message-body">
+            <%
+              print(Kin.Helper.Text.toMarkup(content));
+            %>
+          </p>
+        </div>
+      </li>
+    <%
+      });
+    %>
+  </ul>
+
+  <div class="add-reply-message-box">
+    <form class="add-reply-message-form" method="post" action="/messages">
+      <input name="to_id" type="hidden" value="<%= profile.get('id') %>" />
+      <input name="from_id" type="hidden" value="<%= Kin.app.currentUser.get("id") %>" />
+      <input name="type" type="hidden" value="default" />
+      <div>
+        <textarea name="content" resize="none" placeholder="write reply ..." rows="1" cols="40"></textarea>
+        <input type="submit" value="REPLY" class="btn primary" />
+      </div>
+    </form>
+  </div>
+
+</div>

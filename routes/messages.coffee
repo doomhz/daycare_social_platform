@@ -41,24 +41,15 @@ module.exports = (app)->
       Notification.triggerNewMessages(user._id)
       res.json {success: true}
 
-  app.get '/messages/default', (req, res)->
+  app.get '/messages', (req, res)->
     user = if req.user then req.user else {}
-    Message.findDefault user._id, (err, messages)->
+    Message.findConversations user._id, (err, messages)->
       res.render 'messages/messages', {messages: messages, _s: _s, show_private: false, layout: false}
 
-  app.get '/messages/sent', (req, res)->
+  app.get '/messages/from/:id', (req, res)->
     user = if req.user then req.user else {}
-    Message.findSent user._id, (err, messages)->
-      res.render 'messages/messages', {messages: messages, _s: _s, show_private: false, layout: false}
-
-  app.get '/messages/draft', (req, res)->
-    user = if req.user then req.user else {}
-    Message.findDraft user._id, (err, messages)->
-      res.render 'messages/messages', {messages: messages, _s: _s, show_private: false, layout: false}
-
-  app.get '/messages/deleted', (req, res)->
-    user = if req.user then req.user else {}
-    Message.findDeleted user._id, (err, messages)->
+    fromId = req.params.id
+    Message.findMessagesFromUser user._id, fromId, (err, messages)->
       res.render 'messages/messages', {messages: messages, _s: _s, show_private: false, layout: false}
 
   app.get '/messages/:id', (req, res)->

@@ -10,11 +10,8 @@ class window.Kin.MainRouter extends Backbone.Router
     'profiles/view/picture-set/:id' : 'viewProfilePictureSet'
     'profiles/view/our-family/:id'  : 'viewOurFamily'
     'messages/write'                : 'writeMessage'
-    'messages/write/:id'            : 'writeMessage'
-    'messages/inbox'                : 'viewInboxMessages'
-    'messages/draft'                : 'viewDraftMessages'
-    'messages/sent'                 : 'viewSentMessages'
-    'messages/trash'                : 'viewTrashMessages'
+    'messages'                      : 'viewMessages'
+    'messages/from/:id'             : 'viewMessagesFromProfile'
     'invite-parents'                : 'inviteParents'
     'invite-staff'                  : 'inviteStaff'
     'add-class'                     : 'addClass'
@@ -50,20 +47,14 @@ class window.Kin.MainRouter extends Backbone.Router
   viewOurFamily: (id)->
     @app.renderViewOurFamily(id)
 
-  writeMessage: (id)->
-    @app.renderWriteMessage(id)
+  writeMessage: ()->
+    @app.renderWriteMessage()
 
-  viewInboxMessages: ()->
-    @app.renderViewInboxMessages()
+  viewMessages: ()->
+    @app.renderViewMessages()
 
-  viewDraftMessages: ()->
-    @app.renderViewDraftMessages()
-
-  viewSentMessages: ()->
-    @app.renderViewSentMessages()
-
-  viewTrashMessages: ()->
-    @app.renderViewTrashMessages()
+  viewMessagesFromProfile: (id)->
+    @app.renderViewMessagesFromProfile(id)
 
   inviteParents: ()->
     @app.renderInviteParents()

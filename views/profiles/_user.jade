@@ -8,22 +8,23 @@
   "name": "#{profile.name}",
   "surname": "#{profile.surname}",
   "speaking_classes": [
-  each sp_class, i in profile.speaking_classes
+  each sp_class, i in (profile.speaking_classes || [])
     #{sp_class}
     - if (i != profile.speaking_classes.length-1)
       ,
   ],
   "address": "#{profile.address}",
+  - var location = profile.location || {};
   "location": {
-  "lat": #{profile.location.lat || 10},
-  "lng": #{profile.location.lng || 40}
+  "lat": #{location.lat || 10},
+  "lng": #{location.lng || 40}
   },
   "email": "#{profile.email}",
   "phone": "#{profile.phone}",
   "fax": "#{profile.fax}",
   "contact_person": "#{profile.contact_person}",
-  "homebased": #{profile.homebased},
-  "religious_affiliation": #{profile.religious_affiliation},
+  "homebased": #{profile.homebased || false},
+  "religious_affiliation": #{profile.religious_affiliation || false},
   "licensed": #{profile.licensed || false},
   "license_number": "#{profile.license_number}",
   "opened_since": "#{profile.opened_since}",
@@ -31,7 +32,7 @@
   "serving_disabilities": #{profile.serving_disabilities || false},
   "picture_sets": [
   - var picture_sets = []
-  each picture_set, i in profile.picture_sets
+  each picture_set, i in (profile.picture_sets || [])
     - if (picture_set.type === "public" || picture_set.type === "profile" || show_private)
       - picture_sets.push(picture_set)
   each picture_set, i in picture_sets
@@ -40,13 +41,13 @@
       ,
   ],
   "friends": [
-  each friend, i in profile.friends
+  each friend, i in (profile.friends || [])
     "#{friend}"
     - if (i != profile.friends.length-1)
       ,
   ],
   "daycare_friends": [
-  each daycareFriend, i in profile.daycare_friends
+  each daycareFriend, i in (profile.daycare_friends || [])
     {
     "id": "#{daycareFriend._id}",
     "_id": "#{daycareFriend._id}",
@@ -55,10 +56,10 @@
     - if (i != profile.daycare_friends.length-1)
       ,
   ],
-  "reviewed_children": #{profile.reviewed_children},
+  "reviewed_children": #{profile.reviewed_children || false},
   "children_ids": [
   - if (profile.children_ids)
-    each childId, i in profile.children_ids
+    each childId, i in (profile.children_ids || [])
       "#{childId}"
       - if (i != profile.children_ids.length-1)
         ,

@@ -1,8 +1,10 @@
 (function() {
-  var Message, MessageSchema, User, exports,
+  var Message, MessageSchema, User, exports, _,
     __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   User = require("./user");
+
+  _ = require("underscore");
 
   MessageSchema = new Schema({
     from_id: {
@@ -60,19 +62,6 @@
     return message.save();
   };
 
-  MessageSchema.statics.saveDraft = function(userId, data) {
-    var message;
-    data.from_id = userId;
-    delete data.to_user;
-    delete data.to_id;
-    delete data.from_user;
-    delete data.created_at;
-    delete data.updated_at;
-    message = new this(data);
-    message.type = "draft";
-    return message.save();
-  };
-
   MessageSchema.statics.findDefault = function(toUserId, onFind) {
     return this.findMessages({
       to_id: toUserId,
@@ -84,20 +73,6 @@
     return this.findMessages({
       from_id: fromUserId,
       type: "sent"
-    }, onFind);
-  };
-
-  MessageSchema.statics.findDraft = function(fromUserId, onFind) {
-    return this.findMessages({
-      from_id: fromUserId,
-      type: "draft"
-    }, onFind);
-  };
-
-  MessageSchema.statics.findDeleted = function(toUserId, onFind) {
-    return this.findMessages({
-      to_id: toUserId,
-      type: "deleted"
     }, onFind);
   };
 
@@ -130,6 +105,113 @@
               message = messages[_j];
               for (_k = 0, _len3 = users.length; _k < _len3; _k++) {
                 user = users[_k];
+                if (("" + user._id) === ("" + message.to_id)) {
+                  message.to_user = user;
+                }
+                if (("" + user._id) === ("" + message.from_id)) {
+                  message.from_user = user;
+                }
+              }
+            }
+          }
+          return onFind(err, messages);
+        });
+      } else {
+        return onFind(err, messages);
+      }
+    });
+  };
+
+  MessageSchema.statics.findConversations = function(userId, onFind) {
+    return Message.find({
+      to_id: userId,
+      type: "default"
+    }).desc('created_at').run(function(err, receivedMessages) {
+      var receivedUsersIds;
+      if (receivedMessages == null) receivedMessages = [];
+      receivedMessages = _.uniq(receivedMessages, false, function(msg) {
+        return msg.from_id;
+      });
+      receivedUsersIds = _.map(receivedMessages, function(message) {
+        if (message == null) message = {};
+        return message.from_id;
+      });
+      receivedUsersIds = receivedUsersIds || [];
+      return Message.find({
+        from_id: userId,
+        type: "sent"
+      }).where("to_id").nin(receivedUsersIds).desc('created_at').run(function(err, sentMessages) {
+        var messages, usersToFind;
+        if (sentMessages == null) sentMessages = [];
+        sentMessages = _.uniq(sentMessages, false, function(msg) {
+          return msg.to_id;
+        });
+        messages = receivedMessages.concat(sentMessages);
+        if (messages) {
+          usersToFind = _.map(messages, function(message) {
+            if (message == null) message = {};
+            if (message.type === "default") {
+              return message.from_id;
+            } else {
+              return message.to_id;
+            }
+          });
+          usersToFind = _.uniq(usersToFind);
+          return User.find().where("_id")["in"](usersToFind).run(function(err, users) {
+            var message, user, _i, _j, _len, _len2;
+            if (users) {
+              for (_i = 0, _len = messages.length; _i < _len; _i++) {
+                message = messages[_i];
+                for (_j = 0, _len2 = users.length; _j < _len2; _j++) {
+                  user = users[_j];
+                  if (("" + user._id) === ("" + message.to_id)) {
+                    message.to_user = user;
+                  }
+                  if (("" + user._id) === ("" + message.from_id)) {
+                    message.from_user = user;
+                  }
+                }
+              }
+            }
+            return onFind(err, messages);
+          });
+        } else {
+          return onFind(err, messages);
+        }
+      });
+    });
+  };
+
+  MessageSchema.statics.findMessagesFromUser = function(userId, fromUserId, onFind) {
+    return Message.find().or([
+      {
+        to_id: userId,
+        from_id: fromUserId,
+        type: "default"
+      }, {
+        to_id: fromUserId,
+        from_id: userId,
+        type: "sent"
+      }
+    ]).desc('created_at').run(function(err, messages) {
+      var usersToFind;
+      if (messages) {
+        usersToFind = _.map(messages, function(message) {
+          if (message == null) message = {};
+          if (message.type === "default") {
+            return message.from_id;
+          } else {
+            return message.to_id;
+          }
+        });
+        usersToFind = _.uniq(usersToFind);
+        return User.find().where("_id")["in"](usersToFind).run(function(err, users) {
+          var message, user, _i, _j, _len, _len2;
+          if (users) {
+            for (_i = 0, _len = messages.length; _i < _len; _i++) {
+              message = messages[_i];
+              for (_j = 0, _len2 = users.length; _j < _len2; _j++) {
+                user = users[_j];
                 if (("" + user._id) === ("" + message.to_id)) {
                   message.to_user = user;
                 }
