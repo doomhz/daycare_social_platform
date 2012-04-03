@@ -355,19 +355,10 @@ class Kin.AppView extends Backbone.View
     that.side1ColumnView.render()
 
   renderAddClass: ()->
-    that = @
-    @clearColumns()
-
-    that.mainColumnView = new Kin.DayCare.AddClassView
-      el: that.mainColumnSelector
+    addClassView = new Kin.DayCare.AddClassView
       currentUser: @currentUser
-    that.mainColumnView.router = @router
-    that.mainColumnView.render()
-
-    that.side1ColumnView = new Kin.DayCare.AddClassSide1View
-      model: @currentUser
-      el: that.side1ColumnSelector
-    that.side1ColumnView.render()
+      router: @router
+    addClassView.render()
 
   renderManageChildren: (id)->
     that = @

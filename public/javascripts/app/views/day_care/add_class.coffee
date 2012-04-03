@@ -1,29 +1,40 @@
-class Kin.DayCare.AddClassView extends Backbone.View
+class Kin.DayCare.AddClassView extends Kin.DoomWindowsView
 
   el: null
 
   tplUrl: '/templates/main/day_care/add_class.html'
 
-  events:
-    "submit #add-class-form" : "addClass"
-
   currentUser: null
 
-  initialize: ({@currentUser})->
+  router: null
+
+  windowOptions:
+    wrapperId: "add-class-win"
+    closeOnSideClick: false
+    headerButtons: false
+    buttons:
+      "save": "save"
+
+  initialize: ({@currentUser, @router})->
     super()
 
   render: ()->
     that = @
     $.tmpload
       url: @tplUrl
-      onLoad: (tpl)->
+      onLoad: (tpl)=>
         profile = new Kin.ProfileModel()
-        $(that.el).html(tpl({profile: profile}))
+        @open tpl({profile: profile})
+        @$("#add-class-form").bind "submit", @addClass
 
-  addClass: (ev)->
+  onButtonClick: (btType, $win)=>
+    if btType is "save"
+      @$("#add-class-form").submit()
+
+  addClass: (ev)=>
     ev.preventDefault()
     that = @
-    $form = $(ev.target)
+    $form = @$("#add-class-form")
     formData = $form.serialize()
     profileModel = new Kin.ProfileModel()
     profileModel.save null,
@@ -32,7 +43,9 @@ class Kin.DayCare.AddClassView extends Backbone.View
         name = $form.find("input[name='name']").val()
         $.jGrowl("#{name} class was successfully created")
         that.currentUser.fetch()
-        that.router.navigate("manage-children/#{response._id}", true)
+        that.close()
+        that.router.navigate("profiles/view/#{response._id}", true)
+        that.remove()
       error: ()->
         $.jGrowl("The class could not be created :( Please try again.")
 

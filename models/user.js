@@ -109,6 +109,14 @@
       type: Boolean,
       "default": false
     },
+    min_class_age: {
+      type: Number,
+      "default": 0
+    },
+    max_class_age: {
+      type: Number,
+      "default": 0
+    },
     picture_sets: {
       type: [PictureSet]
     },

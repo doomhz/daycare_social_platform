@@ -54,6 +54,7 @@
 #= require app/collections/notifications
 #= require app/views/app
 #= require app/views/window
+#= require app/views/doom_windows
 #= require app/views/header/header
 #= require app/views/header/search
 #= require app/views/header/submenu
