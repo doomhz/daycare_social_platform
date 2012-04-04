@@ -8,6 +8,8 @@ class window.Kin.Profile.ProfileEditView extends Backbone.View
     staff:  '/templates/main/staff/edit.html'
     class:  '/templates/main/class/edit.html'
 
+  editChildrenTplUrl: '/templates/main/parent/edit_children.html'
+
   events:
     'submit #profile-edit-form': 'saveProfile'
     'change #licensed-options'  : 'toggleLicenseNumberField'
@@ -38,8 +40,19 @@ class window.Kin.Profile.ProfileEditView extends Backbone.View
         that.setupLocationAutocompleteForAddress()
         that.loadGoogleMaps()
 
+        if that.model.get("type") is "parent"
+          $.tmpload
+            url: that.editChildrenTplUrl
+            onLoad: (tpl)->
+              children = new Kin.ChildrenCollection [],
+                  userId: that.model.get("id")
+              children.fetch
+                success: ()->
+                  $childrenEl = that.$("#edit-children-cnt")
+                  $childrenEl.html(tpl({children: children}))
+                  $childrenEl.find("#save-children-bt").bind "click", that.saveChildrenInfo
+
         that.$(".chzn-select").chosen()
-    @
 
   createAddressMarker: ()->
     markerData = @getProfileDataForMarker()
@@ -127,3 +140,23 @@ class window.Kin.Profile.ProfileEditView extends Backbone.View
       @$('#religious-affiliation-cnt').addClass('hidden')
     else
       @$('#religious-affiliation-cnt').removeClass('hidden')
+
+  saveChildrenInfo: ()=>
+    that = @
+    @$(".add-child-form").each (index, form)->
+      $form = $(form)
+      hashedData = $form.hashForm()
+      if not hashedData.birthday.year or not hashedData.birthday.month or not hashedData.birthday.day
+        $.jGrowl("Please specify a correct date of birth")
+        return false
+      if hashedData.birthday
+        hashedData.birthday = "#{hashedData.birthday.year}-#{hashedData.birthday.month}-#{hashedData.birthday.day}"
+      that.saveChild(hashedData)
+
+  saveChild: (data)->
+    childModel = new Kin.ChildModel
+    childModel.save data,
+      success: ()->
+        $.jGrowl("Children information was updated")
+      error: ()->
+        $.jGrowl("Children information could not be updated :( Please try again.")
