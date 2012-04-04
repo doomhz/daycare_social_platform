@@ -86,3 +86,6 @@ class window.Kin.MainRouter extends Backbone.Router
   editDaycareSection: (section, id)->
     @app.renderEditDaycareSection(section, id)
 
+  goBack: ()->
+    window.history.back()
+
