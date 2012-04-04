@@ -358,6 +358,7 @@ class Kin.AppView extends Backbone.View
     addClassView = new Kin.DayCare.AddClassView
       currentUser: @currentUser
       router: @router
+      model: new Kin.ProfileModel()
     addClassView.render()
 
   renderManageChildren: (id)->

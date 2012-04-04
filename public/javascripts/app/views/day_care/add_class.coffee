@@ -2,6 +2,8 @@ class Kin.DayCare.AddClassView extends Kin.DoomWindowsView
 
   el: null
 
+  model: null
+
   tplUrl: '/templates/main/day_care/add_class.html'
 
   currentUser: null
@@ -21,11 +23,14 @@ class Kin.DayCare.AddClassView extends Kin.DoomWindowsView
     that = @
     $.tmpload
       url: @tplUrl
-      onLoad: (tpl)=>
-        profile = new Kin.ProfileModel()
-        @open tpl({profile: profile})
-        @$("#add-class-form").bind "submit", @addClass
-        @$("#add-another-staff").bind "click", @addAnotherStaffForm
+      onLoad: (tpl)->
+        that.staff = new Kin.StaffCollection [], {userId: that.currentUser.get("id")}
+        that.staff.fetch
+          success: ()->
+            that.open tpl({profile: that.model, staff: that.staff})
+            that.$("#add-class-form").bind "submit", that.addClass
+            that.$("#add-another-staff").bind "click", that.addAnotherStaffForm
+            that.$(".chzn-select").chosen()
 
   onButtonClick: (btType, $win)=>
     if btType is "save"
@@ -37,22 +42,31 @@ class Kin.DayCare.AddClassView extends Kin.DoomWindowsView
   addClass: (ev)=>
     ev.preventDefault()
     that = @
+    that.updateExistingStaff()
     $form = @$("#add-class-form")
     formData = $form.serialize()
-    profileModel = new Kin.ProfileModel()
-    profileModel.save null,
+    @model.save null,
       data: formData
       success: (model, response)->
         that.classId = response._id
         name = $form.find("input[name='name']").val()
         $.jGrowl("#{name} class was successfully created")
         that.currentUser.fetch()
+        that.updateExistingStaff()
         that.submitStaffForms()
         that.close()
         that.router.navigate("profiles/view/#{that.classId}", true)
         that.remove()
       error: ()->
         $.jGrowl("The class could not be created :( Please try again.")
+
+  updateExistingStaff: ()=>
+    existentStaffIds = @$("#existent-staff-ids").val()
+    for staffId in existentStaffIds
+      stf = @staff.get(staffId)
+      stf.attributes.friends.push(@classId)
+      profile = new Kin.ProfileModel stf.attributes
+      profile.save()
 
   submitStaffForms: ()->
     that = @

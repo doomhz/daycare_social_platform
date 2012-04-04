@@ -24,9 +24,25 @@
                     <input type="text" name="max_class_age" value="" />
                 </div>
             </div>
+            <div class="clearfix">
+              <label class="title">Choose teachers appointed for this group</label>
+              <div class="input">
+                <select multiple="multiple" name="friends" id="existent-staff-ids" class="chzn-select" data-placeholder="Add staff...">
+                <%
+                    staff.each(function (stf) {
+                %>
+                  <option value="<%= stf.get("_id") %>"><%= stf.get("name") %> <%= stf.get("surname") %></option>
+                <%
+                    });
+                %>
+                </select>
+              </div>
+            </div>
     	</fieldset>
     </form>
-    <h2>Teachers appointed for this group (all the teachears that interact/teach with/in this group)</h2>
+
+    <h2>or add new staff</h2>
+
     <div id="add-staff-form-cnt">
         <form class="add-staff-form">
             <fieldset>
