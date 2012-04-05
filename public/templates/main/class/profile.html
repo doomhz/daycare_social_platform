@@ -40,6 +40,16 @@
   }
 %>
 
+<%
+  if (!profile.get("children_ids").length && (profile.get("master_id") == Kin.app.currentUser.get("id") || profile.get("id") == Kin.app.currentUser.get("id"))) {
+%>
+<div class="wall-notification-cnt">
+    <a href="#manage-children/<%= profile.get("id") %>">Please click here to add children.</a>
+</div>
+<%
+  }
+%>
+
 <ul id="wall-comments-list" class="kd-posts">
 </ul>
 
