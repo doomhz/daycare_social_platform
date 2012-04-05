@@ -84,6 +84,7 @@
 #= require app/views/day_care/edit_section
 #= require app/views/class/manage_children
 #= require app/views/class/manage_children_side1
+#= require app/views/class/manage_children_side2
 #= require app/views/class/children_list
 #= require app/views/parent/friend_requests_list
 #= require app/views/parent/invites

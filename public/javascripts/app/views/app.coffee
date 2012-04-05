@@ -382,6 +382,11 @@ class Kin.AppView extends Backbone.View
           el: that.side1ColumnSelector
         that.side1ColumnView.render()
 
+        that.side2ColumnView = new Kin.Class.ManageChildrenSide2View
+          model: model
+          el: that.side2ColumnSelector
+        that.side2ColumnView.render()
+
   renderViewComment: (id)->
     that = @
     @clearColumns()
