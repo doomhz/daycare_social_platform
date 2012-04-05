@@ -42,7 +42,6 @@ class Kin.DayCare.AddClassView extends Kin.DoomWindowsView
   addClass: (ev)=>
     ev.preventDefault()
     that = @
-    that.updateExistingStaff()
     $form = @$("#add-class-form")
     formData = $form.serialize()
     @model.save null,
@@ -61,12 +60,11 @@ class Kin.DayCare.AddClassView extends Kin.DoomWindowsView
         $.jGrowl("The class could not be created :( Please try again.")
 
   updateExistingStaff: ()=>
-    existentStaffIds = @$("#existent-staff-ids").val()
+    existentStaffIds = @$("#existent-staff-ids").val() || []
     for staffId in existentStaffIds
       stf = @staff.get(staffId)
       stf.attributes.friends.push(@classId)
-      profile = new Kin.ProfileModel stf.attributes
-      profile.save()
+      stf.save()
 
   submitStaffForms: ()->
     that = @

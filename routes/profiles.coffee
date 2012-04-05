@@ -80,7 +80,7 @@ module.exports = (app)->
     currentUser = if req.user then req.user else {}
     data = req.body
     delete data._id
-    User.update {_id: currentUser._id}, data, {}, (err, user) ->
+    User.update {_id: currentUser._id}, data, {}, (err, user)->
       # TODO Delete pictures here
       res.json {success: true}
 
@@ -454,3 +454,14 @@ module.exports = (app)->
     User.findOne({_id: daycareId}).run (err, dayCare)->
       User.find({type: "staff"}).where("_id").in(dayCare.friends).run (err, staff)->
         res.render 'profiles/profiles', {profiles: staff, layout: false}
+
+  app.put '/staff/:id', (req, res)->
+    currentUser = if req.user then req.user else {}
+    id = req.params.id
+    data = req.body
+    delete data._id
+    delete data.email
+    if (id in currentUser.friends and currentUser.type is "daycare") or (id is currentUser._id)
+      User.update {_id: id}, data, {}, (err, user)->
+        # TODO Delete pictures here
+      res.json {success: true}

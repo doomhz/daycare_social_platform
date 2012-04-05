@@ -673,7 +673,7 @@
         });
       }
     });
-    return app.get('/staff/:daycare_id', function(req, res) {
+    app.get('/staff/:daycare_id', function(req, res) {
       var daycareId;
       daycareId = req.params.daycare_id;
       return User.findOne({
@@ -688,6 +688,22 @@
           });
         });
       });
+    });
+    return app.put('/staff/:id', function(req, res) {
+      var currentUser, data, id;
+      currentUser = req.user ? req.user : {};
+      id = req.params.id;
+      data = req.body;
+      delete data._id;
+      delete data.email;
+      if ((__indexOf.call(currentUser.friends, id) >= 0 && currentUser.type === "daycare") || (id === currentUser._id)) {
+        User.update({
+          _id: id
+        }, data, {}, function(err, user) {});
+        return res.json({
+          success: true
+        });
+      }
     });
   };
 
