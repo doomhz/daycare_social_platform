@@ -587,8 +587,16 @@
       data = req.body;
       child = new Child(data);
       return child.save(function() {
-        return res.json({
-          success: true
+        return User.findOne({
+          _id: child.user_id
+        }).run(function(err, daycareClass) {
+          daycareClass.children_ids.push(child._id);
+          daycareClass.children_ids = _.uniq(daycareClass.children_ids);
+          return daycareClass.save(function() {
+            return res.json({
+              success: true
+            });
+          });
         });
       });
     });
@@ -610,11 +618,22 @@
       var childId, currentUser;
       childId = req.params.id;
       currentUser = req.user ? req.user : {};
-      return Child.remove({
+      return Child.findOne({
         _id: childId
-      }, function(err) {
-        return res.json({
-          success: true
+      }).run(function(err, child) {
+        return User.findOne({
+          _id: child.user_id
+        }).run(function(err, daycareClass) {
+          daycareClass.children_ids = _.filter(daycareClass.children_ids, function(id) {
+            return id !== childId;
+          });
+          return daycareClass.save(function() {
+            return child.remove(function(err) {
+              return res.json({
+                success: true
+              });
+            });
+          });
         });
       });
     });

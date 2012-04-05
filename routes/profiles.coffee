@@ -407,7 +407,11 @@ module.exports = (app)->
 
     child = new Child(data)
     child.save ()->
-      res.json {success: true}
+      User.findOne({_id: child.user_id}).run (err, daycareClass)->
+        daycareClass.children_ids.push(child._id)
+        daycareClass.children_ids = _.uniq(daycareClass.children_ids)
+        daycareClass.save ()->
+          res.json {success: true}
 
   app.put '/child/:id', (req, res)->
     childId = req.params.id
@@ -422,8 +426,13 @@ module.exports = (app)->
     childId = req.params.id
     currentUser = if req.user then req.user else {}
 
-    Child.remove {_id: childId}, (err)->
-      res.json {success: true}
+    Child.findOne({_id: childId}).run (err, child)->
+      User.findOne({_id: child.user_id}).run (err, daycareClass)->
+        daycareClass.children_ids = _.filter daycareClass.children_ids, (id)->
+          id isnt childId
+        daycareClass.save ()->
+          child.remove (err)->
+            res.json {success: true}
 
   app.get '/classes/:master_id', (req, res)->
     masterId = req.params.master_id
