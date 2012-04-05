@@ -7,19 +7,19 @@
     <input type="hidden" name="_id" value="<%= child.get("_id") %>" />
     <input type="hidden" name="user_id" value="<%= child.get("user_id") %>" />
     <div class="clear">
-      <label>Name</label>
+      <label class="title">Name</label>
       <div class="input">
         <input type="text" name="name" value="<%= child.get("name") %>" />
       </div>
     </div>
     <div class="clear">
-      <label>Surname</label>
+      <label class="title">Surname</label>
       <div class="input">
         <input type="text" name="surname" value="<%= child.get("surname") %>" />
       </div>
     </div>
     <div class="clear">
-      <label>Gender</label>
+      <label class="title">Gender</label>
       <div class="input">
         <select class="mini" name="gender">
           <option value="male" <% if (child.get("gender") === "male") { %>selected="selected"<% } %>>Male</option>

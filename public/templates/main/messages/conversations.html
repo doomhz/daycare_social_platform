@@ -23,8 +23,11 @@
             <a href="#profiles/view/<%= messageUser.id %>" class="name" id="message-to-name"><%= _.escape(name) %></a> <span class="time" title="<%= messageTime %>"><%= messageTime %></span>
           </p>
           <p class="message-body">
-            <a href="#messages/from/<%= messageUser.id %>">
-            <%= message.get("type") === "sent" ? "&larr; " : "" %><%= _.str.truncate(content, 85) %>
+            <a href="#messages/from/<%= messageUser.id %>" class="last-message">
+              <% if (message.get("type") === "sent") { %>
+              <img src="images/icon_your_reply.png" />
+              <% } %>
+              <%= _.str.truncate(content, 85) %>
             </a>
           </p>
         </div>

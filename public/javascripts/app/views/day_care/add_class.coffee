@@ -14,7 +14,7 @@ class Kin.DayCare.AddClassView extends Kin.DoomWindowsView
     wrapperId: "add-class-win"
     closeOnSideClick: false
     buttons:
-      "save": "save"
+      "save": "Save"
 
   initialize: ({@currentUser, @router})->
     super()
