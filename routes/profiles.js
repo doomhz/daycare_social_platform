@@ -18,7 +18,9 @@
 
   module.exports = function(app) {
     app.get('/profiles', function(req, res) {
-      return User.find().asc('name', 'surname').run(function(err, users) {
+      var currentUser;
+      currentUser = req.user ? req.user : {};
+      return User.find().where("_id")["in"](currentUser.friends).asc('name', 'surname').run(function(err, users) {
         return res.render('profiles/profiles', {
           profiles: users,
           show_private: false,

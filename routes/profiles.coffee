@@ -9,7 +9,8 @@ _             = require('underscore')
 module.exports = (app)->
 
   app.get '/profiles', (req, res)->
-    User.find().asc('name', 'surname').run (err, users)->
+    currentUser = if req.user then req.user else {}
+    User.find().where("_id").in(currentUser.friends).asc('name', 'surname').run (err, users)->
       res.render 'profiles/profiles', {profiles: users, show_private: false, layout: false}
 
   app.get '/daycares', (req, res)->
