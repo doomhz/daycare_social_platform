@@ -23,10 +23,12 @@
     var pictureSets = new Kin.PictureSetsCollection();
     var avatar = pictureSets.getPrimaryPicture(item.from_user.picture_sets);
     var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
-    var uniqueFromIds = _.uniq(item.from_id);
-    var otherUsersCount = uniqueFromIds.length - 1;
-    var otherUsersCountText = otherUsersCount > 0 ? "and " + otherUsersCount + " other" : "";
-    otherUsersCountText += otherUsersCount > 1 ? "s" : "";
+    if (item.type !== 'default') {
+      var uniqueFromIds = _.uniq(item.from_id);
+      var otherUsersCount = uniqueFromIds.length - 1;
+      var otherUsersCountText = otherUsersCount > 0 ? "and " + otherUsersCount + " other" : "";
+      otherUsersCountText += otherUsersCount > 1 ? "s" : "";
+    }
 %>
 <li class="<%= item.unread ? 'unread' : '' %>">
 
@@ -36,7 +38,7 @@
       var messageDate = $.timeago(_.escape(item.created_at));
       var name = (messageUser.name || "") + " " + (messageUser.surname || "");
   %>
-  <a href="#messages/from/<%= messageUser.id %>">
+  <a href="#messages/from/<%= messageUser._id %>">
     <p class="avatar">
       <img src="<%= avatarUrl %>" width="30" height="30" />
     </p>
