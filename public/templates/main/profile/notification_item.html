@@ -4,6 +4,10 @@
   var avatar = pictureSets.getPrimaryPicture(item.from_user.picture_sets);
   var avatarUrl = avatar ? avatar.thumb_url : Kin.CONFIG.noPicture;
   var itemUrl = item.type === "request" ? ("profiles/view/" + item.comment_id) : ("comments/view/" + item.comment_id);
+  var uniqueFromIds = _.uniq(item.from_id);
+  var otherUsersCount = uniqueFromIds.length - 1;
+  var otherUsersCountText = otherUsersCount > 0 ? "and " + otherUsersCount + " other" : "";
+  otherUsersCountText += otherUsersCount > 1 ? "s" : "";
 %>
 <div class="<%= item.unread ? 'unread' : '' %> <%= item.type %>">
   <a href="#<%= itemUrl %>">
@@ -16,7 +20,7 @@
         var messageDate = new Date(item.created_at).format("H:MM");
         var name = (messageUser.name || "") + " " + (messageUser.surname || "");
       %>
-      <span class="name" id="message-to-name"><%= _.escape(name) %></span>
+      <span class="name" id="message-to-name"><%= _.escape(name) %></span> <%= otherUsersCountText %>
     </p>
     <p class="message-body">
       <%

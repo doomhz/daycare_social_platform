@@ -31,12 +31,12 @@ module.exports = (app)->
     Notification.find({user_id: currentUser._id, type: type}).where("created_at").lte(maxTime).limit(10).desc("created_at").run (err, notifications = [])->
       usersToFind = []
       for notification in notifications
-        usersToFind.push(notification.from_id)
+        usersToFind.push(notification.getLastCommenter())
       usersToFind = _.uniq(usersToFind)
       User.find().where("_id").in(usersToFind).run (err, users = [])->
         for notification in notifications
           for user in users
-            if "#{user._id}" is "#{notification.from_id}"
+            if "#{user._id}" is "#{notification.getLastCommenter()}"
               notification.from_user = user
 
         res.render 'notifications/notifications', {notifications: notifications, show_private: true, layout: false}

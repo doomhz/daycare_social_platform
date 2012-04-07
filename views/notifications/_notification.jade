@@ -3,7 +3,12 @@
   "id": "#{notification._id}",
   "_id": "#{notification._id}",
   "user_id": "#{notification.user_id}",
-  "from_id": "#{notification.from_id}",
+  "from_id": [
+  each fromId, i in (notification.from_id || [])
+    "#{fromId}"
+    - if (i != notification.from_id.length-1)
+      ,
+  ],
   "unread": #{notification.unread},
   "wall_id": "#{notification.wall_id}",
   "comment_id": "#{notification.comment_id}",

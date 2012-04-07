@@ -74,7 +74,7 @@
         usersToFind = [];
         for (_i = 0, _len = notifications.length; _i < _len; _i++) {
           notification = notifications[_i];
-          usersToFind.push(notification.from_id);
+          usersToFind.push(notification.getLastCommenter());
         }
         usersToFind = _.uniq(usersToFind);
         return User.find().where("_id")["in"](usersToFind).run(function(err, users) {
@@ -84,7 +84,7 @@
             notification = notifications[_j];
             for (_k = 0, _len3 = users.length; _k < _len3; _k++) {
               user = users[_k];
-              if (("" + user._id) === ("" + notification.from_id)) {
+              if (("" + user._id) === ("" + (notification.getLastCommenter()))) {
                 notification.from_user = user;
               }
             }
