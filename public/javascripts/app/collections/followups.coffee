@@ -16,7 +16,10 @@ class Kin.FollowupsCollection extends Backbone.Collection
 
   startAutoUpdateFollowups: ()->
     @intervalId = window.setInterval(@loadFollowups, @loadCommentsTime)
-  
+
+  stopAutoUpdateFollowups: ()->
+    window.clearInterval(@intervalId)
+
   loadFollowups: ()=>
     @fetch
       add: true

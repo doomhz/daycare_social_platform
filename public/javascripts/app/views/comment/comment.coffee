@@ -34,11 +34,12 @@ class window.Kin.Comment.CommentView extends Backbone.View
   remove: ()->
     @unbind()
     $(@el).unbind().empty()
-  
+    @followupsCollection.stopAutoUpdateFollowups()
+
   addWallComment: (model)=>
     that = @
     model.set({"wall_id": @model.get("wall_id")})
-    
+
     wallComment = new Kin.Profile.WallCommentView
       model: model
 
@@ -72,4 +73,4 @@ class window.Kin.Comment.CommentView extends Backbone.View
       data: commentData
       success: ()->
         that.followupsCollection.loadFollowups()
-      
+
