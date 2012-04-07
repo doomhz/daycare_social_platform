@@ -317,7 +317,7 @@
     return this.find({
       user_id: userId,
       type: "feed"
-    }).desc('created_at').limit(limit).run(function(err, posts) {
+    }).desc('updated_at').limit(limit).run(function(err, posts) {
       var post, usersToFind, _i, _len;
       usersToFind = [];
       if (posts) {
@@ -374,7 +374,7 @@
     return this.find({
       user_id: userId,
       type: "alert"
-    }).desc('created_at').limit(limit).run(function(err, followups) {
+    }).desc('updated_at').limit(limit).run(function(err, followups) {
       var followup, usersToFind, _i, _len;
       usersToFind = [];
       if (followups) {
@@ -431,7 +431,7 @@
     return this.find({
       user_id: userId,
       type: "request"
-    }).desc('created_at').limit(limit).run(function(err, requests) {
+    }).desc('updated_at').limit(limit).run(function(err, requests) {
       var request, usersToFind, _i, _len;
       usersToFind = [];
       if (requests) {
@@ -489,6 +489,7 @@
       if (notification) {
         notification.from_id.push(senderId);
         notification.unread = true;
+        notification.updated_at = Date.now();
         return notification.saveAndTriggerNewComments();
       } else {
         return onCreate();

@@ -17,7 +17,7 @@
     <p class="message-header">
       <%
         var messageUser = item.from_user;
-        var messageDate = new Date(item.created_at).format("H:MM");
+        var messageDate = new Date(item.updated_at).format("H:MM");
         var name = (messageUser.name || "") + " " + (messageUser.surname || "");
       %>
       <span class="name" id="message-to-name"><%= _.escape(name) %></span> <%= otherUsersCountText %>

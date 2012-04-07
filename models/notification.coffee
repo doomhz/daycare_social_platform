@@ -209,7 +209,7 @@ NotificationSchema.statics.triggerNewMessages = (userId)->
       userSocket.emit("last-messages", {messages: messages})
 
 NotificationSchema.statics.findLastWallPosts = (userId, limit, onFind)->
-  @find({user_id: userId, type: "feed"}).desc('created_at').limit(limit).run (err, posts)->
+  @find({user_id: userId, type: "feed"}).desc('updated_at').limit(limit).run (err, posts)->
     usersToFind = []
     if posts
       for post in posts
@@ -235,7 +235,7 @@ NotificationSchema.statics.triggerNewWallPosts = (userId)->
       userSocket.emit("last-wall-posts", {wall_posts: wallPosts})
 
 NotificationSchema.statics.findLastFollowups = (userId, limit, onFind)->
-  @find({user_id: userId, type: "alert"}).desc('created_at').limit(limit).run (err, followups)->
+  @find({user_id: userId, type: "alert"}).desc('updated_at').limit(limit).run (err, followups)->
     usersToFind = []
     if followups
       for followup in followups
@@ -261,7 +261,7 @@ NotificationSchema.statics.triggerNewFollowups = (userId)->
       userSocket.emit("last-followups", {followups: followups})
 
 NotificationSchema.statics.findLastRequests = (userId, limit, onFind)->
-  @find({user_id: userId, type: "request"}).desc('created_at').limit(limit).run (err, requests)->
+  @find({user_id: userId, type: "request"}).desc('updated_at').limit(limit).run (err, requests)->
     usersToFind = []
     if requests
       for request in requests
@@ -291,6 +291,7 @@ NotificationSchema.statics.addOrUpdateExistent = (query, senderId, onCreate)->
     if notification
       notification.from_id.push(senderId)
       notification.unread = true
+      notification.updated_at = Date.now()
       notification.saveAndTriggerNewComments()
     else
       onCreate()
