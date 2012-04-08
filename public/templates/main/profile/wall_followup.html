@@ -1,0 +1,61 @@
+<%
+  var pictureSets = new Kin.PictureSetsCollection();
+  var avatar = pictureSets.getPrimaryPicture(comment.get("from_user").picture_sets);
+  var tinyAvatarUrl = avatar ? avatar.tiny_url : Kin.CONFIG.noPicture;
+  var miniAvatarUrl = avatar ? avatar.mini_url : Kin.CONFIG.noPicture;
+  var commentTime = new Date(comment.get("updated_at")).format("UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
+  var name = comment.get("from_user").name + " " + comment.get("from_user").surname;
+  var content = comment.get("content");
+  var currentUserAvatar = Kin.app.currentUser.getProfilePicture() ? Kin.app.currentUser.getProfilePicture().tiny_url : Kin.CONFIG.noPicture;
+%>
+<p class="photo">
+  <a href="#profiles/view/<%= comment.get("from_user")._id %>">
+    <img src="<%= tinyAvatarUrl %>" width="30" height="30" />
+  </a>
+</p>
+<div class="content">
+  <a href="#profiles/view/<%= comment.get("from_user")._id %>" class="name"><%= _.escape(name) %></a>: <span class="time" title="<%= commentTime %>"><%= commentTime %></span>
+  <%
+    if (comment.get("from_user")._id === Kin.app.currentUser.get("_id")) {
+  %>
+  <a href="#" class="delete-comment">Delete</a>
+  <a href="#" class="edit-comment">Edit</a>
+  <br />
+  <%
+    }
+  %>
+  <span class="comment-text"><%
+    if (typeof content === "object") {
+      if (content.type === "new_picture") {
+          var pictureTotal = content.pictures.length === 1 ? "one" : content.pictures.length;
+          var pictureWord = content.pictures.length === 1 ? "picture" : "pictures";
+        %>
+        added <%= pictureTotal %> new <%= pictureWord %> in the album <a href="#profiles/view/picture-set/<%=content.picture_set_id %>"><%= content.picture_set_name %></a>.
+
+        <div class="comment-photos">
+          <%
+            _.each(content.pictures, function (picture, index) {
+              var showThumb = index < 3 ? true : false;
+          %>
+
+          <a href="<%= picture.big_url %>" title="<%= picture.description %>" class="photo-frame <%= !showThumb ? 'hidden' : '' %>" rel="prettyPhoto[<%= content.picture_set_id %>]">
+            <%
+              if (showThumb) {
+            %>
+            <img src="<%= picture.small_url %>" />
+            <%
+              }
+            %>
+          </a>
+          <%
+            });
+          %>
+        </div>
+    <%
+      }
+    } else {
+      print(Kin.Helper.Text.toMarkup(content));
+    }
+  %>
+</span>
+</div>
