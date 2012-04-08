@@ -81,7 +81,7 @@ class Kin.Parent.InvitesView extends Backbone.View
       email: $form.find("input[name='#{fieldPrefix}s-email']").val()
       children_ids: $form.find("select[name='children_ids']").val()
       gender: if fieldPrefix is "mother" then "female" else "male"
-    if data.name and data.surname and data.email
+    if data.name and data.surname and data.email and data.children_ids
       return data
     else
       false
@@ -132,7 +132,7 @@ class Kin.Parent.InvitesView extends Backbone.View
     $inputs.each (index, input)->
       $input = $(input)
       that.cachedFormData[$input.attr("name")] = $input.val()
-  
+
   restoreFormData: ()=>
     $form = @$("#send-invite-form")
     for inputName, inputData of @cachedFormData
