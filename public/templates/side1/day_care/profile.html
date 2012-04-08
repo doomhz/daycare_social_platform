@@ -14,7 +14,7 @@
       if (Kin.app.currentUser.get("_id") !== profile.get("_id")) {
     %>
     <li>
-        <a href="#quick-message" id="quick-message-bt">Send a message</a>
+        <a href="#quick-message" id="quick-message-bt" class="btn white">Send a message</a>
     </li>
     <%
       }
@@ -23,7 +23,7 @@
       if (Kin.app.currentUser.get("_id") === profile.get("_id")) {
     %>
     <li>
-        <a href="#add-class" id="add-class-bt" class="add-class-bt-side">Add class</a>
+        <a href="#add-class" id="add-class-bt" class="btn white">Add class</a>
     </li>
     <%
       }

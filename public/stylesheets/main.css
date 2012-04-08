@@ -221,9 +221,10 @@ input[type="submit"] {
 
 .btn.white {
   background: #f4f4f4;
-  border-color: #bdc8cb;
-  color: #6a7173;
-  text-shadow: none;
+  border-color: #e1e1e1;
+  box-shadow: 0px 1px 1px rgba(0,0,0,0.25);
+  color: #4f5456;
+  text-shadow: 0 1px 0 #fff;
 }
 
 .btn.white:hover {
@@ -231,7 +232,7 @@ input[type="submit"] {
 }
 
 .btn.white:active {
-  border-color: #bdc8cb;
+  border-color: #e6e6e6;
   box-shadow: none;
   position: relative;
   top: 1px;
@@ -674,9 +675,7 @@ a:hover {
   margin-left: -20px;
   display: block;
   width: 181px;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 #my-profile-bt .submenu li.edit-profile {
@@ -703,7 +702,7 @@ a:hover {
   width: 170px;
   max-width: 170px;
   padding-left: 5px;
-  background: url('../images/icon_usermenu.png') no-repeat 135px top;
+  background: url('../images/icon_usermenu.png') no-repeat 145px -2px;
 }
 
 .header-content .user-menu ul li.logout {
@@ -789,8 +788,15 @@ a:hover {
   -webkit-transition: none;
   -moz-transition: none;
   transition: none;
-  font-weight: bold;
   font-size: 12px;
+}
+
+#my-profile-name {
+  display: block;
+  max-width: 145px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
 }
 
 .kd-menu .nav-menu li a:hover {
@@ -1175,11 +1181,12 @@ a:hover {
 .add-class-bt-side {
   width: 140px;
   display: inline-block;
-  background: url('../images/icon_add.png') no-repeat 125px 1px;
+  text-decoration: underline;
+  font-size: 14px;
 }
 
 .add-class-bt-side:hover {
-  background: url('../images/icon_add.png') no-repeat 125px -17px;
+  background: url('../images/icon_add.png') no-repeat 125px -14px;
 }
 
 .back-to-results-bt {
