@@ -13,8 +13,6 @@ class Kin.Profile.WallCommentView extends Backbone.View
     "keyup .add-followup-form textarea": "typeFollowupHandler"
     "click #load-more-followups-cnt": "loadMoreFollowupsHandler"
 
-  followupsBatchSize: Kin.CONFIG.followupsBatchSize
-
   initialize: ()->
     @model and @model.view = @
     if @collection
@@ -49,7 +47,7 @@ class Kin.Profile.WallCommentView extends Backbone.View
         that.collection.loadFollowups
           isHistory: true
           success: (collection, models)->
-            if models.length is that.followupsBatchSize
+            if models.length is that.collection.limit
               that.$("#load-more-followups-cnt").removeClass("hidden")
 
         that.collection.startAutoUpdateFollowups()
@@ -113,10 +111,12 @@ class Kin.Profile.WallCommentView extends Backbone.View
 
   loadMoreFollowupsHandler: (ev)->
     ev.preventDefault()
+    limit = 150
     @collection.loadFollowups
       isHistory: true
+      limit: limit
       success: (collection, models)=>
-        if models.length < @followupsBatchSize
+        if models.length < limit
           $(ev.currentTarget).remove()
 
   remove: ()->

@@ -2,7 +2,9 @@ class Kin.FollowupsCollection extends Backbone.Collection
 
   model: Kin.CommentModel
 
-  uri: "/followups/:comment_id/:comment_time/:timeline"
+  uri: "/followups/:comment_id/:comment_time/:timeline?limit=:limit"
+
+  limit: Kin.CONFIG.followupsBatchSize
 
   commentId: null
 
@@ -25,10 +27,13 @@ class Kin.FollowupsCollection extends Backbone.Collection
     options ?=
       isHistory: false
     @isLoadHistory = options.isHistory
+    oldLimit = @limit
+    @limit = options.limit || @limit
     @fetch
       add: true
       success: options.success
     @isLoadHistory = false
+    @limit = oldLimit
 
   getMaxCommentTime: ()->
     lastCommentTime = 0
@@ -49,9 +54,9 @@ class Kin.FollowupsCollection extends Backbone.Collection
 
   url: ()->
     if not @isLoadHistory
-      @uri.replace(":comment_id", @commentId).replace(":comment_time", @getMaxCommentTime()).replace(":timeline", "future")
+      @uri.replace(":comment_id", @commentId).replace(":comment_time", @getMaxCommentTime()).replace(":timeline", "future").replace(":limit", @limit)
     else
       @historyUrl()
 
   historyUrl: ()->
-    @uri.replace(":comment_id", @commentId).replace(":comment_time", @getMinCommentTime()).replace(":timeline", "past")
+    @uri.replace(":comment_id", @commentId).replace(":comment_time", @getMinCommentTime()).replace(":timeline", "past").replace(":limit", @limit)

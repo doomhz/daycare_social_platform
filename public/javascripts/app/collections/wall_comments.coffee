@@ -12,7 +12,9 @@ class Kin.WallCommentsCollection extends Backbone.Collection
 
   loadInProgress: false
 
-  uri: "/comments/:wall_id/:comment_time/:timeline"
+  uri: "/comments/:wall_id/:comment_time/:timeline?limit=:limit"
+
+  limit: Kin.CONFIG.postsBatchSize
 
   initialize: (models, {@profileId})->
     @startAutoUpdateComments()
@@ -30,12 +32,15 @@ class Kin.WallCommentsCollection extends Backbone.Collection
     if not @loadInProgress
       @loadInProgress = true
       @isLoadHistory = options.isHistory
+      oldLimit = @limit
+      @limit = options.limit || @limit
       @fetch
         add: true
         success: options.success
         complete: ()=>
           @loadInProgress = false
       @isLoadHistory = false
+      @limit = oldLimit
 
   add: (models, options)->
     models = if _.isArray(models) then models.slice() else [models]
@@ -61,9 +66,9 @@ class Kin.WallCommentsCollection extends Backbone.Collection
 
   url: ()->
     if not @isLoadHistory
-      @uri.replace(":wall_id", @profileId).replace(":comment_time", @getMaxCommentTime()).replace(":timeline", "future")
+      @uri.replace(":wall_id", @profileId).replace(":comment_time", @getMaxCommentTime()).replace(":timeline", "future").replace(":limit", @limit)
     else
       @historyUrl()
 
   historyUrl: ()->
-    @uri.replace(":wall_id", @profileId).replace(":comment_time", @getMinCommentTime()).replace(":timeline", "past")
+    @uri.replace(":wall_id", @profileId).replace(":comment_time", @getMinCommentTime()).replace(":timeline", "past").replace(":limit", @limit)

@@ -58,7 +58,7 @@
       lastCommentTime = req.params.last_comment_time;
       timeline = (_ref = req.params.timeline) === "future" || _ref === "past" ? req.params.timeline : "future";
       comparison = req.params.timeline === "future" ? "gt" : "lt";
-      followupsLimit = 2;
+      followupsLimit = req.query.limit || 2;
       return Comment.find({
         to_id: commentId,
         type: "followup"
@@ -114,7 +114,7 @@
       if (wallId === currentUserId || __indexOf.call(currentUser.friends, wallId) >= 0) {
         privacy.push("private");
       }
-      commentsLimit = 10;
+      commentsLimit = req.query.limit || 10;
       return Comment.find({
         wall_id: wallId,
         type: "status"

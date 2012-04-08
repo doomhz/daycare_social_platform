@@ -29,8 +29,7 @@ module.exports = (app)->
     lastCommentTime = req.params.last_comment_time
     timeline = if req.params.timeline in ["future", "past"] then req.params.timeline else "future"
     comparison = if req.params.timeline is "future" then "gt" else "lt"
-
-    followupsLimit = 2
+    followupsLimit = req.query.limit or 2
 
     Comment.find({to_id: commentId, type: "followup"})
     .where('added_at')[comparison](lastCommentTime).limit(followupsLimit)
@@ -61,8 +60,8 @@ module.exports = (app)->
     privacy = ["public"]
     if wallId is currentUserId or wallId in currentUser.friends
       privacy.push("private")
+    commentsLimit = req.query.limit or 10
 
-    commentsLimit = 10
     Comment.find({wall_id: wallId, type: "status"})
     .where('added_at')[comparison](lastCommentTime)
     .where("privacy").in(privacy)
