@@ -10,8 +10,6 @@ class window.Kin.Profile.ProfileView extends Backbone.View
 
   events:
     "submit #add-comment-form": "addCommentHandler"
-    "submit .add-followup-form": "addFollowupHandler"
-    "keyup .add-followup-form textarea": "typeFollowupHandler"
     "click #load-more-comments-cnt": "loadMoreCommentsHandler"
 
   maps: null
@@ -78,17 +76,6 @@ class window.Kin.Profile.ProfileView extends Backbone.View
     @sendCommentFromForm($form)
     $form.find("textarea").val("").keyup()
 
-  addFollowupHandler: (ev)->
-    ev.preventDefault()
-    $form = @$(ev.target)
-    @sendCommentFromForm($form)
-    $form.find("textarea").val("").keyup()
-
-  typeFollowupHandler: (ev)->
-    if ev.keyCode is 13
-      $form = @$(ev.target).parents("form")
-      $form.submit()
-
   sendCommentFromForm: ($form)->
     that = @
     commentData = $form.serialize()
@@ -103,7 +90,5 @@ class window.Kin.Profile.ProfileView extends Backbone.View
     @profileWall.collection.loadComments
       isHistory: true
       success: (collection, models)=>
-        statuses = _.filter models, (model)->
-          model.type is "status"
-        if statuses.length < @postsBatchSize
+        if models.length < @postsBatchSize
           $(ev.currentTarget).remove()

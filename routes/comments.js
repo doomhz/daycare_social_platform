@@ -51,15 +51,18 @@
         });
       });
     });
-    app.get('/followups/:id/:last_comment_time', function(req, res) {
-      var commentId, currentUser, lastCommentTime;
+    app.get('/followups/:comment_id/:last_comment_time/:timeline', function(req, res) {
+      var commentId, comparison, currentUser, followupsLimit, lastCommentTime, timeline, _ref;
       currentUser = req.user ? req.user : {};
-      commentId = req.params.id;
+      commentId = req.params.comment_id;
       lastCommentTime = req.params.last_comment_time;
+      timeline = (_ref = req.params.timeline) === "future" || _ref === "past" ? req.params.timeline : "future";
+      comparison = req.params.timeline === "future" ? "gt" : "lt";
+      followupsLimit = 2;
       return Comment.find({
         to_id: commentId,
         type: "followup"
-      }).where('added_at').gt(lastCommentTime).asc("added_at").run(function(err, followups) {
+      }).where('added_at')[comparison](lastCommentTime).limit(followupsLimit).desc("added_at").run(function(err, followups) {
         var followup, usersToFind, _i, _len;
         if (followups == null) followups = [];
         if (followups.length) {
@@ -67,29 +70,28 @@
           for (_i = 0, _len = followups.length; _i < _len; _i++) {
             followup = followups[_i];
             usersToFind.push(followup.from_id);
+            followup.timeline = timeline;
           }
-          if (usersToFind.length) {
-            return User.where("_id")["in"](usersToFind).run(function(err, users) {
-              var followup, user, _j, _k, _len2, _len3;
-              if (users) {
-                for (_j = 0, _len2 = followups.length; _j < _len2; _j++) {
-                  followup = followups[_j];
-                  for (_k = 0, _len3 = users.length; _k < _len3; _k++) {
-                    user = users[_k];
-                    if (("" + user._id) === ("" + followup.from_id)) {
-                      followup.from_user = user;
-                    }
+          return User.where("_id")["in"](usersToFind).run(function(err, users) {
+            var followup, user, _j, _k, _len2, _len3;
+            if (users) {
+              for (_j = 0, _len2 = followups.length; _j < _len2; _j++) {
+                followup = followups[_j];
+                for (_k = 0, _len3 = users.length; _k < _len3; _k++) {
+                  user = users[_k];
+                  if (("" + user._id) === ("" + followup.from_id)) {
+                    followup.from_user = user;
                   }
                 }
               }
-              return res.render('comments/comments', {
-                comments: followups,
-                _s: _s,
-                show_private: false,
-                layout: false
-              });
+            }
+            return res.render('comments/comments', {
+              comments: followups,
+              _s: _s,
+              show_private: false,
+              layout: false
             });
-          }
+          });
         } else {
           return res.render('comments/comments', {
             comments: followups,
@@ -112,66 +114,38 @@
       if (wallId === currentUserId || __indexOf.call(currentUser.friends, wallId) >= 0) {
         privacy.push("private");
       }
-      commentsLimit = 15;
+      commentsLimit = 10;
       return Comment.find({
         wall_id: wallId,
         type: "status"
-      }).where('added_at')[comparison](lastCommentTime).where("privacy")["in"](privacy).desc("added_at").limit(commentsLimit).run(function(err, statuses) {
-        var followupsQuery, status, statusIds, _i, _len;
-        if (statuses == null) statuses = [];
-        statusIds = [];
-        for (_i = 0, _len = statuses.length; _i < _len; _i++) {
-          status = statuses[_i];
-          statusIds.push(status._id);
+      }).where('added_at')[comparison](lastCommentTime).where("privacy")["in"](privacy).desc("added_at").limit(commentsLimit).run(function(err, comments) {
+        var comment, usersToFind, _i, _len;
+        if (comments == null) comments = [];
+        usersToFind = [];
+        for (_i = 0, _len = comments.length; _i < _len; _i++) {
+          comment = comments[_i];
+          usersToFind.push(comment.from_id);
+          comment.timeline = timeline;
         }
-        followupsQuery = Comment.find({
-          wall_id: wallId,
-          type: "followup"
-        }).desc("added_at");
-        if (timeline === "past") {
-          followupsQuery.where("to_id")["in"](statusIds);
-        } else {
-          followupsQuery.where('added_at')[comparison](lastCommentTime);
-        }
-        return followupsQuery.run(function(err, followups) {
-          var comment, comments, usersToFind, _j, _len2;
-          if (followups == null) followups = [];
-          usersToFind = [];
-          comments = statuses.concat(followups);
-          for (_j = 0, _len2 = comments.length; _j < _len2; _j++) {
-            comment = comments[_j];
-            usersToFind.push(comment.from_id);
-            comment.timeline = timeline;
-          }
-          if (usersToFind.length) {
-            return User.where("_id")["in"](usersToFind).run(function(err, users) {
-              var comment, user, _k, _l, _len3, _len4;
-              if (users) {
-                for (_k = 0, _len3 = comments.length; _k < _len3; _k++) {
-                  comment = comments[_k];
-                  for (_l = 0, _len4 = users.length; _l < _len4; _l++) {
-                    user = users[_l];
-                    if (("" + user._id) === ("" + comment.from_id)) {
-                      comment.from_user = user;
-                    }
-                  }
+        return User.where("_id")["in"](usersToFind).run(function(err, users) {
+          var comment, user, _j, _k, _len2, _len3;
+          if (users) {
+            for (_j = 0, _len2 = comments.length; _j < _len2; _j++) {
+              comment = comments[_j];
+              for (_k = 0, _len3 = users.length; _k < _len3; _k++) {
+                user = users[_k];
+                if (("" + user._id) === ("" + comment.from_id)) {
+                  comment.from_user = user;
                 }
               }
-              return res.render('comments/comments', {
-                comments: comments,
-                _s: _s,
-                show_private: false,
-                layout: false
-              });
-            });
-          } else {
-            return res.render('comments/comments', {
-              comments: comments,
-              _s: _s,
-              show_private: false,
-              layout: false
-            });
+            }
           }
+          return res.render('comments/comments', {
+            comments: comments,
+            _s: _s,
+            show_private: false,
+            layout: false
+          });
         });
       });
     });

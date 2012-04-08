@@ -7,26 +7,11 @@
   var name = comment.get("from_user").name + " " + comment.get("from_user").surname;
   var content = comment.get("content");
   var currentUserAvatar = Kin.app.currentUser.getProfilePicture() ? Kin.app.currentUser.getProfilePicture().tiny_url : Kin.CONFIG.noPicture;
-
-  if (comment.get("type") === "status") {
 %>
 <div class="status-cnt origin">
-<%
-  }
-%>
 <p class="photo">
   <a href="#profiles/view/<%= comment.get("from_user")._id %>">
-    <%
-      if (comment.get("type") === "status") {
-    %>
     <img src="<%= miniAvatarUrl %>" width="50" height="50" />
-    <%
-      } else {
-    %>
-    <img src="<%= tinyAvatarUrl %>" width="30" height="30" />
-    <%
-      }
-    %>
   </a>
 </p>
 <div class="content">
@@ -75,18 +60,11 @@
   %>
 </span>
 </div>
-<%
-  if (comment.get("type") === "status") {
-%>
 </div>
 <div class="post-footer"></div>
-<%
-  }
-%>
-
-<%
-  if (comment.get("type") === "status") {
-%>
+<p id="load-more-followups-cnt" class="hidden">
+  <a href="#" id="load-more-followups-bt">Older comments</a>
+</p>
 <ul class="followups"></ul>
 <div class="add-followup-box send-reply">
   <p class="photo">
@@ -102,6 +80,3 @@
     <textarea name="content" resize="none" placeholder="Write your reply..." rows="1" cols="40" class="reply-box"></textarea>
   </form>
 </div>
-<%
-  }
-%>

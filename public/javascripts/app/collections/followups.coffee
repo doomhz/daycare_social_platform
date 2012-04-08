@@ -2,16 +2,17 @@ class Kin.FollowupsCollection extends Backbone.Collection
 
   model: Kin.CommentModel
 
-  uri: "/followups/:comment_id/:comment_time"
+  uri: "/followups/:comment_id/:comment_time/:timeline"
 
   commentId: null
 
-  loadCommentsTime: 3000
+  loadCommentsTime: 30000
+
+  isLoadHistory: false
 
   intervalId: null
 
   initialize: (models, options = {})->
-    window.fl = @
     @commentId = options.commentId
 
   startAutoUpdateFollowups: ()->
@@ -20,9 +21,14 @@ class Kin.FollowupsCollection extends Backbone.Collection
   stopAutoUpdateFollowups: ()->
     window.clearInterval(@intervalId)
 
-  loadFollowups: ()=>
+  loadFollowups: (options)=>
+    options ?=
+      isHistory: false
+    @isLoadHistory = options.isHistory
     @fetch
       add: true
+      success: options.success
+    @isLoadHistory = false
 
   getMaxCommentTime: ()->
     lastCommentTime = 0
@@ -33,5 +39,19 @@ class Kin.FollowupsCollection extends Backbone.Collection
           lastCommentTime = createdAt
     lastCommentTime
 
+  getMinCommentTime: ()->
+    firstCommentTime = new Date().getTime()
+    for comment in @models
+      createdAt = comment.get("added_at")
+      if createdAt < firstCommentTime
+        firstCommentTime = createdAt
+    firstCommentTime
+
   url: ()->
-    "#{@uri.replace(":comment_id", @commentId).replace(":comment_time", @getMaxCommentTime())}"
+    if not @isLoadHistory
+      @uri.replace(":comment_id", @commentId).replace(":comment_time", @getMaxCommentTime()).replace(":timeline", "future")
+    else
+      @historyUrl()
+
+  historyUrl: ()->
+    @uri.replace(":comment_id", @commentId).replace(":comment_time", @getMinCommentTime()).replace(":timeline", "past")

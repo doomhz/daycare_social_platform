@@ -68,6 +68,7 @@
 #= require app/views/profile/our_family
 #= require app/views/profile/our_family_list
 #= require app/views/profile/wall_comment
+#= require app/views/profile/wall_followup
 #= require app/views/profile/list_item
 #= require app/views/profile/list
 #= require app/views/profile/profile_side1
