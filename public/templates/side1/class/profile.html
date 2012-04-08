@@ -9,6 +9,15 @@
     </a>
 </div>
 <ul id="profile-bt-menu">
+    <%
+      if (!profile.get("children_ids").length && (profile.get("master_id") == Kin.app.currentUser.get("id") || profile.get("id") === Kin.app.currentUser.get("id"))) {
+    %>
+    <li>
+        <a href="#manage-children/<%= profile.get("id") %>" id="manage-children-bt" class="manage-children-bt-side btn white">Add children</a>
+    </li>
+    <%
+      }
+    %>
 </ul>
 <h1><%= profile.get("name") %> <%= profile.get("surname") %></h1>
 <ul id="profile-left-menu" class="nav-menu">
