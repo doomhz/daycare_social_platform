@@ -1,5 +1,5 @@
 (function() {
-  var Picture, PictureSet, UserSchema, exports, mongooseAuth, path;
+  var Picture, PictureSet, User, UserSchema, exports, mongooseAuth, path;
 
   path = require("path");
 
@@ -172,6 +172,67 @@
     return pronoun;
   };
 
+  UserSchema.methods.changePassword = function(cleartext, callback) {
+    var bcrypt, that;
+    bcrypt = require("bcrypt");
+    that = this;
+    return bcrypt.genSalt(10, function(error, salt) {
+      return bcrypt.hash(cleartext, salt, function(error, hash) {
+        that.hash = hash;
+        that.salt = salt;
+        return that.save(function() {
+          return callback();
+        });
+      });
+    });
+  };
+
+  UserSchema.methods.sendPasswordLink = function(options, callback) {
+    var email, siteUrl, that;
+    that = this;
+    email = require("mailer");
+    siteUrl = "http://" + options.host;
+    return this.generateToken(function(token) {
+      var passUrl;
+      passUrl = "" + siteUrl + "/change-password/" + token;
+      email.send({
+        host: "smtp.gmail.com",
+        port: "587",
+        ssl: false,
+        domain: "localhost",
+        to: "'" + that.name + " " + that.surname + "' <" + that.email + ">",
+        from: "'Kindzy.com' <no-reply@kindzy.com>",
+        subject: "Change password request on Kindzy.com",
+        template: "./views/emails/change_password.html",
+        body: "Please use a newer version of an e-mail manager to read this mail in HTML format.",
+        data: {
+          "profile_name": that.name,
+          "profile_surname": that.surname,
+          "site_url": siteUrl,
+          "pass_url": passUrl
+        },
+        authentication: "login",
+        username: "no-reply@kindzy.com",
+        password: "greatreply#69"
+      }, function(err, result) {
+        if (err) return console.log(err);
+      });
+      return callback();
+    });
+  };
+
+  UserSchema.methods.generateToken = function(callback) {
+    return callback(this._id);
+  };
+
+  UserSchema.statics.findByToken = function(token, callback) {
+    return User.findOne({
+      _id: token
+    }).run(function(err, user) {
+      return callback(err, user);
+    });
+  };
+
   UserSchema.statics.checkPermissions = function(object, requiredKey, requiredValue, resForAutoRedirect) {
     if (object == null) object = {};
     if (object && (!requiredKey || !requiredValue)) return true;
@@ -189,7 +250,7 @@
     everymodule: {
       everyauth: {
         User: function() {
-          return mongoose.model('User');
+          return User;
         },
         logoutPath: '/logout',
         logoutRedirectPath: '/login',
@@ -279,7 +340,7 @@
           }
         },
         respondToRegistrationSucceed: function(res, user, data) {
-          var User, redirectTo, userInfo;
+          var redirectTo, userInfo;
           redirectTo = '/';
           userInfo = {
             picture_sets: [
@@ -291,7 +352,6 @@
               }
             ]
           };
-          User = mongoose.model('User');
           return User.update({
             _id: user._id
           }, userInfo, {}, function(err) {
@@ -334,6 +394,8 @@
     }
   });
 
-  exports = module.exports = mongoose.model('User', UserSchema);
+  User = mongoose.model('User', UserSchema);
+
+  exports = module.exports = User;
 
 }).call(this);

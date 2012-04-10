@@ -61,3 +61,6 @@ $ ()->
       $("input[name='surname']").addClass("hidden")
       $("label[for='name']").text("Daycare name")
       $("input[name='name']").addClass("large")
+
+  if window.location.search.search("msg=pass-changed") > -1
+    $("#pass-changed-msg").removeClass("hidden")

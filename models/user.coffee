@@ -123,6 +123,54 @@ UserSchema.methods.getPronoun = ()->
     pronoun = "her"
   pronoun
 
+UserSchema.methods.changePassword = (cleartext, callback)->
+  bcrypt = require "bcrypt"
+  that = @
+  bcrypt.genSalt 10, (error, salt)->
+    bcrypt.hash cleartext, salt, (error, hash)->
+      that.hash = hash
+      that.salt = salt
+      that.save ()->
+        callback()
+
+UserSchema.methods.sendPasswordLink = (options, callback)->
+  that = @
+  email   = require("mailer")
+  siteUrl = "http://#{options.host}"
+  @generateToken (token)->
+    passUrl = "#{siteUrl}/change-password/#{token}"
+    email.send({
+      host : "smtp.gmail.com"
+      port : "587"
+      ssl: false
+      domain : "localhost"
+      to : "'#{that.name} #{that.surname}' <#{that.email}>"
+      from : "'Kindzy.com' <no-reply@kindzy.com>"
+      subject : "Change password request on Kindzy.com"
+      template : "./views/emails/change_password.html"
+      body: "Please use a newer version of an e-mail manager to read this mail in HTML format."
+      data :
+        "profile_name": that.name
+        "profile_surname": that.surname
+        "site_url": siteUrl
+        "pass_url": passUrl
+      authentication : "login"
+      username : "no-reply@kindzy.com"
+      password : "greatreply#69"
+    },
+    (err, result)->
+      if err
+        console.log err
+    )
+    callback()
+
+UserSchema.methods.generateToken = (callback)->
+  callback(@_id)
+
+
+UserSchema.statics.findByToken = (token, callback)->
+  User.findOne({_id: token}).run (err, user)->
+    callback(err, user)
 
 UserSchema.statics.checkPermissions = (object = {}, requiredKey, requiredValue, resForAutoRedirect)->
   if object and (not requiredKey or not requiredValue)
@@ -140,7 +188,7 @@ UserSchema.plugin(
     everymodule:
       everyauth:
         User: ()->
-          mongoose.model('User')
+          User
         logoutPath: '/logout'
         logoutRedirectPath: '/login'
         handleLogout: (req, res)->
@@ -219,7 +267,6 @@ UserSchema.plugin(
               }
             ]
 
-          User = mongoose.model('User')
           User.update {_id: user._id}, userInfo, {}, (err)->
             userId = user._id
 
@@ -250,4 +297,5 @@ UserSchema.plugin(
   }
 )
 
-exports = module.exports = mongoose.model('User', UserSchema)
+User = mongoose.model('User', UserSchema)
+exports = module.exports = User

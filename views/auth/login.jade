@@ -5,6 +5,8 @@ div.login-wrapper
       ul#errors
         - each error in errors
           li.error= error
+  h2#pass-changed-msg.hidden Password was changed. Please login with your new password.
+  br
   form(action='/login', method='POST', id='login-form')
     fieldset
       input(type='hidden', name="friend_request_id", value='')
@@ -19,3 +21,6 @@ div.login-wrapper
           a#show-password(href="#", data-show="Show password", data-hide="Hide password") Show password
       #submit.actions
         input.btn.primary(type='submit', value='Login') Login
+
+  p.member Forgot your password?
+    a(href='/send-password') Click here to recover it.

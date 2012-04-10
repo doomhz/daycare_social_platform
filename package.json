@@ -9,6 +9,7 @@
     , "connect-assets": "latest"
     , "mongoose": "latest"
     , "mongoose-auth": "latest"
+    , "bcrypt": "latest"
     , "connect-redis": "latest"
     , "imagemagick": "latest"
     , "expresso": "latest"

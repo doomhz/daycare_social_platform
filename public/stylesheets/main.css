@@ -796,7 +796,7 @@ a:hover {
   max-width: 145px;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
 .kd-menu .nav-menu li a:hover {
@@ -1242,7 +1242,7 @@ a:hover {
   margin-top: 20px;
 }
 
-#login-form {
+#login-form, #change-pass-form, #send-pass-form {
   width: 400px;
   margin: auto;
   text-align: left;
@@ -1255,23 +1255,23 @@ a:hover {
   margin-bottom: 10px;
 }
 
-#login-form label {
+#login-form label, #change-pass-form label, #send-pass-form label {
   font-weight: bold;
   margin-bottom: 5px;
   display: block;
 }
 
-#login-form #login input, #login-form #password input  {
+#login-form #login input, #login-form #password input, #send-pass-form #email input, #change-pass-form #password input, #change-pass-form #confirm-password input {
   width: 368px;
   margin: 0 10px 10px 0;
   height: 20px;
 }
 
-#login-form fieldset {
+#login-form fieldset, #change-pass-form fieldset, #send-pass-form fieldset {
   overflow: hidden;
 }
 
-#login-form .btn {
+#login-form .btn, #change-pass-form .btn, #send-pass-form .btn {
   margin-bottom: 10px;
 }
 
