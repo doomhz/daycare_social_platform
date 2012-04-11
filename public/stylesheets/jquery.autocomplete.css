@@ -21,15 +21,15 @@
 	cursor: default;
 	display: block;
 	height: 24px;
-	/* 
-	if width will be 100% horizontal scrollbar will apear 
+	/*
+	if width will be 100% horizontal scrollbar will apear
 	when scroll mode will be used
 	*/
 	/*width: 100%;*/
 	font: menu;
 	font-size: 12px;
-	/* 
-	it is very important, if line-height not setted or setted 
+	/*
+	it is very important, if line-height not setted or setted
 	in relative units scroll will be broken in firefox
 	*/
 	line-height: 24px;
@@ -37,7 +37,7 @@
 }
 
 .ac_loading {
-	background: white url('/images/indicator.gif') right center no-repeat;
+	background: white url('/images/site/indicator.gif') right center no-repeat;
 }
 
 .ac_odd {

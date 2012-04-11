@@ -16,6 +16,6 @@
 }
 
 .doom-tabs-ajax-loading {
-	background:#fff url("/images/ajax_loader.gif") no-repeat center center;
+	background:#fff url("/images/site/ajax_loader.gif") no-repeat center center;
 	min-height: 60px;
 }

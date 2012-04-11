@@ -329,7 +329,7 @@ a:hover {
 }
 
 .header {
-  background: #683d60 url('../images/header_bg.png') -100% repeat-x;
+  background: #683d60 url('/images/site/header_bg.png') -100% repeat-x;
   height: 40px;
   width: 100%;
   padding: 7px 0 3px 0;
@@ -390,7 +390,7 @@ a:hover {
   height: 31px;
   width: 30px;
   margin-left: 3px;
-  background: url('../images/icon_advanced.png') no-repeat left top;
+  background: url('/images/site/icon_advanced.png') no-repeat left top;
 }
 
 .header-content .search ul li.advanced a {
@@ -407,12 +407,12 @@ a:hover {
   -webkit-box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.15), 0 1px 0 #9d5b91;
   -moz-box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.15), 0 1px 0 #9d5b91;
   box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.15), 0 1px 0 #9d5b91;
-  background: #fff url('../images/icon_inputsearch.png') no-repeat 284px 6px;
+  background: #fff url('/images/site/icon_inputsearch.png') no-repeat 284px 6px;
   border-radius: 5px;
 }
 
 .header-content .search input:focus {
-  background: #fff url('../images/icon_inputsearch.png') no-repeat 284px -20px;
+  background: #fff url('/images/site/icon_inputsearch.png') no-repeat 284px -20px;
 }
 
 .header-content .user_notifications {
@@ -470,35 +470,35 @@ a:hover {
 }
 
 .header-content .user_notifications ul li.mails a.icon {
-  background: url('../images/icon_notifications.png') no-repeat 12px 5px;
+  background: url('/images/site/icon_notifications.png') no-repeat 12px 5px;
 }
 
 .header-content .user_notifications ul li.users a.icon {
-  background: url('../images/icon_notifications.png') no-repeat 12px -24px;
+  background: url('/images/site/icon_notifications.png') no-repeat 12px -24px;
 }
 
 .header-content .user_notifications ul li.replies a.icon {
-  background: url('../images/icon_notifications.png') no-repeat 12px -53px;
+  background: url('/images/site/icon_notifications.png') no-repeat 12px -53px;
 }
 
 .header-content .user_notifications ul li.history a.icon {
-  background: url('../images/icon_notifications.png') no-repeat 12px -84px;
+  background: url('/images/site/icon_notifications.png') no-repeat 12px -84px;
 }
 
 .header-content .user_notifications ul li.mails a.icon:hover, .header-content .user_notifications ul li.selected.mails a.icon {
-  background: url('../images/icon_notifications.png') no-repeat -28px 5px;
+  background: url('/images/site/icon_notifications.png') no-repeat -28px 5px;
 }
 
 .header-content .user_notifications ul li.users a.icon:hover, .header-content .user_notifications ul li.selected.users a.icon {
-  background: url('../images/icon_notifications.png') no-repeat -28px -24px;
+  background: url('/images/site/icon_notifications.png') no-repeat -28px -24px;
 }
 
 .header-content .user_notifications ul li.replies a.icon:hover, .header-content .user_notifications ul li.selected.replies a.icon {
-  background: url('../images/icon_notifications.png') no-repeat -28px -53px;
+  background: url('/images/site/icon_notifications.png') no-repeat -28px -53px;
 }
 
 .header-content .user_notifications ul li.history a.icon:hover, .header-content .user_notifications ul li.selected.history a.icon {
-  background: url('../images/icon_notifications.png') no-repeat -28px -84px;
+  background: url('/images/site/icon_notifications.png') no-repeat -28px -84px;
 }
 
 .header-content #last-messages,
@@ -646,7 +646,7 @@ a:hover {
   overflow: hidden;
   width: 240px;
   padding: 0 10px;
-  background: url('../images/bg_usermenu.png') no-repeat 0 5px;
+  background: url('/images/site/bg_usermenu.png') no-repeat 0 5px;
 }
 
 .header-content .user-menu ul li {
@@ -702,7 +702,7 @@ a:hover {
   width: 170px;
   max-width: 170px;
   padding-left: 5px;
-  background: url('../images/icon_usermenu.png') no-repeat 145px -2px;
+  background: url('/images/site/icon_usermenu.png') no-repeat 145px -2px;
 }
 
 .header-content .user-menu ul li.logout {
@@ -715,7 +715,7 @@ a:hover {
   overflow: hidden;
   width: 28px;
   height: 30px;
-  background: url('../images/icon_usermenu.png') no-repeat 5px -28px;
+  background: url('/images/site/icon_usermenu.png') no-repeat 5px -28px;
 }
 
 .content-wrapper {
@@ -936,7 +936,7 @@ a:hover {
   padding-left: 18px;
   position: relative;
   top: 9px;
-  background: url('../images/icon_mappin.png') no-repeat 0 1px;
+  background: url('/images/site/icon_mappin.png') no-repeat 0 1px;
 }
 
 .kd-wall .post-msg .location a {
@@ -1040,7 +1040,7 @@ a:hover {
 }
 
 #wall-comments-list li.single .post-footer {
-  background: url('../images/arrow_down.png') no-repeat 38px top;
+  background: url('/images/site/arrow_down.png') no-repeat 38px top;
   height: 9px;
   margin-bottom: 10px;
 }
@@ -1186,7 +1186,7 @@ a:hover {
 }
 
 .add-class-bt-side:hover {
-  background: url('../images/icon_add.png') no-repeat 125px -14px;
+  background: url('/images/site/icon_add.png') no-repeat 125px -14px;
 }
 
 .back-to-results-bt {
@@ -1372,7 +1372,7 @@ a:hover {
   line-height: 32px;
   display: block;
   height: 32px;
-  background: url('../images/icon_daycare_edit.png') no-repeat right top;
+  background: url('/images/site/icon_daycare_edit.png') no-repeat right top;
 }
 
 #edit-profile-wrapper input[type=text] {
@@ -1403,7 +1403,7 @@ a:hover {
   line-height: 32px;
   display: block;
   height: 32px;
-  background: url('../images/icon_daycare_edit.png') no-repeat right top;
+  background: url('/images/site/icon_daycare_edit.png') no-repeat right top;
 }
 
 #edit-general-information-wrapper input[type=text] {
@@ -2172,7 +2172,7 @@ table input {
   line-height: 32px;
   display: block;
   height: 32px;
-  background: url('../images/icon_daycare_addclass.png') no-repeat right top;
+  background: url('/images/site/icon_daycare_addclass.png') no-repeat right top;
 }
 
 #invite-parents-wrapper h2 {
@@ -2319,32 +2319,32 @@ table input {
 }
 
 #pictures-list li .picture-buttons .primary-pic-bt {
-  background: url('../images/icon_photomanage.png') no-repeat 0 0;
+  background: url('/images/site/icon_photomanage.png') no-repeat 0 0;
   height: 16px;
   width: 16px;
   display: inline-block;
 }
 
 #pictures-list li .picture-buttons .primary-pic-bt:hover {
-  background: url('../images/icon_photomanage.png') no-repeat 0 -16px;
+  background: url('/images/site/icon_photomanage.png') no-repeat 0 -16px;
 }
 
 #pictures-list li .picture-buttons .is-primary {
-  background: url('../images/icon_photomanage.png') no-repeat 0 -16px;
+  background: url('/images/site/icon_photomanage.png') no-repeat 0 -16px;
   height: 16px;
   width: 16px;
   display: inline-block;
 }
 
 #pictures-list li .picture-buttons .delete-pic-bt {
-  background: url('../images/icon_photomanage.png') no-repeat -16px 0;
+  background: url('/images/site/icon_photomanage.png') no-repeat -16px 0;
   height: 16px;
   width: 16px;
   display: inline-block;
 }
 
 #pictures-list li .picture-buttons .delete-pic-bt:hover {
-  background: url('../images/icon_photomanage.png') no-repeat -16px -16px;
+  background: url('/images/site/icon_photomanage.png') no-repeat -16px -16px;
 }
 
 #picture-sets-list {
@@ -2393,14 +2393,14 @@ table input {
 }
 
 #picture-sets-list li p .delete-pic-set-bt {
-  background: url('../images/icon_photomanage.png') no-repeat -16px 0;
+  background: url('/images/site/icon_photomanage.png') no-repeat -16px 0;
   height: 16px;
   width: 16px;
   display: inline-block;
 }
 
 #picture-sets-list li p .delete-pic-set-bt:hover {
-  background: url('../images/icon_photomanage.png') no-repeat -16px -16px;
+  background: url('/images/site/icon_photomanage.png') no-repeat -16px -16px;
 }
 
 #side-info-container {
@@ -2432,7 +2432,7 @@ table input {
 
 #profile-general-info li.phone {
   font-weight: bold;
-  background: url('../images/icon_contact.png') no-repeat -5px -3px;
+  background: url('/images/site/icon_contact.png') no-repeat -5px -3px;
   padding-left: 26px;
   margin-bottom: 5px;
   border-bottom: none;
@@ -2440,7 +2440,7 @@ table input {
 
 #profile-general-info li.fax {
   font-weight: bold;
-  background: url('../images/icon_contact.png') no-repeat -5px -32px;
+  background: url('/images/site/icon_contact.png') no-repeat -5px -32px;
   padding-left: 26px;
   margin-bottom: 30px;
   border-bottom: none;
