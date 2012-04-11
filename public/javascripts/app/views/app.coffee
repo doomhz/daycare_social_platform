@@ -538,3 +538,7 @@ class Kin.AppView extends Backbone.View
 
   clearColumns: (columns = ['main', 'side1', 'side2'])->
     (@["#{column}ColumnView"] and @["#{column}ColumnView"].remove()) for column in columns
+    @goTop()
+
+  goTop: ()->
+    $("window,html,body").scrollTop(0)
