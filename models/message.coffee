@@ -8,7 +8,7 @@ MessageSchema = new Schema
     type: String
   type:
     type: String
-    enum: ["default", "draft", "sent", "deleted"]
+    enum: ["default", "sent", "deleted"]
     default: "default"
   content:
     type: String
@@ -44,6 +44,20 @@ MessageSchema.statics.send = (userId, data)->
   message = new @(data)
   message.type = "sent"
   message.save()
+
+MessageSchema.statics.sendToClass = (fromUser, toClass, messageData)->
+  messageData.to_id = toClass._id
+  fromUserId = fromUser._id
+  Message.send(fromUserId, messageData)
+  receiverIds = _.filter toClass.friends, (receiverId)->
+    receiverId isnt fromUserId
+  User.find()
+  .where("type").in(["parent", "staff", "daycare"])
+  .where("_id").in(receiverIds).run (err, users = [])->
+    fromId = if fromUser.type is "daycare" then toClass._id else fromUserId
+    for user in users
+      messageData.to_id = user._id
+      Message.send(fromId, messageData)
 
 MessageSchema.statics.findDefault = (toUserId, onFind)->
   @findMessages({to_id: toUserId, type: "default"}, onFind)

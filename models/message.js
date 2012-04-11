@@ -15,7 +15,7 @@
     },
     type: {
       type: String,
-      "enum": ["default", "draft", "sent", "deleted"],
+      "enum": ["default", "sent", "deleted"],
       "default": "default"
     },
     content: {
@@ -60,6 +60,28 @@
     message = new this(data);
     message.type = "sent";
     return message.save();
+  };
+
+  MessageSchema.statics.sendToClass = function(fromUser, toClass, messageData) {
+    var fromUserId, receiverIds;
+    messageData.to_id = toClass._id;
+    fromUserId = fromUser._id;
+    Message.send(fromUserId, messageData);
+    receiverIds = _.filter(toClass.friends, function(receiverId) {
+      return receiverId !== fromUserId;
+    });
+    return User.find().where("type")["in"](["parent", "staff", "daycare"]).where("_id")["in"](receiverIds).run(function(err, users) {
+      var fromId, user, _i, _len, _results;
+      if (users == null) users = [];
+      fromId = fromUser.type === "daycare" ? toClass._id : fromUserId;
+      _results = [];
+      for (_i = 0, _len = users.length; _i < _len; _i++) {
+        user = users[_i];
+        messageData.to_id = user._id;
+        _results.push(Message.send(fromId, messageData));
+      }
+      return _results;
+    });
   };
 
   MessageSchema.statics.findDefault = function(toUserId, onFind) {

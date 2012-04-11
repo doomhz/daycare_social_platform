@@ -11,23 +11,25 @@
 
   module.exports = function(app) {
     app.post('/messages', function(req, res) {
-      var data, id, messageData, to_id, user, _i, _len;
-      user = req.user ? req.user : {};
+      var currentUser, data, id, toId, _i, _len;
+      currentUser = req.user ? req.user : {};
       data = req.body;
-      to_id = data.to_id;
-      if (data.type === "draft") {
-        Message.saveDraft(user._id, data);
-      } else {
-        if (typeof to_id !== "string") {
-          for (_i = 0, _len = to_id.length; _i < _len; _i++) {
-            id = to_id[_i];
-            messageData = data;
+      toId = typeof data.to_id === "string" ? [data.to_id] : data.to_id;
+      for (_i = 0, _len = toId.length; _i < _len; _i++) {
+        id = toId[_i];
+        User.findOne({
+          _id: id
+        }).run(function(err, user) {
+          var messageData;
+          if (user == null) user = {};
+          messageData = data;
+          if (user.type === "class") {
+            return Message.sendToClass(currentUser, user, messageData);
+          } else {
             messageData.to_id = id;
-            Message.send(user._id, messageData);
+            return Message.send(currentUser._id, messageData);
           }
-        } else {
-          Message.send(user._id, data);
-        }
+        });
       }
       return res.json({
         success: true

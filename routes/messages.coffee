@@ -6,19 +6,17 @@ _s           = require("underscore.string")
 module.exports = (app)->
 
   app.post '/messages', (req, res)->
-    user = if req.user then req.user else {}
+    currentUser = if req.user then req.user else {}
     data = req.body
-    to_id = data.to_id
-    if data.type is "draft"
-      Message.saveDraft(user._id, data)
-    else
-      if typeof to_id isnt "string"
-        for id in to_id
-          messageData = data
+    toId = if typeof data.to_id is "string" then [data.to_id] else data.to_id
+    for id in toId
+      User.findOne({_id: id}).run (err, user = {})->
+        messageData = data
+        if user.type is "class"
+          Message.sendToClass(currentUser, user, messageData)
+        else
           messageData.to_id = id
-          Message.send(user._id, messageData)
-      else
-        Message.send(user._id, data)
+          Message.send(currentUser._id, messageData)
     res.json {success: true}
 
   app.del '/messages/:id', (req, res)->
