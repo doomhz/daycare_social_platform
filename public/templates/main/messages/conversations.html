@@ -25,7 +25,7 @@
           <p class="message-body">
             <a href="#messages/from/<%= messageUser.id %>" class="last-message">
               <% if (message.get("type") === "sent") { %>
-              <img src="images/icon_your_reply.png" />
+              <img src="images/site/icon_your_reply.png" />
               <% } %>
               <%= _.str.truncate(content, 85) %>
             </a>
