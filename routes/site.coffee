@@ -4,7 +4,13 @@ querystring = require('querystring')
 module.exports = (app)->
 
   app.get '/', (req, res)->
-    res.render 'site/index', {title: "Kindzy"}
+    if req.user
+      res.render 'site/index', {title: "Kindzy"}
+    else
+      res.render 'site/index_guest', {title: "Kindzy", layout: "auth"}
+
+  app.get '/features', (req, res)->
+    res.render 'site/features', {title: "Kindzy", layout: "auth"}
 
   # TODO Create a model and cache the location search
   app.get '/geolocation', (req, res)->

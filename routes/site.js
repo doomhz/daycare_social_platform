@@ -7,8 +7,21 @@
 
   module.exports = function(app) {
     app.get('/', function(req, res) {
-      return res.render('site/index', {
-        title: "Kindzy"
+      if (req.user) {
+        return res.render('site/index', {
+          title: "Kindzy"
+        });
+      } else {
+        return res.render('site/index_guest', {
+          title: "Kindzy",
+          layout: "auth"
+        });
+      }
+    });
+    app.get('/features', function(req, res) {
+      return res.render('site/features', {
+        title: "Kindzy",
+        layout: "auth"
       });
     });
     return app.get('/geolocation', function(req, res) {
