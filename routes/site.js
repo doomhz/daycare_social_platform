@@ -14,14 +14,14 @@
       } else {
         return res.render('site/index_guest', {
           title: "Kindzy",
-          layout: "auth"
+          layout: "guest"
         });
       }
     });
     app.get('/features', function(req, res) {
       return res.render('site/features', {
         title: "Kindzy",
-        layout: "auth"
+        layout: "guest"
       });
     });
     return app.get('/geolocation', function(req, res) {
