@@ -3,7 +3,7 @@
   , "version": "0.0.1"
   , "private": true
   , "dependencies": {
-      "express": "latest"
+      "express": "<3"
     , "stylus": "latest"
     , "jade": "latest"
     , "connect-assets": "latest"
