@@ -46,12 +46,6 @@
       <% if (openedSinceDate) { %>
       <li><span class="title">Opened since:</span> <span class="value"><%=openedSinceDate %></span></li>
       <% } %>
-      <% if (profile.get('open_door_policy')) { %>
-      <li><span class="title">Open door policy:</span> <span class="value"><% if (profile.get('open_door_policy')) {print('Yes');} else {print('No');} %></span></li>
-      <% } %>
-      <% if (profile.get('serving_disabilities')) { %>
-      <li><span class="title">Serving people with disabilities:</span> <span class="value"><% if (profile.get('serving_disabilities')) {print('Yes');} else {print('No');} %></span></li>
-      <% } %>
       <li><span class="title">Organization:</span> <span class="value"><% if (profile.get('homebased')) {print('Homebased');} else {print('Center');} %></span></li>
   </ul>
 </div>
