@@ -30,16 +30,18 @@ class Kin.Messages.FromProfileView extends Backbone.View
     ev.preventDefault()
     that = @
     $form = $(ev.target)
-    formData = $form.serialize()
-    messageModel = new Kin.MessageModel
-    messageModel.save null,
-      data: formData
-      success: ()->
-        toName = "#{that.model.get('name')} #{that.model.get('surname')}"
-        $.jGrowl("Reply message sent to #{toName}")
-        that.render()
-      error: ()->
-        $.jGrowl("Message could not be sent :( Please try again.")
+    $textarea = $form.find("textarea")
+    if $textarea.val().length
+      formData = $form.serialize()
+      messageModel = new Kin.MessageModel
+      messageModel.save null,
+        data: formData
+        success: ()->
+          toName = "#{that.model.get('name')} #{that.model.get('surname')}"
+          $.jGrowl("Reply message sent to #{toName}")
+          that.render()
+        error: ()->
+          $.jGrowl("Message could not be sent :( Please try again.")
 
   updateUnreadStatus: ()->
     @collection.markMessagesAsRead()

@@ -28,7 +28,9 @@ class Kin.DayCare.AddClassView extends Kin.DoomWindowsView
         that.staff.fetch
           success: ()->
             that.open tpl({profile: that.model, staff: that.staff})
-            that.$("#add-class-form").bind "submit", that.addClass
+            $addClassform = that.$("#add-class-form")
+            $addClassform.bind "submit", that.addClass
+            $addClassform.validate()
             that.$("#add-another-staff").bind "click", that.addAnotherStaffForm
             that.$(".chzn-select").chosen()
 
@@ -43,21 +45,22 @@ class Kin.DayCare.AddClassView extends Kin.DoomWindowsView
     ev.preventDefault()
     that = @
     $form = @$("#add-class-form")
-    formData = $form.serialize()
-    @model.save null,
-      data: formData
-      success: (model, response)->
-        that.classId = response._id
-        name = $form.find("input[name='name']").val()
-        $.jGrowl("#{name} class was successfully created")
-        that.currentUser.fetch()
-        that.updateExistingStaff()
-        that.submitStaffForms()
-        that.close()
-        that.router.navigate("profiles/view/#{that.classId}", true)
-        that.remove()
-      error: ()->
-        $.jGrowl("The class could not be created :( Please try again.")
+    if $form.valid()
+      formData = $form.serialize()
+      @model.save null,
+        data: formData
+        success: (model, response)->
+          that.classId = response._id
+          name = $form.find("input[name='name']").val()
+          $.jGrowl("#{name} class was successfully created")
+          that.currentUser.fetch()
+          that.updateExistingStaff()
+          that.submitStaffForms()
+          that.close()
+          that.router.navigate("profiles/view/#{that.classId}", true)
+          that.remove()
+        error: ()->
+          $.jGrowl("The class could not be created :( Please try again.")
 
   updateExistingStaff: ()=>
     existentStaffIds = @$("#existent-staff-ids").val() || []

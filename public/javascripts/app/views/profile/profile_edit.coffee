@@ -53,6 +53,7 @@ class window.Kin.Profile.ProfileEditView extends Backbone.View
                   $childrenEl.find("#save-children-bt").bind "click", that.saveChildrenInfo
 
         that.$(".chzn-select").chosen()
+        that.$("form").validate()
 
   createAddressMarker: ()->
     markerData = @getProfileDataForMarker()
@@ -145,13 +146,17 @@ class window.Kin.Profile.ProfileEditView extends Backbone.View
     that = @
     @$(".add-child-form").each (index, form)->
       $form = $(form)
-      hashedData = $form.hashForm()
-      if not hashedData.birthday.year or not hashedData.birthday.month or not hashedData.birthday.day
-        $.jGrowl("Please specify a correct date of birth")
-        return false
-      if hashedData.birthday
-        hashedData.birthday = "#{hashedData.birthday.year}-#{hashedData.birthday.month}-#{hashedData.birthday.day}"
-      that.saveChild(hashedData)
+      $form.validate()
+      if $form.valid()
+        hashedData = $form.hashForm()
+        if not hashedData.birthday.year or not hashedData.birthday.month or not hashedData.birthday.day
+          $.jGrowl("Please specify a correct date of birth")
+          return false
+        if hashedData.birthday
+          hashedData.birthday = "#{hashedData.birthday.year}-#{hashedData.birthday.month}-#{hashedData.birthday.day}"
+        that.saveChild(hashedData)
+      else
+        $form.submit()
 
   saveChild: (data)->
     childModel = new Kin.ChildModel

@@ -10,7 +10,6 @@ class Kin.Messages.WriteView extends Backbone.View
 
   events:
     "submit #write-message-form"   : "sendMessage"
-    "click #save-draft-message-bt" : "saveDraftMessage"
 
   initialize: ()->
 
@@ -39,29 +38,18 @@ class Kin.Messages.WriteView extends Backbone.View
     ev.preventDefault()
     that = @
     $form = $(ev.target)
-    formData = $form.serialize()
-    messageModel = new Kin.MessageModel
-    messageModel.save null,
-      data: formData
-      success: ()->
-        $form.find("textarea:first").val("").keyup()
-        $.jGrowl("Message sent")
-      error: ()->
-        $.jGrowl("Message could not be sent :( Please try again.")
-
-  saveDraftMessage: (ev)->
-    ev.preventDefault()
-    that = @
-    $form = that.$("#write-message-form")
-    formData = $form.serialize()
-    formData = formData.replace("type=default", "type=draft")
-    messageModel = new Kin.MessageModel
-    messageModel.save null,
-      data: formData
-      success: ()->
-        $.jGrowl("Draft message saved")
-      error: ()->
-        $.jGrowl("Message could not be saved :( Please try again.")
+    recipients = $form.find("select[name='to_id']").val()
+    $textarea = $form.find("textarea")
+    if _.str.trim($textarea.val()).length and recipients
+      formData = $form.serialize()
+      messageModel = new Kin.MessageModel
+      messageModel.save null,
+        data: formData
+        success: ()->
+          $form.find("textarea:first").val("").keyup()
+          $.jGrowl("Message sent")
+        error: ()->
+          $.jGrowl("Message could not be sent :( Please try again.")
 
   remove: ()->
     @unbind()

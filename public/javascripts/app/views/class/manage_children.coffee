@@ -23,6 +23,8 @@ class Kin.Class.ManageChildrenView extends Backbone.View
           model: that.model
         that.childrenList.render()
 
+        that.$("form").validate()
+
   addChild: (ev)->
     ev.preventDefault()
     that = @

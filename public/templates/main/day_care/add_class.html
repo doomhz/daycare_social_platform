@@ -8,20 +8,20 @@
     	    <div class="clearfix">
     	        <label for="name" class="title">Name</label>
     			<div class="input">
-    	        	<input type="text" name="name" value="<%=profile.get('name') %>" />
+    	        	<input type="text" name="name" value="<%=profile.get('name') %>" class="required" />
     			</div>
     	    </div>
             <h2>Age of the children apropiate for this class:</h2>
             <div class="min-class-age">
                 <label for="name" class="title">From</label>
                 <div class="input">
-                    <input type="text" name="min_class_age" value="" />
+                    <input type="text" name="min_class_age" value="" class="required" />
                 </div>
             </div>
             <div class="max-class-age">
                 <label for="name" class="title">to</label>
                 <div class="input">
-                    <input type="text" name="max_class_age" value="" />
+                    <input type="text" name="max_class_age" value="" class="required" />
                 </div>
             </div>
             <div class="choose-teachers">
@@ -58,19 +58,19 @@
               <div class="clear name">
                 <label class="title">Name</label>
                 <div class="input">
-                  <input type="text" name="staffs-name" value="" />
+                  <input type="text" name="staffs-name" value="" class="required" />
                 </div>
               </div>
               <div class="clear surname">
                 <label class="title">Surname</label>
                 <div class="input">
-                  <input type="text" name="staffs-surname" value="" />
+                  <input type="text" name="staffs-surname" value="" class="required" />
                 </div>
               </div>
               <div class="clear email">
                 <label class="title">E-mail</label>
                 <div class="input">
-                  <input type="text" name="staffs-email" value="" />
+                  <input type="text" name="staffs-email" value="" class="email" />
                 </div>
               </div>
             </fieldset>
