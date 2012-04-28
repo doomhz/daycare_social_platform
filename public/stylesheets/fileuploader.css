@@ -1,4 +1,4 @@
-.qq-uploader { position:relative; width: 100%; overflow: hidden; height: 40px; }
+.qq-uploader { position:relative; width: 100%; overflow: hidden; }
 
 .qq-upload-button {
     display:block; /* or inline-block */
@@ -12,7 +12,7 @@
 
 .qq-upload-drop-area {
     position:absolute; top:0; left:0; width:539px; height:40px; min-height: 40px; z-index:2;
-    background:#f4f4f4; text-align:center; 
+    background:#f4f4f4; text-align:center;
     margin: 0 20px;
     color: #939C9F;
     border-radius: 3px;
