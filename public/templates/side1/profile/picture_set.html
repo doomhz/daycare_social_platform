@@ -9,15 +9,6 @@
     </a>
 </div>
 <ul id="profile-bt-menu">
-    <%
-      if (Kin.app.currentUser.get("_id") !== profile.get("_id")) {
-    %>
-    <li>
-        <a href="#quick-message" id="quick-message-bt" class="btn white">Send a message</a>
-    </li>
-    <%
-      }
-    %>
 </ul>
 <ul id="profile-left-menu" class="nav-menu">
     <li id="wall-menu-item" class="<%=(selectedMenuItem === 'wall-menu-item' ? 'selected' : '') %>">
