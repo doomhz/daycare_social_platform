@@ -92,8 +92,12 @@ class Kin.Profile.WallCommentView extends Backbone.View
   addFollowupHandler: (ev)->
     ev.preventDefault()
     $form = @$(ev.target)
-    @sendCommentFromForm($form)
-    $form.find("textarea").val("").keyup()
+    $textarea = $form.find("textarea")
+    val = _.str.trim($textarea.val())
+    if val.length
+      $textarea.val(val)
+      @sendCommentFromForm($form)
+      $textarea.val("").keyup()
 
   typeFollowupHandler: (ev)->
     if ev.keyCode is 13
