@@ -15,12 +15,12 @@
       <li class="<%= message.get("unread") ? "unread" : "" %>">
         <div class="message-header-cnt">
           <p class="avatar">
-            <a href="#profiles/view/<%= messageUser.id %>">
+            <a href="#messages/from/<%= messageUser.id %>">
               <img src="<%= avatarUrl %>" width="60" height="60" />
             </a>
           </p>
           <p class="message-header">
-            <a href="#profiles/view/<%= messageUser.id %>" class="name" id="message-to-name"><%= _.escape(name) %></a> <span class="time" title="<%= messageTime %>"><%= messageTime %></span>
+            <a href="#messages/from/<%= messageUser.id %>" class="name" id="message-to-name"><%= _.escape(name) %></a> <span class="time" title="<%= messageTime %>"><%= messageTime %></span>
           </p>
           <p class="message-body">
             <a href="#messages/from/<%= messageUser.id %>" class="last-message">
