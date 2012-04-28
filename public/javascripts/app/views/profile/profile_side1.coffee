@@ -52,14 +52,18 @@ class window.Kin.Profile.ProfileSide1View extends Backbone.View
           buttonClick: (btType, $win)->
             if btType is "send"
               $form = $win.find("form:first")
-              formData = $form.serialize()
-              messageModel = new Kin.MessageModel
-              messageModel.save null,
-                data: formData
-                success: ()->
-                  toName = $win.find("#message-to-name").text()
-                  $.jGrowl("Message sent to #{toName}")
-                error: ()->
-                  $.jGrowl("Message could not be sent :( Please try again.")
-            $win.close()
+              $textarea = $form.find("textarea")
+              if $textarea.val().length
+                formData = $form.serialize()
+                messageModel = new Kin.MessageModel
+                messageModel.save null,
+                  data: formData
+                  success: ()->
+                    toName = $win.find("#message-to-name").text()
+                    $.jGrowl("Message sent to #{toName}")
+                    $win.close()
+                  error: ()->
+                    $.jGrowl("Message could not be sent :( Please try again.")
+            else
+              $win.close()
         })
