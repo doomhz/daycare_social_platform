@@ -5,7 +5,19 @@
       if (classes.length) {
         classes.each(function (daycareClass) {
     %>
-    <h3><a href="#profiles/view/<%= daycareClass.get("id") %>"><%= daycareClass.get("name") %></a></h3>
+    <h3>
+      <%
+        if (profile.get("_id") === Kin.app.currentUser.get("_id") || $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends")) > -1) {
+      %>
+      <a href="#profiles/view/<%= daycareClass.get("id") %>"><%= daycareClass.get("name") %></a>
+      <%
+        } else {
+      %>
+      <%= daycareClass.get("name") %>
+      <%
+        }
+      %>
+    </h3>
     <ul class="our-family-list">
       <%
         var classStaff = staff.filterByClassId(daycareClass.get("_id"));
