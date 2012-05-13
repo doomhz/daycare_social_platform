@@ -15,4 +15,3 @@ Kin.Helper.Text =
   	if text.length > limit
   		text = text.substr(0, limit) + placeholder
   	text
-

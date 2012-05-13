@@ -22,6 +22,7 @@
 #= require vendor/jquery.validate
 #= require app/bootstrap
 #= require app/helpers/text
+#= require app/helpers/user
 #= require app/models/user
 #= require app/models/profile
 #= require app/models/picture_set

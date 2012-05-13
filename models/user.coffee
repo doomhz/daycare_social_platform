@@ -65,7 +65,7 @@ UserSchema = new Schema
     default: 'daycare'
   gender:
     type: String
-    enum: ['female', 'male']
+    enum: ['female', 'male', 'mrs']
     default: 'female'
   opened_since:
     type: String

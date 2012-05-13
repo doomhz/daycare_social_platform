@@ -89,7 +89,7 @@
     },
     gender: {
       type: String,
-      "enum": ['female', 'male'],
+      "enum": ['female', 'male', 'mrs'],
       "default": 'female'
     },
     opened_since: {

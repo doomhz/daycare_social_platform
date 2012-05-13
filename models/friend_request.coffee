@@ -22,7 +22,7 @@ FriendRequestSchema = new Schema
     type: [String]
   gender:
     type: String
-    enum: ['female', 'male']
+    enum: ['female', 'male', 'mrs']
     default: 'female'
   status:
     type: String

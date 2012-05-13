@@ -33,7 +33,7 @@
               </p>
               <p class="staff-name">
                 <a href="#profiles/view/<%= st.get("_id") %>">
-                  <%= st.get("gender") === "female" ? "Ms." : "Mr." %> <%= st.get("name") %> <%= st.get("surname") %>
+                  <%= Kin.Helper.User.getInitialFromGender(st.get("gender")) %> <%= st.get("name") %> <%= st.get("surname") %>
                 </a>
               </p>
               <p class="staff-position">
