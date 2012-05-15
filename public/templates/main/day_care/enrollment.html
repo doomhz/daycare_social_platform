@@ -8,7 +8,7 @@
     </p>
     <% } %>
 
-    <% if (section.get('typical_day') && section.get('typical_day').length) { %>
+    <% if (section.exists('typical_day')) { %>
     <h2>Typical Day</h2>
 
     <ul id="typical-day-list">
@@ -26,40 +26,40 @@
     </ul>
     <% } %>
 
-    <% if (section.get('application_accepted').length || section.get('parent_visit_tours').length ||
-          section.get('child_interview_process').length || section.get('parent_interview_process').length ||
-          section.get('dateline_for_applications').length || section.get('application_fee').length
+    <% if (section.exists('application_accepted') || section.exists('parent_visit_tours') ||
+          section.exists('child_interview_process') || section.exists('parent_interview_process') ||
+          section.exists('dateline_for_applications') || section.exists('application_fee')
       ) { %>
     <div class="content-box">
       <h3>Application process</h3>
 
       <ul>
-        <% if (section.get('application_accepted').length) { %>
+        <% if (section.exists('application_accepted')) { %>
         <li>
           <span>Application accepeted:</span> <span><%=section.get('application_accepted') %></span>
         </li>
         <% } %>
-        <% if (section.get('parent_visit_tours').length) { %>
+        <% if (section.exists('parent_visit_tours')) { %>
         <li>
           <span>Parent visit tours:</span> <span><%=section.get('parent_visit_tours') %></span>
         </li>
         <% } %>
-        <% if (section.get('child_interview_process').length) { %>
+        <% if (section.exists('child_interview_process')) { %>
         <li>
           <span>Child interview process:</span> <span><%=section.get('child_interview_process') %></span>
         </li>
         <% } %>
-        <% if (section.get('parent_interview_process').length) { %>
+        <% if (section.exists('parent_interview_process')) { %>
         <li>
           <span>Parent interview process:</span> <span><%=section.get('parent_interview_process') %></span>
         </li>
         <% } %>
-        <% if (section.get('dateline_for_applications').length) { %>
+        <% if (section.exists('dateline_for_applications')) { %>
         <li>
           <span>Dateline for applications:</span> <span><%=section.get('dateline_for_applications') %></span>
         </li>
         <% } %>
-        <% if (section.get('application_fee').length) { %>
+        <% if (section.exists('application_fee')) { %>
         <li>
           <span>Application fee:</span> $<span><%=section.get('application_fee') %></span>
         </li>
@@ -72,17 +72,17 @@
       <h3>Admission process</h3>
 
       <ul>
-        <% if (section.get('admission_acceptance_criteria') && section.get('admission_acceptance_criteria').length) { %>
+        <% if (section.exists('admission_acceptance_criteria')) { %>
         <li>
           <span>Acceptance criteria:</span> <span><%=section.get('admission_acceptance_criteria') %></span>
         </li>
         <% } %>
-        <% if (section.get('notification_occurs') && section.get('notification_occurs').length) { %>
+        <% if (section.exists('notification_occurs') && section.get('notification_occurs')) { %>
         <li>
           <span>Notification occurs:</span> <span><%=section.get('notification_occurs') %></span>
         </li>
         <% } %>
-        <% if (section.get('deposit_required') && section.get('deposit_required').length) { %>
+        <% if (section.exists('deposit_required') && section.get('deposit_required')) { %>
         <li>
           <span>Deposit required:</span> <span><%=section.get('deposit_required') %></span>
         </li>
@@ -97,7 +97,7 @@
       <h3>Age/Child Requirements</h3>
 
       <ul>
-        <% if (section.get('child_acceptance_criteria').length) { %>
+        <% if (section.exists('child_acceptance_criteria')) { %>
         <li>
           <span>Acceptance criteria:</span> <span><%=section.get('child_acceptance_criteria') %></span>
         </li>
@@ -105,7 +105,7 @@
         <li>
           <span>Potty trained:</span> <span><% if (section.get('potty_trained')) { %>Yes<% } else { %>No<% } %></span>
         </li>
-        <% if (section.get('child_minimum_age_to_enroll').length) { %>
+        <% if (section.exists('child_minimum_age_to_enroll')) { %>
         <li>
           <span>Child's minimum age to enroll:</span> <span><%=section.get('child_minimum_age_to_enroll') %></span>
         </li>
@@ -113,7 +113,7 @@
       </ul>
     </div>
 
-    <% if (section.get('kindergartens_attended').length) { %>
+    <% if (section.exists('kindergartens_attended')) { %>
     <div class="content-box">
       <h3>Kindergartens Attended by <%= profile.get("name") %></h3>
 

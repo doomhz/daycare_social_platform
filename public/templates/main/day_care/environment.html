@@ -8,7 +8,7 @@
     </p>
     <% } %>
 
-    <% if (section.get('indoors').length) { %>
+    <% if (section.exists('indoors')) { %>
     <div class="content-box">
       <h3>Indoors</h3>
       <ul id="indoors-list">
@@ -19,7 +19,7 @@
     </div>
     <% } %>
 
-    <% if (section.get('outdoors').length) { %>
+    <% if (section.exists('outdoors')) { %>
     <div class="content-box">
       <h3>Outdoors</h3>
       <ul id="outdoors-list">
@@ -30,7 +30,7 @@
     </div>
     <% } %>
 
-    <% if (section.get('for_infants').length) { %>
+    <% if (section.exists('for_infants')) { %>
     <div class="content-box">
       <h3>Environments for Infants</h3>
       <ul id="for_infants-list">
@@ -41,7 +41,7 @@
     </div>
     <% } %>
 
-    <% if (section.get('health_and_safety_issues').length) { %>
+    <% if (section.exists('health_and_safety_issues')) { %>
     <div class="content-box">
       <h3>Health and Safety Issues</h3>
       <ul id="health_and_safety_issues-list">
@@ -52,7 +52,7 @@
     </div>
     <% } %>
 
-    <% if (section.get('transportation_policies').length) { %>
+    <% if (section.exists('transportation_policies')) { %>
     <div class="content-box">
       <h3>Transportation policies</h3>
       <ul id="transportation_policies-list">

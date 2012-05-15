@@ -6,3 +6,6 @@ class Kin.SectionModel extends Backbone.Model
 
   url: ()->
     @uri.replace(":section_name", @get("name")).replace(":id", @get("id"))
+
+  exists: (name)->
+    @get(name) and @get(name).length
