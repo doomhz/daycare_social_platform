@@ -8,11 +8,14 @@
     </p>
     <% } %>
 
+    <% if (section.get('school_philosophy')) { %>
     <div class="content-box">
       <h3>School Philosophy</h3>
       <p><%=section.get('school_philosophy') %></p>
     </div>
+    <% } %>
 
+    <% if (section.get('general_aproach_to_learning').length) { %>
     <div class="content-box">
       <h3>General Aproach to Learning</h3>
       <ul id="general_aproach_to_learning-list">
@@ -20,15 +23,19 @@
         view.displayTagList('general_aproach_to_learning');
       %>
       </ul>
-      <% if (section.get('licensed')) { %>
     </div>
+    <% } %>
 
+    <% if (section.get('licensed')) { %>
     <div class="content-box">
       <h3>This daycare is licensed</h3>
+      <% if (section.get('license_number')) { %>
       <p>License number: <%=section.get('license_number') %></p>
       <% } %>
     </div>
+    <% } %>
 
+    <% if (section.get('speaking_classes').length) { %>
     <div class="content-box">
       <h3>Speaking classes</h3>
       <ul>
@@ -42,6 +49,7 @@
       %>
       </ul>
     </div>
+    <% } %>
 
     <% if (section.get('open_door_policy')) { %>
     <div class="content-box">
@@ -49,24 +57,32 @@
     </div>
     <% } %>
 
+    <% if (section.get('learning_philosophy_and_tools_language').length || section.get('learning_philosophy_and_tools_cognitive_dev').length) { %>
     <div class="content-box">
       <h3>Learning Philosophy &amp; Tools</h3>
 
+      <% if (section.get('learning_philosophy_and_tools_language').length) { %>
       <h4>Language</h4>
       <ul id="learning_philosophy_and_tools_language-list">
       <%
         view.displayTagList('learning_philosophy_and_tools_language');
       %>
       </ul>
+      <% } %>
 
+      <% if (section.get('learning_philosophy_and_tools_cognitive_dev').length) { %>
       <h4>Cognitive development</h4>
       <ul id="learning_philosophy_and_tools_cognitive_dev-list">
       <%
         view.displayTagList('learning_philosophy_and_tools_cognitive_dev');
       %>
       </ul>
-    </div>
+      <% } %>
 
+    </div>
+    <% } %>
+
+    <% if (section.get('home_school_connections').length) { %>
     <div class="content-box">
       <h3>Home school connection</h3>
       <ul id="home_school_connections-list">
@@ -75,7 +91,9 @@
       %>
       </ul>
     </div>
+    <% } %>
 
+    <% if (section.get('home_school_separations').length) { %>
     <div class="content-box">
       <h3>Separation is Handled through</h3>
       <ul id="home_school_separations-list">
@@ -84,7 +102,9 @@
       %>
       </ul>
     </div>
+    <% } %>
 
+    <% if (section.get('certificates').length) { %>
     <div class="content-box">
       <h3>Certificates / Awards</h3>
       <ul id="certificates-list">
@@ -93,6 +113,7 @@
       %>
       </ul>
     </div>
+    <% } %>
 
   </div>
 </div>

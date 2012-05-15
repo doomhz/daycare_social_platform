@@ -1,13 +1,14 @@
 <div id="general-wrapper" class="environment">
   <h1>Environment</h1>
-  
+
   <div class="section-container">
     <% if (section.get("id") === Kin.app.currentUser.get("id")) { %>
     <p class="edit-section">
       <a class="btn" href="#day-care/edit/<%= section.get("name") %>/<%= section.get("id") %>">Edit this information</a>
     </p>
     <% } %>
-    
+
+    <% if (section.get('indoors').length) { %>
     <div class="content-box">
       <h3>Indoors</h3>
       <ul id="indoors-list">
@@ -16,7 +17,9 @@
       %>
       </ul>
     </div>
-    
+    <% } %>
+
+    <% if (section.get('outdoors').length) { %>
     <div class="content-box">
       <h3>Outdoors</h3>
       <ul id="outdoors-list">
@@ -25,7 +28,9 @@
       %>
       </ul>
     </div>
-    
+    <% } %>
+
+    <% if (section.get('for_infants').length) { %>
     <div class="content-box">
       <h3>Environments for Infants</h3>
       <ul id="for_infants-list">
@@ -34,7 +39,9 @@
       %>
       </ul>
     </div>
-  
+    <% } %>
+
+    <% if (section.get('health_and_safety_issues').length) { %>
     <div class="content-box">
       <h3>Health and Safety Issues</h3>
       <ul id="health_and_safety_issues-list">
@@ -43,7 +50,9 @@
       %>
       </ul>
     </div>
-    
+    <% } %>
+
+    <% if (section.get('transportation_policies').length) { %>
     <div class="content-box">
       <h3>Transportation policies</h3>
       <ul id="transportation_policies-list">
@@ -52,6 +61,7 @@
       %>
       </ul>
     </div>
-  
+    <% } %>
+
   </div>
 </div>

@@ -1,11 +1,12 @@
 <div id="general-wrapper" class="edit-enrollment">
   <h1>Edit enrollment</h1>
-  
+
   <form id="edit-section-form">
     <fieldset>
-      
+
       <h2>Typical Day</h2>
-  
+
+      <input name="typical_day[]" value="" type="hidden" />
       <ul id="edit-typical-day-list">
       <%
         _.each(section.get('typical_day'), function (day, index) {
@@ -24,10 +25,10 @@
       <p class="edit-section">
         <input type="button" class="btn white primary" id="add-typical-day-bt" value="Add activity" />
       </p>
-      
+
       <div class="content-box">
         <h3>Application process</h3>
-    
+
         <div class="clearfix">
           <label class="title">Application accepeted</label>
           <div class="input">
@@ -65,10 +66,10 @@
           </div>
         </div>
       </div>
-         
+
       <div class="content-box">
         <h3>Admission process</h3>
-    
+
         <div class="clearfix">
           <label class="title">Acceptance criteria</label>
           <div class="input">
@@ -107,10 +108,10 @@
           </div>
         </div>
       </div>
-      
+
       <div class="content-box">
         <h3>Age/Child Requirements</h3>
-    
+
         <div class="clearfix">
           <label class="title">Acceptance criteria</label>
           <div class="input">
@@ -143,21 +144,21 @@
           </div>
         </div>
       </div>
-      
+
       <div class="content-box">
         <h3>Kindergartens Attended by <%= Kin.app.currentUser.get("name") %></h3>
-    
+
         <div class="clearfix">
           <textarea name="kindergartens_attended"><%=section.get('kindergartens_attended') %></textarea>
         </div>
       </div>
-  
+
       <div class="actions">
         <input type="submit" class="btn primary" value="Save" />
       </div>
     </fieldset>
    </form>
-  
+
    <div id="add-typical-day-cnt" class="hidden">
     <input name="typical_day[index][start_time]" value="" class="mini time-picker" /> - <input name="typical_day[index][end_time]" value="" class="mini time-picker" />:
     <textarea name="typical_day[index][description]"></textarea>

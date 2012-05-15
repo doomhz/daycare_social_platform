@@ -18,13 +18,13 @@ class Kin.DayCare.EditSectionView extends Kin.DayCare.SectionView
   submitSectionFormHandler: (ev)->
     ev.preventDefault()
     $form = $(ev.target)
-    $formClone = $form.clone()
-    $formClone.find("form").remove()
-    formData = $formClone.serialize()
+    $form.find("form").remove()
+    formData = $form.serialize()
     @model.save null
       data: formData
-      success: ()->
+      success: ()=>
         $.jGrowl("Data was successfully saved.")
+        @render()
       error: ()->
         $.jGrowl("Data could not be saved :( Please try again.")
 
@@ -50,7 +50,8 @@ class Kin.DayCare.EditSectionView extends Kin.DayCare.SectionView
     $typicalDayList = @$("#edit-typical-day-list")
     $newCnt = $cnt.clone()
     $newCnt.removeClass("hidden")
-    newIndex = $typicalDayList.find("li:last").data("index") + 1
+    lastIndex = $typicalDayList.find("li:last").data("index") or 0
+    newIndex = lastIndex + 1
     $newCnt = $newCnt.html().replace(/index/g, newIndex)
     $typicalDayList.append("<li data-index='#{newIndex}'>#{$newCnt}</li>")
     $typicalDayList.find(".time-picker").timePicker
