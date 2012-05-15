@@ -77,12 +77,12 @@
           <span>Acceptance criteria:</span> <span><%=section.get('admission_acceptance_criteria') %></span>
         </li>
         <% } %>
-        <% if (section.exists('notification_occurs') && section.get('notification_occurs')) { %>
+        <% if (section.exists('notification_occurs')) { %>
         <li>
           <span>Notification occurs:</span> <span><%=section.get('notification_occurs') %></span>
         </li>
         <% } %>
-        <% if (section.exists('deposit_required') && section.get('deposit_required')) { %>
+        <% if (section.exists('deposit_required')) { %>
         <li>
           <span>Deposit required:</span> <span><%=section.get('deposit_required') %></span>
         </li>
