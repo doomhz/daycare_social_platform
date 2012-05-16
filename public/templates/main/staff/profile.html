@@ -3,7 +3,7 @@
       <ul id="profile-tab-menu">
       </ul>
   </div>
-  
+
   <%
     if (profile.get("_id") == Kin.app.currentUser.get("_id") || $.inArray(profile.get("_id"), Kin.app.currentUser.get("friends")) > -1) {
   %>
@@ -15,18 +15,22 @@
       <div>
         <textarea name="content" resize="none" placeholder="say something ..." rows="1" cols="40" class="msg-box"></textarea>
         <ul class="send">
+          <%
+            if (profile.get("_id") == Kin.app.currentUser.get("_id")) {
+          %>
           <li class="privacy">
             <select id="status-privacy-select" name="privacy" class="mini">
               <option selected="selected" value="private">Private</option>
-              <%
-                if (profile.get("_id") == Kin.app.currentUser.get("_id")) {
-              %>
               <option value="public">Public</option>
-              <%
-                }
-              %>
             </select>
           </li>
+          <%
+            } else {
+          %>
+          <input name="privacy" type="hidden" value="private" />
+          <%
+            }
+          %>
           <li class="post">
             <button type="submit" class="btn">Post Update</button>
           </li>
@@ -37,10 +41,10 @@
   <%
     }
   %>
-  
+
   <ul id="wall-comments-list" class="kd-posts">
   </ul>
-  
+
   <p id="load-more-comments-cnt" class="hidden">
     <a href="#" id="load-more-comments-bt">Older posts</a>
   </p>
