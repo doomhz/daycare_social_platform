@@ -33,6 +33,8 @@ class Kin.Parent.InvitesView extends Backbone.View
               model: that.model
             that.renderFriendRequestsList()
 
+            that.$("#send-invite-form").validate()
+
   renderFriendRequestsList: ()->
     that = @
     that.friendRequestsList.collection.fetch
@@ -49,6 +51,9 @@ class Kin.Parent.InvitesView extends Backbone.View
 
     if mothersData and fathersData and mothersData.email is fathersData.email
       dAlert("Please assign different e-mail addresses for both parents.")
+      return false
+    if @noChildSelected($form)
+      dAlert("Please appoint the parent to a specific child, otherwise you cant send the invitation.")
       return false
     if mothersData
       if @isUniqueEmail(mothersData.email)
@@ -85,6 +90,9 @@ class Kin.Parent.InvitesView extends Backbone.View
       return data
     else
       false
+
+  noChildSelected: ($form)->
+    not $form.find("select[name='children_ids']").val()
 
   isUniqueEmail: (email)->
     sameEmailInvites = @collection.find (invite)->
