@@ -1,5 +1,6 @@
 http = require('http')
 querystring = require('querystring')
+InviteRequest = require('../models/invite_request')
 
 module.exports = (app)->
 
@@ -8,6 +9,12 @@ module.exports = (app)->
       res.render 'site/index', {title: "Kindzy"}
     else
       res.render 'site/index_guest', {title: "Kindzy", layout: "guest"}
+
+  app.post '/request-invite', (req, res)->
+    data = req.body
+    inviteRequest = new InviteRequest data
+    inviteRequest.save()
+    res.json {success: true}
 
   app.get '/features', (req, res)->
     res.render 'site/features', {title: "Kindzy", layout: "guest"}

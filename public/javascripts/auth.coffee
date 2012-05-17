@@ -24,6 +24,11 @@ $ ()->
       errorPlacement: (error, element)->
         error.appendTo(element.parent())
 
+  if $("#login-form").length
+    $("#login-form").validate()
+
+  if $("#send-pass-form").length
+    $("#send-pass-form").validate()
 
   friendRequestId = $("input[name='friend_request_id']").val()
   if friendRequestId or (searchStart = window.document.location.search.search(/friend_request=.*/) > -1)
@@ -64,3 +69,52 @@ $ ()->
 
   if window.location.search.search("msg=pass-changed") > -1
     $("#pass-changed-msg").removeClass("hidden")
+
+  $("#open-login-link").click (ev)->
+    ev.preventDefault()
+    dWindow $("div.login-wrapper").html(),
+      wrapperId: "log-in-window"
+    $("#login-form", "#log-in-window").validate()
+
+  $("#request-invite-link").click (ev)->
+    ev.preventDefault()
+    dWindow $("div.invite-wrapper").html(),
+      wrapperId: "invite-window"
+    $inviteForm = $("#invite-form", "#invite-window")
+    $inviteForm.validate()
+    $inviteForm.submit (ev)->
+      ev.preventDefault()
+      if $inviteForm.valid()
+        $.ajax
+          url: $inviteForm.attr("action")
+          type: $inviteForm.attr("method")
+          data: $inviteForm.serialize()
+          success: ()->
+            $inviteForm.remove()
+            $("#invite-sent-success", "#invite-window").removeClass("hidden")
+
+  if $("#testimonials-scroller").length
+    $testimonialsButtons = $("#testimonials-scroller").children()
+    $testimonials = $(".testimonial", "#testimonials-cnt")
+    $testimonialsButtons.click (ev)->
+      ev.preventDefault()
+      $el = $(ev.currentTarget)
+      switchTestimonial($el)
+      if testimonialsIntervalId
+        clearInterval(testimonialsIntervalId)
+    switchTestimonial = ($el)->
+      index = $el.data("index")
+      $testimonials.addClass("hidden")
+      $($testimonials[index]).removeClass("hidden")
+      $testimonialsButtons.removeClass("selected")
+      $el.addClass("selected")
+    scrollTestimonials = ()->
+      index = $testimonialsButtons.filter(".selected:first").data("index")
+      console.log index
+      index++
+      if index > $testimonials.length - 1
+        index = 0
+      switchTestimonial($($testimonialsButtons[index]))
+    testimonialsIntervalId = setInterval(scrollTestimonials, 3000)
+
+

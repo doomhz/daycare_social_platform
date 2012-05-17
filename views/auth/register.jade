@@ -33,7 +33,7 @@ div.register-wrapper
       #email.clearfix
         label(for=everyauth.password.loginFormFieldName) E-mail
         .input
-          input(type='text', name=everyauth.password.loginFormFieldName, value=userParams[everyauth.password.loginFormFieldName])
+          input(type='text', name=everyauth.password.loginFormFieldName, value=userParams[everyauth.password.loginFormFieldName], class="required email")
           span.login-name Will be your login name.
       #password_cnt.clearfix
         label(for=everyauth.password.passwordFormFieldName) Password
@@ -46,6 +46,6 @@ div.register-wrapper
           input(type='password', name="password_confirm", class="password-fields", id="password_confirm")
       #submit.actions
         input.btn.primary(type='submit', value='Register')
-    
-  p.member Already a member? 
+
+  p.member Already a member?
     a(href='/login') Click here to login.

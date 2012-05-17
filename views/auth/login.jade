@@ -13,11 +13,11 @@ div.login-wrapper
       #login.clearfix
         label(for=everyauth.password.loginFormFieldName) E-mail
         .input
-          input(type='text', name=everyauth.password.loginFormFieldName, value=email,placeholder="Your Email Address")
+          input(type='text', name=everyauth.password.loginFormFieldName, value=email, placeholder="Your Email Address", class="required email")
       #password.clearfix
         label(for=everyauth.password.passwordFormFieldName) Password
         .input
-          input(type='password', name=everyauth.password.passwordFormFieldName, class="password-fields")
+          input(type='password', name=everyauth.password.passwordFormFieldName, class="password-fields required")
       #submit.actions
         input.btn.primary(type='submit', value='Login') Login
 

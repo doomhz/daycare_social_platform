@@ -1,9 +1,11 @@
 (function() {
-  var http, querystring;
+  var InviteRequest, http, querystring;
 
   http = require('http');
 
   querystring = require('querystring');
+
+  InviteRequest = require('../models/invite_request');
 
   module.exports = function(app) {
     app.get('/', function(req, res) {
@@ -17,6 +19,15 @@
           layout: "guest"
         });
       }
+    });
+    app.post('/request-invite', function(req, res) {
+      var data, inviteRequest;
+      data = req.body;
+      inviteRequest = new InviteRequest(data);
+      inviteRequest.save();
+      return res.json({
+        success: true
+      });
     });
     app.get('/features', function(req, res) {
       return res.render('site/features', {

@@ -1,24 +1,86 @@
-div.login-wrapper
-  h1 Welcome to Kindzy.com
-  - if ('undefined' !== typeof errors && errors.length)
-    div.alert-message.block-message.error
-      ul#errors
-        - each error in errors
-          li.error= error
-  form(action='/login', method='POST', id='login-form')
-    fieldset
-      input(type='hidden', name="friend_request_id", value='')
-      #login.clearfix
-        label(for=everyauth.password.loginFormFieldName) E-mail
-        .input
-          input(type='text', name=everyauth.password.loginFormFieldName, value="", placeholder="Your Email Address")
-      #password.clearfix
-        label(for=everyauth.password.passwordFormFieldName) Password
-        .input
-          input(type='password', name=everyauth.password.passwordFormFieldName, class="password-fields")
-          a#show-password(href="#", data-show="Show password", data-hide="Hide password") Show password
-      #submit.actions
-        input.btn.primary(type='submit', value='Login') Login
+a#logo(href="/")
 
-  p.member Forgot your password?
-    a(href='/send-password') Click here to recover it.
+p Easy, free and effortless communication for
+
+h1 Parents & Educators
+
+ul
+  li.request-invite-cnt
+    a(href="#", id="request-invite-link") Request invite
+  li.or-cnt or
+  li.take-the-tour-cnt
+    a(href="/features", id="take-the-tour-link") Take the tour
+
+p Registered memebers,
+  a(href="#", id="open-login-link") &nbsp;login here
+  .
+
+#arrow-left Arrow left
+
+#site-preview Site preview
+
+#testimonials-cnt
+  .testimonial Testimonial one
+  .testimonial.hidden Testimonial two
+  .testimonial.hidden Testimonial three
+  ul#testimonials-scroller
+    li.selected(data-index="0")
+      a(href="#") One
+    li(data-index="1")
+      a(href="#") Two
+    li(data-index="2")
+      a(href="#") Three
+
+ul#feature-boxes
+  li#communicate-box
+    h2 Communicate easily
+    p We've built the tools you'll need to have everyone up to date with all the events.
+  li#be-present-online-box
+    h2 Be present online
+    p Keep track of your kids, staff and have them connect effortlessly with the parents.
+  li#create-communities-box
+    h2 Create communities
+    p Establishing a strong connection with the parents is vital. Having them in your community is pricelles.
+
+
+div.login-wrapper.hidden
+  div
+    h1 Welcome to Kindzy.com
+    - if ('undefined' !== typeof errors && errors.length)
+      div.alert-message.block-message.error
+        ul#errors
+          - each error in errors
+            li.error= error
+    form(action='/login', method='POST', id='login-form')
+      fieldset
+        input(type='hidden', name="friend_request_id", value='')
+        #login.clearfix
+          label(for=everyauth.password.loginFormFieldName) E-mail
+          .input
+            input(type='text', name=everyauth.password.loginFormFieldName, value="", placeholder="Your Email Address", class="required email")
+        #password.clearfix
+          label(for=everyauth.password.passwordFormFieldName) Password
+          .input
+            input(type='password', name=everyauth.password.passwordFormFieldName, class="password-fields required")
+        #submit.actions
+          input.btn.primary(type='submit', value='Login') Login
+
+    p.member Forgot your password?
+      a(href='/send-password') Click here to recover it.
+
+div.invite-wrapper.hidden
+  div
+    h1 Request a Kindzy account
+    form(action='/request-invite', method='POST', id='invite-form')
+      fieldset
+        .clearfix
+          label(for="email") E-mail
+          .input
+            input(type='text', name="email", value="", placeholder="Your Email Address", class="required email")
+        .clearfix
+          label(for="message") Why do you want to join Kindzy?
+          .input
+            textarea(name="message", class="required")
+        #submit.actions
+          input.btn.primary(type='submit', value='Request invite') Request invite
+    p#invite-sent-success.hidden Invite successfully requested. We will contact you soon for farther details. Thank you.
