@@ -1,35 +1,37 @@
-a#logo(href="/")
+#site-preview
 
-p Easy, free and effortless communication for
+#call-to-action
+  p#tagline Easy, free and effortless communication for
 
-h1 Parents & Educators
+  h1#parent-educators Parents &amp; Educators
 
-ul
-  li.request-invite-cnt
-    a(href="#", id="request-invite-link") Request invite
-  li.or-cnt or
-  li.take-the-tour-cnt
-    a(href="/features", id="take-the-tour-link") Take the tour
+  p#action-buttons
+    a.request-invite-cnt(href="#", id="request-invite-link") Request invite
+    a.take-the-tour-cnt(href="/features", id="take-the-tour-link") Take the tour
 
-p Registered memebers,
-  a(href="#", id="open-login-link") &nbsp;login here
-  .
+  p#registered-memebers-text Registered memebers,
+    a(href="#", id="open-login-link") &nbsp;login here
+    .
 
-#arrow-left Arrow left
-
-#site-preview Site preview
+  #arrow-left
 
 #testimonials-cnt
-  .testimonial Testimonial one
-  .testimonial.hidden Testimonial two
-  .testimonial.hidden Testimonial three
+  .testimonial
+    blockquote &ldquo;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia dapibus velit eu volutpat.&rdquo;
+    span.author Mark Zuckerberg
+  .testimonial.hidden
+    blockquote &ldquo;Sed iaculis, enim sit amet vehicula interdum, nulla enim pretium odio, in commodo velit neque eu neque.&rdquo;
+    span.author Dalai Lama
+  .testimonial.hidden
+    blockquote &ldquo;Etiam cursus, justo a auctor rutrum, mauris augue laoreet neque, non ultrices magna turpis nec erat. Etiam porta augue.&rdquo;
+    span.author Mircea Geoana
   ul#testimonials-scroller
     li.selected(data-index="0")
-      a(href="#") One
+      a(href="#")
     li(data-index="1")
-      a(href="#") Two
+      a(href="#")
     li(data-index="2")
-      a(href="#") Three
+      a(href="#")
 
 ul#feature-boxes
   li#communicate-box
@@ -80,7 +82,7 @@ div.invite-wrapper.hidden
         .clearfix
           label(for="message") Why do you want to join Kindzy?
           .input
-            textarea(name="message", class="required")
+            textarea(name="message", class="required", placeholder="10 to 5 words")
         #submit.actions
           input.btn.primary(type='submit', value='Request invite') Request invite
     p#invite-sent-success.hidden Invite successfully requested. We will contact you soon for farther details. Thank you.

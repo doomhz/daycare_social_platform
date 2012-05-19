@@ -1255,19 +1255,19 @@ a:hover {
   margin-bottom: 10px;
 }
 
-#login-form label, #change-pass-form label, #send-pass-form label {
+#login-form label, #change-pass-form label, #send-pass-form label, #invite-form label {
   font-weight: bold;
   margin-bottom: 5px;
   display: block;
 }
 
-#login-form #login input, #login-form #password input, #send-pass-form #email input, #change-pass-form #password input, #change-pass-form #confirm-password input {
+#login-form #login input, #login-form #password input, #send-pass-form #email input, #change-pass-form #password input, #change-pass-form #confirm-password input, , #invite-form input {
   width: 368px;
   margin: 0 10px 10px 0;
   height: 20px;
 }
 
-#login-form fieldset, #change-pass-form fieldset, #send-pass-form fieldset {
+#login-form fieldset, #change-pass-form fieldset, #send-pass-form fieldset, , #invite-form fieldset {
   overflow: hidden;
 }
 

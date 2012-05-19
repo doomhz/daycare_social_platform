@@ -5,13 +5,14 @@ head
   title Kindzy.com
   != css('/stylesheets/doom_windows_style.css')
   != css('/stylesheets/main.css')
+  != css('/stylesheets/guest')
 body
   #wrapper
     .content-wrapper
       #main-column
+        a#logo(href="/")
         !{body}
     .footer
-      p.copy Copyright &copy; 2012 Kindzy.com, All rights reserved.
       ul.f-menu
         li
           a(href='#') About Us
@@ -29,6 +30,7 @@ body
           a(href='#') Partners
         li
           a(href='#') Widgets and Tools
+      p.copy Copyright &copy; 2012 Kindzy.com, All rights reserved.
 
   != js('/javascripts/vendor/jquery.min')
   != js('/javascripts/vendor/jquery.validate')

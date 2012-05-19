@@ -1,0 +1,177 @@
+body {
+  background: #f3f3f3;
+}
+a {
+  color: #5caae3;
+}
+a:hover {
+  color: #fff;
+}
+#wrapper {
+  background: url("/images/index/blackboard_bg.png") no-repeat top center;
+}
+#wrapper .content-wrapper {
+  background: transparent;
+}
+#wrapper .content-wrapper #logo {
+  display: block;
+  background: url("/images/index/logo.png") no-repeat top center;
+  width: 168px;
+  height: 47px;
+}
+#wrapper .content-wrapper #call-to-action {
+  float: left;
+  width: 530px;
+  color: #fff;
+}
+#wrapper .content-wrapper #call-to-action #tagline {
+  font-size: 20px;
+  margin: 20px 0 0 0;
+}
+#wrapper .content-wrapper #call-to-action #parent-educators {
+  font-size: 72px;
+  margin: 0 0 20px 0;
+  line-height: 72px;
+  font-weight: bold;
+}
+#wrapper .content-wrapper #call-to-action #action-buttons {
+  background: url("/images/index/request_tour_bt.png") no-repeat top center;
+  width: 357px;
+  height: 53px;
+}
+#wrapper .content-wrapper #call-to-action #action-buttons .request-invite-cnt {
+  color: #fff;
+  font-size: 19px;
+  display: inline-block;
+  padding: 10px 30px 10px 30px;
+}
+#wrapper .content-wrapper #call-to-action #action-buttons .take-the-tour-cnt {
+  color: #000;
+  font-size: 19px;
+  display: inline-block;
+  padding: 10px 30px 10px 30px;
+}
+#wrapper .content-wrapper #call-to-action #registered-memebers-text {
+  width: 350px;
+  font-size: 15px;
+  text-align: center;
+  margin: 15px 0 15px 0;
+}
+#wrapper .content-wrapper #call-to-action #arrow-left {
+  float: right;
+  width: 170px;
+  height: 123px;
+  background: url("/images/index/arrow_left.png") no-repeat top left;
+  margin: -130px 0 0 0;
+}
+#wrapper .content-wrapper #site-preview {
+  background: url("/images/index/site_preview.png") no-repeat top center;
+  width: 450px;
+  height: 593px;
+  float: right;
+  margin: -47px 0 0 0;
+}
+#wrapper .content-wrapper #testimonials-cnt {
+  float: left;
+  overflow: hidden;
+  margin: 25px 0 0 0;
+}
+#wrapper .content-wrapper #testimonials-cnt .testimonial {
+  background: url("/images/index/testimonial_bg.png") no-repeat top center;
+  width: 510px;
+  height: 140px;
+}
+#wrapper .content-wrapper #testimonials-cnt .testimonial blockquote {
+  font-size: 17px;
+  font-style: italic;
+  height: 75px;
+  padding: 30px 15px 30px 15px;
+  overflow: hidden;
+}
+#wrapper .content-wrapper #testimonials-cnt .testimonial .author {
+  float: right;
+  margin: 0 10px 0 0;
+  font-weight: bold;
+  font-size: 13px;
+}
+#wrapper .content-wrapper #testimonials-cnt #testimonials-scroller li {
+  margin: 0 5px 0 0;
+  display: inline-block;
+}
+#wrapper .content-wrapper #testimonials-cnt #testimonials-scroller li a {
+  display: inline-block;
+  background: url("/images/index/testimonial_bt.png") no-repeat top left;
+  width: 15px;
+  height: 15px;
+}
+#wrapper .content-wrapper #testimonials-cnt #testimonials-scroller li.selected a {
+  background: url("/images/index/testimonial_bt_selected.png") no-repeat top left;
+}
+#wrapper .content-wrapper #feature-boxes {
+  float: left;
+  clear: both;
+  margin: 15px 0 20px 0;
+}
+#wrapper .content-wrapper #feature-boxes li {
+  width: 320px;
+  float: left;
+  margin: 0 10px 0 0;
+  padding: 150px 0 0 0;
+  text-align: center;
+  height: 160px;
+}
+#wrapper .content-wrapper #feature-boxes li h2 {
+  margin: 0 0 25px 0;
+}
+#wrapper .content-wrapper #feature-boxes li p {
+  font-size: 14px;
+  padding: 0 10px 0 10px;
+}
+#wrapper .content-wrapper #feature-boxes li#communicate-box {
+  background: #fff url("/images/index/communicate_symbol.png") no-repeat center 30px;
+}
+#wrapper .content-wrapper #feature-boxes li#be-present-online-box {
+  background: #fff url("/images/index/be_present_symbol.png") no-repeat center 30px;
+}
+#wrapper .content-wrapper #feature-boxes li#create-communities-box {
+  margin: 0;
+  background: #fff url("/images/index/create_symbol.png") no-repeat center 30px;
+}
+#wrapper .footer .f-menu {
+  float: none;
+  width: 100%;
+  text-align: center;
+  margin: 0 0 15px 0;
+}
+#wrapper .footer .f-menu li {
+  display: inline-block;
+  float: none;
+}
+#wrapper .footer .f-menu li a {
+  font-weight: bold;
+}
+#wrapper .footer .copy {
+  float: none;
+  width: 100%;
+  text-align: center;
+}
+#invite-window .doom-win-content {
+  padding: 20px;
+}
+#invite-window .doom-win-content form {
+  background: #f4f4f4;
+  padding: 10px;
+  margin: 10px;
+}
+#invite-window .doom-win-content form textarea {
+  width: 300px;
+  height: 100px;
+}
+#log-in-window .doom-win-content {
+  padding: 20px;
+}
+#log-in-window .doom-win-content form {
+  background: #f4f4f4;
+  padding: 10px;
+  margin: 10px;
+}
