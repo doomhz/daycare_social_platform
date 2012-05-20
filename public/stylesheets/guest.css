@@ -84,8 +84,8 @@ a:hover {
 #wrapper .content-wrapper #testimonials-cnt .testimonial blockquote {
   font-size: 17px;
   font-style: italic;
-  height: 75px;
-  padding: 30px 15px 30px 15px;
+  height: 100px;
+  padding: 5px 15px 30px 15px;
   overflow: hidden;
 }
 #wrapper .content-wrapper #testimonials-cnt .testimonial .author {

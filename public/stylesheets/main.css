@@ -314,7 +314,7 @@ body {
 }
 
 a {
-    color: #90c333;
+    color: #236fa6;
     text-decoration: none;
 }
 
@@ -329,7 +329,7 @@ a:hover {
 }
 
 .header {
-  background: #683d60 url('/images/site/header_bg.png') -100% repeat-x;
+  background: #000000 url('/images/site/header_bg.png') -100% repeat-x;
   height: 40px;
   width: 100%;
   padding: 7px 0 3px 0;
@@ -390,7 +390,7 @@ a:hover {
   height: 31px;
   width: 30px;
   margin-left: 3px;
-  background: url('/images/site/icon_advanced.png') no-repeat left top;
+  background: url('/images/site/advanced_search_icon.png') no-repeat center center;
 }
 
 .header-content .search ul li.advanced a {
@@ -470,19 +470,19 @@ a:hover {
 }
 
 .header-content .user_notifications ul li.mails a.icon {
-  background: url('/images/site/icon_notifications.png') no-repeat 12px 5px;
+  background: url('/images/site/messages_icon.png') no-repeat center center;
 }
 
 .header-content .user_notifications ul li.users a.icon {
-  background: url('/images/site/icon_notifications.png') no-repeat 12px -24px;
+  background: url('/images/site/request_icon.png') no-repeat center center;
 }
 
 .header-content .user_notifications ul li.replies a.icon {
-  background: url('/images/site/icon_notifications.png') no-repeat 12px -53px;
+  background: url('/images/site/notifications_icon.png') no-repeat center center;
 }
 
 .header-content .user_notifications ul li.history a.icon {
-  background: url('/images/site/icon_notifications.png') no-repeat 12px -84px;
+  background: url('/images/site/feed_icon.png') no-repeat center center;
 }
 
 .header-content .user_notifications ul li.mails a.icon:hover, .header-content .user_notifications ul li.selected.mails a.icon {
@@ -599,7 +599,7 @@ a:hover {
 .header-content #last-wall-posts li.notification-title {
   font-weight: bold;
   padding: 6px 0;
-  background: #542F4D;
+  background: #000000;
   color: #fff;
   border-bottom: 1px solid #cacaca;
   text-align: left;
@@ -646,7 +646,6 @@ a:hover {
   overflow: hidden;
   width: 240px;
   padding: 0 10px;
-  background: url('/images/site/bg_usermenu.png') no-repeat 0 5px;
 }
 
 .header-content .user-menu ul li {
@@ -658,7 +657,7 @@ a:hover {
 }
 
 #my-profile-bt .submenu {
-  background: #542f4d;
+  background: #000000;
   position: absolute;
   width: 170px;
   margin-left: -15px;
@@ -715,7 +714,7 @@ a:hover {
   overflow: hidden;
   width: 28px;
   height: 30px;
-  background: url('/images/site/icon_usermenu.png') no-repeat 5px -28px;
+  background: url('/images/site/log_out_icon.png') no-repeat center center;
 }
 
 .content-wrapper {
@@ -765,25 +764,25 @@ a:hover {
 }
 
 .kd-menu .nav-menu li.selected {
-  background: #90c333;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+  background: #e4ebf0;
 }
 
 .kd-menu .nav-menu li.selected a {
-  color: #fff;
+  color: #000;
+  font-weight: bold;
 }
 
 .kd-menu .nav-menu li:hover {
-  background: #c17bb4;
+  background: #e4ebf0;
 }
 
 .kd-menu .nav-menu li:hover a {
-  color: #fff;
+  color: #000;
 }
 
 .kd-menu .nav-menu li a {
   display: block;
-  padding: 2px 10px;
+  padding: 2px 0 2px 30px;
   color: #333;
   -webkit-transition: none;
   -moz-transition: none;
@@ -801,7 +800,6 @@ a:hover {
 
 .kd-menu .nav-menu li a:hover {
   text-decoration: none;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
 }
 
 .kd-menu .nav-menu li.photos {
@@ -842,6 +840,30 @@ a:hover {
   -webkit-transition: color 0.3s;
   -moz-transition: color 0.3s;
   transition: color 0.3s;
+}
+
+.kd-menu .nav-menu #wall-menu-item a {
+  background: url('/images/site/news_feed_icon.png') no-repeat 5px center;
+}
+
+.kd-menu .nav-menu #gallery-menu-item a {
+  background: url('/images/site/gallery_icon.png') no-repeat 5px center;
+}
+
+.kd-menu .nav-menu #our-family-menu-item a {
+  background: url('/images/site/our_family_icon.png') no-repeat 5px center;
+}
+
+.kd-menu .nav-menu #general-information-section-menu-item a {
+  background: url('/images/site/general_info_icon.png') no-repeat 5px center;
+}
+
+.kd-menu .nav-menu #environment-section-menu-item a {
+  background: url('/images/site/environment_icon.png') no-repeat 5px center;
+}
+
+.kd-menu .nav-menu #enrollment-section-menu-item a {
+  background: url('/images/site/enrollment_icon.png') no-repeat 5px center;
 }
 
 #messages-left-menu {
@@ -974,18 +996,15 @@ a:hover {
   display: block;
   clear: both;
   overflow: hidden;
-  margin-bottom: 10px;
   border-bottom: 2px solid #f0f0f0;
 }
 
 #wall-comments-list li.single .origin {
-  background: #f4f4f4;
+  background: #FFF;
   padding: 10px;
   overflow: hidden;
   line-height: 16px;
   margin: 0 10px;
-  border-radius: 3px;
-  box-shadow: 0px 1px 1px rgba(0,0,0,0.25);
 }
 
 #wall-comments-list li.single .origin .photo {
@@ -1004,18 +1023,17 @@ a:hover {
 }
 
 #wall-comments-list li.single .origin .name {
-  color: #333;
+  color: #236fa6;
   font-weight: bold;
   font-size: 12px;
 }
 
 #wall-comments-list li.single .origin .name a {
   font-weight: bold;
-  color: #333;
+  color: #236fa6;
 }
 
 #wall-comments-list li.single .origin .time {
-  float: right;
   color: #bdc8cb;
 }
 
@@ -1040,25 +1058,24 @@ a:hover {
 }
 
 #wall-comments-list li.single .post-footer {
-  background: url('/images/site/arrow_down.png') no-repeat 38px top;
-  height: 9px;
-  margin-bottom: 10px;
 }
 
 #wall-comments-list li.single .followups {
   overflow: hidden;
-  margin: 0 10px;
+  margin: 0 20px 0 20px;
+  background-color: #f3f7f9;
 }
 
 #wall-comments-list li.single .followups li {
   margin-bottom: 5px;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 10px 0 0 0;
+  border-bottom: 1px solid #DDD;
   overflow: hidden;
 }
 
 #wall-comments-list li.single .followups .photo {
   float: left;
-  margin: 0 10px 10px 20px;
+  margin: 0 10px 10px 10px;
 }
 
 #wall-comments-list li.single .followups .photo img {
@@ -1067,7 +1084,7 @@ a:hover {
 
 #wall-comments-list li.single .followups .content {
   float: left;
-  width: 489px;
+  width: 479px;
 }
 
 #wall-comments-list li.single .followups .comment-text {
@@ -1076,14 +1093,14 @@ a:hover {
 }
 
 #wall-comments-list li.single .followups .name {
-  color: #333;
+  color: #236fa6;
   font-weight: bold;
   font-size: 12px;
 }
 
 #wall-comments-list li.single .followups .name a {
   font-weight: bold;
-  color: #333;
+  color: #236fa6;
 }
 
 #wall-comments-list li.single .followups .content .delete-comment {
@@ -1103,7 +1120,6 @@ a:hover {
 }
 
 #wall-comments-list li.single .followups .time {
-  float: right;
   color: #bdc8cb;
 }
 
@@ -1114,8 +1130,10 @@ a:hover {
 
 #wall-comments-list li.single .send-reply {
   clear: both;
-  margin: 0 10px 0 30px;
   overflow: hidden;
+  margin: 0 20px 20px 20px;
+  background-color: #f3f7f9;
+  padding: 0 0 0 10px;
 }
 
 #wall-comments-list li.single .send-reply .add-followup-form {
@@ -1132,7 +1150,7 @@ a:hover {
 }
 
 #wall-comments-list li.single .send-reply textarea {
-  width: 469px;
+  width: 459px;
   height: 20px;
   float: left;
   margin-left: 10px;
@@ -2432,7 +2450,7 @@ table input {
 
 #profile-general-info li.phone {
   font-weight: bold;
-  background: url('/images/site/icon_contact.png') no-repeat -5px -3px;
+  background: url('/images/site/telephone_icon.png') no-repeat left top;
   padding-left: 26px;
   margin-bottom: 5px;
   border-bottom: none;
@@ -2440,7 +2458,7 @@ table input {
 
 #profile-general-info li.fax {
   font-weight: bold;
-  background: url('/images/site/icon_contact.png') no-repeat -5px -32px;
+  background: url('/images/site/fax_icon.png') no-repeat left top;
   padding-left: 26px;
   margin-bottom: 30px;
   border-bottom: none;
@@ -2466,17 +2484,14 @@ table input {
 
 #load-more-comments-cnt {
   width: 539px;
-  margin: 0 10px;
   overflow: hidden;
-  background: #f4f4f4;
-  text-align: center;
+  background: #FFF;
   padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0px 1px 1px rgba(0,0,0,0.25);
 }
 
 #load-more-comments-cnt a {
   color: #939c9f;
+  text-align: center;
 }
 
 #load-more-comments-bt {
@@ -2488,23 +2503,19 @@ table input {
 
 #load-more-followups-cnt {
   width: 539px;
-  margin: 10px 10px;
   overflow: hidden;
-  background: #f4f4f4;
-  text-align: center;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0px 1px 1px rgba(0,0,0,0.25);
+  padding: 0 0 0 20px;
+  margin: 0 0 10px 20px;
+  background: url('/images/site/load_previous_icon.png') no-repeat left center;
 }
 
 #load-more-followups-cnt a {
-  color: #939c9f;
+  color: #236fa6;
 }
 
 #load-more-followups-bt {
   display: block;
   font-size: 12px;
-  font-weight: bold;
   width: 539px;
 }
 
