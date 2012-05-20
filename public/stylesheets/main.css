@@ -1131,9 +1131,9 @@ a:hover {
 #wall-comments-list li.single .send-reply {
   clear: both;
   overflow: hidden;
-  margin: 10px 20px 20px 20px;
+  margin: 0 20px 20px 20px;
   background-color: #f3f7f9;
-  padding: 0 0 0 10px;
+  padding: 10px 0 0 10px;
 }
 
 #wall-comments-list li.single .send-reply .add-followup-form {
