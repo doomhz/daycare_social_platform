@@ -32,7 +32,8 @@
     app.get('/features', function(req, res) {
       return res.render('site/features', {
         title: "Kindzy",
-        layout: "guest"
+        layout: "guest",
+        pageName: "features"
       });
     });
     return app.get('/geolocation', function(req, res) {

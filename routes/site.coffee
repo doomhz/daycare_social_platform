@@ -17,7 +17,7 @@ module.exports = (app)->
     res.json {success: true}
 
   app.get '/features', (req, res)->
-    res.render 'site/features', {title: "Kindzy", layout: "guest"}
+    res.render 'site/features', {title: "Kindzy", layout: "guest", pageName: "features"}
 
   # TODO Create a model and cache the location search
   app.get '/geolocation', (req, res)->

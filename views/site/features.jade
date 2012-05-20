@@ -1,1 +1,117 @@
-h1 Features
+#action-box
+  a.request-invite-bt(href="#", id="request-invite-link") Request invite
+
+  p#registered-memebers-text Registered memebers,
+    a(href="#", id="open-login-link") &nbsp;login here
+    .
+
+h1#explore Explore
+h2#great-features All the great features we have for you at Kindzy.com
+
+p#with-kindzy-explained With Kindzy.com you’ll have access to all the tools you need to run a modern and social elementary school and be in contact with all the parents, your staff and know what the kids are doing and learning. We’re offering a simple, social, mobile and free solution so that you can start wowing your customers today.
+
+#testimonials-cnt
+  .testimonial
+    blockquote &ldquo;Kindzy.com transformed our school and transported us in the social era in a matter of days! Incredible.&rdquo;
+    span.author Josh Fender, Hightide Elementary
+
+ul#features-menu
+  li.selected
+    a(href="#personal-news-feed") Personal News Feed
+  li
+    a(href="#site-wide-notifications") Site-Wide Notifications
+  li
+    a(href="#effortless-setup") Effortless Setup
+  li
+    a(href="#multi-class-support") Multi Class Support
+  li
+    a(href="#all-around-social") All Around Social
+  li
+    a(href="#country-wide-directory") Country Wide Directory
+  li
+    a(href="#photo-gallery") Photo Gallery
+  li
+    a(href="#knowledge-base") Knowledge Base
+
+#personal-news-feed.feature-box.odd
+  img(src="/images/features/personal_news_snapshot.png")
+  h3 Personal news feed
+  p Have everything happening with your organization in one place, easy to access, interactive and social at the same time. Quickly respond to parents and staff with privacy tools in place.
+
+#site-wide-notifications.feature-box.even
+  img(src="/images/features/sitewide_snapshot.png")
+  h3 Site-wide notifications
+  p Solve arising problems in an instant with our versatile site-wide notification system. <br> We offer a wide range of notifications, from messages, staff additions, new kids enrollment, messages to overall school activity. All instant.
+
+#effortless-setup.feature-box.odd
+  img(src="/images/features/efortless_snapshot.png")
+  h3 Efortless Setup
+  p Once you create your school profile, you have a smart guide to aid you. <br> Everything else is configuring by itself and you’ll feel like magic is happening behind every page.
+
+#multi-class-support.feature-box.even
+  img(src="/images/features/multi_class_snapshot.png")
+  h3 Multi Class Support
+  p If you have multiple classes, that’s not a problem. <br> We’ve sorted a quick context switch so you can easily see exactly what’s happening with a single click. <br> Have everything in one place or see individual discussions, you decide.
+
+#all-around-social.feature-box.odd
+  img(src="/images/features/all_around_snapshot.png")
+  h3 All Around Social
+  p Everybody knows exactly what they need to know at any time in the easiest possible way. <br> Through notifications, class news feeds, school wide news feeds, messages, user profiles and discussions we’ve got you covered for everything.
+
+#country-wide-directory.feature-box.even
+  img(src="/images/features/country_snapshot.png")
+  h3 Country Wide Directory
+  p If you have multiple classes, that’s not a problem. <br> We’ve sorted a quick context switch so you can easily see exactly what’s happening with a single click. <br> Have everything in one place or see individual discussions, you decide.
+
+#photo-gallery.feature-box.odd
+  img(src="/images/features/photo_snapshot.png")
+  h3 Photo Gallery
+  p Everybody knows exactly what they need to know at any time in the easiest possible way. <br> Through notifications, class news feeds, school wide news feeds, messages, user profiles and discussions we’ve got you covered for everything.
+
+#knowledge-base.feature-box.even
+  img(src="/images/features/knowledge_snapshot.png")
+  h3 Knowledge Base
+  p If you have multiple classes, that’s not a problem. <br> We’ve sorted a quick context switch so you can easily see exactly what’s happening with a single click. <br> Have everything in one place or see individual discussions, you decide.
+
+
+div.login-wrapper.hidden
+  div
+    h1 Welcome to Kindzy.com
+    - if ('undefined' !== typeof errors && errors.length)
+      div.alert-message.block-message.error
+        ul#errors
+          - each error in errors
+            li.error= error
+    form(action='/login', method='POST', id='login-form')
+      fieldset
+        input(type='hidden', name="friend_request_id", value='')
+        #login.clearfix
+          label(for=everyauth.password.loginFormFieldName) E-mail
+          .input
+            input(type='text', name=everyauth.password.loginFormFieldName, value="", placeholder="Your Email Address", class="required email")
+        #password.clearfix
+          label(for=everyauth.password.passwordFormFieldName) Password
+          .input
+            input(type='password', name=everyauth.password.passwordFormFieldName, class="password-fields required")
+        #submit.actions
+          input.btn.primary(type='submit', value='Login') Login
+
+    p.member Forgot your password?
+      a(href='/send-password') Click here to recover it.
+
+div.invite-wrapper.hidden
+  div
+    h1 Request a Kindzy account
+    form(action='/request-invite', method='POST', id='invite-form')
+      fieldset
+        .clearfix
+          label(for="email") E-mail
+          .input
+            input(type='text', name="email", value="", placeholder="Your Email Address", class="required email")
+        .clearfix
+          label(for="message") Why do you want to join Kindzy?
+          .input
+            textarea(name="message", class="required", placeholder="10 to 5 words")
+        #submit.actions
+          input.btn.primary(type='submit', value='Request invite') Request invite
+    p#invite-sent-success.hidden Invite successfully requested. We will contact you soon for farther details. Thank you.

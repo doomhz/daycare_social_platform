@@ -117,4 +117,9 @@ $ ()->
       switchTestimonial($($testimonialsButtons[index]))
     testimonialsIntervalId = setInterval(scrollTestimonials, 3000)
 
-
+  if $("#features-menu").length
+    $featuresMenuItems = $("#features-menu").children()
+    $featuresMenuItems.click (ev)->
+      $el = $(ev.currentTarget)
+      $featuresMenuItems.removeClass("selected")
+      $el.addClass("selected")
