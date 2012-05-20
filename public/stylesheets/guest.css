@@ -175,19 +175,31 @@ a:hover {
   padding: 10px;
   margin: 10px;
 }
-#wrapper.features {
+#wrapper.features,
+#wrapper.about-us,
+#wrapper.privacy,
+#wrapper.terms {
   background: url("/images/features/blackboard_bg.png") no-repeat top center;
 }
-#wrapper.features .content-wrapper {
+#wrapper.features .content-wrapper,
+#wrapper.about-us .content-wrapper,
+#wrapper.privacy .content-wrapper,
+#wrapper.terms .content-wrapper {
   background: transparent;
 }
-#wrapper.features .content-wrapper #logo {
+#wrapper.features .content-wrapper #logo,
+#wrapper.about-us .content-wrapper #logo,
+#wrapper.privacy .content-wrapper #logo,
+#wrapper.terms .content-wrapper #logo {
   display: block;
   background: url("/images/index/logo.png") no-repeat top center;
   width: 168px;
   height: 47px;
 }
-#wrapper.features .content-wrapper #explore {
+#wrapper.features .content-wrapper #explore,
+#wrapper.about-us .content-wrapper #explore,
+#wrapper.privacy .content-wrapper #explore,
+#wrapper.terms .content-wrapper #explore {
   font-size: 72px;
   margin: 0 0 20px 0;
   line-height: 72px;
@@ -195,17 +207,26 @@ a:hover {
   color: #fff;
   width: 80%;
 }
-#wrapper.features .content-wrapper #great-features {
+#wrapper.features .content-wrapper #great-features,
+#wrapper.about-us .content-wrapper #great-features,
+#wrapper.privacy .content-wrapper #great-features,
+#wrapper.terms .content-wrapper #great-features {
   font-size: 20px;
   margin: 20px 0 80px 0;
   color: #fff;
   width: 80%;
 }
-#wrapper.features .content-wrapper #action-box {
+#wrapper.features .content-wrapper #action-box,
+#wrapper.about-us .content-wrapper #action-box,
+#wrapper.privacy .content-wrapper #action-box,
+#wrapper.terms .content-wrapper #action-box {
   float: right;
   color: #fff;
 }
-#wrapper.features .content-wrapper #action-box #request-invite-link {
+#wrapper.features .content-wrapper #action-box #request-invite-link,
+#wrapper.about-us .content-wrapper #action-box #request-invite-link,
+#wrapper.privacy .content-wrapper #action-box #request-invite-link,
+#wrapper.terms .content-wrapper #action-box #request-invite-link {
   display: inline-block;
   width: 182px;
   height: 53px;
@@ -214,51 +235,78 @@ a:hover {
   color: #fff;
   background: url("/images/features/request_invite_bt.png") no-repeat top center;
 }
-#wrapper.features .content-wrapper #action-box #registered-memebers-text {
+#wrapper.features .content-wrapper #action-box #registered-memebers-text,
+#wrapper.about-us .content-wrapper #action-box #registered-memebers-text,
+#wrapper.privacy .content-wrapper #action-box #registered-memebers-text,
+#wrapper.terms .content-wrapper #action-box #registered-memebers-text {
   font-size: 13px;
   text-align: right;
   margin: 0 22px 0 0;
 }
-#wrapper.features .content-wrapper #with-kindzy-explained {
+#wrapper.features .content-wrapper #with-kindzy-explained,
+#wrapper.about-us .content-wrapper #with-kindzy-explained,
+#wrapper.privacy .content-wrapper #with-kindzy-explained,
+#wrapper.terms .content-wrapper #with-kindzy-explained {
   width: 100%;
   font-size: 18px;
   text-align: center;
 }
-#wrapper.features .content-wrapper #testimonials-cnt {
+#wrapper.features .content-wrapper #testimonials-cnt,
+#wrapper.about-us .content-wrapper #testimonials-cnt,
+#wrapper.privacy .content-wrapper #testimonials-cnt,
+#wrapper.terms .content-wrapper #testimonials-cnt {
   overflow: hidden;
   margin: 25px 0 0 0;
   float: none;
 }
-#wrapper.features .content-wrapper #testimonials-cnt .testimonial {
+#wrapper.features .content-wrapper #testimonials-cnt .testimonial,
+#wrapper.about-us .content-wrapper #testimonials-cnt .testimonial,
+#wrapper.privacy .content-wrapper #testimonials-cnt .testimonial,
+#wrapper.terms .content-wrapper #testimonials-cnt .testimonial {
   background: url("/images/features/testimonial_bg.png") no-repeat top center;
   width: 100%;
   height: 79px;
 }
-#wrapper.features .content-wrapper #testimonials-cnt .testimonial blockquote {
+#wrapper.features .content-wrapper #testimonials-cnt .testimonial blockquote,
+#wrapper.about-us .content-wrapper #testimonials-cnt .testimonial blockquote,
+#wrapper.privacy .content-wrapper #testimonials-cnt .testimonial blockquote,
+#wrapper.terms .content-wrapper #testimonials-cnt .testimonial blockquote {
   font-size: 17px;
   font-style: italic;
   height: 35px;
   padding: 17px 15px 30px 35px;
   overflow: hidden;
 }
-#wrapper.features .content-wrapper #testimonials-cnt .testimonial .author {
+#wrapper.features .content-wrapper #testimonials-cnt .testimonial .author,
+#wrapper.about-us .content-wrapper #testimonials-cnt .testimonial .author,
+#wrapper.privacy .content-wrapper #testimonials-cnt .testimonial .author,
+#wrapper.terms .content-wrapper #testimonials-cnt .testimonial .author {
   float: right;
   margin: 0 30px 0 0;
   font-weight: bold;
   font-size: 13px;
 }
-#wrapper.features .content-wrapper ul#features-menu {
+#wrapper.features .content-wrapper ul#features-menu,
+#wrapper.about-us .content-wrapper ul#features-menu,
+#wrapper.privacy .content-wrapper ul#features-menu,
+#wrapper.terms .content-wrapper ul#features-menu {
   float: left;
   width: 240px;
   margin: 50px 0 0 30px;
 }
-#wrapper.features .content-wrapper ul#features-menu li {
+#wrapper.features .content-wrapper ul#features-menu li,
+#wrapper.about-us .content-wrapper ul#features-menu li,
+#wrapper.privacy .content-wrapper ul#features-menu li,
+#wrapper.terms .content-wrapper ul#features-menu li {
   border-bottom: solid 1px #ccc;
   height: 50px;
   font-size: 13px;
   line-height: 50px;
 }
-#wrapper.features .content-wrapper ul#features-menu li a {
+#wrapper.features .content-wrapper ul#features-menu li a,
+#wrapper.about-us .content-wrapper ul#features-menu li a,
+#wrapper.privacy .content-wrapper ul#features-menu li a,
+#wrapper.terms .content-wrapper ul#features-menu li a {
   display: inline-block;
   padding: 0 0 0 15px;
   margin: 0 0 0 5px;
@@ -266,45 +314,81 @@ a:hover {
   font-size: 13px;
   width: 100%;
 }
-#wrapper.features .content-wrapper ul#features-menu li.selected a {
+#wrapper.features .content-wrapper ul#features-menu li.selected a,
+#wrapper.about-us .content-wrapper ul#features-menu li.selected a,
+#wrapper.privacy .content-wrapper ul#features-menu li.selected a,
+#wrapper.terms .content-wrapper ul#features-menu li.selected a {
   background: url("/images/features/menu_bg.png") no-repeat center left;
   color: #fff;
 }
-#wrapper.features .content-wrapper .feature-box {
+#wrapper.features .content-wrapper .feature-box,
+#wrapper.about-us .content-wrapper .feature-box,
+#wrapper.privacy .content-wrapper .feature-box,
+#wrapper.terms .content-wrapper .feature-box {
   float: right;
   width: 640px;
   margin: 40px 0 0 0;
 }
-#wrapper.features .content-wrapper .feature-box h3 {
+#wrapper.features .content-wrapper .feature-box h3,
+#wrapper.about-us .content-wrapper .feature-box h3,
+#wrapper.privacy .content-wrapper .feature-box h3,
+#wrapper.terms .content-wrapper .feature-box h3 {
   width: 420px;
   font-size: 36px;
   margin: 30px 0 30px 0;
 }
-#wrapper.features .content-wrapper .feature-box p {
+#wrapper.features .content-wrapper .feature-box p,
+#wrapper.about-us .content-wrapper .feature-box p,
+#wrapper.privacy .content-wrapper .feature-box p,
+#wrapper.terms .content-wrapper .feature-box p {
   width: 420px;
   font-size: 16px;
 }
-#wrapper.features .content-wrapper .feature-box.odd {
+#wrapper.features .content-wrapper .feature-box.odd,
+#wrapper.about-us .content-wrapper .feature-box.odd,
+#wrapper.privacy .content-wrapper .feature-box.odd,
+#wrapper.terms .content-wrapper .feature-box.odd {
   text-align: left;
 }
-#wrapper.features .content-wrapper .feature-box.odd img {
+#wrapper.features .content-wrapper .feature-box.odd img,
+#wrapper.about-us .content-wrapper .feature-box.odd img,
+#wrapper.privacy .content-wrapper .feature-box.odd img,
+#wrapper.terms .content-wrapper .feature-box.odd img {
   float: right;
 }
-#wrapper.features .content-wrapper .feature-box.odd h3 {
+#wrapper.features .content-wrapper .feature-box.odd h3,
+#wrapper.about-us .content-wrapper .feature-box.odd h3,
+#wrapper.privacy .content-wrapper .feature-box.odd h3,
+#wrapper.terms .content-wrapper .feature-box.odd h3 {
   float: left;
 }
-#wrapper.features .content-wrapper .feature-box.odd p {
+#wrapper.features .content-wrapper .feature-box.odd p,
+#wrapper.about-us .content-wrapper .feature-box.odd p,
+#wrapper.privacy .content-wrapper .feature-box.odd p,
+#wrapper.terms .content-wrapper .feature-box.odd p {
   float: left;
 }
-#wrapper.features .content-wrapper .feature-box.even {
+#wrapper.features .content-wrapper .feature-box.even,
+#wrapper.about-us .content-wrapper .feature-box.even,
+#wrapper.privacy .content-wrapper .feature-box.even,
+#wrapper.terms .content-wrapper .feature-box.even {
   text-align: right;
 }
-#wrapper.features .content-wrapper .feature-box.even img {
+#wrapper.features .content-wrapper .feature-box.even img,
+#wrapper.about-us .content-wrapper .feature-box.even img,
+#wrapper.privacy .content-wrapper .feature-box.even img,
+#wrapper.terms .content-wrapper .feature-box.even img {
   float: left;
 }
-#wrapper.features .content-wrapper .feature-box.even h3 {
+#wrapper.features .content-wrapper .feature-box.even h3,
+#wrapper.about-us .content-wrapper .feature-box.even h3,
+#wrapper.privacy .content-wrapper .feature-box.even h3,
+#wrapper.terms .content-wrapper .feature-box.even h3 {
   float: right;
 }
-#wrapper.features .content-wrapper .feature-box.even p {
+#wrapper.features .content-wrapper .feature-box.even p,
+#wrapper.about-us .content-wrapper .feature-box.even p,
+#wrapper.privacy .content-wrapper .feature-box.even p,
+#wrapper.terms .content-wrapper .feature-box.even p {
   float: right;
 }

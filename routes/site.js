@@ -36,6 +36,27 @@
         pageName: "features"
       });
     });
+    app.get('/about-us', function(req, res) {
+      return res.render('site/about_us', {
+        title: "Kindzy",
+        layout: "guest",
+        pageName: "about-us"
+      });
+    });
+    app.get('/terms', function(req, res) {
+      return res.render('site/terms', {
+        title: "Kindzy",
+        layout: "guest",
+        pageName: "terms"
+      });
+    });
+    app.get('/privacy', function(req, res) {
+      return res.render('site/privacy', {
+        title: "Kindzy",
+        layout: "guest",
+        pageName: "privacy"
+      });
+    });
     return app.get('/geolocation', function(req, res) {
       var options, q;
       q = req.query.q;

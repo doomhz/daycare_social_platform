@@ -1,0 +1,75 @@
+#action-box
+  a.request-invite-bt(href="#", id="request-invite-link") Request invite
+
+  p#registered-memebers-text Registered memebers,
+    a(href="#", id="open-login-link") &nbsp;login here
+    .
+
+h1#explore About Us
+
+br
+br
+br
+br
+br
+
+h3 We just launched our website  and services and we are excited to welcome you on board.
+p Kindzy started 2 years ago as an idea born from our researches  on how we could improve the communication between child care providers and parents. Plenty of studies have been made, surveys conducted and it was impossible to miss parent’s necessity to be more connected to the child care center where their children are enrolled. On the other side we had the child care associations facing a lot of hassle on how to communicate thoroughly with their members, in spite of their busy schedule and the overwhelming day routine, keeping them away from sharing important news, alerts or simply a smile and a hello with their proud to be members.   So here goes Kindzy J
+
+h3 What’s Kindzy
+p Kindzy  provides a live streaming communication platform for  child care centers and parents  to help  contact and connect, share news, announcements, alerts, notifications, group  discussions  and many other updates from children’s day to day activities.
+p At Kindzy, we help child care centers to embrace social media, to save time and resources on promoting their facilities . You can stop  worrying about s cheduling face to face meetings, send numerous emails and newsletters to each and every member on all information  you have to communicate.
+
+h3 Parents
+p Good news! With kindzy you will never  feel disconnected with your child again. Just go online and check what’s happening right now in your child care center. Share your opinions, reviews, worries and all other information with all members from your inner circle of interest.  Check your profile for the newest most up to date activities, notifications and alerts!
+
+h3 Our mission
+p We run an open, live streaming platform that gives you a simple way to connect online – and bring more communication in your center. We make it easy for you to create profiles with well-structured information, a colorful space for pictures and videos you love,. And since we value your comfort and peace of mind, Kindzy’s communication platform will be accessible just to the child care members approved by the child care management.
+p This is our simple model of making it easier for you!
+p We promise not to stop here and grow strong, bringing to our website new exciting features, plenty of useful resources and tools, and of course soon we will launch our kindzy/blog dedicated to parents from parents.
+p It’s just the beginning and we look forward to having you enjoy exploring our website and of course share your feedback with us – because this is how we can get better for you. So feel free to submit any comment you have in our feedback form. We are here to help you communicate, to make you feel closer, to have you all up-to- date!
+
+p Kindzy Team J
+
+
+div.login-wrapper.hidden
+  div
+    h1 Welcome to Kindzy.com
+    - if ('undefined' !== typeof errors && errors.length)
+      div.alert-message.block-message.error
+        ul#errors
+          - each error in errors
+            li.error= error
+    form(action='/login', method='POST', id='login-form')
+      fieldset
+        input(type='hidden', name="friend_request_id", value='')
+        #login.clearfix
+          label(for=everyauth.password.loginFormFieldName) E-mail
+          .input
+            input(type='text', name=everyauth.password.loginFormFieldName, value="", placeholder="Your Email Address", class="required email")
+        #password.clearfix
+          label(for=everyauth.password.passwordFormFieldName) Password
+          .input
+            input(type='password', name=everyauth.password.passwordFormFieldName, class="password-fields required")
+        #submit.actions
+          input.btn.primary(type='submit', value='Login') Login
+
+    p.member Forgot your password?
+      a(href='/send-password') Click here to recover it.
+
+div.invite-wrapper.hidden
+  div
+    h1 Request a Kindzy account
+    form(action='/request-invite', method='POST', id='invite-form')
+      fieldset
+        .clearfix
+          label(for="email") E-mail
+          .input
+            input(type='text', name="email", value="", placeholder="Your Email Address", class="required email")
+        .clearfix
+          label(for="message") Why do you want to join Kindzy?
+          .input
+            textarea(name="message", class="required", placeholder="10 to 5 words")
+        #submit.actions
+          input.btn.primary(type='submit', value='Request invite') Request invite
+    p#invite-sent-success.hidden Invite successfully requested. We will contact you soon for farther details. Thank you.

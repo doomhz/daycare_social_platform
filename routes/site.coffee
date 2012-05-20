@@ -19,6 +19,15 @@ module.exports = (app)->
   app.get '/features', (req, res)->
     res.render 'site/features', {title: "Kindzy", layout: "guest", pageName: "features"}
 
+  app.get '/about-us', (req, res)->
+    res.render 'site/about_us', {title: "Kindzy", layout: "guest", pageName: "about-us"}
+
+  app.get '/terms', (req, res)->
+    res.render 'site/terms', {title: "Kindzy", layout: "guest", pageName: "terms"}
+
+  app.get '/privacy', (req, res)->
+    res.render 'site/privacy', {title: "Kindzy", layout: "guest", pageName: "privacy"}
+
   # TODO Create a model and cache the location search
   app.get '/geolocation', (req, res)->
     q = req.query.q
