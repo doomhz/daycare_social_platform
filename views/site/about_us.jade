@@ -32,44 +32,4 @@ p It’s just the beginning and we look forward to having you enjoy exploring ou
 p Kindzy Team J
 
 
-div.login-wrapper.hidden
-  div
-    h1 Welcome to Kindzy.com
-    - if ('undefined' !== typeof errors && errors.length)
-      div.alert-message.block-message.error
-        ul#errors
-          - each error in errors
-            li.error= error
-    form(action='/login', method='POST', id='login-form')
-      fieldset
-        input(type='hidden', name="friend_request_id", value='')
-        #login.clearfix
-          label(for=everyauth.password.loginFormFieldName) E-mail
-          .input
-            input(type='text', name=everyauth.password.loginFormFieldName, value="", placeholder="Your Email Address", class="required email")
-        #password.clearfix
-          label(for=everyauth.password.passwordFormFieldName) Password
-          .input
-            input(type='password', name=everyauth.password.passwordFormFieldName, class="password-fields required")
-        #submit.actions
-          input.btn.primary(type='submit', value='Login') Login
-
-    p.member Forgot your password?
-      a(href='/send-password') Click here to recover it.
-
-div.invite-wrapper.hidden
-  div
-    h1 Request a Kindzy account
-    form(action='/request-invite', method='POST', id='invite-form')
-      fieldset
-        .clearfix
-          label(for="email") E-mail
-          .input
-            input(type='text', name="email", value="", placeholder="Your Email Address", class="required email")
-        .clearfix
-          label(for="message") Why do you want to join Kindzy?
-          .input
-            textarea(name="message", class="required", placeholder="10 to 5 words")
-        #submit.actions
-          input.btn.primary(type='submit', value='Request invite') Request invite
-    p#invite-sent-success.hidden Invite successfully requested. We will contact you soon for farther details. Thank you.
+include _invite_login_modals
