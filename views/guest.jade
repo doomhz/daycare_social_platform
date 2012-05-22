@@ -7,7 +7,7 @@ head
   != css('/stylesheets/main.css')
   != css('/stylesheets/guest')
   - var pageName = pageName || ""
-body
+body(class="#{pageName}")
   #wrapper(class="#{pageName}")
     .content-wrapper
       #main-column

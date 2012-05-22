@@ -1,5 +1,8 @@
 body
-  background: #f3f3f3
+  background: #f3f3f3 url("/images/index/bg_body.png") repeat-x top center
+
+body.features
+  background: #f3f3f3 url("/images/features/bg_body.png") repeat-x top center
 
 a
   color: #5caae3
@@ -7,7 +10,7 @@ a:hover
   color: #FFF
 
 #wrapper
-  background: url("/images/index/blackboard_bg.png") no-repeat top center
+  background: url("/images/index/blackboard_bg.jpg") no-repeat top center
   .content-wrapper
     background: transparent
     #logo
@@ -31,19 +34,22 @@ a:hover
         background: url("/images/index/request_tour_bt.png") no-repeat top center
         width: 357px
         height: 53px
+        line-height: 32px
         .request-invite-cnt
           color: #FFF
-          font-size: 19px
+          font-size: 18px
           display: inline-block
-          padding: 10px 30px 10px 30px
+          padding: 10px 30px 10px 34px
+          text-shadow: 0 -1px 1px rgba(0,0,0,0.4)
         .take-the-tour-cnt
           color: #000
-          font-size: 19px
+          font-size: 18px
           display: inline-block
-          padding: 10px 30px 10px 30px
+          padding: 10px 30px 10px 34px
+          text-shadow: 0 1px 1px rgba(255,255,255,1)
       #registered-memebers-text
         width: 350px
-        font-size: 15px
+        font-size: 13px
         text-align: center
         margin: 15px 0 15px 0
       #arrow-left
@@ -67,16 +73,18 @@ a:hover
         width: 510px
         height: 140px
         blockquote
-          font-size: 17px
+          font-family: Georgia, Verdana, serif
+          font-size: 16px
           font-style: italic
           height: 100px
-          padding: 5px 15px 30px 15px
+          padding: 20px
           overflow: hidden
+          text-align: center
         .author
           float: right
           margin: 0 10px 0 0
           font-weight: bold
-          font-size: 13px
+          font-size: 14px
       #testimonials-scroller
         li
           margin: 0 5px 0 0
@@ -113,6 +121,8 @@ a:hover
         margin: 0
         background: #FFF url("/images/index/create_symbol.png") no-repeat center 30px
   .footer
+    margin-top: 80px
+    font-size: 13px
     .f-menu
       float: none
       width: 100%
@@ -147,7 +157,7 @@ a:hover
       margin: 10px
 
 #wrapper.features, #wrapper.about-us, #wrapper.privacy, #wrapper.terms
-  background: url("/images/features/blackboard_bg.png") no-repeat top center
+  background: url("/images/features/blackboard_bg.jpg") no-repeat top center
   .content-wrapper
     background: transparent
     #logo
@@ -200,6 +210,7 @@ a:hover
           height: 35px
           padding: 17px 15px 30px 35px
           overflow: hidden
+          text-align: center
         .author
           float: right
           margin: 0 30px 0 0
@@ -245,7 +256,7 @@ a:hover
       p
         float: left
     .feature-box.even
-      text-align: right
+      text-align: left
       img
         float: left
       h3

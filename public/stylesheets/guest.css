@@ -1,5 +1,8 @@
 body {
-  background: #f3f3f3;
+  background: #f3f3f3 url("/images/index/bg_body.png") repeat-x top center;
+}
+body.features {
+  background: #f3f3f3 url("/images/features/bg_body.png") repeat-x top center;
 }
 a {
   color: #5caae3;
@@ -8,7 +11,7 @@ a:hover {
   color: #fff;
 }
 #wrapper {
-  background: url("/images/index/blackboard_bg.png") no-repeat top center;
+  background: url("/images/index/blackboard_bg.jpg") no-repeat top center;
 }
 #wrapper .content-wrapper {
   background: transparent;
@@ -38,22 +41,25 @@ a:hover {
   background: url("/images/index/request_tour_bt.png") no-repeat top center;
   width: 357px;
   height: 53px;
+  line-height: 32px;
 }
 #wrapper .content-wrapper #call-to-action #action-buttons .request-invite-cnt {
   color: #fff;
-  font-size: 19px;
+  font-size: 18px;
   display: inline-block;
-  padding: 10px 30px 10px 30px;
+  padding: 10px 30px 10px 34px;
+  text-shadow: 0 -1px 1px rgba(0,0,0,0.40);
 }
 #wrapper .content-wrapper #call-to-action #action-buttons .take-the-tour-cnt {
   color: #000;
-  font-size: 19px;
+  font-size: 18px;
   display: inline-block;
-  padding: 10px 30px 10px 30px;
+  padding: 10px 30px 10px 34px;
+  text-shadow: 0 1px 1px #fff;
 }
 #wrapper .content-wrapper #call-to-action #registered-memebers-text {
   width: 350px;
-  font-size: 15px;
+  font-size: 13px;
   text-align: center;
   margin: 15px 0 15px 0;
 }
@@ -82,17 +88,19 @@ a:hover {
   height: 140px;
 }
 #wrapper .content-wrapper #testimonials-cnt .testimonial blockquote {
-  font-size: 17px;
+  font-family: Georgia, Verdana, serif;
+  font-size: 16px;
   font-style: italic;
   height: 100px;
-  padding: 5px 15px 30px 15px;
+  padding: 20px;
   overflow: hidden;
+  text-align: center;
 }
 #wrapper .content-wrapper #testimonials-cnt .testimonial .author {
   float: right;
   margin: 0 10px 0 0;
   font-weight: bold;
-  font-size: 13px;
+  font-size: 14px;
 }
 #wrapper .content-wrapper #testimonials-cnt #testimonials-scroller li {
   margin: 0 5px 0 0;
@@ -137,6 +145,10 @@ a:hover {
   margin: 0;
   background: #fff url("/images/index/create_symbol.png") no-repeat center 30px;
 }
+#wrapper .footer {
+  margin-top: 80px;
+  font-size: 13px;
+}
 #wrapper .footer .f-menu {
   float: none;
   width: 100%;
@@ -179,7 +191,7 @@ a:hover {
 #wrapper.about-us,
 #wrapper.privacy,
 #wrapper.terms {
-  background: url("/images/features/blackboard_bg.png") no-repeat top center;
+  background: url("/images/features/blackboard_bg.jpg") no-repeat top center;
 }
 #wrapper.features .content-wrapper,
 #wrapper.about-us .content-wrapper,
@@ -276,6 +288,7 @@ a:hover {
   height: 35px;
   padding: 17px 15px 30px 35px;
   overflow: hidden;
+  text-align: center;
 }
 #wrapper.features .content-wrapper #testimonials-cnt .testimonial .author,
 #wrapper.about-us .content-wrapper #testimonials-cnt .testimonial .author,
@@ -372,7 +385,7 @@ a:hover {
 #wrapper.about-us .content-wrapper .feature-box.even,
 #wrapper.privacy .content-wrapper .feature-box.even,
 #wrapper.terms .content-wrapper .feature-box.even {
-  text-align: right;
+  text-align: left;
 }
 #wrapper.features .content-wrapper .feature-box.even img,
 #wrapper.about-us .content-wrapper .feature-box.even img,
