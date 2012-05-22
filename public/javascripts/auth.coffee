@@ -115,7 +115,7 @@ $ ()->
       if index > $testimonials.length - 1
         index = 0
       switchTestimonial($($testimonialsButtons[index]))
-    testimonialsIntervalId = setInterval(scrollTestimonials, 3000)
+    testimonialsIntervalId = setInterval(scrollTestimonials, 6000)
 
   if $("#features-menu").length
     $featuresMenuItems = $("#features-menu").children()
