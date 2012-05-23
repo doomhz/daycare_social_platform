@@ -193,28 +193,22 @@
     email = require("mailer");
     siteUrl = "http://" + options.host;
     return this.generateToken(function(token) {
-      var passUrl;
+      var Emailer, data, emailer, passUrl;
       passUrl = "" + siteUrl + "/change-password/" + token;
-      email.send({
-        host: "smtp.gmail.com",
-        port: "587",
-        ssl: false,
-        domain: "localhost",
-        to: "'" + that.name + " " + that.surname + "' <" + that.email + ">",
-        from: "'Kindzy.com' <no-reply@kindzy.com>",
+      data = {
+        "profile_name": that.name,
+        "profile_surname": that.surname,
+        "site_url": siteUrl,
+        "pass_url": passUrl
+      };
+      options = {
+        to: that,
         subject: "Change password request on Kindzy.com",
-        template: "./views/emails/change_password.html",
-        body: "Please use a newer version of an e-mail manager to read this mail in HTML format.",
-        data: {
-          "profile_name": that.name,
-          "profile_surname": that.surname,
-          "site_url": siteUrl,
-          "pass_url": passUrl
-        },
-        authentication: "login",
-        username: "no-reply@kindzy.com",
-        password: "greatreply#69"
-      }, function(err, result) {
+        template: "change_password"
+      };
+      Emailer = require("../lib/emailer");
+      emailer = new Emailer(options, data);
+      emailer.send(function(err, result) {
         if (err) return console.log(err);
       });
       return callback();

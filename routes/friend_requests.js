@@ -69,6 +69,22 @@
         });
       });
     });
+    app.put('/friend-request/send/:id', function(req, res) {
+      var friendRequestId;
+      friendRequestId = req.params.id;
+      return FriendRequest.findOne({
+        _id: friendRequestId
+      }).run(function(err, friendRequest) {
+        if (friendRequest) {
+          FriendRequest.sendMail(friendRequest, {
+            host: req.headers.host
+          });
+        }
+        return res.json({
+          success: true
+        });
+      });
+    });
     app.get('/friend-requests/:type', function(req, res) {
       var currentUser, type;
       currentUser = req.user ? req.user : {};

@@ -10,7 +10,7 @@
 
   InfoSection = require('../models/info_section');
 
-  ImageUploader = require('../models/image_uploader');
+  ImageUploader = require('../lib/image_uploader');
 
   fs = require('fs');
 

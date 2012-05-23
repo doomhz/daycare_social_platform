@@ -12,7 +12,8 @@
     <td>
       <%= friendRequest.get("status") %>
       <br />
-      <button class="btn cancel-request" data-id="<%= friendRequestId %>">Cancel</button>
+      <a href="#" class="cancel-request" data-id="<%= friendRequestId %>">Cancel</a>
+      <a href="#" class="resend-request" data-id="<%= friendRequestId %>">Resend</a>
     </td>
 </tr>
 <tr id="class-cnt-<%= friendRequestId %>" class="hidden">

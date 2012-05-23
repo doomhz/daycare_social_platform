@@ -13,8 +13,14 @@ class Kin.FriendRequestModel extends Backbone.Model
 
   urlRoot: "/friend-request"
 
+  sendRequestUrl: "/friend-request/send/:id"
+
   initialize: (attributes, options)->
     @id = @get("_id")
+
+  send: (options = {})->
+    options.url = @sendRequestUrl.replace(":id", @id)
+    @save null, options
 
   url: ()->
     id = if @get("_id") then "/#{@get("_id")}" else ""

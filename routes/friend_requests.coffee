@@ -41,6 +41,13 @@ module.exports = (app)->
 
       res.json {success: true}
 
+  app.put '/friend-request/send/:id', (req, res)->
+    friendRequestId = req.params.id
+    FriendRequest.findOne({_id: friendRequestId}).run (err, friendRequest)->
+      if friendRequest
+        FriendRequest.sendMail(friendRequest, {host: req.headers.host})
+      res.json {success: true}
+
   app.get '/friend-requests/:type', (req, res)->
     currentUser = if req.user then req.user else {}
     type = req.params.type or "parent"

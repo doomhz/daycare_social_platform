@@ -2,7 +2,7 @@ User          = require('../models/user')
 Comment       = require('../models/comment')
 Child         = require('../models/child')
 InfoSection   = require('../models/info_section')
-ImageUploader = require('../models/image_uploader')
+ImageUploader = require('../lib/image_uploader')
 fs            = require('fs')
 _             = require('underscore')
 

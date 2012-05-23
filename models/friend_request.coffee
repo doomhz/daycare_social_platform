@@ -36,33 +36,23 @@ FriendRequestSchema = new Schema
 
 FriendRequestSchema.statics.sendMail = (friendRequest, options)->
   User.findOne({_id: friendRequest.from_id}).run (err, daycare)->
-    email     = require("mailer")
     siteUrl   = "http://#{options.host}"
     inviteUrl = "#{siteUrl}/register?friend_request=#{friendRequest._id}"
-    email.send({
-      host : "smtp.gmail.com"
-      port : "587"
-      ssl: false
-      domain : "localhost"
-      to : "'#{friendRequest.name} #{friendRequest.surname}' <#{friendRequest.email}>"
-      from : "'Kindzy.com' <no-reply@kindzy.com>"
-      subject : "Friend request from #{daycare.name} on Kindzy.com"
-      template : "./views/emails/#{friendRequest.type}_invite.html"
-      body: "Please use a newer version of an e-mail manager to read this mail in HTML format."
-      data :
-        "daycare_name": daycare.name
-        "profile_name": friendRequest.name
-        "profile_surname": friendRequest.surname
-        "site_url": siteUrl
-        "invite_url": inviteUrl
-      authentication : "login"
-      username : "no-reply@kindzy.com"
-      password : "greatreply#69"
-    },
-    (err, result)->
+    data =
+      "daycare_name": daycare.name
+      "profile_name": friendRequest.name
+      "profile_surname": friendRequest.surname
+      "site_url": siteUrl
+      "invite_url": inviteUrl
+    options =
+      to: friendRequest
+      subject: "Friend request from #{daycare.name} on Kindzy.com"
+      template: "#{friendRequest.type}_invite"
+    Emailer = require "../lib/emailer"
+    emailer = new Emailer options, data
+    emailer.send (err, result)->
       if err
         console.log err
-    )
 
 FriendRequestSchema.statics.updateFriendship = (userId, onFriendshipUpdate)->
   Child          = mongoose.model("Child")

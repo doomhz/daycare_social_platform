@@ -10,6 +10,7 @@ class Kin.Parent.FriendRequestsListView extends Backbone.View
     "click .parent-name"                : "parentNameClickHandler"
     "submit .friend-request-class-form" : "editClassesSubmitHandler"
     "click .cancel-request"             : "cancelRequestClickHandler"
+    "click .resend-request"             : "resendRequestClickHandler"
 
   initialize: ()->
 
@@ -52,6 +53,7 @@ class Kin.Parent.FriendRequestsListView extends Backbone.View
         $.jGrowl("Classes could not be changed :( Please try again.")
 
   cancelRequestClickHandler: (ev)=>
+    ev.preventDefault()
     that = @
     $target = $(ev.target)
     dConfirm "Are you sure you want to cancel the invite?", (btType, win)->
@@ -66,4 +68,19 @@ class Kin.Parent.FriendRequestsListView extends Backbone.View
             that.render()
           error: ()->
             $.jGrowl("Invite could not be canceled :( Please try again.")
+
+  resendRequestClickHandler: (ev)=>
+    ev.preventDefault()
+    that = @
+    $target = $(ev.target)
+    dConfirm "Are you sure you want to resend the invite?", (btType, win)->
+      win.close()
+      if btType is 'yes'
+        friendRequestId = $target.data("id")
+        friendRequest = that.collection.get(friendRequestId)
+        friendRequest.send
+          success: ()->
+            $.jGrowl("Invite was resent")
+          error: ()->
+            $.jGrowl("Invite could not be sent :( Please try again.")
 

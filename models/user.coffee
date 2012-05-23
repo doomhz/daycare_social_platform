@@ -139,29 +139,20 @@ UserSchema.methods.sendPasswordLink = (options, callback)->
   siteUrl = "http://#{options.host}"
   @generateToken (token)->
     passUrl = "#{siteUrl}/change-password/#{token}"
-    email.send({
-      host : "smtp.gmail.com"
-      port : "587"
-      ssl: false
-      domain : "localhost"
-      to : "'#{that.name} #{that.surname}' <#{that.email}>"
-      from : "'Kindzy.com' <no-reply@kindzy.com>"
-      subject : "Change password request on Kindzy.com"
-      template : "./views/emails/change_password.html"
-      body: "Please use a newer version of an e-mail manager to read this mail in HTML format."
-      data :
-        "profile_name": that.name
-        "profile_surname": that.surname
-        "site_url": siteUrl
-        "pass_url": passUrl
-      authentication : "login"
-      username : "no-reply@kindzy.com"
-      password : "greatreply#69"
-    },
-    (err, result)->
+    data =
+      "profile_name": that.name
+      "profile_surname": that.surname
+      "site_url": siteUrl
+      "pass_url": passUrl
+    options =
+      to: that
+      subject: "Change password request on Kindzy.com"
+      template: "change_password"
+    Emailer = require "../lib/emailer"
+    emailer = new Emailer options, data
+    emailer.send (err, result)->
       if err
         console.log err
-    )
     callback()
 
 UserSchema.methods.generateToken = (callback)->
