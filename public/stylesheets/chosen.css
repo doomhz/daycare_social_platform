@@ -154,14 +154,11 @@
   line-height: 18px;
   color: #cacaca;
   border: 1px solid #d5d5d5;
-  width: 528px;
+  width: 556px;
   height: 35px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  -webkit-box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.15);
-  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
   -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
   -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
   -ms-transition: border linear 0.2s, box-shadow linear 0.2s;
@@ -199,7 +196,7 @@
   -moz-background-clip   : padding;
   -webkit-background-clip: padding-box;
   background-clip        : padding-box;
-  background-color: #8fc447;
+  background-color: #5caae3;
   color: #fff;
   line-height: 17px;
   padding: 5px 19px 3px 6px !important;
@@ -255,9 +252,10 @@
 .chzn-container .chzn-results .active-result {
   cursor: pointer;
   display: list-item;
+  margin: 0 !important;
 }
 .chzn-container .chzn-results .highlighted {
-  background: #8fc447;
+  background: #5caae3;
   color: #fff;
 }
 .chzn-container .chzn-results li em {
@@ -321,12 +319,12 @@
   background-position: -18px 1px;
 }
 .chzn-container-active .chzn-choices {
-  border-color: #8fc447;
+  border-color: #5caae3;
   color: #333;
-  border-color: rgba(143, 196, 71, 0.8);
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 2px rgba(143, 196, 71, 0.6);
-  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 2px rgba(143, 196, 71, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 2px rgba(143, 196, 71, 0.6);
+  border-color: rgba(92, 170, 227, 1);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 2px rgba(92, 170, 227, 1);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 2px rgba(92, 170, 227, 1);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 2px rgba(92, 170, 227, 1);
   outline: 0;
   outline: thin dotted \9;
   margin-left: 0 !important;

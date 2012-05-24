@@ -24,11 +24,11 @@ class ImageUploader
       method: "crop"
     small:
       width:  110
-      height: 85
+      height: 110
       method: "crop"
     thumb:
-      width:  140
-      height: 140
+      width:  150
+      height: 150
       method: "crop"
     medium:
       width:  538
