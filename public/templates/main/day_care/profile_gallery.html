@@ -106,19 +106,19 @@
           var primaryPictureThumbUrl = primaryPicture ? (primaryPicture.get('small_url') || primaryPicture.get('url')) : Kin.CONFIG.noPicture;
   %>
       <li>
+          <a href="#profiles/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>" class="photo-frame">
+              <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="110" />
+          </a>
           <h3>
               <a href="#profiles/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>">
                 <%=pictureSet.get('name') %> <span>(<%=pictureSet.get('pictures').length %>)</span>
               </a>
           </h3>
-          <a href="#profiles/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>" class="photo-frame">
-              <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="110" />
-          </a>
           <%
               if (canEdit && pictureSet.get('type') !== 'profile') {
           %>
           <p>
-              <a href="#" title="Delete picture set" data-pic-set-id="<%=pictureSet.get('_id') %>" class="delete-pic-set-bt">&nbsp;</a>
+              <a href="#" title="Delete picture set" data-pic-set-id="<%=pictureSet.get('_id') %>" class="delete-pic-set-bt">Delete</a>
           </p>
           <%
               } else {

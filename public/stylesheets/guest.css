@@ -1,6 +1,5 @@
 body {
   background: #f3f3f3 url("/images/index/bg_body.png") repeat-x top center;
-  font-size: 13px;
 }
 body.features {
   background: #f3f3f3 url("/images/features/bg_body.png") repeat-x top center;
@@ -72,7 +71,7 @@ a:hover {
   margin: -130px 0 0 0;
 }
 #wrapper .content-wrapper #site-preview {
-  background: url("/images/index/site_preview.png") no-repeat top center;
+  background: url("/images/index/site_preview.jpg") no-repeat top center;
   width: 450px;
   height: 593px;
   float: right;
@@ -149,42 +148,58 @@ a:hover {
 #wrapper .footer {
   margin-top: 80px;
   font-size: 13px;
+  background: #000 url("images/index/bg_footer.png") -100% repeat-x top center;
 }
+
 #wrapper .footer .f-menu {
   float: none;
   width: 100%;
   text-align: center;
   margin: 0 0 15px 0;
 }
+
 #wrapper .footer .f-menu li {
   display: inline-block;
   float: none;
 }
+
 #wrapper .footer .f-menu li a {
   font-weight: bold;
 }
+
+#wrapper .footer .f-menu li a:hover {
+  color: #5caae3;
+}
+
 #wrapper .footer .copy {
   float: none;
   width: 100%;
   text-align: center;
 }
+
 #invite-window .doom-win-content {
   padding: 20px;
 }
 
+#invite-window .doom-win-content form {
+  background: #ffffff;
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 13px;
+}
 
 #invite-window .doom-win-content .why {
   margin: 10px 0 0 0;
 }
 
-#invite-window .doom-win-content form {
-  background: #fff;
-  padding: 10px 20px;
-  margin: 10px;
+#invite-window input[type="submit"] {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 10px 0 0 0;
 }
 
 #invite-window .doom-win-content form textarea {
-  width: 320px;
+  width: 300px;
   height: 100px;
 }
 
@@ -192,35 +207,33 @@ a:hover {
   width: 320px;
 }
 
+#invite-window .doom-win-content form textarea {
+  width: 320px;
+  height: 100px;
+}
+
 #log-in-window .doom-win-content {
   padding: 20px;
 }
 
 #log-in-window .doom-win-content form {
-  background: #fff;
+  background: #ffffff;
   padding: 10px;
   margin: 10px;
 }
 
-#log-in-window input[type="text"],input[type="password"] {
-  width: 380px;
+#log-in-window .doom-win-content .recover {
+  color: #A6A6A6;
+  float: right;
+  margin: -40px 0 0 0;
+  padding-right: 20px;
+  font-size: 13px;
 }
 
 #log-in-window input[type="submit"] {
   padding-left: 20px;
   padding-right: 20px;
   margin: 10px 0 0 0;
-}
-
-#log-in-window .doom-win-content .recover {
-  color: #a6a6a6;
-  float: right;
-  margin: -40px 0 0 0;
-  padding-right: 20px;
-}
-
-#log-in-window .doom-win-content .recover:hover {
-  color: #333;
 }
 
 #wrapper.features,

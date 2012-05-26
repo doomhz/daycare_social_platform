@@ -318,6 +318,7 @@ a:hover {
 
 #wrapper {
     width: 100%;
+    height: 100%;
     overflow: hidden;
 }
 
@@ -438,7 +439,8 @@ a:hover {
 }
 
 .header-content .user_notifications ul li.unread {
-  background: #f4f4f4;
+  background: #ebeff5;
+  border-bottom: 1px solid #c7cbd1 !important;
 }
 
 .header-content .user_notifications ul li a {
@@ -507,14 +509,17 @@ a:hover {
 .header-content #last-followups,
 .header-content #last-wall-posts {
   position: absolute;
-  width: 280px;
+  width: 340px;
   height: auto;
   z-index: 900;
-  margin-top: 3px;
-  margin-left: 5px;
-  background: #fff;
-  box-shadow: 0px 0 22px rgba(0,0,0,0.2);
+  margin-left: -5px;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0px 3px 8px rgba(0,0,0,0.25);
+  border: 1px solid rgba(100,100,100,0.4);
   top: 48px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
 .header-content #last-messages li,
@@ -525,7 +530,8 @@ a:hover {
   width: 100%;
   height: auto;
   overflow: hidden;
-  border-bottom: 1px solid #cacaca;
+  border-bottom: 1px solid #e9e9e9;
+  font-size: 11px;
 }
 
 .header-content #last-messages li a,
@@ -541,27 +547,36 @@ a:hover {
   width: 93%;
 }
 
+.header-content #last-messages li a:hover,
+.header-content #last-requests li a:hover,
+.header-content #last-followups li a:hover,
+.header-content #last-wall-posts li a:hover {
+  background: #f4f6f9;
+}
+
 .header-content #last-messages .message-header,
 .header-content #last-requests .message-header,
 .header-content #last-followups .message-header,
 .header-content #last-wall-posts .message-header {
-  margin-left: 35px;
+  margin-left: 60px;
+  font-size: 12px;
 }
 
 .header-content #last-messages .message-body,
 .header-content #last-requests .message-body,
 .header-content #last-followups .message-body,
 .header-content #last-wall-posts .message-body {
-  margin-left: 35px;
+  margin-left: 60px;
+  font-size: 12px;
 }
 
 .header-content #last-messages .time,
 .header-content #last-requests .time,
 .header-content #last-followups .time,
 .header-content #last-wall-posts .time {
-  float: right;
   font-size: 10px;
   color: #bdc8cb;
+  margin-left: 60px;
 }
 
 .header-content #last-messages .name,
@@ -569,7 +584,7 @@ a:hover {
 .header-content #last-followups .name,
 .header-content #last-wall-posts .name {
   font-weight: bold;
-  color: #90c333;
+  color: #333;
 }
 
 .header-content #last-messages .avatar,
@@ -583,7 +598,7 @@ a:hover {
 .header-content #last-requests .avatar img,
 .header-content #last-followups .avatar img,
 .header-content #last-wall-posts .avatar img {
-  border-radius: 3px;
+  
 }
 
 .header-content #last-messages .view-all-list-items-bt a,
@@ -592,6 +607,7 @@ a:hover {
 .header-content #last-wall-posts .view-all-list-items-bt a {
   text-align: center;
   font-weight: bold;
+  font-size: 12px;
 }
 
 .header-content #last-messages li.notification-title,
@@ -599,13 +615,12 @@ a:hover {
 .header-content #last-followups li.notification-title,
 .header-content #last-wall-posts li.notification-title {
   font-weight: bold;
+  font-size: 13px;
   padding: 6px 0;
-  background: #000000;
-  color: #fff;
+  color: #000;
   border-bottom: 1px solid #cacaca;
   text-align: left;
   padding-left: 10px;
-  box-shadow: inset 0px 2px 3px rgba(0,0,0,0.2);
 }
 
 
@@ -613,15 +628,17 @@ a:hover {
 .header-content #last-requests li.view-all-list-items-bt,
 .header-content #last-followups li.view-all-list-items-bt,
 .header-content #last-wall-posts li.view-all-list-items-bt {
-  background: #90c333;
-  border-bottom: 1px solid #689c22;
+  background: #f7f7f7;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
 .header-content #last-messages li.view-all-list-items-bt a,
 .header-content #last-requests li.view-all-list-items-bt a,
 .header-content #last-followups li.view-all-list-items-bt a,
 .header-content #last-wall-posts li.view-all-list-items-bt a {
-  color: #fff;
+  color: #236FA6;
 }
 
 .header-content .user-menu {
@@ -657,6 +674,23 @@ a:hover {
 
 .header-content .user-menu ul li a {
   
+}
+
+.top-arrow {
+    background: url("/images/site/notifications_arrow.png") no-repeat 0 0;
+    height: 12px;
+    width: 21px;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    z-index: 999;
+    margin-top: 8px;
+    margin-left: 13px;
+    display: none;
+}
+
+.selected .top-arrow {
+    display: block;
 }
 
 #my-profile-bt {
@@ -784,6 +818,10 @@ a:hover {
 }
 
 .kd-menu .nav-menu li:hover {
+  background: #f4f6f9;
+}
+
+.kd-menu .nav-menu li.selected:hover {
   background: #e4ebf0;
 }
 
@@ -855,6 +893,10 @@ a:hover {
   transition: color 0.3s;
 }
 
+.kd-menu .nav-menu #edit-profile-menu-item a {
+    background: url('/images/site/news_feed_icon.png') no-repeat 5px center;
+}
+
 .kd-menu .nav-menu #wall-menu-item a {
   background: url('/images/site/news_feed_icon.png') no-repeat 5px center;
 }
@@ -892,20 +934,34 @@ a:hover {
 }
 
 #messages-left-menu li.selected {
-  background: #90c333;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+  background: #E4EBF0;
+  font-weight: bold;
+}
+
+#messages-left-menu li#write-menu-item a {
+  padding-left: 28px;
+  background: url("/images/site/icon_messages.png") no-repeat 5px -24px;
+}
+
+#messages-left-menu li#inbox-menu-item a {
+  padding-left: 28px;
+  background: url("/images/site/icon_messages.png") no-repeat 5px 8px;
 }
 
 #messages-left-menu li.selected a {
-  color: #fff;
+  color: #333;
 }
 
 #messages-left-menu li:hover {
-  background: #c17bb4;
+  background: #f4f6f9;
+}
+
+#messages-left-menu li.selected:hover {
+  background: #E4EBF0;
 }
 
 #messages-left-menu li:hover a {
-  color: #fff;
+  color: #333;
 }
 
 #messages-left-menu li a {
@@ -915,14 +971,11 @@ a:hover {
   -webkit-transition: none;
   -moz-transition: none;
   transition: none;
-  font-weight: bold;
-  font-size: 11px;
-  text-transform: uppercase;
+  font-size: 12px;
 }
 
 #messages-left-menu li a:hover {
   text-decoration: none;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
 }
 
 
@@ -1079,8 +1132,9 @@ a:hover {
 
 #wall-comments-list li.single .followups {
   overflow: hidden;
-  margin: 0 20px 0 20px;
+  margin: 0 20px 0 30px;
   background-color: #f3f7f9;
+  width: 550px;
 }
 
 #wall-comments-list li.single .followups li {
@@ -1108,7 +1162,7 @@ a:hover {
 
 #wall-comments-list li.single .followups .content {
   float: left;
-  width: 499px;
+  width: 479px;
 }
 
 #wall-comments-list li.single .followups .comment-text {
@@ -1158,11 +1212,12 @@ a:hover {
 #wall-comments-list li.single .send-reply {
   clear: both;
   overflow: hidden;
-  margin: 0 20px 20px 20px;
+  margin: 0 20px 20px 30px;
   background-color: #e4ebf0;
   padding: 5px 0 0 10px;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #bdcad3;
+  width: 540px;
 }
 
 #wall-comments-list li.single .send-reply .add-followup-form {
@@ -1184,7 +1239,7 @@ a:hover {
 }
 
 #wall-comments-list li.single .send-reply textarea {
-  width: 489px;
+  width: 469px;
   float: left;
   margin-left: 10px;
   margin-top: 3px;
@@ -1195,7 +1250,7 @@ a:hover {
 }
 
 #wall-comments-list li.single .send-reply textarea:focus {
-  border: 1px solid #a3b4c0;
+  border: 1px solid #5caae3;
 }
 
 .kd-info {
@@ -1211,19 +1266,19 @@ a:hover {
   font-size: 11px;
   width: 100%;
   margin: auto;
-  border-top: 1px solid #000;
-  height: 250px;
-  background: #000000 url('/images/site/bg_footer.jpg') -100% repeat-x;
-  color: #fff;
+  height: 170px;
+  color: #333;
   text-align: center;
-  text-shadow: 0 1px 0 #000;
+  bottom: 0;
+  opacity: 0.95;
+  border-top: 2px solid #eaeaea;
 }
 
 .footer a {
-  color: #fff;
+  color: #333;
   font-size: 13px;
-  font-weight: bold;
   margin: 0 5px;
+  font-weight: bold;
 }
 
 .footer a:hover {
@@ -1232,12 +1287,12 @@ a:hover {
 }
 
 .footer .copy {
-  margin-top: 10px;
   font-size: 12px;
+  margin-top: 10px;
 }
 
 .footer .f-menu {
-  margin-top: 20px;
+  padding-top: 20px;
 }
 
 .footer .f-menu li {
@@ -1290,6 +1345,11 @@ a:hover {
   width: 100%;
 }
 
+.comment-text .comment-photos a img {
+  border: 1px solid #D1D1D1;
+  padding: 5px;
+}
+
 #main-column h1 {
   margin-bottom: 10px;
 }
@@ -1302,11 +1362,25 @@ a:hover {
 }
 
 .login-wrapper h1 {
-  padding-bottom: 10px;
+  padding-bottom: 20px;
 }
 
 .login-wrapper p.register {
   margin-top: 20px;
+}
+
+.login-wrapper p.member {
+  font-size: 13px;
+  margin-top: 20px;
+}
+
+.login-wrapper p.member a {
+  color: #a6a6a6;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.login-wrapper p.member a:hover {
+  color: #333;
 }
 
 #login-form, #change-pass-form, #send-pass-form {
@@ -1315,7 +1389,22 @@ a:hover {
   text-align: left;
   padding: 20px;
   margin-bottom: 10px;
+  font-size: 13px;
 }
+
+#login-form input[type="text"], #change-pass-form input[type="text"], #send-pass-form input[type="text"] {
+  width: 380px;
+}
+
+#login-form input[type="password"], #change-pass-form input[type="password"], #send-pass-form input[type="password"] {
+  width: 380px;
+}
+
+#login-form input[type="submit"], #change-pass-form input[type="submit"], #send-pass-form input[type="submit"] {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 
 #login-form label, #change-pass-form label, #send-pass-form label, #invite-form label {
   font-weight: bold;
@@ -1560,13 +1649,12 @@ table input {
 }
 
 #general-wrapper textarea {
-  height: 32px;
+  height: 20px;
   width: 550px;
-  border-radius: 3px;
 }
 
 #general-wrapper textarea:focus {
-  height: 124px;
+  
 }
 
 #general-wrapper .content-box {
@@ -1617,7 +1705,7 @@ table input {
 /* ADD CLASS */
 
 .add-class input[type=text] {
-  width: 400px !important;
+  width: 520px !important;
 }
 
 .add-class .min-class-age {
@@ -1643,21 +1731,26 @@ table input {
 }
 
 .add-class .choose-teachers input {
-  width: 400px !important;
+  width: 520px !important;
 }
 
 .add-class .chzn-container-multi .chzn-choices {
-  width: 400px !important;
+  width: 528px !important;
 }
 
 .add-class .content-box {
-  padding: 0 60px !important;
+  padding: 0 20px !important;
   border-bottom: none !important;
+  width: 520px;
+}
+
+.add-class .content-box .input {
+  margin: 0 !important;
 }
 
 .add-class label.title {
-  font-size: 12px !important;
-  margin-bottom: 3px !important;
+  font-size: 13px !important;
+  margin-bottom: 0 !important;
 }
 
 .add-class h1 {
@@ -1668,14 +1761,15 @@ table input {
 .add-class h2 {
   font-weight: normal;
   font-size: 14px;
-  margin-bottom: 3px;
   padding: 10px 0 5px 0 !important;
   margin-top: 10px;
   border-top: 1px solid #ccc;
+  clear: both;
+  width: 540px;
 }
 
 .add-class .add-one-more {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 
@@ -1722,7 +1816,7 @@ table input {
 }
 
 #messages-list li .message-body .last-message:hover {
-  color: #90C333;
+  color: #236FA6;
 }
 
 #messages-list li .avatar {
@@ -1731,7 +1825,7 @@ table input {
 }
 
 #messages-list li .avatar img {
-  border-radius: 3px;
+  
 }
 
 #messages-list li .message-header {
@@ -1826,23 +1920,23 @@ table input {
 }
 
 #write-message-form textarea {
-  height: 120px !important;
+  
 }
 
 
 /* NOTIFICATIONS */
 
 #load-more-notifications-cnt {
-  width: 519px;
-  display: block;
-  margin: 0 10px;
+  width: 549px;
+  margin: 0 20px;
   overflow: hidden;
-  background: #f4f4f4;
-  text-align: center;
+  background: white;
   padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0px 1px 1px rgba(0,0,0,0.25);
-  margin: auto;
+  text-align: center; 
+}
+
+#load-more-notifications-cnt a:hover {
+    color: #5CAAE3;
 }
 
 #load-more-notifications-cnt a {
@@ -2022,10 +2116,14 @@ table input {
 
 .our-family .content-box {
   overflow: hidden;
+  border-bottom: none !important;
 }
 
-.our-family .content-box .nav-buttons-menu {
-
+.our-family .content-box #nav-buttons-menu {
+    width: 565px;
+    float: left;
+    padding: 5px 0 5px 0;
+    height: 32px;
 }
 
 #nav-buttons-menu li {
@@ -2035,6 +2133,8 @@ table input {
 
 #our-family-list-cnt {
   padding: 0 20px;
+  border-top: 2px solid #eaeaea;
+  padding-top: 20px;
 }
 
 #our-family-list-cnt h2 {
@@ -2051,6 +2151,7 @@ table input {
 
 #our-family-list-cnt h2 span {
   font-weight: normal;
+  color: #ccc;
 }
 
 #our-family-list-cnt .our-family-list {
@@ -2084,6 +2185,49 @@ table input {
 #our-family-list-cnt .our-family-list li .childs-name {
   display: inline-block;
   font-size: 12px;
+}
+
+#our-family-type-filter {
+    float: right;
+    margin-top: 6px;
+    margin-right: 5px;
+}
+
+#our-family-name-filter-bt {
+    float: right;
+}
+
+#our-family-filter {
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+#our-family-list-groups {
+    
+}
+
+#our-family-list-groups li {
+    display: block;
+}
+
+#our-family-list-groups li h3 {
+    padding: 0;
+    margin: 0;
+    display: block;
+    width: 570px;
+}
+
+#our-family-list-groups li h3 a {
+    padding: 10px 0;
+    display: block;
+    width: 570px;
+    font-size: 13px;
+    font-weight: normal;
+    border-bottom: 1px solid #eaeaea;
+}
+
+#our-family-list-groups li h3 a:hover {
+    
 }
 
 
@@ -2130,7 +2274,7 @@ table input {
 }
 
 #add-child-form {
-
+  margin-top: 20px;
 }
 
 #add-child-form div {
@@ -2142,8 +2286,9 @@ table input {
   font-weight: normal;
 }
 
-#add-child-form label.title {
-  font-size: 14px;
+#add-child-form label {
+  font-size: 13px;
+  font-weight: bold;
 }
 
 #add-child-form .surname {
@@ -2156,6 +2301,23 @@ table input {
   padding-bottom: 10px;
 }
 
+.sent-invites {
+  padding: 6px;
+  font-size: 13px;
+  text-align: center;
+  display: block;
+  background: #f4f6f9;
+  border-bottom: 1px solid #e3e8f0;
+  margin: 20px 19px 0 18px;
+}
+
+#friend-requests-list {
+    
+}
+
+#friend-requests-list .cancel-request {
+    padding-right: 5px;
+}
 
 
 /* GALLERY */
@@ -2166,20 +2328,43 @@ table input {
 }
 
 #profile-gallery-tab-menu {
-  margin-left: 20px;
-  list-style-type: disc;
-  margin-bottom: 20px;
+  list-style-type: none;
+  margin-bottom: 20px; 
 }
 
-#profile-gallery-tabs ul {
-
+#profile-gallery-tab-menu {
+  margin-bottom: 10px;
+  overflow: hidden;
 }
 
-#profile-gallery-tabs ul li {
+#profile-gallery-tab-menu li {
   font-size: 12px;
+  float: left;
+  width: 33%;
+  margin-bottom: 5px;
+  margin-right: 2px;
 }
 
-#profile-gallery-tabs ul li.tab-active a {
+#profile-gallery-tab-menu li a {
+  padding: 5px;
+  border: 1px solid #eaeaea;
+  width: 90%;
+  display: inline-block;
+  max-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+#profile-gallery-tab-menu li a:hover {
+  background: #f4f6f9;
+  border: 1px solid #e3e8f0;
+}
+
+#profile-gallery-tab-menu li.tab-active a {
   color: #333;
   font-weight: bold;
 }
@@ -2197,11 +2382,7 @@ table input {
 }
 
 #create-new-pic-cnt {
-  margin: 10px 20px 10px 20px;
-  padding: 10px;
-  background: #F4F4F4;
-  border-radius: 3px;
-  box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
+  margin: 10px 0 10px 0;
 }
 
 #create-new-pic-cnt .actions {
@@ -2217,11 +2398,17 @@ table input {
 }
 
 #create-new-pic-cnt fieldset input[type=text] {
-  width: 499px !important;
+  width: 550px !important;
 }
 
 #create-new-pic-cnt .actions {
   text-align: left;
+}
+
+#invite-parents-btn {
+    margin-left: 10px;
+    margin-top: 20px;
+    width: 140px;
 }
 
 #invite-parents-wrapper {
@@ -2347,11 +2534,12 @@ table input {
   display: inline-block;
   text-align: center;
   margin-right: 12px;
-  margin: 0 14px 10px 14px;
+  margin: 0 10px 10px 10px;
 }
 
 #pictures-list li a img {
-  border-radius: 3px;
+  border: 1px solid #D1D1D1;
+  padding: 5px;
 }
 
 #pictures-list li .picture-description {
@@ -2421,16 +2609,17 @@ table input {
 #picture-sets-list li {
   display: inline-block;
   text-align: center;
-  margin: 0 14px !important;
-  margin-bottom: 20px;
+  margin: 0 11px !important;
+  padding-bottom: 30px;
 }
 
 #picture-sets-list li h3 {
   font-size: 12px;
-  width: 110px;
-  max-width: 110px;
+  width: 122px;
+  max-width: 122px;
   display: block;
   margin-bottom: 5px !important;
+  margin-top: 5px !important;
   padding: 0 !important;
 }
 
@@ -2447,22 +2636,27 @@ table input {
 #picture-sets-list li p {
   text-align: center;
   display: block;
-  height: 11px;
+  height: 1px;
 }
 
 #picture-sets-list li a img {
-  border-radius: 3px;
+  border: 1px solid #D1D1D1;
+  padding: 5px;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
 }
 
 #picture-sets-list li p .delete-pic-set-bt {
   background: url('/images/site/icon_photomanage.png') no-repeat -16px 0;
-  height: 16px;
-  width: 16px;
   display: inline-block;
+  color: #a6a6a6;
+  font-size: 12px;
+  padding-left: 18px;
+  margin-left: -18px;
 }
 
 #picture-sets-list li p .delete-pic-set-bt:hover {
   background: url('/images/site/icon_photomanage.png') no-repeat -16px -16px;
+  color: #333;
 }
 
 #side-info-container {
@@ -2585,7 +2779,9 @@ table input {
 }
 
 #show-new-pic-set-form-bt {
-  margin-left: 20px;
+  float: right;
+  margin-top: -30px;
+  margin-right: 20px;
 }
 
 
@@ -2608,23 +2804,18 @@ label.error {
 
 #errors {
   margin-bottom: 10px;
-  background: #b94a48;
   padding: 5px;
-  font-size: 12px;
+  font-size: 13px;
   margin: auto;
-  border-radius: 3px;
-  margin-bottom: 10px;
+  width: 360px;
+  max-width: 360px;
+  color: #f81515;
 }
 
 #errors li {
-  color: #fff;
   text-align: center;
   font-weight: bold;
 }
-
-
-
-
 
 
 
@@ -2761,4 +2952,98 @@ table .span12 {
   float: none;
   width: 924px;
   margin-left: 0;
+}
+
+body.privacy {
+    background: #F3F3F3 url("/images/features/bg_body.png") repeat-x top center
+}
+
+body.terms {
+    background: #F3F3F3 url("/images/features/bg_body.png") repeat-x top center
+}
+
+body.about-us {
+    background: #F3F3F3 url("/images/features/bg_body.png") repeat-x top center
+}
+
+#privacy-policy {
+    float: left;
+    clear: both;
+}
+
+#wrapper.privacy {
+    font-size: 13px;
+}
+
+#wrapper.privacy a {
+    
+}
+
+#wrapper.privacy a:hover {
+    color: #fff;
+}
+
+#wrapper.privacy h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+#wrapper.privacy p {
+    padding-bottom: 10px;
+}
+
+
+#tos {
+    float: left;
+    clear: both;
+}
+
+#wrapper.terms {
+    font-size: 13px;
+}
+
+#wrapper.terms a {
+    
+}
+
+#wrapper.terms a:hover {
+    color: #fff;
+}
+
+#wrapper.terms h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+#wrapper.terms p {
+    padding-bottom: 10px;
+}
+
+#about-us {
+    float: left;
+    clear: both;
+}
+
+#wrapper.about-us {
+    font-size: 13px;
+}
+
+#wrapper.about-us a {
+    
+}
+
+#wrapper.about-us a:hover {
+    color: #fff;
+}
+
+#wrapper.about-us h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+#wrapper.about-us p {
+    padding-bottom: 10px;
 }

@@ -65,11 +65,11 @@
         <li>
             <h3>
                 <a href="#profiles/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>">
-                  <%=pictureSet.get('name') %> (<%=pictureSet.get('pictures').length %>)
+                  <%=pictureSet.get('name') %> <span>(<%=pictureSet.get('pictures').length %>)</span>
                 </a>
             </h3>
             <a href="#profiles/view/picture-set/<%=pictureSet.get('_id') %>" title="View picture set <%=pictureSet.get('name') %>" class="photo-frame">
-                <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="110" height="85" />
+                <img src="<%=primaryPictureThumbUrl %>" alt="<%=pictureSet.get('name') %>" width="110" height="110" />
             </a>
             <%
                 if (canEdit && pictureSet.get('type') !== 'profile') {

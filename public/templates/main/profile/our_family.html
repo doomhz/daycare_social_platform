@@ -8,8 +8,8 @@
             (profile.get("type") === "class" && profile.get("master_id") === Kin.app.currentUser.get("_id"))
           ) {
       %>
-      <li><a href="#invite-parents" class="btn"><span>invite parents</span></a></li>
-      <li><a href="#invite-staff" class="btn"><span>invite staff</span></a></li>
+      <li><a href="#invite-parents" class="btn white"><span>invite parents</span></a></li>
+      <li><a href="#invite-staff" class="btn white"><span>invite staff</span></a></li>
       <%
         }
       %>
@@ -28,14 +28,14 @@
 %>
 <div id="our-family-filter">
   <div class="content-box">
-    <input type="text" placeholder="Type in a name" id="our-family-name-filter" class="input-text">
+    <input type="text" placeholder="Type in a name..." id="our-family-name-filter" class="input-text">
+     <input type="submit" value="Search" class="btn primary" id="our-family-name-filter-bt" />
     <select id="our-family-type-filter" class="medium">
       <option value="all">All</option>
       <option value="staff">Staff</option>
       <option value="parents">Parents</option>
       <option value="children">Children</option>
     </select>
-    <input type="submit" value="Search" class="btn primary" id="our-family-name-filter-bt" />
   </div>
 </div>
 <%

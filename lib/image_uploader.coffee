@@ -31,8 +31,8 @@ class ImageUploader
       height: 150
       method: "crop"
     medium:
-      width:  538
-      height: 372
+      width:  568
+      height: 393
       method: "crop"
     big:
       width:  800

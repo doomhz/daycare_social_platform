@@ -52,7 +52,7 @@
 	display: block;
 	float: left;
   text-align: left;
-	width: 538px;
+	width: 568px;
 	height: 412px;
 	overflow: hidden;
 }
@@ -60,7 +60,6 @@
 .doom-carousel-pic {
 	border:none;
 	float: left;
-	border-radius: 5px;
 }
 
 .doom-pic-title {
@@ -68,7 +67,7 @@
 	height:50px;
 	position:relative;
 	top:-50px;
-	width:500px;
+	width:560px;
 	background: #111;
 	opacity:0.8;
 	color:red;
