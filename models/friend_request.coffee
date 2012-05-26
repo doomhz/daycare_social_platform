@@ -26,7 +26,7 @@ FriendRequestSchema = new Schema
     default: 'female'
   status:
     type: String
-    enum: ["pending", "accepted"]
+    enum: ["pending", "accepted", "canceled"]
     default: "pending"
   created_at:
     type: Date

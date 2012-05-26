@@ -48,6 +48,53 @@ module.exports = (app)->
         FriendRequest.sendMail(friendRequest, {host: req.headers.host})
       res.json {success: true}
 
+  app.put '/friend-request/cancel/:id', (req, res)->
+    friendRequestId = req.params.id
+    currentUser = if req.user then req.user else {}
+
+    FriendRequest.findOne({_id: friendRequestId}).run (err, friendRequest)->
+      if friendRequest
+        if friendRequest.status is "accepted" and friendRequest.user_id
+          User.findOne({_id: friendRequest.user_id}).run (err, requestUser)->
+            User.find().where("_id").in(requestUser.friends).run (err, userFriends)->
+              for userFriend in userFriends
+                userFriend.friends = _.filter userFriend.friends, (friendId)->
+                  friendId isnt "#{requestUser._id}"
+                userFriend.save()
+        friendRequest.set
+          status: "canceled"
+        friendRequest.save ()->
+          res.json {success: true}
+      else
+        res.json {success: true}
+
+  app.put '/friend-request/activate/:id', (req, res)->
+    friendRequestId = req.params.id
+    currentUser = if req.user then req.user else {}
+
+    FriendRequest.findOne({_id: friendRequestId}).run (err, friendRequest)->
+      if friendRequest
+        if friendRequest.user_id
+          User.findOne({_id: friendRequest.user_id}).run (err, requestUser)->
+            User.find().where("_id").in(requestUser.friends).run (err, userFriends)->
+              for userFriend in userFriends
+                userFriend.friends = _.filter userFriend.friends, (friendId)->
+                  friendId isnt "#{requestUser._id}"
+                userFriend.save()
+              requestUser.friends = []
+              requestUser.children_ids = []
+              requestUser.save()
+              FriendRequest.updateFriendship(requestUser._id)
+          friendRequest.set
+            status: "accepted"
+        else
+          friendRequest.set
+            status: "pending"
+        friendRequest.save ()->
+          res.json {success: true}
+      else
+        res.json {success: true}
+
   app.get '/friend-requests/:type', (req, res)->
     currentUser = if req.user then req.user else {}
     type = req.params.type or "parent"

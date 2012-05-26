@@ -15,11 +15,23 @@ class Kin.FriendRequestModel extends Backbone.Model
 
   sendRequestUrl: "/friend-request/send/:id"
 
+  cancelRequestUrl: "/friend-request/cancel/:id"
+
+  activateRequestUrl: "/friend-request/activate/:id"
+
   initialize: (attributes, options)->
     @id = @get("_id")
 
   send: (options = {})->
     options.url = @sendRequestUrl.replace(":id", @id)
+    @save null, options
+
+  cancel: (options = {})->
+    options.url = @cancelRequestUrl.replace(":id", @id)
+    @save null, options
+
+  activate: (options = {})->
+    options.url = @activateRequestUrl.replace(":id", @id)
     @save null, options
 
   url: ()->
