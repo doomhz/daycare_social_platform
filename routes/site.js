@@ -29,6 +29,12 @@
         success: true
       });
     });
+    app.get('/token-error', function(req, res) {
+      return res.render('site/token_error', {
+        title: "Kindzy",
+        layout: "auth"
+      });
+    });
     app.get('/features', function(req, res) {
       return res.render('site/features', {
         title: "Kindzy",

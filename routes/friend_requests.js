@@ -98,16 +98,17 @@
               _id: friendRequest.user_id
             }).run(function(err, requestUser) {
               return User.find().where("_id")["in"](requestUser.friends).run(function(err, userFriends) {
-                var userFriend, _i, _len, _results;
-                _results = [];
+                var userFriend, _i, _len;
                 for (_i = 0, _len = userFriends.length; _i < _len; _i++) {
                   userFriend = userFriends[_i];
                   userFriend.friends = _.filter(userFriend.friends, function(friendId) {
                     return friendId !== ("" + requestUser._id);
                   });
-                  _results.push(userFriend.save());
+                  userFriend.save();
                 }
-                return _results;
+                requestUser.friends = [];
+                requestUser.daycare_friends = [];
+                return requestUser.save();
               });
             });
           }
@@ -135,24 +136,6 @@
       }).run(function(err, friendRequest) {
         if (friendRequest) {
           if (friendRequest.user_id) {
-            User.findOne({
-              _id: friendRequest.user_id
-            }).run(function(err, requestUser) {
-              return User.find().where("_id")["in"](requestUser.friends).run(function(err, userFriends) {
-                var userFriend, _i, _len;
-                for (_i = 0, _len = userFriends.length; _i < _len; _i++) {
-                  userFriend = userFriends[_i];
-                  userFriend.friends = _.filter(userFriend.friends, function(friendId) {
-                    return friendId !== ("" + requestUser._id);
-                  });
-                  userFriend.save();
-                }
-                requestUser.friends = [];
-                requestUser.children_ids = [];
-                requestUser.save();
-                return FriendRequest.updateFriendship(requestUser._id);
-              });
-            });
             friendRequest.set({
               status: "accepted"
             });
@@ -162,9 +145,17 @@
             });
           }
           return friendRequest.save(function() {
-            return res.json({
-              success: true
-            });
+            if (friendRequest.status === "accepted") {
+              return FriendRequest.updateFriendship(friendRequest.user_id, function() {
+                return res.json({
+                  success: true
+                });
+              });
+            } else {
+              return res.json({
+                success: true
+              });
+            }
           });
         } else {
           return res.json({

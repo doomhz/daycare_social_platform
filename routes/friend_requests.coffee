@@ -61,6 +61,9 @@ module.exports = (app)->
                 userFriend.friends = _.filter userFriend.friends, (friendId)->
                   friendId isnt "#{requestUser._id}"
                 userFriend.save()
+              requestUser.friends = []
+              requestUser.daycare_friends = []
+              requestUser.save()
         friendRequest.set
           status: "canceled"
         friendRequest.save ()->
@@ -75,23 +78,17 @@ module.exports = (app)->
     FriendRequest.findOne({_id: friendRequestId}).run (err, friendRequest)->
       if friendRequest
         if friendRequest.user_id
-          User.findOne({_id: friendRequest.user_id}).run (err, requestUser)->
-            User.find().where("_id").in(requestUser.friends).run (err, userFriends)->
-              for userFriend in userFriends
-                userFriend.friends = _.filter userFriend.friends, (friendId)->
-                  friendId isnt "#{requestUser._id}"
-                userFriend.save()
-              requestUser.friends = []
-              requestUser.children_ids = []
-              requestUser.save()
-              FriendRequest.updateFriendship(requestUser._id)
           friendRequest.set
             status: "accepted"
         else
           friendRequest.set
             status: "pending"
         friendRequest.save ()->
-          res.json {success: true}
+          if friendRequest.status is "accepted"
+            FriendRequest.updateFriendship friendRequest.user_id, ()->
+              res.json {success: true}
+          else
+            res.json {success: true}
       else
         res.json {success: true}
 

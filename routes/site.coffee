@@ -16,6 +16,9 @@ module.exports = (app)->
     inviteRequest.save()
     res.json {success: true}
 
+  app.get '/token-error', (req, res)->
+    res.render 'site/token_error', {title: "Kindzy", layout: "auth"}
+
   app.get '/features', (req, res)->
     res.render 'site/features', {title: "Kindzy", layout: "guest", pageName: "features"}
 

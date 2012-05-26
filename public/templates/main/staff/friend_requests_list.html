@@ -4,7 +4,7 @@
     index++;
     var friendRequestId = friendRequest.get("_id");
 %>
-<tr>
+<tr class="<%= friendRequest.get("status") %>">
     <td><%= index %></td>
     <td><a href="#" data-id="<%= friendRequestId %>" title="Click to edit classes" class="staff-name"><%= friendRequest.get("name") %> <%= friendRequest.get("surname") %></a></td>
     <td><%= friendRequest.get("email") %></td>
@@ -12,8 +12,15 @@
     <td>
       <%= friendRequest.get("status") %>
       <br />
+      <% if ($.inArray(friendRequest.get("status"), ["pending", "accepted"]) > -1) { %>
       <a href="#" class="cancel-request" data-id="<%= friendRequestId %>">Cancel</a>
+      <% } %>
+      <% if ($.inArray(friendRequest.get("status"), ["canceled"]) > -1) { %>
+      <a href="#" class="activate-request" data-id="<%= friendRequestId %>">Activate</a>
+      <% } %>
+      <% if ($.inArray(friendRequest.get("status"), ["pending", "accepted"]) > -1) { %>
       <a href="#" class="resend-request" data-id="<%= friendRequestId %>">Resend</a>
+      <% } %>
     </td>
 </tr>
 <tr id="class-cnt-<%= friendRequestId %>" class="hidden">

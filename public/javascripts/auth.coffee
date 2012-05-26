@@ -46,8 +46,10 @@ $ ()->
           $("input[name='surname']").val(response.surname)
           $("input[name='email']").val(response.email)
           $("input[name='friend_request_id']").val(response._id)
+        if response._id is friendRequestId and response.status is "canceled"
+          window.document.location = "/token-error"
       else
-        $('#token-error-cnt').removeClass("hidden")
+        window.document.location = "/token-error"
 
   $("input[name='type']&&input[value='parent']").click (ev)->
     if $(ev.target).attr("checked")

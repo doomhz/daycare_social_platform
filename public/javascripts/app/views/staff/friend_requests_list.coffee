@@ -10,6 +10,7 @@ class Kin.Staff.FriendRequestsListView extends Backbone.View
     "click .staff-name"                 : "staffNameClickHandler"
     "submit .friend-request-class-form" : "editClassesSubmitHandler"
     "click .cancel-request"             : "cancelRequestClickHandler"
+    "click .activate-request"           : "activateRequestClickHandler"
     "click .resend-request"             : "resendRequestClickHandler"
 
   initialize: ()->
@@ -19,9 +20,11 @@ class Kin.Staff.FriendRequestsListView extends Backbone.View
     $.tmpload
       url: @tplUrl
       onLoad: (tpl)->
-        $el = $(that.el)
-        $el.html(tpl({friendRequests: that.collection, profile: that.model, classes: that.model.get("daycare_friends")}))
-        that.$(".chzn-select").chosen()
+        that.collection.fetch
+          success: ()->
+            $el = $(that.el)
+            $el.html(tpl({friendRequests: that.collection, profile: that.model, classes: that.model.get("daycare_friends")}))
+            that.$(".chzn-select").chosen()
 
   staffNameClickHandler: (ev)->
     ev.preventDefault()
@@ -58,13 +61,30 @@ class Kin.Staff.FriendRequestsListView extends Backbone.View
       if btType is 'yes'
         friendRequestId = $target.data("id")
         friendRequest = that.collection.get(friendRequestId)
-        friendRequest.destroy
+        friendRequest.cancel
           wait: true
           success: ()->
             $.jGrowl("Invite was canceled")
             that.render()
           error: ()->
             $.jGrowl("Invite could not be canceled :( Please try again.")
+
+  activateRequestClickHandler: (ev)=>
+    ev.preventDefault()
+    that = @
+    $target = $(ev.target)
+    dConfirm "Are you sure you want to activate the invite?", (btType, win)->
+      win.close()
+      if btType is 'yes'
+        friendRequestId = $target.data("id")
+        friendRequest = that.collection.get(friendRequestId)
+        friendRequest.activate
+          wait: true
+          success: ()->
+            $.jGrowl("Invite was activated")
+            that.render()
+          error: ()->
+            $.jGrowl("Invite could not be activated :( Please try again.")
 
   resendRequestClickHandler: (ev)=>
     ev.preventDefault()

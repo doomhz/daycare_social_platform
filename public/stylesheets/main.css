@@ -731,6 +731,10 @@ a:hover {
   background: #5caae3 url("/images/site/bg_usermenu_item.png") repeat-x top center;
 }
 
+#my-profile-bt .submenu #my-daycares-list {
+  height: auto;
+}
+
 .header-content .user-menu ul li.name-dropdown {
   overflow: hidden;
   width: 170px;
@@ -2319,6 +2323,10 @@ table input {
 
 #friend-requests-list .cancel-request {
     padding-right: 5px;
+}
+
+#friend-requests-list tr.canceled {
+  opacity: 0.7;
 }
 
 
