@@ -2156,15 +2156,15 @@ table input {
 
 #our-family-list-cnt .our-family-list {
   clear: both;
+  padding-left: 20px;
+  padding-top: 10px;
 }
 
 #our-family-list-cnt .our-family-list li {
   overflow: hidden;
-  padding: 10px;
-  background: #f0f0f0;
-  box-shadow: 0px 1px 1px rgba(0,0,0,0.25);
+  padding: 5px;
+  border-bottom: 1px solid #eaeaea;
   border-radius: 3px;
-  margin-bottom: 10px;
 }
 
 #our-family-list-cnt .our-family-list li .avatar {
@@ -2173,10 +2173,16 @@ table input {
 }
 
 #our-family-list-cnt .our-family-list li .avatar img {
-  border-radius: 3px;
+  
 }
 
 #our-family-list-cnt .our-family-list li .parents-name {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#our-family-list-cnt .our-family-list li .staff-name {
   display: block;
   font-size: 12px;
   font-weight: bold;
