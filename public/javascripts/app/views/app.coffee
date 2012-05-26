@@ -28,11 +28,11 @@ class Kin.AppView extends Backbone.View
     @initHeader()
     @initHeaderMenu()
     @initHeaderProfileInfo()
-    @initHeaderSearch()
     @initHeaderNotification()
     @initTopLink()
     @initRouter()
     @initStartupEvents()
+    @initHeaderSearch()
 
   initRouter: ()->
     @router = new Kin.MainRouter
@@ -76,6 +76,8 @@ class Kin.AppView extends Backbone.View
   initHeaderSearch: ()->
     headerSearch = new Kin.Header.SearchView
       el: "#header #search-cnt"
+      router: @router
+    headerSearch.render()
 
   initHeaderNotification: ()->
     headerNotificationBoard = new Kin.Header.NotificationBoardView

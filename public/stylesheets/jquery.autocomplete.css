@@ -36,6 +36,19 @@
 	overflow: hidden;
 }
 
+.quick-search-results li {
+	height: 50px;
+}
+
+.quick-search-results li .profile-avatar {
+	vertical-align: text-top;
+	padding: 2px;
+	line-height: 0;
+}
+
+.quick-search-results li .profile-name {
+}
+
 .ac_loading {
 	background: white url('/images/site/indicator.gif') right center no-repeat;
 }

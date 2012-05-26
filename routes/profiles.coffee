@@ -13,6 +13,14 @@ module.exports = (app)->
     User.find().where("_id").in(currentUser.friends).asc('name', 'surname').run (err, users)->
       res.render 'profiles/profiles', {profiles: users, show_private: false, layout: false}
 
+  app.get '/profiles/quick-search', (req, res)->
+    currentUser = if req.user then req.user else {}
+    q = req.query.q
+    limit = req.query.limit
+    searchSlug = new RegExp("^#{q}.*$", "i")
+    User.find().or([{name: searchSlug}, {surname: searchSlug}]).limit(limit).asc('name', 'surname').run (err, users)->
+      res.render 'profiles/quick_search', {layout: false, profiles: users, _: _}
+
   app.get '/daycares', (req, res)->
     User.find({type: 'daycare'}).desc('created_at').run (err, daycares) ->
       res.render 'profiles/profiles', {profiles: daycares, show_private: false, layout: false}

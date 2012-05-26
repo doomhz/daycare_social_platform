@@ -28,6 +28,26 @@
         });
       });
     });
+    app.get('/profiles/quick-search', function(req, res) {
+      var currentUser, limit, q, searchSlug;
+      currentUser = req.user ? req.user : {};
+      q = req.query.q;
+      limit = req.query.limit;
+      searchSlug = new RegExp("^" + q + ".*$", "i");
+      return User.find().or([
+        {
+          name: searchSlug
+        }, {
+          surname: searchSlug
+        }
+      ]).limit(limit).asc('name', 'surname').run(function(err, users) {
+        return res.render('profiles/quick_search', {
+          layout: false,
+          profiles: users,
+          _: _
+        });
+      });
+    });
     app.get('/daycares', function(req, res) {
       return User.find({
         type: 'daycare'

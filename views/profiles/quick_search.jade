@@ -1,0 +1,7 @@
+- profiles && profiles.forEach(function (profile) {
+    - var profilePicturesSet = _.find(profile.picture_sets, function (pictureSet) {return pictureSet.type === "profile"});
+    - if (profilePicturesSet)
+      - var avatar = _.find(profilePicturesSet.pictures, function (picture) {return picture.primary === true;});
+      - var avatarUrl = avatar ? avatar.mini_url : "";
+    #{profile._id}|#{profile.name}|#{profile.surname}|#{avatarUrl || ""}
+- })
