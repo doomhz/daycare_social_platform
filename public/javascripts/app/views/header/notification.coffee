@@ -3,13 +3,13 @@ class window.Kin.Header.NotificationView extends Kin.Header.SubmenuView
   el: null
 
   tplUrl: '/templates/main/header/notification.html'
-  
+
   indicatorId: null
-  
+
   listId: null
-  
+
   listItems: null
-  
+
   submenuSelector: "ul.notification-list"
 
   doNotClose: false
@@ -28,10 +28,7 @@ class window.Kin.Header.NotificationView extends Kin.Header.SubmenuView
   updateIndicator: (total)->
     $indicator = @$("##{@indicatorId}")
     $indicator.text(total)
-    if total
-      $indicator.removeClass("hidden")
-    else
-      $indicator.addClass("hidden")
+    $(@el).toggleClass("active", total > 0)
 
   updateList: (value)->
     @listItems = value

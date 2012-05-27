@@ -457,6 +457,11 @@ a:hover {
   margin-top: 9px;
   box-shadow: 0 1px 0 rgba(0,0,0,0.8);
   line-height: 13px;
+  display: none;
+}
+
+.header-content .user_notifications ul li.active a span.indicator {
+  display: inline;
 }
 
 .header-content .user_notifications ul li .notification-list {
@@ -484,19 +489,27 @@ a:hover {
   background: url('/images/site/icon_notifications.png') no-repeat -118px 14px;
 }
 
-.header-content .user_notifications ul li.mails a.icon:hover, .header-content .user_notifications ul li.selected.mails a.icon {
+.header-content .user_notifications ul li.mails a.icon:hover,
+.header-content .user_notifications ul li.selected.mails a.icon,
+.header-content .user_notifications ul li.active.mails a.icon {
   background: url('/images/site/icon_notifications.png') no-repeat -28px -32px;
 }
 
-.header-content .user_notifications ul li.users a.icon:hover, .header-content .user_notifications ul li.selected.users a.icon {
+.header-content .user_notifications ul li.users a.icon:hover,
+.header-content .user_notifications ul li.selected.users a.icon,
+.header-content .user_notifications ul li.active.users a.icon {
   background: url('/images/site/icon_notifications.png') no-repeat 16px -32px;
 }
 
-.header-content .user_notifications ul li.replies a.icon:hover, .header-content .user_notifications ul li.selected.replies a.icon {
+.header-content .user_notifications ul li.replies a.icon:hover,
+.header-content .user_notifications ul li.selected.replies a.icon,
+.header-content .user_notifications ul li.active.replies a.icon {
   background: url('/images/site/icon_notifications.png') no-repeat -75px -32px;
 }
 
-.header-content .user_notifications ul li.history a.icon:hover, .header-content .user_notifications ul li.selected.history a.icon {
+.header-content .user_notifications ul li.history a.icon:hover,
+.header-content .user_notifications ul li.selected.history a.icon,
+.header-content .user_notifications ul li.active.history a.icon {
   background: url('/images/site/icon_notifications.png') no-repeat -118px -32px;
 }
 
