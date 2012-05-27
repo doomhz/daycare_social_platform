@@ -125,3 +125,18 @@ $ ()->
       $el = $(ev.currentTarget)
       $featuresMenuItems.removeClass("selected")
       $el.addClass("selected")
+
+  if $("#contact-us-form")
+    $contactUsForm = $("#contact-us-form")
+    $contactUsForm.validate()
+    $contactUsForm.submit (ev)->
+      ev.preventDefault()
+      $("#contact-us-success").addClass("hidden")
+      if $contactUsForm.valid()
+        $.ajax
+          url: $contactUsForm.attr("action")
+          type: $contactUsForm.attr("method")
+          data: $contactUsForm.serialize()
+          success: ()->
+            $("#contact-us-success").removeClass("hidden")
+

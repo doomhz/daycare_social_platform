@@ -1,11 +1,13 @@
 (function() {
-  var InviteRequest, http, querystring;
+  var ContactUs, InviteRequest, http, querystring;
 
   http = require('http');
 
   querystring = require('querystring');
 
   InviteRequest = require('../models/invite_request');
+
+  ContactUs = require('../models/contact_us');
 
   module.exports = function(app) {
     app.get('/', function(req, res) {
@@ -24,7 +26,9 @@
       var data, inviteRequest;
       data = req.body;
       inviteRequest = new InviteRequest(data);
-      inviteRequest.save();
+      inviteRequest.save(function() {
+        return inviteRequest.send();
+      });
       return res.json({
         success: true
       });
@@ -61,6 +65,29 @@
         title: "Kindzy",
         layout: "guest",
         pageName: "privacy"
+      });
+    });
+    app.get('/contact-us', function(req, res) {
+      var currentUser;
+      currentUser = req.user ? req.user : {};
+      return res.render('site/contact_us', {
+        title: "Kindzy",
+        layout: "guest",
+        pageName: "contact-us",
+        currentUser: currentUser
+      });
+    });
+    app.post('/contact-us', function(req, res) {
+      var contactUs, data;
+      data = req.body;
+      contactUs = new ContactUs(data);
+      contactUs.save(function() {
+        return contactUs.send({
+          host: req.headers.host
+        });
+      });
+      return res.json({
+        success: true
       });
     });
     return app.get('/geolocation', function(req, res) {

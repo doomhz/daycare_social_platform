@@ -1,0 +1,32 @@
+h1#explore Contact Us
+
+div#contact-us
+
+  br
+  br
+  br
+  br
+  br
+
+  #contact-us-success.hidden
+    p Your message was successfully sent.
+    p One of our staff members will contact you as soon as possible.
+    p Thank you.
+
+  form(action='/contact-us', method='POST', id='contact-us-form')
+    fieldset
+      input(type="hidden", name="user_id", value="#{currentUser._id || ''}")
+      .clearfix
+        label(for="email") E-mail
+        .email
+          input(type='text', name="email", value="#{currentUser.email || ''}", placeholder="Your Email Address", class="required email")
+      .clearfix
+        label(for="name") Name
+        .name
+          input(type='text', name="name", value="#{currentUser.name || ''} #{currentUser.surname || ''}", placeholder="Your name", class="required")
+      .clearfix
+        label(for="message") Message
+        .message
+          textarea(name="message", class="required")
+      #submit.actions
+        input.btn.primary(type='submit', value='Send') Send

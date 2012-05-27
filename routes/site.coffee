@@ -1,6 +1,7 @@
 http = require('http')
 querystring = require('querystring')
 InviteRequest = require('../models/invite_request')
+ContactUs = require('../models/contact_us')
 
 module.exports = (app)->
 
@@ -13,7 +14,8 @@ module.exports = (app)->
   app.post '/request-invite', (req, res)->
     data = req.body
     inviteRequest = new InviteRequest data
-    inviteRequest.save()
+    inviteRequest.save ()->
+      inviteRequest.send()
     res.json {success: true}
 
   app.get '/token-error', (req, res)->
@@ -30,6 +32,17 @@ module.exports = (app)->
 
   app.get '/privacy', (req, res)->
     res.render 'site/privacy', {title: "Kindzy", layout: "guest", pageName: "privacy"}
+
+  app.get '/contact-us', (req, res)->
+    currentUser = if req.user then req.user else {}
+    res.render 'site/contact_us', {title: "Kindzy", layout: "guest", pageName: "contact-us", currentUser: currentUser}
+
+  app.post '/contact-us', (req, res)->
+    data = req.body
+    contactUs = new ContactUs data
+    contactUs.save ()->
+      contactUs.send {host: req.headers.host}
+    res.json {success: true}
 
   # TODO Create a model and cache the location search
   app.get '/geolocation', (req, res)->

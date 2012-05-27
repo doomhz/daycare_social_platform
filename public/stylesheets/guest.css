@@ -238,18 +238,21 @@ a:hover {
 
 #wrapper.features,
 #wrapper.about-us,
+#wrapper.contact-us,
 #wrapper.privacy,
 #wrapper.terms {
   background: url("/images/features/blackboard_bg.jpg") no-repeat top center;
 }
 #wrapper.features .content-wrapper,
 #wrapper.about-us .content-wrapper,
+#wrapper.contact-us .content-wrapper,
 #wrapper.privacy .content-wrapper,
 #wrapper.terms .content-wrapper {
   background: transparent;
 }
 #wrapper.features .content-wrapper #logo,
 #wrapper.about-us .content-wrapper #logo,
+#wrapper.contact-us .content-wrapper #logo,
 #wrapper.privacy .content-wrapper #logo,
 #wrapper.terms .content-wrapper #logo {
   display: block;
@@ -259,6 +262,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper #explore,
 #wrapper.about-us .content-wrapper #explore,
+#wrapper.contact-us .content-wrapper #explore,
 #wrapper.privacy .content-wrapper #explore,
 #wrapper.terms .content-wrapper #explore {
   font-size: 72px;
@@ -270,6 +274,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper #great-features,
 #wrapper.about-us .content-wrapper #great-features,
+#wrapper.contact-us .content-wrapper #great-features,
 #wrapper.privacy .content-wrapper #great-features,
 #wrapper.terms .content-wrapper #great-features {
   font-size: 20px;
