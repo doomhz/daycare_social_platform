@@ -39,15 +39,15 @@ class Kin.UserModel extends Backbone.Model
 
   autoUpdateHandler: ()=>
     @fetch()
-  
+
   fetch: (options = {})->
-    options = $.extend { 
+    options = $.extend {
         error: (model, xhr, error)->
           if xhr.status is 401
             window.location = '/login'
       }, options
     super(options)
-  
+
   canEditProfile: (profileId)->
     profileId is @get('_id') or (@get("type") is "daycare" and profileId in @get("friends"))
 
@@ -73,6 +73,9 @@ class Kin.UserModel extends Backbone.Model
     $.grep(pictureSets, (set)->
       return set.type is type
     )
+
+  getFirstDaycareFriend: ()->
+    @get("daycare_friends")[0]
 
   addDelegate: (delegate)->
     if not @delegates[delegate]

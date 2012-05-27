@@ -27,7 +27,11 @@ class window.Kin.MainRouter extends Backbone.Router
   initialize: ({@app})->
 
   root: ()->
-    @navigate('day-cares', true)
+    if @app.currentUser.get("type") is "daycare"
+      @navigate("profiles/view/#{@app.currentUser.id}", true)
+    else
+      daycareFriend = @app.currentUser.getFirstDaycareFriend() or {}
+      @navigate("profiles/view/#{daycareFriend.id or @app.currentUser.id}", true)
 
   dayCares: ()->
     @app.renderDaycares()
