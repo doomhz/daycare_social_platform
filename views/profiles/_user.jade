@@ -14,11 +14,8 @@
       ,
   ],
   "address": "#{profile.address}",
-  - var location = profile.location || {};
-  "location": {
-  "lat": #{location.lat || 10},
-  "lng": #{location.lng || 40}
-  },
+  - var location = profile.location || [];
+  "location": [#{location[0] || 10}, #{location[1] || 40}],
   "email": "#{profile.email}",
   "phone": "#{profile.phone}",
   "fax": "#{profile.fax}",

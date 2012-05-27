@@ -11,8 +11,8 @@
   	      <label for="address" class="title">Address</label>
   		    <div class="input">
 	        	<input type="text" name="address" value="<%=profile.get('address') %>" id="address-autocomplete" class="required" />
-		        <input type="hidden" name="location[lat]" value="<%=profile.get('location').lat %>" id="location-lat" />
-		        <input type="hidden" name="location[lng]" value="<%=profile.get('location').lng %>" id="location-lng" />
+		        <input type="hidden" name="location[]" value="<%=profile.get('location')[0] %>" id="location-lat" />
+		        <input type="hidden" name="location[]" value="<%=profile.get('location')[1] %>" id="location-lng" />
   		    </div>
   	        <div id="profile-address-maps"></div>
   	        <label for="phone" class="title">Phone</label>

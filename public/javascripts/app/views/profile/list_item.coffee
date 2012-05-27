@@ -1,4 +1,4 @@
-class window.Kin.Profile.ListItemView extends Backbone.View
+class Kin.Profile.ListItemView extends Backbone.View
 
   tagName: 'li'
 
@@ -6,7 +6,6 @@ class window.Kin.Profile.ListItemView extends Backbone.View
 
   initialize: ()->
     @model and @model.view = @
-    @
 
   render: ()->
     that = @
@@ -14,4 +13,3 @@ class window.Kin.Profile.ListItemView extends Backbone.View
       url: @tplUrl
       onLoad: (tpl)->
         $(that.el).html(tpl({profile: that.model}))
-    @

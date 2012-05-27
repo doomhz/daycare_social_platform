@@ -1,7 +1,7 @@
 <div id="side-info-container">
   <%
-    var lat = profile.get("location").lat;
-    var lng = profile.get("location").lng;
+    var lat = profile.get("location")[0];
+    var lng = profile.get("location")[1];
   %>
   <%
     if (lat && lng) {

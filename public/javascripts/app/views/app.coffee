@@ -201,8 +201,8 @@ class Kin.AppView extends Backbone.View
 
         model.setPictureSets()
 
-        mapCenterLat = model.get('location').lat
-        mapCenterLng = model.get('location').lng
+        mapCenterLat = model.get('location')[0]
+        mapCenterLng = model.get('location')[1]
 
         that.mainColumnView = new Kin.Profile.ProfileEditView
           model: model

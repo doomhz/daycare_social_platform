@@ -1,4 +1,4 @@
-class window.Kin.Profile.ListView extends Backbone.View
+class Kin.Profile.ListView extends Backbone.View
 
   el: null
 
@@ -10,35 +10,53 @@ class window.Kin.Profile.ListView extends Backbone.View
 
   lisItemTplUrl: '/templates/main/day_care/list_item.html'
 
+  events:
+    "submit #daycares-filter-form": "searchSubmitHandler"
+
   initialize: ()->
-    _.bindAll(@, 'render', 'addProfileListItem')
     if @collection
       @collection.bind('add', @addProfileListItem)
-      @collection.bind('fetch', @addProfileListItem)
-    @
+      @collection.bind('reset', @addProfileListItems)
+    @getCurrentLocation()
 
-  render: (afterLoad)->
+  render: ()->
     that = @
     $.tmpload
       url: @tplUrl
       onLoad: (tpl)->
         $(that.el).html(tpl())
-
         $.tmpload
           url: that.lisItemTplUrl
           onLoad: ()->
-            that.collection.fetch({add: true})
-    @
+            that.collection.fetch
+              add: true
 
-  addProfileListItem: (profileModel)->
+  addProfileListItem: (profileModel)=>
     profileView = new @profileModelView({model: profileModel})
     $list = $(@el).find('ol:first')
     $list.append(profileView.el)
     profileView.render()
-    @
 
+  addProfileListItems: (models)=>
+    $(@el).find('ol:first').empty()
+    @collection.each (model)=>
+      @addProfileListItem(model)
+
+  getCurrentLocation: ()->
+    navigator.geolocation.getCurrentPosition(@onPositionSuccess)
+
+  onPositionSuccess: (geoposition)=>
+    latitude = geoposition.coords.latitude
+    longitude = geoposition.coords.longitude
+    @$("input[name='clpos[lat]']").val(latitude)
+    @$("input[name='clpos[lng]']").val(longitude)
+
+  searchSubmitHandler: (ev)->
+    ev.preventDefault()
+    $form = $(ev.target)
+    @collection.fetch
+      data: $form.serialize()
 
   remove: ()->
     @unbind()
     $(@el).unbind().empty()
-    @

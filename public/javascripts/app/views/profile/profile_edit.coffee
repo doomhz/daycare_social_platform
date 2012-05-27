@@ -70,8 +70,8 @@ class window.Kin.Profile.ProfileEditView extends Backbone.View
 
   getProfileDataForMarker: (lat, lng, title)->
     markerData =
-      lat: lat or @model.get('location').lat or 10
-      lng: lng or @model.get('location').lng or 40
+      lat: lat or @model.get('location')[0] or 10
+      lng: lng or @model.get('location')[1] or 40
       name: name or @model.get('name')
 
   centerMap: (lat, lng)->
@@ -114,9 +114,11 @@ class window.Kin.Profile.ProfileEditView extends Backbone.View
 
   saveProfile: (ev)->
     ev.preventDefault()
+    $form = @$(ev.target)
     hashedData = @$(ev.target).hashForm()
     if hashedData.opened_since
       hashedData.opened_since = "#{hashedData.opened_since.year}-#{hashedData.opened_since.month}-#{hashedData.opened_since.day}"
+    hashedData.location = [$form.find("#location-lat").val(), $form.find("#location-lng").val()]
     that = @
     @model.save hashedData,
       success: ()->

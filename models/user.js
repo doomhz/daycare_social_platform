@@ -71,8 +71,8 @@
     speaking_classes: [Number],
     address: String,
     location: {
-      lat: Number,
-      lng: Number
+      type: [Number],
+      index: "2d"
     },
     email: String,
     phone: String,

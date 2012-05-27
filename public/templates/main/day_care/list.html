@@ -1,6 +1,22 @@
 <div id="general-wrapper" class="daycares">
   <h1>Day Cares</h1>
-  
+
+  <form action="/day-cares" id="daycares-filter-form">
+    <fieldset>
+      <input type="hidden" name="clpos[lat]" value="" />
+      <input type="hidden" name="clpos[lng]" value="" />
+      <div class="clearfix content-box">
+        <label for="distance" class="title">Distance</label>
+        <div class="input">
+          <input type="text" name="dst" value="100" /> milles
+        </div>
+      </div>
+      <div class="actions">
+          <input type="submit" class="btn primary" value="Search" />
+      </div>
+    </fieldset>
+  </form>
+
   <ol id="day-care-list">
   </ol>
 </div>

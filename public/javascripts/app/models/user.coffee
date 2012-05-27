@@ -6,9 +6,7 @@ class Kin.UserModel extends Backbone.Model
     username: ''
     speaking_classes: []
     address: ''
-    location:
-      lat: 10
-      lng: 40
+    location: [10, 40]
     email: ''
     phone: ''
     fax: ''
