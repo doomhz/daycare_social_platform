@@ -284,7 +284,7 @@ Copyright (c) 2011 by Harvest
       dd_top = this.container.height();
       dd_width = this.f_width - get_side_border_padding(this.dropdown);
       this.dropdown.css({
-        "width": dd_width + "px",
+        "width": 220 + "px",
         "top": dd_top + "px"
       });
       this.search_field = this.container.find('input').first();
