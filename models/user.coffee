@@ -208,9 +208,10 @@ UserSchema.plugin(
         respondToLoginSucceed: (res, user = {}, data)->
           userId = "#{user._id}"
           friendRequestId = data.req.body.friend_request_id
+          redirectTo = "/"
 
           if user.type is "daycare"
-            redirectTo = "/#profiles/view/#{userId}"
+            #redirectTo = "/#profiles/view/#{userId}"
             res.writeHead(303, {'Location': redirectTo})
             res.end()
 
@@ -225,8 +226,8 @@ UserSchema.plugin(
                 friendRequest.user_id = userId
                 friendRequest.save (err, updateRequest)->
 
-                  dayCareId = friendRequest.from_id
-                  redirectTo = "/#profiles/view/#{dayCareId}"
+                  #dayCareId = friendRequest.from_id
+                  #redirectTo = "/#profiles/view/#{dayCareId}"
 
                   FriendRequest.updateFriendship userId, (err)->
                     userInfo =
@@ -237,13 +238,13 @@ UserSchema.plugin(
                       res.end()
             else
 
-              User.findOne({type: "daycare"}).where("_id").in(user.friends).run (err, daycare)->
-                if daycare
-                  redirectTo = "/#profiles/view/#{daycare._id}"
-                else
-                  redirectTo = "/#profiles/view/#{user._id}"
-                res.writeHead(303, {'Location': redirectTo})
-                res.end()
+              #User.findOne({type: "daycare"}).where("_id").in(user.friends).run (err, daycare)->
+              #  if daycare
+              #    redirectTo = "/#profiles/view/#{daycare._id}"
+              #  else
+              #    redirectTo = "/#profiles/view/#{user._id}"
+              res.writeHead(303, {'Location': redirectTo})
+              res.end()
 
         respondToRegistrationSucceed: (res, user, data)->
           redirectTo = '/'
@@ -262,7 +263,7 @@ UserSchema.plugin(
             userId = user._id
 
             if user.type is 'daycare'
-              redirectTo = "/#profiles/edit/#{userId}"
+              #redirectTo = "/#profiles/edit/#{userId}"
               res.writeHead(303, {'Location': redirectTo})
               res.end()
 
@@ -275,8 +276,8 @@ UserSchema.plugin(
                 friendRequest.user_id = userId
                 friendRequest.save()
 
-                dayCareId = friendRequest.from_id
-                redirectTo = "/#profiles/view/#{dayCareId}"
+                #dayCareId = friendRequest.from_id
+                #redirectTo = "/#profiles/view/#{dayCareId}"
 
                 FriendRequest.updateFriendship userId, (err)->
                   res.writeHead(303, {'Location': redirectTo})

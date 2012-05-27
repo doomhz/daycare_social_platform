@@ -282,8 +282,8 @@
           if (user == null) user = {};
           userId = "" + user._id;
           friendRequestId = data.req.body.friend_request_id;
+          redirectTo = "/";
           if (user.type === "daycare") {
-            redirectTo = "/#profiles/view/" + userId;
             res.writeHead(303, {
               'Location': redirectTo
             });
@@ -297,9 +297,6 @@
                 friendRequest.status = "accepted";
                 friendRequest.user_id = userId;
                 return friendRequest.save(function(err, updateRequest) {
-                  var dayCareId;
-                  dayCareId = friendRequest.from_id;
-                  redirectTo = "/#profiles/view/" + dayCareId;
                   return FriendRequest.updateFriendship(userId, function(err) {
                     var userInfo;
                     userInfo = {
@@ -317,19 +314,10 @@
                 });
               });
             } else {
-              return User.findOne({
-                type: "daycare"
-              }).where("_id")["in"](user.friends).run(function(err, daycare) {
-                if (daycare) {
-                  redirectTo = "/#profiles/view/" + daycare._id;
-                } else {
-                  redirectTo = "/#profiles/view/" + user._id;
-                }
-                res.writeHead(303, {
-                  'Location': redirectTo
-                });
-                return res.end();
+              res.writeHead(303, {
+                'Location': redirectTo
               });
+              return res.end();
             }
           }
         },
@@ -352,7 +340,6 @@
             var FriendRequest, friendRequestId, userId, _ref;
             userId = user._id;
             if (user.type === 'daycare') {
-              redirectTo = "/#profiles/edit/" + userId;
               res.writeHead(303, {
                 'Location': redirectTo
               });
@@ -363,12 +350,9 @@
               return FriendRequest.findOne({
                 _id: friendRequestId
               }).run(function(err, friendRequest) {
-                var dayCareId;
                 friendRequest.status = "accepted";
                 friendRequest.user_id = userId;
                 friendRequest.save();
-                dayCareId = friendRequest.from_id;
-                redirectTo = "/#profiles/view/" + dayCareId;
                 return FriendRequest.updateFriendship(userId, function(err) {
                   res.writeHead(303, {
                     'Location': redirectTo
