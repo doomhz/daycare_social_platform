@@ -1963,11 +1963,9 @@ table input {
 #notifications-list .feed,
 #notifications-list .notifications,
 #notifications-list .alert {
-  padding: 10px;
+  padding: 5px;
   margin: 10px 20px;
   overflow: hidden;
-  background: #f4f4f4;
-  box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
 }
 
 #notifications-list .request .avatar,
@@ -1982,7 +1980,7 @@ table input {
 #notifications-list .feed .avatar img,
 #notifications-list .notifications .avatar img,
 #notifications-list .alert .avatar img {
-  border-radius: 3px;
+  
 }
 
 #notifications-list .request .message-header,
@@ -2350,9 +2348,8 @@ table input {
 #profile-gallery-tab-menu li {
   font-size: 12px;
   float: left;
-  width: 33%;
-  margin-bottom: 5px;
-  margin-right: 2px;
+  width: 25%;
+  margin-bottom: 3px;
 }
 
 #profile-gallery-tab-menu li a {
