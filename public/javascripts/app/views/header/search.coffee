@@ -17,6 +17,8 @@ class Kin.Header.SearchView extends Backbone.View
         @$("[name='q']").autocomplete @searchAutocompleteUrl,
           autoFill: false
           selectFirst: true
+          scrollHeight: 300
+          width: 370
           max: 15
           resultsClass: "ac_results quick-search-results",
           formatItem: (data)->
