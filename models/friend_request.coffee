@@ -80,14 +80,12 @@ FriendRequestSchema.statics.updateFriendship = (userId, onFriendshipUpdate)->
         for child in children
           daycareAndClassesToFind.push(child.user_id)
           classesIds.push(child.user_id)
-
         User.find().where("_id").in(daycareAndClassesToFind).run (err, dayCares)->
           friendsToAdd = []
           for dayCare in dayCares
             friendsToAdd = _.union(friendsToAdd, dayCare.friends)
             dayCare.friends.push(userId)
             dayCare.save()
-
           User.find().where("type").in(["parent", "staff"]).where("_id").in(friendsToAdd).run (err, dayCareFriends)->
             myFriendsIds = daycareAndClassesToFind
             for userFriend in dayCareFriends

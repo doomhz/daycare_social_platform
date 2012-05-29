@@ -159,4 +159,13 @@ namespace('db', function () {
       });
     });
 
+    desc('Repair locations.');
+    task('repair_users_locations', [], function (params) {
+        process.env.NODE_ENV = 'development';
+        require('./models/db_connect');
+        var User = require('./models/user');
+        User.update({}, {location: []}, {safe: false, multi: true}).run();
+
+    });
+
 });
