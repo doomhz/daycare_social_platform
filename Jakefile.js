@@ -168,4 +168,13 @@ namespace('db', function () {
 
     });
 
+    desc('Repair locations in production.');
+    task('repair_users_locations_prod', [], function (params) {
+        process.env.NODE_ENV = 'production';
+        require('./models/db_connect');
+        var User = require('./models/user');
+        User.update({}, {location: []}, {safe: false, multi: true}).run();
+
+    });
+
 });
