@@ -18,18 +18,17 @@ class Kin.Profile.ListView extends Backbone.View
       @collection.bind('add', @addProfileListItem)
       @collection.bind('reset', @addProfileListItems)
     #@getCurrentLocation()
-    @autocompleteCities()
 
   render: ()->
-    that = @
     $.tmpload
       url: @tplUrl
-      onLoad: (tpl)->
-        $(that.el).html(tpl())
+      onLoad: (tpl)=>
+        $(@el).html(tpl())
+        @autocompleteCities()
         $.tmpload
-          url: that.lisItemTplUrl
-          onLoad: ()->
-            that.collection.fetch
+          url: @lisItemTplUrl
+          onLoad: ()=>
+            @collection.fetch
               add: true
 
   addProfileListItem: (profileModel)=>
