@@ -94,7 +94,7 @@ class Kin.Profile.ListView extends Backbone.View
       url: "/cities"
       dataType: "json"
       success: (cities)=>
-        that = @
+        $.l cities
         $location = @$("input[name='location']")
         $location.autocomplete cities,
           autoFill: false
