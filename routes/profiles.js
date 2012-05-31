@@ -1,5 +1,5 @@
 (function() {
-  var Child, Comment, ImageUploader, InfoSection, User, fs, _,
+  var Child, Comment, ImageUploader, InfoSection, User, fs, _, _s,
     __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   User = require('../models/user');
@@ -15,6 +15,8 @@
   fs = require('fs');
 
   _ = require('underscore');
+
+  _s = require('underscore.string');
 
   module.exports = function(app) {
     app.get('/profiles', function(req, res) {
@@ -58,6 +60,7 @@
         type: 'daycare'
       }).desc('name');
       if (city && stateCode) {
+        city = _s.titleize(city);
         stateCode = stateCode.toUpperCase();
         query.where("location_components.city", city).where("location_components.state_code", stateCode);
       }

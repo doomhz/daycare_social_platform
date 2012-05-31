@@ -5,6 +5,7 @@ InfoSection   = require('../models/info_section')
 ImageUploader = require('../lib/image_uploader')
 fs            = require('fs')
 _             = require('underscore')
+_s            = require('underscore.string')
 
 module.exports = (app)->
 
@@ -28,6 +29,7 @@ module.exports = (app)->
     zipCode = addressComponents.zip_code or false
     query = User.find({type: 'daycare'}).desc('name')
     if city and stateCode
+      city = _s.titleize city
       stateCode = stateCode.toUpperCase()
       query
       .where("location_components.city", city)

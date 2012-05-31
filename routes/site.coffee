@@ -3,6 +3,7 @@ http = require('http')
 querystring = require('querystring')
 InviteRequest = require('../models/invite_request')
 ContactUs = require('../models/contact_us')
+User = require('../models/user')
 
 module.exports = (app)->
 
@@ -102,3 +103,15 @@ module.exports = (app)->
       console.log("Got error: " + e.message)
       res.render 'site/geolocation', {layout: false, error: true}
     )
+
+  app.get '/cities', (req, res)->
+    User.find()
+    .where("location_components").ne({})
+    .only("location_components")
+    .run (err, profiles)->
+      citiesWithStateCode = []
+      for profile in profiles
+        if profile.location_components.city and profile.location_components.state_code
+          cityAndStateCode = "#{profile.location_components.city}, #{profile.location_components.state_code}"
+          citiesWithStateCode.push cityAndStateCode if cityAndStateCode not in citiesWithStateCode
+      res.json citiesWithStateCode

@@ -18,6 +18,7 @@ class Kin.Profile.ListView extends Backbone.View
       @collection.bind('add', @addProfileListItem)
       @collection.bind('reset', @addProfileListItems)
     #@getCurrentLocation()
+    @autocompleteCities()
 
   render: ()->
     that = @
@@ -81,11 +82,23 @@ class Kin.Profile.ListView extends Backbone.View
   populateZipCode: ()->
     $location = @$("input[name='location']")
     zipCode = @parseZipCode($location.val())
-    if _.isNumber zipCode
-      @$("input[name='address_components[zip_code]']").val(zipCode)
+    $zipCode = @$("input[name='address_components[zip_code]']")
+    zipCode = if _.isNumber zipCode then zipCode else ""
+    $zipCode.val(zipCode)
 
   parseZipCode: (location)->
     parseInt _.str.trim location
+
+  autocompleteCities: ()->
+    $.ajax
+      url: "/cities"
+      dataType: "json"
+      success: (cities)=>
+        that = @
+        $location = @$("input[name='location']")
+        $location.autocomplete cities,
+          autoFill: false
+          selectFirst: true
 
   remove: ()->
     @unbind()

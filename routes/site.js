@@ -1,5 +1,5 @@
 (function() {
-  var ContactUs, InviteRequest, http, querystring, _,
+  var ContactUs, InviteRequest, User, http, querystring, _,
     __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   _ = require('underscore');
@@ -11,6 +11,8 @@
   InviteRequest = require('../models/invite_request');
 
   ContactUs = require('../models/contact_us');
+
+  User = require('../models/user');
 
   module.exports = function(app) {
     app.get('/', function(req, res) {
@@ -93,7 +95,7 @@
         success: true
       });
     });
-    return app.get('/geolocation', function(req, res) {
+    app.get('/geolocation', function(req, res) {
       var options, q;
       q = req.query.q;
       options = {
@@ -165,6 +167,22 @@
           layout: false,
           error: true
         });
+      });
+    });
+    return app.get('/cities', function(req, res) {
+      return User.find().where("location_components").ne({}).only("location_components").run(function(err, profiles) {
+        var citiesWithStateCode, cityAndStateCode, profile, _i, _len;
+        citiesWithStateCode = [];
+        for (_i = 0, _len = profiles.length; _i < _len; _i++) {
+          profile = profiles[_i];
+          if (profile.location_components.city && profile.location_components.state_code) {
+            cityAndStateCode = "" + profile.location_components.city + ", " + profile.location_components.state_code;
+            if (__indexOf.call(citiesWithStateCode, cityAndStateCode) < 0) {
+              citiesWithStateCode.push(cityAndStateCode);
+            }
+          }
+        }
+        return res.json(citiesWithStateCode);
       });
     });
   };
