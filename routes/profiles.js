@@ -49,17 +49,19 @@
       });
     });
     app.get('/daycares', function(req, res) {
-      var clientLat, clientLng, clientPosition, dst, query;
-      dst = req.query.dst ? Math.ceil(req.query.dst / 69) : false;
-      clientPosition = req.query.clpos || {};
-      clientLat = clientPosition.lat || false;
-      clientLng = clientPosition.lng || false;
+      var addressComponents, city, query, stateCode, zipCode;
+      addressComponents = req.query.address_components || {};
+      city = addressComponents.city || false;
+      stateCode = addressComponents.state_code || false;
+      zipCode = addressComponents.zip_code || false;
       query = User.find({
         type: 'daycare'
-      }).desc('created_at');
-      if (dst && clientLat && clientLng) {
-        query.where("location").near([clientLat, clientLng]).maxDistance(dst);
+      }).desc('name');
+      if (city && stateCode) {
+        stateCode = stateCode.toUpperCase();
+        query.where("location_components.city", city).where("location_components.state_code", stateCode);
       }
+      if (zipCode) query.where("location_components.zip_code", zipCode);
       return query.run(function(err, daycares) {
         if (daycares == null) daycares = [];
         return res.render('profiles/profiles', {

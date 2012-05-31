@@ -90,13 +90,29 @@ class window.Kin.Profile.ProfileEditView extends Backbone.View
       .result (event, data, formatted)->
         lat = data[1]
         lng = data[2]
+        locationComponents =
+          city: data[3]
+          county: data[4]
+          state: data[5]
+          state_code: data[6]
+          country: data[7]
+          zip_code: data[8]
         that.updateLocationCoordsFields(lat, lng)
+        that.updateLocationComponentsFields(locationComponents)
         that.updateAddressMarker(lat, lng, that.model.get('name'))
         that.centerMap(lat, lng)
 
   updateLocationCoordsFields: (lat, lng)->
     @$('#location-lat').val(lat)
     @$('#location-lng').val(lng)
+
+  updateLocationComponentsFields: (locationComponents)->
+    @$('#location-city').val(locationComponents.city)
+    @$('#location-county').val(locationComponents.county)
+    @$('#location-state').val(locationComponents.state)
+    @$('#location-state-code').val(locationComponents.state_code)
+    @$('#location-country').val(locationComponents.country)
+    @$('#location-zip-code').val(locationComponents.zip_code)
 
   loadGoogleMaps: ()->
     if @$(@maps.id).length and @maps.isMapsAvailable()

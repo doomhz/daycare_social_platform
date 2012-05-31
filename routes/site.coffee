@@ -1,3 +1,4 @@
+_ = require('underscore')
 http = require('http')
 querystring = require('querystring')
 InviteRequest = require('../models/invite_request')
@@ -59,10 +60,25 @@ module.exports = (app)->
       extractLocationsFromJson = (jsonData)->
         locations = []
         for location in jsonData.results
+          address_components = {}
+          for addressComponent in location.address_components
+            if "locality" in addressComponent.types
+              address_components.city = addressComponent.long_name
+            else if "administrative_area_level_2" in addressComponent.types
+              address_components.county = addressComponent.long_name
+            else if "administrative_area_level_1" in addressComponent.types
+              address_components.state = addressComponent.long_name
+              address_components.state_code = addressComponent.short_name
+            else if "country" in addressComponent.types
+              address_components.country = addressComponent.long_name
+            else if "postal_code" in addressComponent.types
+              address_components.zip_code = addressComponent.long_name
+
           locations.push
             address: location.formatted_address
             lat: location.geometry.location.lat
             lng: location.geometry.location.lng
+            address_components: address_components
         locations
 
       res2.setEncoding('utf8')
@@ -77,6 +93,7 @@ module.exports = (app)->
           locations = extractLocationsFromJson(jsonData)
         catch e
           console.log('Error parsing location string to JSON: ' + rawData)
+          console.log e
 
         res.render 'site/geolocation', {layout: false, locations: locations}
       )

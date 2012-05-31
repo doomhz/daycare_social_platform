@@ -74,6 +74,14 @@
       type: [Number],
       index: "2d"
     },
+    location_components: {
+      city: "",
+      county: "",
+      state: "",
+      state_code: "",
+      country: "",
+      zip_code: ""
+    },
     email: String,
     phone: String,
     fax: String,

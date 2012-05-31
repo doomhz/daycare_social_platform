@@ -1,3 +1,3 @@
 - locations && locations.forEach(function (location) {
-    #{location.address}|#{location.lat}|#{location.lng}
+  #{location.address}|#{location.lat}|#{location.lng}|#{location.address_components.city}|#{location.address_components.county}|#{location.address_components.state}|#{location.address_components.state_code}|#{location.address_components.country}|#{location.address_components.zip_code}
 - })

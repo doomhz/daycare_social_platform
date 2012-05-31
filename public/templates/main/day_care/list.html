@@ -1,14 +1,17 @@
 <div id="general-wrapper" class="daycares">
-  <h1>Day Cares</h1>
+  <h1>Search for daycares</h1>
+
+  <h2>By location</h2>
 
   <form action="/day-cares" id="daycares-filter-form">
     <fieldset>
-      <input type="hidden" name="clpos[lat]" value="" />
-      <input type="hidden" name="clpos[lng]" value="" />
+      <input type="hidden" name="address_components[city]" value="" />
+      <input type="hidden" name="address_components[state_code]" value="" />
+      <input type="hidden" name="address_components[zip_code]" value="" />
       <div class="clearfix content-box">
-        <label for="distance" class="title">Distance</label>
+        <label for="location" class="title">City or Zip code</label>
         <div class="input">
-          <input type="text" name="dst" value="100" /> milles
+          <input type="text" name="location" value="" />
         </div>
       </div>
       <div class="actions">

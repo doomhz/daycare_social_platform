@@ -17,7 +17,7 @@ class Kin.Profile.ListView extends Backbone.View
     if @collection
       @collection.bind('add', @addProfileListItem)
       @collection.bind('reset', @addProfileListItems)
-    @getCurrentLocation()
+    #@getCurrentLocation()
 
   render: ()->
     that = @
@@ -53,9 +53,39 @@ class Kin.Profile.ListView extends Backbone.View
 
   searchSubmitHandler: (ev)->
     ev.preventDefault()
+    @populateCityAndState()
+    @populateZipCode()
     $form = $(ev.target)
     @collection.fetch
       data: $form.serialize()
+
+  populateCityAndState: ()->
+    $location = @$("input[name='location']")
+    location = @parseCityAndState($location.val())
+    $city = @$("input[name='address_components[city]']")
+    $stateCode = @$("input[name='address_components[state_code]']")
+    if location.city and location.state_code
+      city = location.city
+      stateCode = location.state_code
+    else
+      city = stateCode = ""
+    $city.val(city)
+    $stateCode.val(stateCode)
+
+  parseCityAndState: (location)->
+    cityAndStateCode = location.split(",")
+    parsedLocation =
+      city: _.str.trim cityAndStateCode[0]
+      state_code: _.str.trim cityAndStateCode[1]
+
+  populateZipCode: ()->
+    $location = @$("input[name='location']")
+    zipCode = @parseZipCode($location.val())
+    if _.isNumber zipCode
+      @$("input[name='address_components[zip_code]']").val(zipCode)
+
+  parseZipCode: (location)->
+    parseInt _.str.trim location
 
   remove: ()->
     @unbind()

@@ -1,5 +1,8 @@
 (function() {
-  var ContactUs, InviteRequest, http, querystring;
+  var ContactUs, InviteRequest, http, querystring, _,
+    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+  _ = require('underscore');
 
   http = require('http');
 
@@ -105,15 +108,33 @@
         rawData = '';
         jsonData = '';
         extractLocationsFromJson = function(jsonData) {
-          var location, locations, _i, _len, _ref;
+          var addressComponent, address_components, location, locations, _i, _j, _len, _len2, _ref, _ref2;
           locations = [];
           _ref = jsonData.results;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             location = _ref[_i];
+            address_components = {};
+            _ref2 = location.address_components;
+            for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+              addressComponent = _ref2[_j];
+              if (__indexOf.call(addressComponent.types, "locality") >= 0) {
+                address_components.city = addressComponent.long_name;
+              } else if (__indexOf.call(addressComponent.types, "administrative_area_level_2") >= 0) {
+                address_components.county = addressComponent.long_name;
+              } else if (__indexOf.call(addressComponent.types, "administrative_area_level_1") >= 0) {
+                address_components.state = addressComponent.long_name;
+                address_components.state_code = addressComponent.short_name;
+              } else if (__indexOf.call(addressComponent.types, "country") >= 0) {
+                address_components.country = addressComponent.long_name;
+              } else if (__indexOf.call(addressComponent.types, "postal_code") >= 0) {
+                address_components.zip_code = addressComponent.long_name;
+              }
+            }
             locations.push({
               address: location.formatted_address,
               lat: location.geometry.location.lat,
-              lng: location.geometry.location.lng
+              lng: location.geometry.location.lng,
+              address_components: address_components
             });
           }
           return locations;
@@ -131,6 +152,7 @@
             locations = extractLocationsFromJson(jsonData);
           } catch (e) {
             console.log('Error parsing location string to JSON: ' + rawData);
+            console.log(e);
           }
           return res.render('site/geolocation', {
             layout: false,

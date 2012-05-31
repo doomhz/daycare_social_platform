@@ -13,6 +13,12 @@
 	        	<input type="text" name="address" value="<%=profile.get('address') %>" id="address-autocomplete" class="required" />
 		        <input type="hidden" name="location[]" value="<%=profile.get('location')[0] %>" id="location-lat" />
 		        <input type="hidden" name="location[]" value="<%=profile.get('location')[1] %>" id="location-lng" />
+            <input type="hidden" name="location_components[city]" value="<%=profile.get('location_components').city %>" id="location-city" />
+            <input type="hidden" name="location_components[county]" value="<%=profile.get('location_components').county %>" id="location-county" />
+            <input type="hidden" name="location_components[state]" value="<%=profile.get('location_components').state %>" id="location-state" />
+            <input type="hidden" name="location_components[state_code]" value="<%=profile.get('location_components').state_code %>" id="location-state-code" />
+            <input type="hidden" name="location_components[country]" value="<%=profile.get('location_components').country %>" id="location-country" />
+            <input type="hidden" name="location_components[zip_code]" value="<%=profile.get('location_components').zip_code %>" id="location-zip-code" />
   		    </div>
   	        <div id="profile-address-maps"></div>
   	        <label for="phone" class="title">Phone</label>

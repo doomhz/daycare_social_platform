@@ -22,15 +22,19 @@ module.exports = (app)->
       res.render 'profiles/quick_search', {layout: false, profiles: users, _: _}
 
   app.get '/daycares', (req, res)->
-    dst = if req.query.dst then Math.ceil(req.query.dst / 69) else false
-    clientPosition = req.query.clpos or {}
-    clientLat = clientPosition.lat or false
-    clientLng = clientPosition.lng or false
-    query = User.find({type: 'daycare'}).desc('created_at')
-    if dst and clientLat and clientLng
-      query.where("location")
-      .near([clientLat, clientLng])
-      .maxDistance(dst)
+    addressComponents = req.query.address_components or {}
+    city = addressComponents.city or false
+    stateCode = addressComponents.state_code or false
+    zipCode = addressComponents.zip_code or false
+    query = User.find({type: 'daycare'}).desc('name')
+    if city and stateCode
+      stateCode = stateCode.toUpperCase()
+      query
+      .where("location_components.city", city)
+      .where("location_components.state_code", stateCode)
+    if zipCode
+      query
+      .where("location_components.zip_code", zipCode)
     query.run (err, daycares = []) ->
       res.render 'profiles/profiles', {profiles: daycares, show_private: false, layout: false}
 

@@ -16,6 +16,15 @@
   "address": "#{profile.address}",
   - var location = profile.location || [];
   "location": [#{location[0] || 10}, #{location[1] || 40}],
+  - var location_components = profile.location_components || {};
+  "location_components": {
+  "city": "#{location_components.city}",
+  "county": "#{location_components.county}",
+  "state": "#{location_components.state}",
+  "state_code": "#{location_components.state_code}",
+  "country": "#{location_components.country}",
+  "zip_code": "#{location_components.zip_code}"
+  },
   "email": "#{profile.email}",
   "phone": "#{profile.phone}",
   "fax": "#{profile.fax}",
