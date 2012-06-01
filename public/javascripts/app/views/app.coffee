@@ -127,7 +127,7 @@ class Kin.AppView extends Backbone.View
   renderDaycares: ()->
     @clearColumns()
 
-    @mainColumnView = new Kin.Profile.ListView
+    @mainColumnView = new Kin.DayCare.SearchView
       collection: new Kin.ProfileCollection([], {url: '/daycares'})
       el: @mainColumnSelector
     @mainColumnView.render()

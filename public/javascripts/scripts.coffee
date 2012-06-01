@@ -70,8 +70,6 @@
 #= require app/views/profile/our_family_list
 #= require app/views/profile/wall_comment
 #= require app/views/profile/wall_followup
-#= require app/views/profile/list_item
-#= require app/views/profile/list
 #= require app/views/profile/profile_side1
 #= require app/views/profile/profile_edit
 #= require app/views/profile/profile_edit_side1
@@ -80,6 +78,8 @@
 #= require app/views/profile/pictures_list
 #= require app/views/profile/pictures_list
 #= require app/views/profile/notifications
+#= require app/views/day_care/search_item
+#= require app/views/day_care/search
 #= require app/views/day_care/add_class
 #= require app/views/day_care/add_class_side1
 #= require app/views/day_care/section

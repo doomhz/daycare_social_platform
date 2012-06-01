@@ -1,0 +1,37 @@
+<%
+  var avatar = profile.getProfilePicture();
+  var miniAvatarUrl = avatar ? avatar.mini_url : Kin.CONFIG.noPicture;
+  var lat = profile.get("location")[0];
+  var lng = profile.get("location")[1];
+%>
+<p class="photo">
+  <a href="#profiles/view/<%= profile.id %>">
+    <img src="<%= miniAvatarUrl %>" width="50" height="50" />
+  </a>
+</p>
+<div>
+  <p>
+    <a href="#profiles/view/<%=profile.id %>"><%=profile.get('name') %></a>
+  </p>
+  <% if (profile.get('address')) { %>
+  <p><%=profile.get('address') %></p>
+  <% } %>
+  <% if (profile.get('phone')) { %>
+  <p><%=profile.get('phone') %></p>
+  <% } %>
+  <% if (profile.get('fax')) { %>
+  <p><%=profile.get('fax') %></p>
+  <% } %>
+  <% if (profile.get('contact_person')) { %>
+  <p>Contact person: <%=profile.get('contact_person') %></p>
+  <% } %>
+</div>
+<div>
+  <%
+    if (lat && lng) {
+  %>
+    <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= lat %>,<%= lng %>&zoom=15&size=198x198&markers=color:red%7Ccolor:white%7C<%= lat %>,<%= lng %>&sensor=false" id="mini-map" width="198" height="198" />
+  <%
+    }
+  %>
+</div>
