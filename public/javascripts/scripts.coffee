@@ -78,6 +78,7 @@
 #= require app/views/profile/pictures_list
 #= require app/views/profile/pictures_list
 #= require app/views/profile/notifications
+#= require app/views/profile/guide
 #= require app/views/day_care/search_item
 #= require app/views/day_care/search
 #= require app/views/day_care/add_class

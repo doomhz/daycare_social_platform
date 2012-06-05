@@ -14,6 +14,8 @@ class Kin.AppView extends Backbone.View
 
   side2ColumnSelector: "#side-column2"
 
+  profileGuideSelector: "#profile-guide"
+
   router: null
 
   currentUser: null
@@ -33,6 +35,7 @@ class Kin.AppView extends Backbone.View
     @initRouter()
     @initStartupEvents()
     @initHeaderSearch()
+    @initProfileGuide()
 
   initRouter: ()->
     @router = new Kin.MainRouter
@@ -123,6 +126,16 @@ class Kin.AppView extends Backbone.View
       reviewChildren = new Kin.Parent.ReviewChildrenView
         currentUser: @currentUser
       reviewChildren.render()
+
+  initTopLink: ()->
+    $('#top-link').topLink()
+
+  initProfileGuide: ()->
+    @profileGuideView = new Kin.Profile.GuideView
+      el: @profileGuideSelector
+      model: @currentUser
+    @profileGuideView.render()
+    @currentUser.addDelegate(@profileGuideView)
 
   renderDaycares: ()->
     @clearColumns()
@@ -534,9 +547,6 @@ class Kin.AppView extends Backbone.View
           currentUser: that.currentUser
           router: that.router
         that.side2ColumnView.render()
-
-  initTopLink: ()->
-    $('#top-link').topLink()
 
   clearColumns: (columns = ['main', 'side1', 'side2'])->
     (@["#{column}ColumnView"] and @["#{column}ColumnView"].remove()) for column in columns

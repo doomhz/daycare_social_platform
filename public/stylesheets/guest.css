@@ -284,6 +284,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper #action-box,
 #wrapper.about-us .content-wrapper #action-box,
+#wrapper.contact-us .content-wrapper #action-box,
 #wrapper.privacy .content-wrapper #action-box,
 #wrapper.terms .content-wrapper #action-box {
   float: right;
@@ -291,6 +292,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper #action-box #request-invite-link,
 #wrapper.about-us .content-wrapper #action-box #request-invite-link,
+#wrapper.contact-us .content-wrapper #action-box #request-invite-link,
 #wrapper.privacy .content-wrapper #action-box #request-invite-link,
 #wrapper.terms .content-wrapper #action-box #request-invite-link {
   display: inline-block;
@@ -303,6 +305,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper #action-box #registered-memebers-text,
 #wrapper.about-us .content-wrapper #action-box #registered-memebers-text,
+#wrapper.contact-us .content-wrapper #action-box #registered-memebers-text,
 #wrapper.privacy .content-wrapper #action-box #registered-memebers-text,
 #wrapper.terms .content-wrapper #action-box #registered-memebers-text {
   font-size: 13px;
@@ -311,6 +314,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper #with-kindzy-explained,
 #wrapper.about-us .content-wrapper #with-kindzy-explained,
+#wrapper.contact-us .content-wrapper #with-kindzy-explained,
 #wrapper.privacy .content-wrapper #with-kindzy-explained,
 #wrapper.terms .content-wrapper #with-kindzy-explained {
   width: 100%;
@@ -319,6 +323,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper #testimonials-cnt,
 #wrapper.about-us .content-wrapper #testimonials-cnt,
+#wrapper.contact-us .content-wrapper #testimonials-cnt,
 #wrapper.privacy .content-wrapper #testimonials-cnt,
 #wrapper.terms .content-wrapper #testimonials-cnt {
   overflow: hidden;
@@ -327,6 +332,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper #testimonials-cnt .testimonial,
 #wrapper.about-us .content-wrapper #testimonials-cnt .testimonial,
+#wrapper.contact-us .content-wrapper #testimonials-cnt .testimonial,
 #wrapper.privacy .content-wrapper #testimonials-cnt .testimonial,
 #wrapper.terms .content-wrapper #testimonials-cnt .testimonial {
   background: url("/images/features/testimonial_bg.png") no-repeat top center;
@@ -335,6 +341,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper #testimonials-cnt .testimonial blockquote,
 #wrapper.about-us .content-wrapper #testimonials-cnt .testimonial blockquote,
+#wrapper.contact-us .content-wrapper #testimonials-cnt .testimonial blockquote,
 #wrapper.privacy .content-wrapper #testimonials-cnt .testimonial blockquote,
 #wrapper.terms .content-wrapper #testimonials-cnt .testimonial blockquote {
   font-size: 17px;
@@ -346,6 +353,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper #testimonials-cnt .testimonial .author,
 #wrapper.about-us .content-wrapper #testimonials-cnt .testimonial .author,
+#wrapper.contact-us .content-wrapper #testimonials-cnt .testimonial .author,
 #wrapper.privacy .content-wrapper #testimonials-cnt .testimonial .author,
 #wrapper.terms .content-wrapper #testimonials-cnt .testimonial .author {
   float: right;
@@ -355,6 +363,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper ul#features-menu,
 #wrapper.about-us .content-wrapper ul#features-menu,
+#wrapper.contact-us .content-wrapper ul#features-menu,
 #wrapper.privacy .content-wrapper ul#features-menu,
 #wrapper.terms .content-wrapper ul#features-menu {
   float: left;
@@ -363,6 +372,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper ul#features-menu li,
 #wrapper.about-us .content-wrapper ul#features-menu li,
+#wrapper.contact-us .content-wrapper ul#features-menu li,
 #wrapper.privacy .content-wrapper ul#features-menu li,
 #wrapper.terms .content-wrapper ul#features-menu li {
   border-bottom: solid 1px #ccc;
@@ -372,6 +382,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper ul#features-menu li a,
 #wrapper.about-us .content-wrapper ul#features-menu li a,
+#wrapper.contact-us .content-wrapper ul#features-menu li a,
 #wrapper.privacy .content-wrapper ul#features-menu li a,
 #wrapper.terms .content-wrapper ul#features-menu li a {
   display: inline-block;
@@ -383,6 +394,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper ul#features-menu li.selected a,
 #wrapper.about-us .content-wrapper ul#features-menu li.selected a,
+#wrapper.contact-us .content-wrapper ul#features-menu li.selected a,
 #wrapper.privacy .content-wrapper ul#features-menu li.selected a,
 #wrapper.terms .content-wrapper ul#features-menu li.selected a {
   background: url("/images/features/menu_bg.png") no-repeat center left;
@@ -390,6 +402,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper .feature-box,
 #wrapper.about-us .content-wrapper .feature-box,
+#wrapper.contact-us .content-wrapper .feature-box,
 #wrapper.privacy .content-wrapper .feature-box,
 #wrapper.terms .content-wrapper .feature-box {
   float: right;
@@ -398,6 +411,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper .feature-box h3,
 #wrapper.about-us .content-wrapper .feature-box h3,
+#wrapper.contact-us .content-wrapper .feature-box h3,
 #wrapper.privacy .content-wrapper .feature-box h3,
 #wrapper.terms .content-wrapper .feature-box h3 {
   width: 420px;
@@ -406,6 +420,7 @@ a:hover {
 }
 #wrapper.features .content-wrapper .feature-box p,
 #wrapper.about-us .content-wrapper .feature-box p,
+#wrapper.contact-us .content-wrapper .feature-box p,
 #wrapper.privacy .content-wrapper .feature-box p,
 #wrapper.terms .content-wrapper .feature-box p {
   width: 420px;
@@ -413,49 +428,84 @@ a:hover {
 }
 #wrapper.features .content-wrapper .feature-box.odd,
 #wrapper.about-us .content-wrapper .feature-box.odd,
+#wrapper.contact-us .content-wrapper .feature-box.odd,
 #wrapper.privacy .content-wrapper .feature-box.odd,
 #wrapper.terms .content-wrapper .feature-box.odd {
   text-align: left;
 }
 #wrapper.features .content-wrapper .feature-box.odd img,
 #wrapper.about-us .content-wrapper .feature-box.odd img,
+#wrapper.contact-us .content-wrapper .feature-box.odd img,
 #wrapper.privacy .content-wrapper .feature-box.odd img,
 #wrapper.terms .content-wrapper .feature-box.odd img {
   float: right;
 }
 #wrapper.features .content-wrapper .feature-box.odd h3,
 #wrapper.about-us .content-wrapper .feature-box.odd h3,
+#wrapper.contact-us .content-wrapper .feature-box.odd h3,
 #wrapper.privacy .content-wrapper .feature-box.odd h3,
 #wrapper.terms .content-wrapper .feature-box.odd h3 {
   float: left;
 }
 #wrapper.features .content-wrapper .feature-box.odd p,
 #wrapper.about-us .content-wrapper .feature-box.odd p,
+#wrapper.contact-us .content-wrapper .feature-box.odd p,
 #wrapper.privacy .content-wrapper .feature-box.odd p,
 #wrapper.terms .content-wrapper .feature-box.odd p {
   float: left;
 }
 #wrapper.features .content-wrapper .feature-box.even,
 #wrapper.about-us .content-wrapper .feature-box.even,
+#wrapper.contact-us .content-wrapper .feature-box.even,
 #wrapper.privacy .content-wrapper .feature-box.even,
 #wrapper.terms .content-wrapper .feature-box.even {
   text-align: left;
 }
 #wrapper.features .content-wrapper .feature-box.even img,
 #wrapper.about-us .content-wrapper .feature-box.even img,
+#wrapper.contact-us .content-wrapper .feature-box.even img,
 #wrapper.privacy .content-wrapper .feature-box.even img,
 #wrapper.terms .content-wrapper .feature-box.even img {
   float: left;
 }
 #wrapper.features .content-wrapper .feature-box.even h3,
 #wrapper.about-us .content-wrapper .feature-box.even h3,
+#wrapper.contact-us .content-wrapper .feature-box.even h3,
 #wrapper.privacy .content-wrapper .feature-box.even h3,
 #wrapper.terms .content-wrapper .feature-box.even h3 {
   float: right;
 }
 #wrapper.features .content-wrapper .feature-box.even p,
 #wrapper.about-us .content-wrapper .feature-box.even p,
+#wrapper.contact-us .content-wrapper .feature-box.even p,
 #wrapper.privacy .content-wrapper .feature-box.even p,
 #wrapper.terms .content-wrapper .feature-box.even p {
   float: right;
+}
+
+#contact-us-form {
+  width: 380px;
+}
+#contact-us-form .clearfix input {
+  width: 95%;
+}
+#contact-us-form .clearfix textarea {
+  width: 95%;
+  height: 170px;
+}
+#contact-us-form .clearfix label {
+  padding: 5px 0 5px 0;
+  font-size: 14px;
+  display: inline-block;
+}
+#contact-us-form .clearfix label.error {
+  width: 100%;
+}
+#contact-us-form .actions {
+  text-align: right;
+  width: 100%;
+}
+#contact-us-form .actions input {
+  padding-left: 20px;
+  padding-right: 20px;
 }

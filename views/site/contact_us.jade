@@ -1,3 +1,10 @@
+#action-box
+  a.request-invite-bt(href="#", id="request-invite-link") Request invite
+
+  p#registered-memebers-text Registered memebers,
+    a(href="#", id="open-login-link") &nbsp;login here
+    .
+
 h1#explore Contact Us
 
 div#contact-us
@@ -30,3 +37,5 @@ div#contact-us
           textarea(name="message", class="required")
       #submit.actions
         input.btn.primary(type='submit', value='Send') Send
+
+include _invite_login_modals

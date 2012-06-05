@@ -1995,7 +1995,7 @@ table input {
 #notifications-list .feed .avatar img,
 #notifications-list .notifications .avatar img,
 #notifications-list .alert .avatar img {
-  
+
 }
 
 #notifications-list .request .message-header,
@@ -2988,6 +2988,10 @@ body.about-us {
     background: #F3F3F3 url("/images/features/bg_body.png") repeat-x top center
 }
 
+body.contact-us {
+    background: #F3F3F3 url("/images/features/bg_body.png") repeat-x top center
+}
+
 #privacy-policy {
     float: left;
     clear: both;
@@ -3068,4 +3072,13 @@ body.about-us {
 
 #wrapper.about-us p {
     padding-bottom: 10px;
+}
+
+#profile-guide {
+  float: right;
+  width: 180px;
+  background: #ffffeb;
+  border: solid 1px #f0c020;
+  margin: 15px 0 5px 0;
+  padding: 10px;
 }

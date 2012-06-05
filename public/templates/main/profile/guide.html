@@ -1,0 +1,25 @@
+<%
+    var profilePictureSet = profile.getProfilePictureSet();
+    var classes = profile.get("daycare_friends");
+    var firstClass = classes ? classes[0] : false;
+%>
+<ul>
+  <li><a href="#profiles/view/picture-set/<%= profilePictureSet._id %>">Add a profile photo</a></li>
+  <li><a href="#profiles/edit/<%= profile.id %>">Edit your profile</a></li>
+  <%
+    if (profile.get("type") === "daycare") {
+  %>
+  <li><a href="#add-class">Add classes</a></li>
+  <%
+    if (firstClass) {
+  %>
+  <li><a href="#manage-children/<%= firstClass._id %>">Add children</a></li>
+  <%
+    }
+  %>
+  <li><a href="#invite-parents">Invite parents</a></li>
+  <%
+    }
+  %>
+  <li><a href="#">Make your first post</a></li>
+</ul>
