@@ -29,4 +29,4 @@ class Kin.Profile.GuideView extends Backbone.View
 
   doneAllSteps: ()->
     doneSteps = _.intersection @model.get("flags"), @stepsToDo
-    not _.difference(doneSteps, @stepsToDo).length
+    not _.difference(@stepsToDo, doneSteps).length
