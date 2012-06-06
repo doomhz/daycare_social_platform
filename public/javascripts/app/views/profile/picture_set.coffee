@@ -45,6 +45,7 @@ class window.Kin.Profile.PictureSetView extends Backbone.View
                 setId: that.model.get('_id')
             onComplete: (id, fileName, responseJSON)->
               that.model.pictures.add(responseJSON)
+              that.currentUser.setFlag("added_profile_picture") if that.model.get("type") is "profile"
 
           that.$('#picture-set-text-edit').doomEdit
             ajaxSubmit: false

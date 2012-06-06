@@ -75,4 +75,11 @@
   - var children = profile.children;
   "children":
   include ../children/children
+  ,
+  "flags": [
+  each flagName, i in (profile.flags || [])
+    "#{flagName}"
+    - if (i != profile.flags.length-1)
+      ,
+  ]
   }

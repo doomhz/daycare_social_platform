@@ -6,16 +6,27 @@ class Kin.Profile.GuideView extends Backbone.View
 
   tplUrl: '/templates/main/profile/guide.html'
 
+  stepsToDo: [
+    "added_profile_picture", "edited_profile", "added_class",
+    "added_child", "invited_parent", "made_post"
+  ]
+
   initialize: ()->
     @bind("change", @changeHandler)
 
   changeHandler: (attribute, value)->
-    if attribute in ["friends"]
+    if attribute in ["flags"]
       @render()
 
   render: ()=>
-    that = @
-    $.tmpload
-      url: @tplUrl
-      onLoad: (tpl)->
-        $(that.el).html(tpl({profile: that.model}))
+    if not @doneAllSteps()
+      that = @
+      $.tmpload
+        url: @tplUrl
+        onLoad: (tpl)->
+          $(that.el).html(tpl({profile: that.model}))
+          $(that.el).removeClass("hidden")
+
+  doneAllSteps: ()->
+    doneSteps = _.intersection @model.get("flags"), @stepsToDo
+    not _.difference(doneSteps, @stepsToDo).length

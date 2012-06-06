@@ -390,6 +390,7 @@ class Kin.AppView extends Backbone.View
           el: that.mainColumnSelector
           model: model
           collection: childrenList
+          currentUser: that.currentUser
         that.mainColumnView.render()
 
         that.side1ColumnView = new Kin.Class.ManageChildrenSide1View

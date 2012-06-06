@@ -109,6 +109,9 @@ UserSchema = new Schema
   children:
     type: [{}]
     default: []
+  flags:
+    type: [String]
+    default: []
 
 UserSchema.methods.findDaycareFriends = (onFind)->
   that = @

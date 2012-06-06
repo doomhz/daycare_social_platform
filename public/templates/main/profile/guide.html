@@ -4,22 +4,108 @@
     var firstClass = classes ? classes[0] : false;
 %>
 <ul>
-  <li><a href="#profiles/view/picture-set/<%= profilePictureSet._id %>">Add a profile photo</a></li>
-  <li><a href="#profiles/edit/<%= profile.id %>">Edit your profile</a></li>
+  <li>
+    <%
+      if (!profile.hasFlag("added_profile_picture")) {
+    %>
+    <a href="#profiles/view/picture-set/<%= profilePictureSet._id %>">Add a profile photo</a>
+    <%
+      } else {
+    %>
+    <span class="done-step">Add a profile photo</span>
+    <%
+      }
+    %>
+  </li>
+  <li>
+    <%
+      if (!profile.hasFlag("edited_profile")) {
+    %>
+    <a href="#profiles/edit/<%= profile.id %>">Edit your profile</a>
+    <%
+      } else {
+    %>
+    <span class="done-step">Edit your profile</span>
+    <%
+      }
+    %>
+  </li>
   <%
     if (profile.get("type") === "daycare") {
   %>
-  <li><a href="#add-class">Add classes</a></li>
+  <li>
+    <%
+      if (!profile.hasFlag("added_class")) {
+    %>
+    <a href="#add-class">Add classes</a>
+    <%
+      } else {
+    %>
+    <span class="done-step">Add classes</span>
+    <%
+      }
+    %>
+  </li>
   <%
     if (firstClass) {
   %>
-  <li><a href="#manage-children/<%= firstClass._id %>">Add children</a></li>
+  <li>
+    <%
+      if (!profile.hasFlag("added_child")) {
+    %>
+    <a href="#manage-children/<%= firstClass._id %>">Add children</a>
+    <%
+      } else {
+    %>
+    <span class="done-step">Add children</span>
+    <%
+      }
+    %>
+  </li>
+  <%
+    } else {
+  %>
+  <li class="disabled-step">Add children</li>
   <%
     }
   %>
-  <li><a href="#invite-parents">Invite parents</a></li>
+  <%
+    if (firstClass) {
+  %>
+  <li>
+    <%
+      if (!profile.hasFlag("invited_parent")) {
+    %>
+    <a href="#invite-parents">Invite parents</a>
+    <%
+      } else {
+    %>
+      <span class="done-step">Invite parents</span>
+    <%
+      }
+    %>
+  </li>
+  <%
+    } else {
+  %>
+  <li class="disabled-step">Invite parents</li>
   <%
     }
   %>
-  <li><a href="#">Make your first post</a></li>
+  <%
+    }
+  %>
+  <li>
+  <%
+    if (!profile.hasFlag("made_post")) {
+  %>
+  <a href="#">Make your first post</a>
+  <%
+    } else {
+  %>
+    <span class="done-step">Make your first post</span>
+  <%
+    }
+  %>
+  </li>
 </ul>

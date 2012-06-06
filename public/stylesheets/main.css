@@ -3082,3 +3082,7 @@ body.contact-us {
   margin: 15px 0 5px 0;
   padding: 10px;
 }
+
+#profile-guide .done-step {
+  text-decoration: line-through;
+}

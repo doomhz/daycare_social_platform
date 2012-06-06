@@ -147,6 +147,10 @@
     children: {
       type: [{}],
       "default": []
+    },
+    flags: {
+      type: [String],
+      "default": []
     }
   });
 

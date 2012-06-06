@@ -55,6 +55,8 @@ class window.Kin.Profile.ProfileEditView extends Backbone.View
         that.$(".chzn-select").chosen()
         that.$("form").validate()
 
+        that.model.setFlag("edited_profile")
+
   createAddressMarker: ()->
     markerData = @getProfileDataForMarker()
     that = @

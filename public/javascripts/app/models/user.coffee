@@ -19,6 +19,7 @@ class Kin.UserModel extends Backbone.Model
     open_door_policy: false
     serving_disabilities: false
     picture_sets: []
+    flags: []
 
   url: '/profiles'
 
@@ -75,6 +76,15 @@ class Kin.UserModel extends Backbone.Model
 
   getFirstDaycareFriend: ()->
     @get("daycare_friends")[0]
+
+  hasFlag: (name)->
+    @attributes.flags.indexOf(name) > -1
+
+  setFlag: (name)->
+    if not @hasFlag(name)
+      @attributes.flags.push(name)
+      @save
+        flags: @attributes.flags
 
   addDelegate: (delegate)->
     if not @delegates[delegate]

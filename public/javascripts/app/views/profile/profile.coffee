@@ -86,6 +86,7 @@ class window.Kin.Profile.ProfileView extends Backbone.View
       data: commentData
       success: ()->
         that.profileWall.collection.loadComments()
+        that.currentUser.setFlag("made_post")
 
   loadMoreCommentsHandler: (ev)->
     ev.preventDefault()
