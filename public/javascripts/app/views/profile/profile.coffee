@@ -21,7 +21,6 @@ class window.Kin.Profile.ProfileView extends Backbone.View
   renderProfileWall: true
 
   initialize: ({@router, @currentUser})->
-    @
 
   render: ()->
     that = @
@@ -77,6 +76,7 @@ class window.Kin.Profile.ProfileView extends Backbone.View
       $textarea.val(val)
       @sendCommentFromForm($form)
       $textarea.val("").keyup()
+      Kin.app.pub "profile:step", "made_post"
 
   sendCommentFromForm: ($form)->
     that = @
@@ -86,7 +86,6 @@ class window.Kin.Profile.ProfileView extends Backbone.View
       data: commentData
       success: ()->
         that.profileWall.collection.loadComments()
-        that.currentUser.setFlag("made_post")
 
   loadMoreCommentsHandler: (ev)->
     ev.preventDefault()

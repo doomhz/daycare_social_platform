@@ -75,7 +75,7 @@ class Kin.Parent.InvitesView extends Backbone.View
   onFormSaveSuccess: ()=>
     $.jGrowl("Invite successfully sent")
     @render()
-    @model.setFlag("invited_parent")
+    Kin.app.pub "invites:step", "invited_parent"
 
   onFormSaveError: ()=>
     $.jGrowl("Invite could not be sent :( Please try again.")

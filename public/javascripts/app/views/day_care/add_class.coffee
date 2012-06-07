@@ -58,7 +58,7 @@ class Kin.DayCare.AddClassView extends Kin.DoomWindowsView
           that.submitStaffForms()
           that.close()
           that.router.navigate("profiles/view/#{that.classId}", true)
-          that.currentUser.setFlag("added_class")
+          Kin.app.pub "add_class:step", "added_class"
           that.remove()
         error: ()->
           $.jGrowl("The class could not be created :( Please try again.")

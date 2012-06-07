@@ -22,6 +22,11 @@ class Kin.AppView extends Backbone.View
 
   window: null
 
+  modules: [
+    "profileGuideView"
+    "currentUser"
+  ]
+
   initialize: ()->
     @initCurrentUser(@onUserLoad)
 
@@ -135,7 +140,6 @@ class Kin.AppView extends Backbone.View
       el: @profileGuideSelector
       model: @currentUser
     @profileGuideView.render()
-    @currentUser.addDelegate(@profileGuideView)
 
   renderDaycares: ()->
     @clearColumns()
@@ -390,7 +394,6 @@ class Kin.AppView extends Backbone.View
           el: that.mainColumnSelector
           model: model
           collection: childrenList
-          currentUser: that.currentUser
         that.mainColumnView.render()
 
         that.side1ColumnView = new Kin.Class.ManageChildrenSide1View
@@ -555,3 +558,11 @@ class Kin.AppView extends Backbone.View
 
   goTop: ()->
     $("window,html,body").scrollTop(0)
+
+  pub: ()=>
+    eventName = arguments[0]
+    args = Array.prototype.slice.call(arguments)
+    args.shift()
+    for moduleName in @modules
+      if @[moduleName] and typeof @[moduleName]["trigger"] is "function"
+        @[moduleName].trigger.apply @[moduleName], arguments

@@ -35,7 +35,13 @@ class Kin.UserModel extends Backbone.Model
     @autoUpdateTime = options.autoUpdateTime || @autoUpdateTime
     if @autoUpdate
       window.setInterval(@autoUpdateHandler, @autoUpdateTime)
-    @bind("change", @dataUpdateHandler)
+    @bind "change", @dataUpdateHandler
+    @bind "profile:step", @setFlag
+    @bind "profile_edit:step", @setFlag
+    @bind "picture_set:step", @setFlag
+    @bind "manage_children:step", @setFlag
+    @bind "add_class:step", @setFlag
+    @bind "invites:step", @setFlag
 
   autoUpdateHandler: ()=>
     @fetch()
@@ -77,14 +83,18 @@ class Kin.UserModel extends Backbone.Model
   getFirstDaycareFriend: ()->
     @get("daycare_friends")[0]
 
-  hasFlag: (name)->
-    @attributes.flags.indexOf(name) > -1
+  hasFlag: (name)=>
+    @get("flags").indexOf(name) > -1
 
-  setFlag: (name)->
+  setFlag: (name)=>
     if not @hasFlag(name)
-      @attributes.flags.push(name)
-      @save
-        flags: @attributes.flags
+      flags = @get("flags")
+      flags.push(name)
+      @set {flags: flags}
+      @save {flags: flags}
+        url: "/profiles/#{@id}"
+        success: ()->
+          Kin.app.pub "profile:flag", name
 
   addDelegate: (delegate)->
     if not @delegates[delegate]

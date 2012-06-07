@@ -3077,12 +3077,22 @@ body.contact-us {
 #profile-guide {
   float: right;
   width: 180px;
-  background: #ffffeb;
+  background: #ffffeb url("/images/site/quick_guide_title.png") no-repeat center 10px;
   border: solid 1px #f0c020;
   margin: 15px 0 5px 0;
-  padding: 10px;
+  padding: 40px 10px 10px 10px;
 }
 
 #profile-guide .done-step {
   text-decoration: line-through;
+  font-weight: bold;
+}
+
+#profile-guide a {
+  color: #000;
+  font-size: 12px;
+}
+
+#profile-guide li {
+  padding: 3px 0 3px 0;
 }

@@ -6,20 +6,29 @@ class Kin.Profile.GuideView extends Backbone.View
 
   tplUrl: '/templates/main/profile/guide.html'
 
-  stepsToDo: [
-    "added_profile_picture", "edited_profile", "added_class",
-    "added_child", "invited_parent", "made_post"
-  ]
+  stepsToDo:
+    daycare: [
+      "added_profile_picture", "edited_profile",
+      "added_class", "added_child", "invited_parent",
+      "made_post"
+    ]
+    parent: [
+      "added_profile_picture", "edited_profile",
+      "made_post"
+    ]
+    staff: [
+      "added_profile_picture", "edited_profile",
+      "made_post"
+    ]
 
   initialize: ()->
-    @bind("change", @changeHandler)
+    @bind "profile:flag", @changeHandler
 
-  changeHandler: (attribute, value)->
-    if attribute in ["flags"]
-      @render()
+  changeHandler: (attribute, value)=>
+    @render(true)
 
-  render: ()=>
-    if not @doneAllSteps()
+  render: (renderOnDone = false)=>
+    if (@doneAllSteps() and renderOnDone) or not @doneAllSteps()
       that = @
       $.tmpload
         url: @tplUrl
@@ -28,5 +37,5 @@ class Kin.Profile.GuideView extends Backbone.View
           $(that.el).removeClass("hidden")
 
   doneAllSteps: ()->
-    doneSteps = _.intersection @model.get("flags"), @stepsToDo
-    not _.difference(@stepsToDo, doneSteps).length
+    doneSteps = _.intersection @model.get("flags"), @stepsToDo[@model.get("type")]
+    not _.difference(@stepsToDo[@model.get("type")], doneSteps).length

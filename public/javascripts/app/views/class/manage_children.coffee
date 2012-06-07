@@ -7,10 +7,6 @@ class Kin.Class.ManageChildrenView extends Backbone.View
   events:
     "submit #add-child-form" : "addChild"
 
-  currentUser: null
-
-  initialize: ({@currentUser})->
-
   render: ()->
     that = @
     $.tmpload
@@ -39,7 +35,7 @@ class Kin.Class.ManageChildrenView extends Backbone.View
         childSurname = hashedData.surname
         $.jGrowl("#{childName} #{childSurname} successfully added to this group")
         that.render()
-        that.currentUser.setFlag("added_child")
+        Kin.app.pub "manage_children:step", "added_child"
       error: ()->
         $.jGrowl("There was an error adding the child :( Please try again.")
 
