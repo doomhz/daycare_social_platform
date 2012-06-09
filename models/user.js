@@ -95,10 +95,29 @@
       "enum": ['daycare', 'parent', 'class', 'staff'],
       "default": 'daycare'
     },
+    org_type: {
+      type: String,
+      "enum": ['inhome', 'child_care_center', 'preschool'],
+      "default": 'child_care_center'
+    },
     gender: {
       type: String,
       "enum": ['female', 'male', 'mrs'],
       "default": 'female'
+    },
+    birthday: {
+      year: {
+        type: String,
+        "default": ""
+      },
+      month: {
+        type: String,
+        "default": ""
+      },
+      day: {
+        type: String,
+        "default": ""
+      }
     },
     opened_since: {
       type: String
@@ -275,7 +294,10 @@
         type: String,
         name: String,
         surname: String,
-        friend_request_id: String
+        friend_request_id: String,
+        gender: String,
+        birthday: String,
+        org_type: String
       },
       everyauth: {
         loginFormFieldName: 'email',

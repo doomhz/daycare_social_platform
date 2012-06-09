@@ -22,6 +22,20 @@ div.register-wrapper
             label
               input(type='radio', name='type', value='staff')
               span Staff
+      #org-type.clearfix
+        ul.inputs-list
+          li
+            label
+              input(type='radio', name='org_type', value='inhome')
+              span Inhome
+          li
+            label
+              input(type='radio', name='org_type', value='child_care_center', checked='checked')
+              span Child care center
+          li
+            label
+              input(type='radio', name='org_type', value='preschool')
+              span Preschool
       #name.clearfix
         label(for="name") Daycare name
         .input
@@ -44,6 +58,37 @@ div.register-wrapper
         label(for='password_confirm') Confirm password
         .input
           input(type='password', name="password_confirm", class="password-fields", id="password_confirm")
+      #gender.clearfix.hidden
+        label(for="gender") Gender
+        .select
+          select(name="gender", class="large")
+            option(value="male") Male
+            option(value="female") Female
+      #birthday.clearfix.hidden
+        label(for="birthday") Date of birth
+          acronym(title="Kindzy requires all users to provide their real date of birth to encourage authenticity.")
+            |  [?]
+        .select
+          - var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          select(name="birthday[month]", class="small")
+            option(value="", selected="selected") -
+            - for (var i = 1; i <= 12; i++)
+              option(value="#{i}") #{months[i-1]}
+          select(name="birthday[day]", class="small")
+            option(value="", selected="selected") -
+            - for (var i = 1; i <= 31; i++)
+              option(value="#{i}") #{i}
+          - var thisYear = new Date().getFullYear();
+          select(name="birthday[year]", class="small")
+            option(value="", selected="selected") -
+            - for (var i = thisYear - 18; i >= thisYear - 80; i--)
+              option(value="#{i}") #{i}
+      p
+        | By clicking register, you agree to our
+        a(href="/terms", title="Read Terms and conditions", target="_blank") Terms
+        |  and
+        a(href="/privacy", title="Read Privacy Policy", target="_blank") Privacy Policy.
+
       #submit.actions
         input.btn.primary(type='submit', value='Register')
 

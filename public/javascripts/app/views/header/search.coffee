@@ -28,6 +28,7 @@ class Kin.Header.SearchView extends Backbone.View
                 name: data[1]
                 surname: data[2]
                 avatarUrl: data[3]
+                location: data[4]
             itemHtml
           formatResult: (data)->
             data[0]

@@ -30,15 +30,17 @@ $ ()->
   if $("#send-pass-form").length
     $("#send-pass-form").validate()
 
+  $("#register-as").addClass("hidden")
+
   friendRequestId = $("input[name='friend_request_id']").val()
   if friendRequestId or (searchStart = window.document.location.search.search(/friend_request=.*/) > -1)
-    $("#register-as").addClass("hidden")
     friendRequestId = friendRequestId or window.document.location.search.substring(searchStart).replace("friend_request=", "")
     $.getJSON "/friend-request/" + friendRequestId, (response)->
       loginFormUrl = "/login?friend_request=#{friendRequestId}"
       if response._id
         if response._id is friendRequestId and response.user.id and window.document.location.href.search("/login") is -1
           window.document.location = loginFormUrl
+        $("#org-type").addClass("hidden")
         $("#login-form").attr("action", loginFormUrl)
         if response._id is friendRequestId and response.status is "pending"
           $("input[type='radio'][value='#{response.type}']").attr("checked", true).click()
@@ -46,6 +48,8 @@ $ ()->
           $("input[name='surname']").val(response.surname)
           $("input[name='email']").val(response.email)
           $("input[name='friend_request_id']").val(response._id)
+          $("#gender").removeClass("hidden")
+          $("#birthday").removeClass("hidden")
         if response._id is friendRequestId and response.status is "canceled"
           window.document.location = "/token-error"
       else
