@@ -406,6 +406,63 @@ a:hover {
   background: #fff url('/images/site/icon_inputsearch.png') no-repeat 349px 5px;
 }
 
+.quick-search-results {
+  background: rgba(255,255,255,0.95) !important;
+  box-shadow: 0px 3px 8px rgba(0,0,0,0.25);
+  border: 1px solid rgba(100,100,100,0.4) !important;
+  border-top: none !important;
+  -webkit-border-bottom-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.quick-search-results li {
+  height: 50px !important;
+  padding: 6px 8px 6px 8px !important;
+}
+
+.quick-search-results li:hover {
+  cursor: pointer;
+}
+
+.quick-search-results li .profile-avatar {
+  vertical-align: text-top;
+	float: left;
+	margin-right: 8px;
+}
+
+.quick-search-results li .profile-name {
+  float: left;
+  line-height: 16px;
+  display: block;
+  overflow: hidden;
+  width: 290px;
+}
+
+.quick-search-results li .location {
+  color: #c6c6c6;
+  float: left;
+  display: block;
+  width: 290px;
+  margin-top: -4px;
+}
+
+.quick-search-results li.ac_odd {
+	background-color: #fff;
+}
+
+.quick-search-results li.ac_over {
+	background-color: #5caae3;
+	color: #fff;
+}
+
+.quick-search-results li.ac_over .location {
+	color: #fff;
+}
+
 .header-content .search input:focus {
   background: #fff url('/images/site/icon_inputsearch.png') no-repeat 349px -21px;
   border-color: #5caae3;
@@ -453,9 +510,9 @@ a:hover {
   font-weight: bold;
   padding: 0 3px;
   color: #fff;
-  margin-left: 26px;
-  margin-top: 9px;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.8);
+  margin-left: 12px;
+  margin-top: 10px;
+  box-shadow: 0 1px 0 rgba(0,0,0,1);
   line-height: 13px;
   display: none;
 }
@@ -1331,10 +1388,76 @@ a:hover {
 
 #day-care-list {
   list-style-position: inside;
-  padding: 0 30px;
   margin-top: 10px;
-  list-style-type: disc;
-  line-height: 24px;
+  margin-bottom: 60px;
+  font-size: 13px;
+  list-style-type: none;
+  overflow: hidden;
+}
+
+#day-care-list li {
+  clear: both;
+  float: left;
+  width: 580px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+#day-care-list li:hover {
+  background: #fafafa;
+}
+
+#day-care-list li .info {
+  float: left;
+}
+
+#day-care-list .photo {
+  float: left;
+  width: 60px;
+  padding-bottom: 30px;
+  margin-right: 10px;
+}
+
+#day-care-list .phone {
+  background: url('/images/site/telephone_icon.png') no-repeat 0 2px;
+  padding-left: 24px;
+  margin-bottom: 5px;
+  margin-top: 10px;
+  display: block;
+}
+
+#day-care-list .fax {
+  background: url('/images/site/fax_icon.png') no-repeat 0 2px;
+  padding-left: 24px;
+  margin-bottom: 10px;
+  border-bottom: none;
+  display: block;
+}
+
+#day-care-list .contact-person {
+  font-weight: bold;
+}
+
+#day-care-list .contact-person span {
+  font-weight: normal;
+}
+
+#day-care-list .photo a img {
+  border: 1px solid #D1D1D1;
+  padding: 2px;
+  background: #fff;
+}
+
+#day-care-list p {
+  line-height: 18px;
+}
+
+#day-care-list a {
+  font-weight: bold;
+}
+
+#day-care-list .location {
+  color: #9A9A9A;
 }
 
 .comment-edit-textarea {
@@ -2119,6 +2242,14 @@ table input {
   display: block;
 }
 
+#typical-day-list {
+  margin: 10px 20px;
+  font-size: 13px;
+  padding: 10px;
+  background: #F3F7F9;
+  border-bottom: 1px solid #D9E3EA;
+  line-height: 20px;
+}
 
 
 /* OUR FAMILY */
@@ -2404,11 +2535,15 @@ table input {
 }
 
 #create-new-pic-cnt {
-  margin: 10px 0 10px 0;
+  margin: 20px 20px 10px 20px;
+  background: #F3F7F9;
+  border-bottom: 1px solid #D9E3EA;
+  padding: 10px 0 20px 0;
 }
 
 #create-new-pic-cnt .actions {
-  margin: 5px 0 !important;
+  float: right;
+  margin: -25px 20px 0 0 !important;
 }
 
 #create-new-pic-cnt fieldset label.title {
@@ -2417,10 +2552,11 @@ table input {
 
 #create-new-pic-cnt fieldset {
   margin-top: 10px;
+  margin-left: 20px;
 }
 
 #create-new-pic-cnt fieldset input[type=text] {
-  width: 550px !important;
+  width: 510px !important;
 }
 
 #create-new-pic-cnt .actions {
@@ -3076,16 +3212,17 @@ body.contact-us {
 
 #profile-guide {
   float: right;
-  width: 180px;
+  width: 170px;
   background: #ffffeb url("/images/site/quick_guide_title.png") no-repeat center 10px;
   border: solid 1px #f0c020;
   margin: 15px 0 5px 0;
-  padding: 40px 10px 10px 10px;
+  padding: 40px 15px 10px 15px;
 }
 
 #profile-guide .done-step {
   text-decoration: line-through;
   font-weight: bold;
+  font-size: 12px;
 }
 
 #profile-guide a {
@@ -3093,6 +3230,35 @@ body.contact-us {
   font-size: 12px;
 }
 
-#profile-guide li {
-  padding: 3px 0 3px 0;
+#profile-guide a:hover {
+  color: #236FA6;
 }
+
+#profile-guide li {
+  padding: 5px 0 5px 26px;
+}
+
+#profile-guide li.add-photo {
+  background: url("/images/site/guide_sprite.png") no-repeat 0 5px
+}
+
+#profile-guide li.edit-profile {
+  background: url("/images/site/guide_sprite.png") no-repeat 0 -30px
+}
+
+#profile-guide li.add-classes {
+  background: url("/images/site/guide_sprite.png") no-repeat 0 -65px
+}
+
+#profile-guide li.add-children {
+  background: url("/images/site/guide_sprite.png") no-repeat 0 -102px
+}
+
+#profile-guide li.invite-parents {
+  background: url("/images/site/guide_sprite.png") no-repeat 0 -137px
+}
+
+#profile-guide li.first-post {
+  background: url("/images/site/guide_sprite.png") no-repeat 0 -173px
+}
+

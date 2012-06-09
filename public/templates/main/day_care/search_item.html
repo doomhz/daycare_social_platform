@@ -9,29 +9,32 @@
     <img src="<%= miniAvatarUrl %>" width="50" height="50" />
   </a>
 </p>
-<div>
-  <p>
+<div class="info">
+  <p class="name">
     <a href="#profiles/view/<%=profile.id %>"><%=profile.get('name') %></a>
   </p>
+  
   <% if (profile.get('address')) { %>
-  <p><%=profile.get('address') %></p>
+  <p class="location"><%=profile.get('address') %></p>
+  <% } else { %>
+  <p class="location">N/A</p>
   <% } %>
+  
   <% if (profile.get('phone')) { %>
-  <p><%=profile.get('phone') %></p>
+  <p class="phone"><%=profile.get('phone') %></p>
+  <% } else { %>
+  <p class="phone">N/A</p>
   <% } %>
+  
   <% if (profile.get('fax')) { %>
-  <p><%=profile.get('fax') %></p>
+  <p class="fax"><%=profile.get('fax') %></p>
+  <% } else { %>
+  <p class="fax">N/A</p>
   <% } %>
+  
   <% if (profile.get('contact_person')) { %>
-  <p>Contact person: <%=profile.get('contact_person') %></p>
+  <p class="contact-person">Contact person: <span><%=profile.get('contact_person') %><span></p>
+  <% } else { %>
+  <p class="contact-person">Contact person: <span>N/A</span></p>
   <% } %>
-</div>
-<div>
-  <%
-    if (lat && lng) {
-  %>
-    <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= lat %>,<%= lng %>&zoom=15&size=198x198&markers=color:red%7Ccolor:white%7C<%= lat %>,<%= lng %>&sensor=false" id="mini-map" width="198" height="198" />
-  <%
-    }
-  %>
 </div>

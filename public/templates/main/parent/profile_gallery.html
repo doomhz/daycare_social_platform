@@ -1,15 +1,6 @@
 <div id="general-wrapper" class="parent-gallery-wrapper">
   <h1 id="profile-title"><%=profile.get('name') %> <%=profile.get('surname') %></h1>
   
-  <div id="profile-main-tabs">
-      <ul id="profile-tab-menu">
-          <li class="view-info"><a href="#profile-info-tab"><span>info</span></a></li>
-      </ul>
-  
-      <div id="profile-info-tab">
-      </div>
-  </div>
-  
   <h2>Albums</h2>
   
   <% if (canEdit) { %>
@@ -42,8 +33,8 @@
   			</div>
   	    </div>
   	    <div class="actions">
-  	        <input id="create-new-pic-set-bt" class="btn primary" type="submit" value="Create picture set" />
-  	        <input id="cancel-new-pic-set-bt" class="btn" type="button" value="Cancel" />
+  	        <input id="cancel-new-pic-set-bt" class="btn white" type="button" value="Cancel" />
+  	        <input id="create-new-pic-set-bt" class="btn primary" type="submit" value="Create" />
   	    </div>
   	</fieldset>
   </form>

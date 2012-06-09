@@ -156,7 +156,7 @@
 			themeState: 	'highlight',
 			corners: 		'3px',
 			check: 			150,
-			life: 			2000,
+			life: 			1500,
 			closeDuration:  'normal',
 			openDuration:   'normal',
 			easing: 		'swing',

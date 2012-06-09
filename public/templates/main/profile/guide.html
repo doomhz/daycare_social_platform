@@ -4,7 +4,7 @@
     var firstClass = classes ? classes[0] : false;
 %>
 <ul>
-  <li>
+  <li class="add-photo">
     <%
       if (!profile.hasFlag("added_profile_picture")) {
     %>
@@ -17,7 +17,7 @@
       }
     %>
   </li>
-  <li>
+  <li class="edit-profile">
     <%
       if (!profile.hasFlag("edited_profile")) {
     %>
@@ -33,7 +33,7 @@
   <%
     if (profile.get("type") === "daycare") {
   %>
-  <li>
+  <li class="add-classes">
     <%
       if (!profile.hasFlag("added_class")) {
     %>
@@ -49,7 +49,7 @@
   <%
     if (firstClass) {
   %>
-  <li>
+  <li class="add-children">
     <%
       if (!profile.hasFlag("added_child")) {
     %>
@@ -65,14 +65,14 @@
   <%
     } else {
   %>
-  <li class="disabled-step">Add children</li>
+  <li class="disabled-step add-children">Add children</li>
   <%
     }
   %>
   <%
     if (firstClass) {
   %>
-  <li>
+  <li class="invite-parents">
     <%
       if (!profile.hasFlag("invited_parent")) {
     %>
@@ -88,14 +88,14 @@
   <%
     } else {
   %>
-  <li class="disabled-step">Invite parents</li>
+  <li class="disabled-step invite-parents">Invite parents</li>
   <%
     }
   %>
   <%
     }
   %>
-  <li>
+  <li class="first-post">
   <%
     if (!profile.hasFlag("made_post")) {
   %>
