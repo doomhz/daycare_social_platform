@@ -90,10 +90,16 @@ class Kin.UserModel extends Backbone.Model
     if not @hasFlag(name)
       flags = @get("flags")
       flags.push(name)
-      @set {flags: flags}
-      @save {flags: flags}
-        url: "/profiles/#{@id}"
-        success: ()->
+      profile = new Kin.ProfileModel
+      profile.attributes =
+        flags: flags
+      profile.set
+        _id: @id
+        id: @id
+      profile.save null
+        success: ()=>
+          @set
+            flags: flags
           Kin.app.pub "profile:flag", name
 
   addDelegate: (delegate)->
