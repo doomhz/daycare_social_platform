@@ -42,7 +42,7 @@
         }, {
           surname: searchSlug
         }
-      ]).limit(limit).asc('name', 'surname').run(function(err, users) {
+      ]).where("type")["in"](["daycare", "parent", "staff"]).limit(limit).asc('name', 'surname').run(function(err, users) {
         return res.render('profiles/quick_search', {
           layout: false,
           profiles: users,

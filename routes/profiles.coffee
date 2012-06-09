@@ -19,7 +19,7 @@ module.exports = (app)->
     q = req.query.q
     limit = req.query.limit
     searchSlug = new RegExp("^#{q}.*$", "i")
-    User.find().or([{name: searchSlug}, {surname: searchSlug}]).limit(limit).asc('name', 'surname').run (err, users)->
+    User.find().or([{name: searchSlug}, {surname: searchSlug}]).where("type").in(["daycare", "parent", "staff"]).limit(limit).asc('name', 'surname').run (err, users)->
       res.render 'profiles/quick_search', {layout: false, profiles: users, _: _}
 
   app.get '/daycares', (req, res)->
