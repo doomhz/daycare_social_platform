@@ -13,11 +13,12 @@
   "picture_set_id": "#{comment.content.picture_set_id}",
   "picture_set_name": "#{comment.content.picture_set_name}",
   "pictures":
-  - var pictures = comment.content.pictures
+  - var pictures = comment.content.pictures;
   include ../profiles/pictures
-  }
--else
-  "!{_s.escapeHTML(comment.content).replace(/\r\n/g, '<br />').replace(/\n/g, '<br />')}"
+  },
+- else
+  - var commentContent = _s.escapeHTML(comment.content).replace(/\r\n/g, '<br>').replace(/\n/g, '<br>');
+  "!{commentContent}"
 ,
 "added_at": #{comment.added_at || 0},
 "created_at": "#{comment.created_at}",
