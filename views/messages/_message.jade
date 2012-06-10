@@ -4,7 +4,7 @@
 "from_id": "#{message.from_id}",
 "to_id": "#{message.to_id}",
 "type": "#{message.type}",
-"content": "!{_s.escapeHTML(message.content).replace(/\r\n/g, '<br />').replace(/\n/g, '<br />')}",
+"content": "!{_s.escapeHTML(_s.trim(message.content)).replace(/\r\n/gm, '<br>').replace(/\n/gm, '<br>')}",
 "unread": #{message.unread || false},
 "created_at": "#{message.created_at}",
 "updated_at": "#{message.updated_at}",
