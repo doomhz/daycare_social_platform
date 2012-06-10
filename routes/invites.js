@@ -16,7 +16,7 @@
         });
       });
     });
-    return app.post('/register-invites', function(req, res) {
+    app.post('/register-invites', function(req, res) {
       var data, registerInvite;
       data = req.body;
       registerInvite = new RegisterInvite(data);
@@ -27,6 +27,19 @@
         'Location': "/register-invites"
       });
       return res.end();
+    });
+    return app.put('/register-invites', function(req, res) {
+      var data;
+      data = req.body;
+      RegisterInvite.findOne({
+        _id: data.invite_id
+      }).run(function(err, invite) {
+        invite.clicks++;
+        return invite.save();
+      });
+      return res.json({
+        success: true
+      });
     });
   };
 

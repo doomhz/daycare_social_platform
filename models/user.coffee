@@ -291,12 +291,14 @@ UserSchema.plugin(
 
             if user.type is 'daycare'
               #redirectTo = "/#profiles/edit/#{userId}"
+              RegisterInvite  = mongoose.model("RegisterInvite")
+              RegisterInvite.update {email: user.email}, {status: "accepted"}, {}, (err, user)->
               res.writeHead(303, {'Location': redirectTo})
               res.end()
 
             else if user.type in ["parent", "staff"] and user.friend_request_id
               friendRequestId = user.friend_request_id
-              FriendRequest = require("./friend_request")
+              FriendRequest  = mongoose.model("FriendRequest")
 
               FriendRequest.findOne({_id: friendRequestId}).run (err, friendRequest)->
                 friendRequest.status = "accepted"

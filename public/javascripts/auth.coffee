@@ -55,6 +55,14 @@ $ ()->
       else
         window.document.location = "/token-error"
 
+  if searchStart = window.document.location.search.search(/invite=.*/) > -1
+    inviteId = inviteId or window.document.location.search.substring(searchStart).replace("invite=", "")
+    $.ajax
+      url: "/register-invites"
+      type: "put"
+      data:
+        invite_id: inviteId
+
   $("input[name='type']&&input[value='parent']").click (ev)->
     if $(ev.target).attr("checked")
       $("input[name='surname']").removeClass("hidden")

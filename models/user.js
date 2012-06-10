@@ -371,16 +371,22 @@
           return User.update({
             _id: user._id
           }, userInfo, {}, function(err) {
-            var FriendRequest, friendRequestId, userId, _ref;
+            var FriendRequest, RegisterInvite, friendRequestId, userId, _ref;
             userId = user._id;
             if (user.type === 'daycare') {
+              RegisterInvite = mongoose.model("RegisterInvite");
+              RegisterInvite.update({
+                email: user.email
+              }, {
+                status: "accepted"
+              }, {}, function(err, user) {});
               res.writeHead(303, {
                 'Location': redirectTo
               });
               return res.end();
             } else if (((_ref = user.type) === "parent" || _ref === "staff") && user.friend_request_id) {
               friendRequestId = user.friend_request_id;
-              FriendRequest = require("./friend_request");
+              FriendRequest = mongoose.model("FriendRequest");
               return FriendRequest.findOne({
                 _id: friendRequestId
               }).run(function(err, friendRequest) {

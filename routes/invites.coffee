@@ -14,3 +14,10 @@ module.exports = (app)->
       registerInvite.send()
     res.writeHead(303, {'Location': "/register-invites"})
     res.end()
+
+  app.put '/register-invites', (req, res)->
+    data = req.body
+    RegisterInvite.findOne({_id: data.invite_id}).run (err, invite)->
+      invite.clicks++
+      invite.save()
+    res.json {success: true}

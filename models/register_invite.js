@@ -11,6 +11,15 @@
     surname: {
       type: String
     },
+    status: {
+      type: String,
+      "enum": ["pending", "accepted"],
+      "default": "pending"
+    },
+    clicks: {
+      type: Number,
+      "default": 0
+    },
     created_at: {
       type: Date,
       "default": Date.now
