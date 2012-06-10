@@ -1786,7 +1786,7 @@ table input {
 }
 
 #general-wrapper textarea {
-  height: 100px;
+  height: 20px;
   width: 550px;
 }
 
@@ -1818,6 +1818,10 @@ table input {
 #general-wrapper .edit-section {
   margin-bottom: 20px;
   padding: 0 20px;
+}
+
+#general-wrapper #edit-section-form textarea {
+  height: 100px;
 }
 
 #general-wrapper .input .inputs-list {
