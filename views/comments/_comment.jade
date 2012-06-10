@@ -17,7 +17,7 @@
   include ../profiles/pictures
   },
 - else
-  - var commentContent = _s.escapeHTML(comment.content).replace(/\r\n/g, '<br>').replace(/\n/g, '<br>');
+  - var commentContent = _s.escapeHTML(comment.content).replace(/\r\n/gm, '<br>').replace(/\n/gm, '<br>');
   "!{commentContent}"
 ,
 "added_at": #{comment.added_at || 0},
