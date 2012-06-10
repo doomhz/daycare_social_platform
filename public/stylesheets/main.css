@@ -1116,6 +1116,7 @@ a:hover {
   margin-right: 10px;
   top: 4px;
   position: relative;
+  display: none;
 }
 
 .kd-wall .post-msg .send li.privacy input {
@@ -1785,7 +1786,7 @@ table input {
 }
 
 #general-wrapper textarea {
-  height: 20px;
+  height: 100px;
   width: 550px;
 }
 

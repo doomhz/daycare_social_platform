@@ -6,10 +6,11 @@
   "type": "#{profile.type}",
   "org_type": "#{profile.org_type}",
   "gender": "#{profile.gender}",
+  - var profileBirthday = profile.birthday || {};
   "birthday": {
-  "year": "#{profile.birthday.year}",
-  "month": "#{profile.birthday.month}",
-  "day": "#{profile.birthday.day}"
+  "year": "#{profileBirthday.year}",
+  "month": "#{profileBirthday.month}",
+  "day": "#{profileBirthday.day}"
   },
   "name": "#{profile.name}",
   "surname": "#{profile.surname}",
