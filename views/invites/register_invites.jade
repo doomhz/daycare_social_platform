@@ -1,0 +1,39 @@
+div#register-invites
+
+  br
+  br
+  br
+
+  h1#explore Register Invites
+
+  form(action="/register-invites", method="post", id="register-invite-form")
+    fieldset
+      .clearfix
+        label(for="email") E-mail
+        .email
+          input(type='text', name="email", value="", class="required email")
+      .clearfix
+        label(for="name") Name
+        .name
+          input(type='text', name="name", value="", class="required")
+      .clearfix
+        label(for="surname") Surname
+        .name
+          input(type='text', name="surname", value="", class="required")
+      #submit.actions
+        input.btn.primary(type='submit', value='Send') Send
+
+  h2 Sent Invites
+
+  table
+    tr
+      th E-mail
+      th Name
+      th Surname
+      th Date
+    each invite in invites
+      tr
+        td #{invite.email}
+        td #{invite.name}
+        td #{invite.surname}
+        td #{invite.created_at}

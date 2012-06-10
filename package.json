@@ -15,7 +15,7 @@
     , "expresso": "latest"
     , "coffee-script": "latest"
     , "socket.io": "latest"
-    , "mailer": "latest"
+    , "nodemailer": "latest"
     , "underscore": "latest"
     , "underscore.string": "latest"
     , "jake": "latest"

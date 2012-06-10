@@ -144,3 +144,6 @@ $ ()->
           success: ()->
             $("#contact-us-success").removeClass("hidden")
 
+  if $("#register-invite-form").length
+    $registerInvitesForm = $("#register-invite-form")
+    $registerInvitesForm.validate()

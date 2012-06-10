@@ -3133,6 +3133,10 @@ body.contact-us {
     background: #F3F3F3 url("/images/features/bg_body.png") repeat-x top center
 }
 
+body.register-invites {
+    background: #F3F3F3 url("/images/features/bg_body.png") repeat-x top center
+}
+
 #privacy-policy {
     float: left;
     clear: both;

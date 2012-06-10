@@ -1,4 +1,6 @@
-email = require("mailer")
+emailer = require("nodemailer")
+fs      = require("fs")
+_       = require("underscore")
 
 class Emailer
 
@@ -6,23 +8,43 @@ class Emailer
 
   data: {}
 
+  attachments: [
+    fileName: "logo.png"
+    filePath: "./public/images/email/logo.png"
+    cid: "logo@kindzy"
+  ]
+
   constructor: (@options, @data)->
 
   send: (callback)->
-    email.send({
-      host: "smtp.gmail.com"
-      port: "587"
-      ssl: false
-      domain: "localhost"
+    html = @getHtml(@options.template, @data)
+    attachments = @getAttachments(html)
+    messageData =
       to: "'#{@options.to.name} #{@options.to.surname}' <#{@options.to.email}>"
       from: "'Kindzy.com' <no-reply@kindzy.com>"
       subject: @options.subject
-      template: "./views/emails/#{@options.template}.html"
-      body: "Please use a newer version of an e-mail manager to read this mail in HTML format."
-      data: @data
-      authentication : "login"
-      username : "no-reply@kindzy.com"
-      password : "greatreply#69"
-    }, callback)
+      html: html
+      generateTextFromHTML: true
+      attachments: attachments
+    transport = @getTransport()
+    transport.sendMail messageData, callback
+
+  getTransport: ()->
+    emailer.createTransport "SMTP",
+      service: "Gmail"
+      auth:
+        user: "no-reply@kindzy.com"
+        pass: "greatreply#69"
+
+  getHtml: (templateName, data)->
+    templatePath = "./views/emails/#{templateName}.html"
+    templateContent = fs.readFileSync(templatePath, encoding="utf8")
+    _.template templateContent, data, {interpolate: /\{\{(.+?)\}\}/g}
+
+  getAttachments: (html)->
+    attachments = []
+    for attachment in @attachments
+      attachments.push(attachment) if html.search("cid:#{attachment.cid}") > -1
+    attachments
 
 exports = module.exports = Emailer

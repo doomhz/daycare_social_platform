@@ -1,9 +1,0 @@
-Hi [profile_name] [profile_surname],
-
-[daycare_name] would like to join it's network on Kindzy.com.
-Please copy and paste the link bellow in your browser address bar to join the network:
-
-[invite_url]
-
-Thank you,
-[daycare_name]

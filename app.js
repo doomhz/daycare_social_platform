@@ -59,6 +59,7 @@ require('./routes/messages')(app);
 require('./routes/profiles')(app);
 require('./routes/friend_requests')(app);
 require('./routes/tags')(app);
+require('./routes/invites')(app);
 
 mongooseAuth.helpExpress(app);
 

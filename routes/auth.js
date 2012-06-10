@@ -214,7 +214,27 @@
         });
       }
     });
-    return app.put('/notification*', function(req, res, next) {
+    app.put('/notification*', function(req, res, next) {
+      if (User.checkPermissions(req.user, null, null, res)) {
+        return next();
+      } else {
+        res.statusCode = 401;
+        return res.json({
+          "error": true
+        });
+      }
+    });
+    app.get('/register-invite*', function(req, res, next) {
+      if (User.checkPermissions(req.user, null, null, res)) {
+        return next();
+      } else {
+        res.statusCode = 401;
+        return res.json({
+          "error": true
+        });
+      }
+    });
+    return app.post('/register-invite*', function(req, res, next) {
       if (User.checkPermissions(req.user, null, null, res)) {
         return next();
       } else {

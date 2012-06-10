@@ -238,6 +238,7 @@ a:hover {
 #wrapper.features,
 #wrapper.about-us,
 #wrapper.contact-us,
+#wrapper.register-invites,
 #wrapper.privacy,
 #wrapper.terms {
   background: url("/images/features/blackboard_bg.jpg") no-repeat top center;
@@ -245,6 +246,7 @@ a:hover {
 #wrapper.features .content-wrapper,
 #wrapper.about-us .content-wrapper,
 #wrapper.contact-us .content-wrapper,
+#wrapper.register-invites .content-wrapper,
 #wrapper.privacy .content-wrapper,
 #wrapper.terms .content-wrapper {
   background: transparent;
@@ -252,6 +254,7 @@ a:hover {
 #wrapper.features .content-wrapper #logo,
 #wrapper.about-us .content-wrapper #logo,
 #wrapper.contact-us .content-wrapper #logo,
+#wrapper.register-invites .content-wrapper #logo,
 #wrapper.privacy .content-wrapper #logo,
 #wrapper.terms .content-wrapper #logo {
   display: block;
@@ -262,6 +265,7 @@ a:hover {
 #wrapper.features .content-wrapper #explore,
 #wrapper.about-us .content-wrapper #explore,
 #wrapper.contact-us .content-wrapper #explore,
+#wrapper.register-invites .content-wrapper #explore,
 #wrapper.privacy .content-wrapper #explore,
 #wrapper.terms .content-wrapper #explore {
   font-size: 72px;
@@ -507,4 +511,12 @@ a:hover {
 #contact-us-form .actions input {
   padding-left: 20px;
   padding-right: 20px;
+}
+
+#register-invites table {
+  margin: 30px 0 50px 0;
+}
+
+#register-invite-form {
+  margin: 100px 0 50px 0;
 }

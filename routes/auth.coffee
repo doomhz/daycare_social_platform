@@ -143,3 +143,18 @@ module.exports = (app)->
     else
       res.statusCode = 401
       res.json {"error": true}
+
+  app.get '/register-invite*', (req, res, next)->
+    if User.checkPermissions(req.user, null, null, res)
+      next()
+    else
+      res.statusCode = 401
+      res.json {"error": true}
+
+  app.post '/register-invite*', (req, res, next)->
+    if User.checkPermissions(req.user, null, null, res)
+      next()
+    else
+      res.statusCode = 401
+      res.json {"error": true}
+
