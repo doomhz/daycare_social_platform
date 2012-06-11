@@ -39,6 +39,8 @@ class ImageUploader
       height: 600
       method: "resize"
 
+  itemProcessing: 0
+
   getDirPath: (relative = false)->
     if relative
       return "#{@relativeRootPath}#{@pictureSetId}/"
@@ -61,28 +63,30 @@ class ImageUploader
     pictureData
 
   resizeAll: (onFinishCallback)->
-    index        = 0
+    #index        = 0
     filtersTotal = Object.keys(@resizeFilters).length
     for name, options of @resizeFilters
-      index++
-      callback = if index is filtersTotal then onFinishCallback else undefined
-      @resize(name, options, callback)
+      #index++
+      #callback = if index is filtersTotal then onFinishCallback else undefined
+      @resize(name, options, onFinishCallback)
 
   resize: (name, options, callback)->
     filePath  = @getFilePath()
     filePaths = @getFilePaths()
+    @itemProcessing++
     im[options.method](
         srcPath: filePaths.url
         dstPath: filePaths["#{name}_url"]
         width:   options.width
         height:  options.height
         quality: 1
-      , (err, stdout, stderr)->
+      , (err, stdout, stderr)=>
         if err
           console.log err
         if stderr
           console.log stderr
-        if typeof callback is "function"
+        @itemProcessing--
+        if typeof callback is "function" and @itemProcessing <= 0
           callback(err, stdout, stderr)
     )
 
