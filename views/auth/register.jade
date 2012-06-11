@@ -30,12 +30,12 @@ div.register-wrapper
               span Inhome
           li
             label
-              input(type='radio', name='org_type', value='child_care_center', checked='checked')
-              span Child care center
-          li
-            label
               input(type='radio', name='org_type', value='preschool')
               span Preschool
+          li
+            label
+              input(type='radio', name='org_type', value='child_care_center', checked='checked')
+              span Child care center
       #name.clearfix
         label(for="name") Daycare name
         .input
@@ -83,14 +83,14 @@ div.register-wrapper
             option(value="", selected="selected") -
             - for (var i = thisYear - 18; i >= thisYear - 80; i--)
               option(value="#{i}") #{i}
-      p
-        | By clicking register, you agree to our
+      p.agree
+        | By clicking register, you agree to our 
         a(href="/terms", title="Read Terms and conditions", target="_blank") Terms
-        |  and
+        |   and 
         a(href="/privacy", title="Read Privacy Policy", target="_blank") Privacy Policy.
 
       #submit.actions
         input.btn.primary(type='submit', value='Register')
 
-  p.member Already a member?
-    a(href='/login') Click here to login.
+  p.member
+    a(href='/login') Members login here
