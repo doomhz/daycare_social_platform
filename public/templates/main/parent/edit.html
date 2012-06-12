@@ -4,6 +4,8 @@
     <form id="profile-edit-form">
     	<fieldset>
     	    <input type="hidden" name="_id" value="<%=profile.get('_id') %>" />
+            <input type="hidden" id="location-lat" name="location[]" value="<%=profile.get('location')[0] %>" />
+            <input type="hidden" id="location-lng" name="location[]" value="<%=profile.get('location')[1] %>" />
     	    <div class="clearfix">
     	        <label for="name" class="title">Name</label>
     			<div class="input">
@@ -16,8 +18,50 @@
     	        	<input type="text" name="surname" value="<%=profile.get('surname') %>" class="required" />
     			</div>
     	    </div>
+            <div class="clearfix">
+                <label for="address" class="title">Home Address</label>
+                <div class="input">
+                    <input type="text" name="address" value="<%=profile.get('address') %>" class="" />
+                </div>
+            </div>
+            <div class="clearfix">
+                <label for="location_components[city]" class="title">City</label>
+                <div class="input">
+                    <input type="text" name="location_components[city]" value="<%=profile.get('location_components').city %>" class="" />
+                </div>
+            </div>
+            <div class="clearfix">
+                <label for="location_components[state]" class="title">State</label>
+                <div class="input">
+                    <input type="text" name="location_components[state]" value="<%=profile.get('location_components').state %>" class="" />
+                </div>
+            </div>
+            <div class="clearfix">
+                <label for="location_components[zip_code]" class="title">Zip</label>
+                <div class="input">
+                    <input type="text" name="location_components[zip_code]" value="<%=profile.get('location_components').zip_code %>" class="" />
+                </div>
+            </div>
+            <div class="clearfix">
+                <label for="place_employed" class="title">Place employed</label>
+                <div class="input">
+                    <input type="text" name="place_employed" value="<%=profile.get('place_employed') %>" class="" />
+                </div>
+            </div>
+            <div class="clearfix">
+                <label for="phone_business" class="title">Business phone</label>
+                <div class="input">
+                    <input type="text" name="phone_business" value="<%=profile.get('phone_business') %>" class="" />
+                </div>
+            </div>
+            <div class="clearfix">
+                <label for="phone_home" class="title">Home phone</label>
+                <div class="input">
+                    <input type="text" name="phone_home" value="<%=profile.get('phone_home') %>" class="" />
+                </div>
+            </div>
     	    <div class="clearfix">
-    	        <label for="phone" class="title">Phone</label>
+    	        <label for="phone" class="title">Cell phone</label>
     			<div class="input">
     	        	<input type="text" name="phone" value="<%=profile.get('phone') %>" class="required" />
     			</div>

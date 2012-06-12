@@ -6,5 +6,15 @@
   "name": "#{child.name}",
   "surname": "#{child.surname}",
   "gender": "#{child.gender}",
-  "birthday": "#{child.birthday}"
+  "birthday": "#{child.birthday}",
+  "special_needs": "#{child.special_needs}",
+  "physician_name": "#{child.physician_name}",
+  "phone_physician": "#{child.phone_physician}",
+  "authorized_person_1":
+  - var person = child.authorized_person_1;
+  include _authorized_person
+  ,
+  "authorized_person_2":
+  - var person = child.authorized_person_2;
+  include _authorized_person
   }

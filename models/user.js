@@ -72,6 +72,7 @@
     address: String,
     location: {
       type: [Number],
+      "default": [0, 0],
       index: "2d"
     },
     location_components: {
@@ -84,6 +85,8 @@
     },
     email: String,
     phone: String,
+    phone_business: String,
+    phone_home: String,
     fax: String,
     contact_person: String,
     licensed: {
@@ -119,6 +122,7 @@
         "default": ""
       }
     },
+    place_employed: String,
     opened_since: {
       type: String
     },

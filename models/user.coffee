@@ -51,6 +51,7 @@ UserSchema = new Schema
   address: String
   location:
     type: [Number]
+    default: [0, 0]
     index: "2d"
   location_components:
     city: ""
@@ -61,6 +62,8 @@ UserSchema = new Schema
     zip_code: ""
   email: String
   phone: String
+  phone_business: String
+  phone_home: String
   fax: String
   contact_person: String
   licensed:
@@ -88,6 +91,7 @@ UserSchema = new Schema
     day:
       type: String
       default: ""
+  place_employed: String
   opened_since:
     type: String
   open_door_policy:

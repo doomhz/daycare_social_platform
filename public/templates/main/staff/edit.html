@@ -4,6 +4,8 @@
     <form id="profile-edit-form">
     	<fieldset>
     	    <input type="hidden" name="_id" value="<%=profile.get('_id') %>" />
+            <input type="hidden" id="location-lat" name="location[]" value="<%=profile.get('location')[0] %>" />
+            <input type="hidden" id="location-lng" name="location[]" value="<%=profile.get('location')[1] %>" />
     	    <div class="clearfix">
     	        <label for="name" class="title">Name</label>
     			<div class="input">

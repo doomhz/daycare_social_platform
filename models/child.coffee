@@ -11,6 +11,18 @@ ChildSchema = new Schema
     default: 'female'
   birthday:
     type: String
+  special_needs:
+    type: String
+  physician_name:
+    type: String
+  phone_physician:
+    type: String
+  authorized_person_1:
+    type: {}
+    default: {}
+  authorized_person_2:
+    type: {}
+    default: {}
 
 Child = mongoose.model("Child", ChildSchema)
 exports = module.exports = Child

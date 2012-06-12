@@ -12,6 +12,7 @@
   "month": "#{profileBirthday.month}",
   "day": "#{profileBirthday.day}"
   },
+  "place_employed": "#{profile.place_employed}",
   "name": "#{profile.name}",
   "surname": "#{profile.surname}",
   "speaking_classes": [
@@ -22,7 +23,7 @@
   ],
   "address": "#{profile.address}",
   - var location = profile.location || [];
-  "location": [#{location[0] || 10}, #{location[1] || 40}],
+  "location": [#{location[0] || 0}, #{location[1] || 0}],
   - var location_components = profile.location_components || {};
   "location_components": {
   "city": "#{location_components.city}",
@@ -34,6 +35,8 @@
   },
   "email": "#{profile.email}",
   "phone": "#{profile.phone}",
+  "phone_business": "#{profile.phone_business}",
+  "phone_home": "#{profile.phone_home}",
   "fax": "#{profile.fax}",
   "contact_person": "#{profile.contact_person}",
   "homebased": #{profile.homebased || false},

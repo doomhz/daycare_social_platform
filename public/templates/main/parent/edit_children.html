@@ -58,6 +58,125 @@
         </select>
       </div>
     </div>
+    <div class="clear">
+      <label class="title">Allergies or Intolerance to Food, Medication or other Special Needs</label>
+      <div class="input">
+        <textarea name="special_needs"><%= child.get("special_needs") %></textarea>
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">Child’s Physician Name</label>
+      <div class="input">
+        <input type="text" name="physician_name" value="<%= child.get("physician_name") %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">Child’s Physician Phone</label>
+      <div class="input">
+        <input type="text" name="phone_physician" value="<%= child.get("phone_physician") %>" class="" />
+      </div>
+    </div>
+    <h2>Names &amp; Address of Two People to Contact if Parents CANNOT be Reached</h2>
+    <h3>First person</h3>
+    <div class="clear">
+      <label class="title">Name</label>
+      <div class="input">
+        <input type="text" name="authorized_person_1[name]" value="<%= child.get("authorized_person_1").name %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">Surname</label>
+      <div class="input">
+        <input type="text" name="authorized_person_1[surname]" value="<%= child.get("authorized_person_1").surname %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">Phone</label>
+      <div class="input">
+        <input type="text" name="authorized_person_1[phone]" value="<%= child.get("authorized_person_1").phone %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">Address</label>
+      <div class="input">
+        <input type="text" name="authorized_person_1[address]" value="<%= child.get("authorized_person_1").address %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">City</label>
+      <div class="input">
+        <input type="text" name="authorized_person_1[city]" value="<%= child.get("authorized_person_1").city %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">State</label>
+      <div class="input">
+        <input type="text" name="authorized_person_1[state]" value="<%= child.get("authorized_person_1").state %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">Zip</label>
+      <div class="input">
+        <input type="text" name="authorized_person_1[zip]" value="<%= child.get("authorized_person_1").zip %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">This person is authorized to pick up child</label>
+      <div class="input">
+        <input type="checkbox" name="authorized_person_1[pick_up]" value="1" <% if (child.get("authorized_person_1").pick_up) { %>checked="checked"<% } %>>
+      </div>
+    </div>
+
+    <h3>Second person</h3>
+
+    <div class="clear">
+      <label class="title">Name</label>
+      <div class="input">
+        <input type="text" name="authorized_person_2[name]" value="<%= child.get("authorized_person_2").name %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">Surname</label>
+      <div class="input">
+        <input type="text" name="authorized_person_2[surname]" value="<%= child.get("authorized_person_2").surname %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">Phone</label>
+      <div class="input">
+        <input type="text" name="authorized_person_2[phone]" value="<%= child.get("authorized_person_2").phone %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">Address</label>
+      <div class="input">
+        <input type="text" name="authorized_person_2[address]" value="<%= child.get("authorized_person_2").address %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">City</label>
+      <div class="input">
+        <input type="text" name="authorized_person_2[city]" value="<%= child.get("authorized_person_2").city %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">State</label>
+      <div class="input">
+        <input type="text" name="authorized_person_2[state]" value="<%= child.get("authorized_person_2").state %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">Zip</label>
+      <div class="input">
+        <input type="text" name="authorized_person_2[zip]" value="<%= child.get("authorized_person_2").zip %>" class="" />
+      </div>
+    </div>
+    <div class="clear">
+      <label class="title">This person is authorized to pick up child</label>
+      <div class="input">
+        <input type="checkbox" name="authorized_person_2[pick_up]" value="1" <% if (child.get("authorized_person_2").pick_up) { %>checked="checked"<% } %>>
+      </div>
+    </div>
   </fieldset>
 </form>
 <%
