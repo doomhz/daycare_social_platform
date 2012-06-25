@@ -34,7 +34,7 @@
         name: this.name,
         surname: this.surname
       },
-      subject: "Registartion invite from Kindzy",
+      subject: "Social Platform for Child Care Providers",
       template: "register_invite"
     };
     Emailer = require("../lib/emailer");
