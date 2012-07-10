@@ -22,7 +22,7 @@ RegisterInviteSchema.methods.send = ()->
       email: @email
       name: @name
       surname: @surname
-    subject: "Registartion invite from Kindzy"
+    subject: "Social Platform for Child Care Providers"
     template: "register_invite"
   Emailer = require "../lib/emailer"
   emailer = new Emailer options, @
