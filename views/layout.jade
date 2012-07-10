@@ -85,3 +85,7 @@ body
   script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
   //include _scripts
   != js('/javascripts/scripts')
+
+  - if (global.NODE_ENV === "production")
+    include _analytics
+

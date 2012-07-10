@@ -31,3 +31,6 @@ body(class="#{pageName}")
   != js('/javascripts/vendor/jquery.validate')
   != js('/javascripts/vendor/jquery.doomWindows')
   != js('/javascripts/auth')
+
+  - if (global.NODE_ENV === "production")
+    include _analytics
