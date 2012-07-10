@@ -86,6 +86,6 @@ body
   //include _scripts
   != js('/javascripts/scripts')
 
-  - if (global.NODE_ENV === "production")
+  - if (global.process.env.NODE_ENV === "production")
     include _analytics
 

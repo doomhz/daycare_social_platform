@@ -33,5 +33,5 @@ body
   != js('/javascripts/vendor/jquery.validate')
   != js('/javascripts/auth')
 
-  - if (global.NODE_ENV === "production")
+  - if (global.process.env.NODE_ENV === "production")
     include _analytics
