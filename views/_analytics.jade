@@ -8,7 +8,7 @@ script
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
   $(function() {
-    $(window).hashchange(function() {
+    $(window).bind("hashchange", function() {
       _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
     });
   });
