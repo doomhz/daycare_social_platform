@@ -124,7 +124,6 @@ $ ()->
       $el.addClass("selected")
     scrollTestimonials = ()->
       index = $testimonialsButtons.filter(".selected:first").data("index")
-      console.log index
       index++
       if index > $testimonials.length - 1
         index = 0
