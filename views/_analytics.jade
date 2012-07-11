@@ -8,5 +8,5 @@ script
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
   $(window).hashchange(function() {
-  	_gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
+    _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
   });
