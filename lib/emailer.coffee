@@ -31,10 +31,19 @@ class Emailer
 
   getTransport: ()->
     emailer.createTransport "SMTP",
+      host: "email-smtp.us-east-1.amazonaws.com"
+      port: 465
+      secureConnection: true
+      auth:
+        user: "AKIAJOFBBXEA644BT5TQ"
+        pass: "AsHcx3VF6LZ0RhHxBc+EhYJnUSTwJ8HcbGUa7Tl5bzuC"
+    ###
+    emailer.createTransport "SMTP",
       service: "Gmail"
       auth:
         user: "no-reply@kindzy.com"
         pass: "greatreply#69"
+    ###
 
   getHtml: (templateName, data)->
     templatePath = "./views/emails/#{templateName}.html"
