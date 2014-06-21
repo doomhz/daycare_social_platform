@@ -20,7 +20,7 @@ class Kin.DayCare.EditSectionView extends Kin.DayCare.SectionView
     $form = $(ev.target)
     $form.find("form").remove()
     formData = $form.serialize()
-    @model.save null
+    @model.save null,
       data: formData
       success: ()=>
         $.jGrowl("Data was successfully saved.")
@@ -36,7 +36,7 @@ class Kin.DayCare.EditSectionView extends Kin.DayCare.SectionView
       $tag = $form.find("input[name='name']")
       formData = $form.serialize()
       tag = new Kin.TagModel
-      tag.save null
+      tag.save null,
         data: formData
         success: (model)->
           that.renderTagInputs(model.get("type"), [model], [model.get("_id")], true)

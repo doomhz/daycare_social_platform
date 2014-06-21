@@ -96,7 +96,7 @@ class Kin.UserModel extends Backbone.Model
       profile.set
         _id: @id
         id: @id
-      profile.save null
+      profile.save null,
         success: ()=>
           @set
             flags: flags
