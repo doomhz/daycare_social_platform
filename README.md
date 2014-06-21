@@ -21,3 +21,11 @@ Project life cycle
 ------------------
 
 We built the project for a bout 6 months and then stopped working on it one month after the launch (~ beggining of 2013), since we couldn't accomplish our business and marketing goals.
+
+Installation
+------------
+
+* `git clone https://github.com/doomhz/daycare_social_platform.git`
+* `sudo npm install`
+* `cp -r node_modules/everyauth node_modules/mongoose-auth/node_modules/` (since the old mongoose-auth doesn't include everyauth)
+* node app.js
