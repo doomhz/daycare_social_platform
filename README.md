@@ -4,4 +4,20 @@ Daycare Social Platform
 The purpose of this startup was to connect parents and tutors across all the US kindergarten on a Facebook like social platform.
 Each daycare would have it's own profile and wall on the platform where they post news, events and media about their daily activities.
 
-We stopped working on this project one month after we launched it, since we couldn't accomplish our marketing plan.
+Technology behind the project
+-----------------------------
+
+* NodeJS backend
+* ExpressJS as a framework
+* Socket.IO to push realtime events
+* MongoDB as the main DB storage
+* Redis as cache
+* ImageMagick to handle the uploaded pictures transaformations
+* BackboneJS to build the single page interface on frontend
+* Jasmine and Sinon for unit testing
+* CoffeeScript to make the code and the development process less painful
+
+Project life cycle
+------------------
+
+We built the project for a bout 6 months and then stopped working on it one month after the launch (~ beggining of 2013), since we couldn't accomplish our business and marketing goals.
