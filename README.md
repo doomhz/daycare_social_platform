@@ -29,3 +29,4 @@ Installation
 * `sudo npm install`
 * `cp -r node_modules/everyauth node_modules/mongoose-auth/node_modules/` (since the old mongoose-auth doesn't include everyauth)
 * node app.js
+* visit http://localhost:3000 and http://localhost:3000/register for registration
